@@ -39,8 +39,6 @@ namespace spruce {
 
 		vec2f& operator+=(const vec2f& vector);
 		vec2f& operator-=(const vec2f& vector);
-		vec2f& operator*=(const vec2f& vector);
-		vec2f& operator/=(const vec2f& vector);
 
 		vec2f& operator+=(const float& value);
 		vec2f& operator-=(const float& value);
@@ -55,5 +53,5 @@ namespace spruce {
 		friend std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
 	};
 
-	extern void log(vec2f& vector);
+	extern void log(const vec2f& vector);
 }

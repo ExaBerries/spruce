@@ -19,6 +19,12 @@ namespace spruce {
 	}
 
 	vec2f& vec2f::nor() {
+		float mag2 = vec2f::mag2();
+		if (mag2 != 0 && mag2 != 1) {
+			float mag = sqrt(mag2);
+			x /= mag;
+			y /= mag;
+		}
 		return *this;
 	}
 
@@ -128,18 +134,6 @@ namespace spruce {
 		return *this;
 	}
 
-	vec2f& vec2f::operator*=(const vec2f& vector) {
-		this->x *= vector.x;
-		this->y *= vector.y;
-		return *this;
-	}
-
-	vec2f& vec2f::operator/=(const vec2f& vector) {
-		this->x /= vector.x;
-		this->y /= vector.y;
-		return *this;
-	}
-
 	vec2f& vec2f::operator+=(const float& value) {
 		this->x += value;
 		this->y += value;
@@ -147,23 +141,29 @@ namespace spruce {
 	}
 
 	vec2f& vec2f::operator-=(const float& value) {
+		this->x -= value;
+		this->y -= value;
 		return *this;
 	}
 
 	vec2f& vec2f::operator*=(const float& value) {
+		this->x *= value;
+		this->y *= value;
 		return *this;
 	}
 
 	vec2f& vec2f::operator/=(const float& value) {
+		this->x /= value;
+		this->y /= value;
 		return *this;
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const vec2f& vector) {
-		stream << "vec2f: (" << vector.x << ", " << vector.y << ")";
+		stream << "vec2f(" << vector.x << ", " << vector.y << ")";
 		return stream;
 	}
 
-	extern void log(vec2f& vector) {
+	extern void log(const vec2f& vector) {
 		std::cout << "vec2f(" << vector.x << ", " << vector.y << ")" << std::endl;
 	}
 }
