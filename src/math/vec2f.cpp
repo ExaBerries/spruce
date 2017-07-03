@@ -163,7 +163,7 @@ namespace spruce {
 		return stream;
 	}
 
-	void log(vec2f& vector) {
+	extern void log(vec2f& vector) {
 		std::cout << "vec2f(" << vector.x << ", " << vector.y << ")" << std::endl;
 	}
 }
