@@ -45,11 +45,6 @@ namespace spruce {
 		vec2f& operator*=(const float& value);
 		vec2f& operator/=(const float& value);
 
-		bool operator<(const vec2f& vector) const;
-		bool operator<=(const vec2f& vector) const;
-		bool operator>(const vec2f& vector) const;
-		bool operator>=(const vec2f& vector) const;
-
 		friend std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
 	};
 
