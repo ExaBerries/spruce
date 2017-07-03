@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# Eclipse
+.project
+.cproject
+.classpath
+/.settings
+/Debug
+/Release
+
+# Mac
+.DS_Store
