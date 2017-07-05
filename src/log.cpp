@@ -1,7 +1,10 @@
 #include "log.h"
-#include <iostream>
 
 namespace spruce {
+	extern void log(std::string string) {
+		std::cout << string << std::endl;
+	}
+
 	extern void log(char& value) {
 		std::cout << value << std::endl;
 	}
@@ -23,6 +26,6 @@ namespace spruce {
 	}
 
 	extern void logGLError() {
-		// TODO std::cout << "glError=" << glGetError() << std::endl;
+		std::cout << "glError=" << glGetError() << std::endl;
 	}
 }
