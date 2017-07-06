@@ -7,7 +7,8 @@ namespace spruce {
 				Screen();
 				virtual ~Screen();
 
-				void render(float delta);
+				virtual void render(float delta);
+				virtual void update(float delta);
 		};
 	}
 }

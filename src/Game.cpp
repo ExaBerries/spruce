@@ -3,6 +3,7 @@
 namespace spruce {
 	Game::Game() {
 		window = 0;
+		screen = 0;
 	}
 
 	Game::~Game() {
@@ -22,12 +23,10 @@ namespace spruce {
 		}
 	}
 
-	void Game::run() {
+	void Game::init() {
 		glfwSetErrorCallback(errorCallback);
 		if (!glfwInit()) {
 			log("glfw could not init");
-		} else {
-			log(":)");
 		}
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -44,23 +43,33 @@ namespace spruce {
 		glfwMakeContextCurrent(window);
 		glfwSwapInterval(1);
 		glfwShowWindow(window);
+	}
+
+	void Game::run() {
 		double lastTime = glfwGetTime();
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			int error = glGetError();
 			if (error != GL_NO_ERROR) {
 				std::string string = "OpenGL Error=";
-				string += error;
+				string += std::to_string(error);
 				log(string);
 			}
 			double newTime = glfwGetTime();
-			double time = newTime - lastTime;
-			screen.render(time);
+			double delta = newTime - lastTime;
+			if (screen != NULL) {
+				screen->update(delta);
+				screen->render(delta);
+			}
 			lastTime = newTime;
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
 		glfwDestroyWindow(window);
 		glfwTerminate();
+	}
+
+	void Game::setScreen(graphics::Screen* screen) {
+		this->screen = screen;
 	}
 }

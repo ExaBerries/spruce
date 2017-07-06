@@ -7,11 +7,13 @@ namespace spruce {
 	class Game {
 		private:
 			GLFWwindow* window;
-			graphics::Screen screen;
+			graphics::Screen* screen;
 		public:
 			Game();
 			virtual ~Game();
 
+			void init();
 			void run();
+			void setScreen(graphics::Screen* screen);
 	};
 }

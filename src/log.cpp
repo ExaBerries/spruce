@@ -5,6 +5,13 @@ namespace spruce {
 		std::cout << string << std::endl;
 	}
 
+	extern void log(std::vector<char> string) {
+		for (std::vector<char>::const_iterator i = string.begin(); i != string.end(); ++i) {
+			std::cout << *i;
+		}
+		std::cout << std::endl;
+	}
+
 	extern void log(char& value) {
 		std::cout << value << std::endl;
 	}
@@ -27,5 +34,9 @@ namespace spruce {
 
 	extern void logGLError() {
 		std::cout << "glError=" << glGetError() << std::endl;
+	}
+
+	extern void log(GLuint& value) {
+		std::cout << value << std::endl;
 	}
 }

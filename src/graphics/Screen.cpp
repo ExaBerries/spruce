@@ -8,6 +8,9 @@ namespace spruce {
 		Screen::~Screen() {
 		}
 
+		void Screen::update(float delta) {
+		}
+
 		void Screen::render(float delta) {
 		}
 	}

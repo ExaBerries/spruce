@@ -3,6 +3,8 @@
 #include <OpenGL/gl3.h>
 
 namespace spruce {
+	class Shader;
+
 	class Mesh {
 		public:
 			GLuint vao;
@@ -11,10 +13,13 @@ namespace spruce {
 			int vertexCount;
 			float* vertices;
 			int indexCount;
-			short* indices;
+			unsigned short* indices;
+			Shader& shader;
 
-			Mesh(int vertexCount, float* vertices, int indexCount, short* indices);
+			Mesh(int vertexCount, float* vertices, int indexCount, unsigned short* indices, Shader& shader);
 			virtual ~Mesh();
 			void toVRAM();
+			void bind();
+			void unbind();
 	};
 }
