@@ -125,6 +125,20 @@ namespace spruce {
 		return mat4f(values);
 	}
 
+	vec3f operator*(const vec3f vector, const mat4f& matrix) {
+		float x = vector.x * matrix.values[0] + vector.y * matrix.values[4] + vector.z * matrix.values[8] + matrix.values[12];
+		float y = vector.x * matrix.values[1] + vector.y * matrix.values[5] + vector.z * matrix.values[9] + matrix.values[13];
+		float z = vector.x * matrix.values[2] + vector.y * matrix.values[6] + vector.z * matrix.values[10] + matrix.values[14];
+		return vec3f(x, y, z);
+	}
+
+	vec3f operator*(const mat4f matrix, const vec3f vector) {
+		float x = vector.x * matrix.values[0] + vector.y * matrix.values[4] + vector.z * matrix.values[8] + matrix.values[12];
+		float y = vector.x * matrix.values[1] + vector.y * matrix.values[5] + vector.z * matrix.values[9] + matrix.values[13];
+		float z = vector.x * matrix.values[2] + vector.y * matrix.values[6] + vector.z * matrix.values[10] + matrix.values[14];
+		return vec3f(x, y, z);
+	}
+
 	mat4f& mat4f::operator+=(const mat4f& matrix) {
 			this->values[0] += matrix.values[0];
 			this->values[1] += matrix.values[1];

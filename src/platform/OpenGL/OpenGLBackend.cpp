@@ -1,12 +1,15 @@
-#include "Game.h"
+#include "OpenGLBackend.h"
+#include "OpenGLMesh.h"
+#include "OpenGLShader.h"
+#include "OpenGLMeshRenderer.h"
 
 namespace spruce {
-	Game::Game() {
+	OpenGLBackend::OpenGLBackend() {
 		window = 0;
-		screen = 0;
 	}
 
-	Game::~Game() {
+	OpenGLBackend::~OpenGLBackend() {
+		glfwDestroyWindow(window);
 		glfwTerminate();
 	}
 
@@ -23,7 +26,7 @@ namespace spruce {
 		}
 	}
 
-	void Game::init() {
+	void OpenGLBackend::init() {
 		glfwSetErrorCallback(errorCallback);
 		if (!glfwInit()) {
 			log("glfw could not init");
@@ -45,7 +48,7 @@ namespace spruce {
 		glfwShowWindow(window);
 	}
 
-	void Game::run() {
+	void OpenGLBackend::run() {
 		double lastTime = glfwGetTime();
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -57,9 +60,9 @@ namespace spruce {
 			}
 			double newTime = glfwGetTime();
 			double delta = newTime - lastTime;
-			if (screen != NULL) {
-				screen->update(delta);
-				screen->render(delta);
+			if (app::screen != NULL) {
+				app::screen->update(delta);
+				app::screen->render(delta);
 			}
 			lastTime = newTime;
 			glfwSwapBuffers(window);
@@ -69,7 +72,25 @@ namespace spruce {
 		glfwTerminate();
 	}
 
-	void Game::setScreen(graphics::Screen* screen) {
-		this->screen = screen;
+	Mesh* OpenGLBackend::createMesh(int vertexCount, float* vertices, int indexCount, unsigned short* indices, Shader& shader) {
+		return new OpenGLMesh(vertexCount, vertices, indexCount, indices, shader);
+	}
+
+	Shader* OpenGLBackend::createShader(char* vertSource, char* fragSource, int attributesCount, VertexAttribute* attributes) {
+		return new OpenGLShader(vertSource, fragSource, attributesCount, attributes);
+	}
+
+	MeshRenderer* OpenGLBackend::createMeshRenderer() {
+		return new OpenGLMeshRenderer();
+	}
+
+	// TODO Texture* createTexture() {
+
+	int OpenGLBackend::getWindowWidth() {
+		return 0;
+	}
+
+	int OpenGLBackend::getWindowHeight() {
+		return 0;
 	}
 }
