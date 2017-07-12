@@ -1,5 +1,6 @@
 #pragma once
-#include "Camera.h"
+#include <common.h>
+#include <graphics/Camera.h>
 #include <cmath>
 
 namespace spruce {

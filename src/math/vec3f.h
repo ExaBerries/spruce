@@ -1,6 +1,7 @@
 #pragma once
+#include <common.h>
+#include <math/vec2f.h>
 #include <iostream>
-#include "vec2f.h"
 #include <math.h>
 
 namespace spruce {
@@ -52,5 +53,5 @@ namespace spruce {
 		friend std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
 	};
 
-	extern void log(const vec3f& vector);
+	void log(const vec3f& vector);
 }

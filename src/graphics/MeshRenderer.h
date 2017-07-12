@@ -1,5 +1,6 @@
 #pragma once
-#include "Mesh.h"
+#include <common.h>
+#include <graphics/Mesh.h>
 
 namespace spruce {
 	class MeshRenderer {

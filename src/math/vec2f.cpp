@@ -1,4 +1,4 @@
-#include "vec2f.h"
+#include <math/vec2f.h>
 
 namespace spruce {
 	vec2f::vec2f() : x(0), y(0) {
@@ -163,7 +163,7 @@ namespace spruce {
 		return stream;
 	}
 
-	extern void log(const vec2f& vector) {
+	void log(const vec2f& vector) {
 		std::cout << "vec2f(" << vector.x << ", " << vector.y << ")" << std::endl;
 	}
 }

@@ -1,6 +1,5 @@
-#include "Camera.h"
-
-#include "graphics.h"
+#include <graphics/Camera.h>
+#include <graphics/graphics.h>
 
 namespace spruce {
 	namespace graphics {

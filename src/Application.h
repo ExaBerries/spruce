@@ -1,6 +1,6 @@
 #pragma once
-#include "graphics/Screen.h"
-#include "log.h"
+#include <common.h>
+#include <graphics/Screen.h>
 
 namespace spruce {
 	class Backend;

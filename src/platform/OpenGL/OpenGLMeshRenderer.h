@@ -1,5 +1,6 @@
 #pragma once
-#include "../../graphics/MeshRenderer.h"
+#include <common.h>
+#include <graphics/MeshRenderer.h>
 
 namespace spruce {
 	class OpenGLMeshRenderer: public MeshRenderer {

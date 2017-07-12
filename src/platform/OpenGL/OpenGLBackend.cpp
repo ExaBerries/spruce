@@ -1,7 +1,10 @@
-#include "OpenGLBackend.h"
-#include "OpenGLMesh.h"
-#include "OpenGLShader.h"
-#include "OpenGLMeshRenderer.h"
+#include <platform/OpenGL/OpenGLBackend.h>
+#include <platform/OpenGL/OpenGLMesh.h>
+#include <platform/OpenGL/OpenGLShader.h>
+#include <platform/OpenGL/OpenGLMeshRenderer.h>
+#include <platform/OpenGL/OpenGLTexture.h>
+
+#include <util/image.h>
 
 namespace spruce {
 	OpenGLBackend::OpenGLBackend() {
@@ -72,11 +75,11 @@ namespace spruce {
 		glfwTerminate();
 	}
 
-	Mesh* OpenGLBackend::createMesh(int vertexCount, float* vertices, int indexCount, unsigned short* indices, Shader& shader) {
+	Mesh* OpenGLBackend::createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices, Shader* shader) {
 		return new OpenGLMesh(vertexCount, vertices, indexCount, indices, shader);
 	}
 
-	Shader* OpenGLBackend::createShader(char* vertSource, char* fragSource, int attributesCount, VertexAttribute* attributes) {
+	Shader* OpenGLBackend::createShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes) {
 		return new OpenGLShader(vertSource, fragSource, attributesCount, attributes);
 	}
 
@@ -84,7 +87,13 @@ namespace spruce {
 		return new OpenGLMeshRenderer();
 	}
 
-	// TODO Texture* createTexture() {
+	Texture* OpenGLBackend::createTexture(string& path) {
+		uint16 width = 0;
+		uint16 height = 0;
+		uint16 bitsPerPixel = 0;
+		uint8* data = util::loadImage(path, width, height, bitsPerPixel);
+		return new OpenGLTexture(data, width, height, bitsPerPixel);
+	}
 
 	int OpenGLBackend::getWindowWidth() {
 		return 0;

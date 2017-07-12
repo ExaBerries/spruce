@@ -1,4 +1,4 @@
-#include "PerspectiveCamera.h"
+#include <graphics/PerspectiveCamera.h>
 
 namespace spruce {
 	namespace graphics {

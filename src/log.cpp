@@ -1,4 +1,4 @@
-#include "log.h"
+#include <log.h>
 
 namespace spruce {
 	void log(std::string string) {

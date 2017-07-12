@@ -1,13 +1,13 @@
-#include "vec2i.h"
+#include <math/vec2i.h>
 
 namespace spruce {
 	vec2i::vec2i() : x(0), y(0) {
 	}
 
-	vec2i::vec2i(const int& scalar) : x(scalar), y(scalar) {
+	vec2i::vec2i(const int32& scalar) : x(scalar), y(scalar) {
 	}
 
-	vec2i::vec2i(const int& x, const int& y) : x(x), y(y){
+	vec2i::vec2i(const int32& x, const int32& y) : x(x), y(y){
 	}
 
 	float vec2i::mag2() const {
@@ -44,25 +44,25 @@ namespace spruce {
 		return *this;
 	}
 
-	vec2i& vec2i::add(const int& value) {
+	vec2i& vec2i::add(const int32& value) {
 		x += value;
 		y += value;
 		return *this;
 	}
 
-	vec2i& vec2i::sub(const int& value) {
+	vec2i& vec2i::sub(const int32& value) {
 		x -= value;
 		y -= value;
 		return *this;
 	}
 
-	vec2i& vec2i::scl(const int& value) {
+	vec2i& vec2i::scl(const int32& value) {
 		x *= value;
 		y *= value;
 		return *this;
 	}
 
-	vec2i& vec2i::div(const int& value) {
+	vec2i& vec2i::div(const int32& value) {
 		x /= value;
 		y /= value;
 		return *this;
@@ -80,25 +80,25 @@ namespace spruce {
 		return vec2i(x, y);
 	}
 
-	vec2i operator+(const vec2i left, int value) {
+	vec2i operator+(const vec2i left, int32 value) {
 		int x = left.x + value;
 		int y  = left.y + value;
 		return vec2i(x, y);
 	}
 
-	vec2i operator-(const vec2i left, int value) {
+	vec2i operator-(const vec2i left, int32 value) {
 		int x = left.x - value;
 		int y = left.y - value;
 		return vec2i(x, y);
 	}
 
-	vec2i operator*(const vec2i left, int value) {
+	vec2i operator*(const vec2i left, int32 value) {
 		int x = left.x * value;
 		int y = left.y * value;
 		return vec2i(x, y);
 	}
 
-	vec2i operator/(const vec2i left, int value) {
+	vec2i operator/(const vec2i left, int32 value) {
 		int x = left.x / value;
 		int y = left.y / value;
 		return vec2i(x, y);
@@ -124,25 +124,25 @@ namespace spruce {
 		return *this;
 	}
 
-	vec2i& vec2i::operator+=(const int& value) {
+	vec2i& vec2i::operator+=(const int32& value) {
 		this->x += value;
 		this->y += value;
 		return *this;
 	}
 
-	vec2i& vec2i::operator-=(const int& value) {
+	vec2i& vec2i::operator-=(const int32& value) {
 		this->x -= value;
 		this->y -= value;
 		return *this;
 	}
 
-	vec2i& vec2i::operator*=(const int& value) {
+	vec2i& vec2i::operator*=(const int32& value) {
 		this->x *= value;
 		this->y *= value;
 		return *this;
 	}
 
-	vec2i& vec2i::operator/=(const int& value) {
+	vec2i& vec2i::operator/=(const int32& value) {
 		this->x /= value;
 		this->y /= value;
 		return *this;
@@ -153,7 +153,7 @@ namespace spruce {
 		return stream;
 	}
 
-	extern void log(const vec2i& vector) {
+	void log(const vec2i& vector) {
 		std::cout << "vec2i(" << vector.x << ", " << vector.y << ")" << std::endl;
 	}
 }

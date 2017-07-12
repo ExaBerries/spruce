@@ -1,7 +1,6 @@
-#include "Application.h"
-
-#include "platform/Backend.h"
-#include "platform/OpenGL/OpenGLBackend.h"
+#include <Application.h>
+#include <platform/Backend.h>
+#include <platform/OpenGL/OpenGLBackend.h>
 
 namespace spruce {
 	namespace app {

@@ -1,7 +1,7 @@
-#include "OpenGLMeshRenderer.h"
+#include <platform/OpenGL/OpenGLMeshRenderer.h>
 #include <GLFW/glfw3.h>
-#include "../../graphics/Shader.h"
-#include "../../log.h"
+#include <graphics/Shader.h>
+#include <log.h>
 
 namespace spruce {
 	OpenGLMeshRenderer::OpenGLMeshRenderer() {

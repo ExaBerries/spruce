@@ -1,5 +1,6 @@
 #pragma once
-#include "../../graphics/Shader.h"
+#include <common.h>
+#include <graphics/Shader.h>
 
 namespace spruce {
 	class OpenGLShader : public Shader {
@@ -8,7 +9,7 @@ namespace spruce {
 			GLuint frag;
 			GLuint program;
 
-			OpenGLShader(char* vertSource, char* fragSource, int attributesCount, VertexAttribute* attributes);
+			OpenGLShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes);
 			virtual ~OpenGLShader();
 
 			void compile();
@@ -16,15 +17,15 @@ namespace spruce {
 			void disable();
 			void render(Mesh& mesh);
 
-			unsigned int getAttributeLocation(std::string name);
-			unsigned int registerUniform(std::string name);
+			unsigned int getAttributeLocation(string name);
+			unsigned int registerUniform(string name);
 
-			void setUniform(std::string name, int& value);
-			void setUniform(std::string name, vec2i& vector);
-			void setUniform(std::string name, float& value);
-			void setUniform(std::string name, vec2f& vector);
-			void setUniform(std::string name, vec3f& vector);
-			void setUniform(std::string name, mat4f& matrix);
-			void setUniform(std::string name, quaternion& quaternion);
+			void setUniform(string name, int& value);
+			void setUniform(string name, vec2i& vector);
+			void setUniform(string name, float& value);
+			void setUniform(string name, vec2f& vector);
+			void setUniform(string name, vec3f& vector);
+			void setUniform(string name, mat4f& matrix);
+			void setUniform(string name, quaternion& quaternion);
 	};
 }

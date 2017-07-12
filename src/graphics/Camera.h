@@ -1,7 +1,8 @@
 #pragma once
-#include "../math/vec3f.h"
-#include "../math/mat4f.h"
-#include "../math/quaternion.h"
+#include <common.h>
+#include <math/vec3f.h>
+#include <math/mat4f.h>
+#include <math/quaternion.h>
 
 namespace spruce {
 	namespace graphics {

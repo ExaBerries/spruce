@@ -1,4 +1,4 @@
-#include "Input.h"
+#include <Input.h>
 
 namespace spruce {
 	Input::Input() {

@@ -1,5 +1,6 @@
 #pragma once
-#include "../../graphics/Mesh.h"
+#include <common.h>
+#include <graphics/Mesh.h>
 #include <GLFW/glfw3.h>
 #include <OpenGL/gl3.h>
 
@@ -10,7 +11,7 @@ namespace spruce {
 			GLuint vbo;
 			GLuint ibo;
 
-			OpenGLMesh(int vertexCount, float* vertices, int indexCount, unsigned short* indices, Shader& shader);
+			OpenGLMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices, Shader* shader);
 			~OpenGLMesh();
 			void toVRAM();
 			void bind();

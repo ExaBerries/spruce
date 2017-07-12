@@ -1,6 +1,7 @@
 #pragma once
+#include <common.h>
 #include <iostream>
-#include "vec3f.h"
+#include <math/vec3f.h>
 
 namespace spruce {
 	struct quaternion {
@@ -33,5 +34,5 @@ namespace spruce {
 		friend std::ostream& operator<<(std::ostream& stream, const quaternion& quaternion);
 	};
 
-	extern void log(const quaternion& quaternion);
+	void log(const quaternion& quaternion);
 }

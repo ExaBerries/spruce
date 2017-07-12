@@ -1,4 +1,4 @@
-#include "quaternion.h"
+#include <math/quaternion.h>
 
 namespace spruce {
 	quaternion::quaternion() : x(0), y(0), z(0), w(1) {
@@ -103,7 +103,7 @@ namespace spruce {
 		return stream;
 	}
 
-	extern void log(const quaternion& quaternion) {
+	void log(const quaternion& quaternion) {
 		std::cout << "quaternion(" << quaternion.x << ", " << quaternion.y << ", " << quaternion.z << ", " << quaternion.w << ")" << std::endl;
 	}
 }

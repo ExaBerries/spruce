@@ -1,12 +1,13 @@
 #pragma once
+#include <common.h>
 #include <string>
 
 namespace spruce {
 	struct VertexAttribute {
 		std::string name;
-		int size;
+		uint8 size;
 
 		VertexAttribute();
-		VertexAttribute(std::string name, int size);
+		VertexAttribute(string name, uint8 size);
 	};
 }

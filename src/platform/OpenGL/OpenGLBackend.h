@@ -1,8 +1,9 @@
 #pragma once
-#include "../Backend.h"
+#include <common.h>
+#include <platform/Backend.h>
 #include <GLFW/glfw3.h>
-#include "../../graphics/Screen.h"
-#include "../../log.h"
+#include <graphics/Screen.h>
+#include <log.h>
 
 namespace spruce {
 	namespace app {
@@ -19,10 +20,10 @@ namespace spruce {
 			void init();
 			void run();
 
-			Mesh* createMesh(int vertexCount, float* vertices, int indexCount, unsigned short* indices, Shader& shader);
-			Shader* createShader(char* vertSource, char* fragSource, int attributesCount, VertexAttribute* attributes);
+			Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices, Shader* shader);
+			Shader* createShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes);
 			MeshRenderer* createMeshRenderer();
-			// TODO virtual Texture* createTexture();
+			Texture* createTexture(string& path);
 
 			int getWindowWidth();
 			int getWindowHeight();

@@ -1,4 +1,5 @@
 #pragma once
+#include <common.h>
 #include <iostream>
 #include <math.h>
 
@@ -48,5 +49,5 @@ namespace spruce {
 		friend std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
 	};
 
-	extern void log(const vec2f& vector);
+	void log(const vec2f& vector);
 }

@@ -1,14 +1,18 @@
-#include "OpenGLShader.h"
+#include <platform/OpenGL/OpenGLShader.h>
 #include <GLFW/glfw3.h>
 #include <OpenGL/gl3.h>
-#include "../../log.h"
-#include "../../graphics/Mesh.h"
+#include <log.h>
+#include <graphics/Mesh.h>
 
 namespace spruce {
-	OpenGLShader::OpenGLShader(char* vertSource, char* fragSource, int attributesCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributesCount, attributes) {
+	OpenGLShader::OpenGLShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes) {
 		vert = 0;
 		frag = 0;
 		program = 0;
+		this->vertSource = vertSource;
+		this->fragSource = fragSource;
+		this->attributeCount = attributesCount;
+		this->attributes = attributes;
 	}
 
 	OpenGLShader::~OpenGLShader() {

@@ -1,13 +1,15 @@
 #pragma once
-#include "Mesh.h"
-#include "Shader.h"
-#include "MeshRenderer.h"
-#include "Camera.h"
+#include <common.h>
+#include <graphics/Screen.h>
+#include <graphics/Mesh.h>
+#include <graphics/Shader.h>
+#include <graphics/MeshRenderer.h>
+#include <graphics/Camera.h>
 
 namespace spruce {
 	namespace graphics {
-		Mesh* createMesh(int vertexCount, float* vertices, int indexCount, unsigned short* indices, Shader& shader);
-		Shader* createShader(char* vertSource, char* fragSource, int attributesCount, VertexAttribute* attributes);
+		Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices, Shader* shader);
+		Shader* createShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes);
 		MeshRenderer* createMeshRenderer();
 
 		int getWidth();
