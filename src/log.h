@@ -5,13 +5,13 @@
 #include <GLFW/glfw3.h>
 
 namespace spruce {
-	extern void log(std::string string);
-	extern void log(std::vector<char> string);
-	extern void log(char& value);
-	extern void log(short& value);
-	extern void log(int& value);
-	extern void log(long& value);
-	extern void log(long long& value);
-	extern void logGLError();
-	extern void log(GLuint& value);
+	void log(std::string string);
+	void log(std::vector<char> string);
+	void log(char value);
+	void log(short value);
+	void log(unsigned int value);
+	void log(int value);
+	void log(long value);
+	void log(long long value);
+	void logGLError();
 }

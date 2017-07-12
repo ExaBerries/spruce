@@ -1,5 +1,6 @@
 #include "OpenGLMesh.h"
 #include "../../graphics/Shader.h"
+#include "../../log.h"
 
 namespace spruce {
 	OpenGLMesh::OpenGLMesh(int vertexCount, float* vertices, int indexCount, unsigned short* indices, Shader& shader) : Mesh(vertexCount, vertices, indexCount, indices, shader) {
@@ -22,13 +23,15 @@ namespace spruce {
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(float), vertices, GL_STATIC_DRAW);
-		int stride = 0;
+		unsigned int stride = 0;
 		for (int i = 0; i < shader.attributeCount; i++) {
 			stride += shader.attributes[i].size;
 		}
 		stride *= sizeof(float);
+		unsigned int offset = 0;
 		for (int j = 0; j < shader.attributeCount; j++) {
-			glVertexAttribPointer(shader.getAttributeLocation(shader.attributes[j].name), shader.attributes[j].size, GL_FLOAT, GL_FALSE, stride, (void*) 0);
+			glVertexAttribPointer(shader.getAttributeLocation(shader.attributes[j].name), shader.attributes[j].size, GL_FLOAT, GL_FALSE, stride, (void*) offset);
+			offset += shader.attributes[j].size * sizeof(float);
 		}
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
