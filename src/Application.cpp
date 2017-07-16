@@ -17,6 +17,8 @@ namespace spruce {
 		}
 
 		void free() {
+			delete screen;
+			delete backend;
 		}
 
 		void setScreen(graphics::Screen* newScreen) {

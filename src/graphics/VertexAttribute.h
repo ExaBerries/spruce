@@ -4,7 +4,7 @@
 
 namespace spruce {
 	struct VertexAttribute {
-		std::string name;
+		string name;
 		uint8 size;
 
 		VertexAttribute();

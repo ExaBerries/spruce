@@ -1,6 +1,7 @@
 #pragma once
 #include <common.h>
 #include <graphics/Shader.h>
+#include <GLFW/glfw3.h>
 
 namespace spruce {
 	class OpenGLShader : public Shader {
@@ -8,17 +9,17 @@ namespace spruce {
 			GLuint vert;
 			GLuint frag;
 			GLuint program;
+			std::map<string, uint16> uniformLocations;
 
-			OpenGLShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes);
-			virtual ~OpenGLShader();
+			OpenGLShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
+			~OpenGLShader();
 
 			void compile();
 			void enable();
 			void disable();
-			void render(Mesh& mesh);
 
-			unsigned int getAttributeLocation(string name);
-			unsigned int registerUniform(string name);
+			uint16 getAttributeLocation(string name);
+			uint16 registerUniform(string name);
 
 			void setUniform(string name, int& value);
 			void setUniform(string name, vec2i& vector);

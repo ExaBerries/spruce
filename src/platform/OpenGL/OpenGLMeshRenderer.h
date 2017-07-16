@@ -8,6 +8,6 @@ namespace spruce {
 			OpenGLMeshRenderer();
 			virtual ~OpenGLMeshRenderer();
 
-			void render(Mesh& mesh, Shader& shader);
+			void render(Mesh* mesh, Shader* shader);
 	};
 }

@@ -1,7 +1,9 @@
 #include <log.h>
+#include <iostream>
+#include <GLFW/glfw3.h>
 
 namespace spruce {
-	void log(std::string string) {
+	void log(string string) {
 		std::cout << string << std::endl;
 	}
 
@@ -34,6 +36,14 @@ namespace spruce {
 
 	void log(long long value) {
 		std::cout << value << std::endl;
+	}
+
+	void log(void* pointer) {
+		std::cout << pointer << std::endl;
+	}
+
+	void log(string string, void* pointer) {
+		std::cout << string << "=" << pointer << std::endl;
 	}
 
 	void logGLError() {

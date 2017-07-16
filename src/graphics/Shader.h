@@ -10,24 +10,23 @@
 #include <map>
 
 namespace spruce {
-	class Mesh;
-
 	class Shader {
 		public:
-			char* vertSource;
-			char* fragSource;
+			string vertSource;
+			string fragSource;
 			int attributeCount;
 			VertexAttribute* attributes;
-			std::map<std::string, int> uniformLocations;
 
+			Shader(const Shader& shader);
+			Shader(string& vertSource, string& fragSource, uint16 attributeCount, VertexAttribute* attributes);
 			virtual ~Shader();
 
 			virtual void compile() = 0;
 			virtual void enable() = 0;
 			virtual void disable() = 0;
 
-			virtual unsigned int getAttributeLocation(string name) = 0;
-			virtual unsigned int registerUniform(string name) = 0;
+			virtual uint16 getAttributeLocation(string name) = 0;
+			virtual uint16 registerUniform(string name) = 0;
 
 			virtual void setUniform(string name, int& value) = 0;
 			virtual void setUniform(string name, vec2i& vector) = 0;

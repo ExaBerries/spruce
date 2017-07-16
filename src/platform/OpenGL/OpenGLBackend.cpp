@@ -71,15 +71,13 @@ namespace spruce {
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
-		glfwDestroyWindow(window);
-		glfwTerminate();
 	}
 
-	Mesh* OpenGLBackend::createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices, Shader* shader) {
-		return new OpenGLMesh(vertexCount, vertices, indexCount, indices, shader);
+	Mesh* OpenGLBackend::createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) {
+		return new OpenGLMesh(vertexCount, vertices, indexCount, indices);
 	}
 
-	Shader* OpenGLBackend::createShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes) {
+	Shader* OpenGLBackend::createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) {
 		return new OpenGLShader(vertSource, fragSource, attributesCount, attributes);
 	}
 

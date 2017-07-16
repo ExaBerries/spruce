@@ -1,29 +1,27 @@
 #include <platform/OpenGL/OpenGLShader.h>
 #include <GLFW/glfw3.h>
 #include <OpenGL/gl3.h>
-#include <log.h>
 #include <graphics/Mesh.h>
 
 namespace spruce {
-	OpenGLShader::OpenGLShader(char* vertSource, char* fragSource, uint16 attributesCount, VertexAttribute* attributes) {
+	OpenGLShader::OpenGLShader(string& vertSource, string& fragSource, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributeCount, attributes) {
 		vert = 0;
 		frag = 0;
 		program = 0;
-		this->vertSource = vertSource;
-		this->fragSource = fragSource;
-		this->attributeCount = attributesCount;
-		this->attributes = attributes;
+		this->uniformLocations = std::map<string, uint16>();
 	}
 
 	OpenGLShader::~OpenGLShader() {
 		glDeleteShader(vert);
 		glDeleteShader(frag);
 		glDeleteProgram(program);
+		uniformLocations.clear();
 	}
 
 	void OpenGLShader::compile() {
+		const char* vertCStr = vertSource.c_str();
 		vert = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vert, 1, &vertSource, NULL);
+		glShaderSource(vert, 1, &vertCStr, NULL);
 		glCompileShader(vert);
 		GLint vertSuccess = 0;
 		glGetShaderiv(vert, GL_COMPILE_STATUS, &vertSuccess);
@@ -39,8 +37,9 @@ namespace spruce {
 			log("vertex shader successfully compiled");
 		}
 
+		const char* fragCStr = fragSource.c_str();
 		frag = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(frag, 1, &fragSource, NULL);
+		glShaderSource(frag, 1, &fragCStr, NULL);
 		glCompileShader(frag);
 		GLint fragSuccess = 0;
 		glGetShaderiv(frag, GL_COMPILE_STATUS, &fragSuccess);
@@ -89,58 +88,41 @@ namespace spruce {
 		glUseProgram(0);
 	}
 
-	void OpenGLShader::render(Mesh& mesh) {
-		mesh.bind();
-		for (int i = 0; i < attributeCount; i++) {
-			glEnableVertexAttribArray(getAttributeLocation(attributes[i].name));
-		}
-		if (mesh.indexCount > 0) {
-			glDrawElements(GL_TRIANGLES, mesh.indexCount, GL_UNSIGNED_SHORT, 0);
-		} else {
-			glDrawArrays(GL_TRIANGLES, 0, mesh.indexCount);
-		}
-		for (int i = 0; i < attributeCount; i++) {
-			glDisableVertexAttribArray(getAttributeLocation(attributes[i].name));
-		}
-		mesh.unbind();
-	}
-
-	unsigned int OpenGLShader::getAttributeLocation(std::string name) {
+	uint16 OpenGLShader::getAttributeLocation(std::string name) {
 		return glGetAttribLocation(program, name.c_str());
 	}
 
-	unsigned int OpenGLShader::registerUniform(std::string name) {
+	uint16 OpenGLShader::registerUniform(std::string name) {
 		int location = glGetUniformLocation(program, name.c_str());
 		uniformLocations[name] = location;
 		return location;
 	}
 
-	void OpenGLShader::setUniform(std::string name, int& value) {
+	void OpenGLShader::setUniform(string name, int& value) {
 		glUniform1i(uniformLocations[name], value);
 	}
 
-	void OpenGLShader::setUniform(std::string name, vec2i& vector) {
+	void OpenGLShader::setUniform(string name, vec2i& vector) {
 		glUniform2i(uniformLocations[name], vector.x, vector.y);
 	}
 
-	void OpenGLShader::setUniform(std::string name, float& value) {
+	void OpenGLShader::setUniform(string name, float& value) {
 		glUniform1f(uniformLocations[name], value);
 	}
 
-	void OpenGLShader::setUniform(std::string name, vec2f& vector) {
+	void OpenGLShader::setUniform(string name, vec2f& vector) {
 		glUniform2f(uniformLocations[name], vector.x, vector.y);
 	}
 
-	void OpenGLShader::setUniform(std::string name, vec3f& vector) {
+	void OpenGLShader::setUniform(string name, vec3f& vector) {
 		glUniform3f(uniformLocations[name], vector.x, vector.y, vector.z);
 	}
 
-	void OpenGLShader::setUniform(std::string name, mat4f& matrix) {
+	void OpenGLShader::setUniform(string name, mat4f& matrix) {
 		glUniform4fv(uniformLocations[name], GL_FALSE, matrix.values);
 	}
 
-	void OpenGLShader::setUniform(std::string name, quaternion& quaternion) {
+	void OpenGLShader::setUniform(string name, quaternion& quaternion) {
 		glUniform4f(uniformLocations[name], quaternion.x, quaternion.y, quaternion.z, quaternion.w);
-
 	}
 }

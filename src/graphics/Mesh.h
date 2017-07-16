@@ -1,19 +1,19 @@
 #pragma once
 #include <common.h>
+#include <graphics/Shader.h>
 
 namespace spruce {
-	class Shader;
-
 	class Mesh {
 		public:
 			uint16 vertexCount;
 			float* vertices;
 			uint16 indexCount;
 			uint16* indices;
-			Shader* shader;
 
+			Mesh(const Mesh& mesh);
+			Mesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 			virtual ~Mesh();
-			virtual void toVRAM() = 0;
+			virtual void toVRAM(Shader* shader) = 0;
 			virtual void bind() = 0;
 			virtual void unbind() = 0;
 	};

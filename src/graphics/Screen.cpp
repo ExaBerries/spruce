@@ -2,5 +2,13 @@
 
 namespace spruce {
 	namespace graphics {
+		Screen::Screen() {
+		}
+
+		Screen::Screen(const Screen& screen) {
+		}
+
+		Screen::~Screen() {
+		}
 	}
 }
