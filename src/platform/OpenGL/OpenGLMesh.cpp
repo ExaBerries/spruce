@@ -39,7 +39,7 @@ namespace spruce {
 		if (indexCount > 0) {
 			glGenBuffers(1, &ibo);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(unsigned short), indices, GL_STATIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(uint16), indices, GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}

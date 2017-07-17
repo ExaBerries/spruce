@@ -9,7 +9,8 @@ namespace spruce {
 			GLuint texture;
 
 			OpenGLTexture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel);
-			virtual ~OpenGLTexture();
+			OpenGLTexture(const OpenGLTexture& texture);
+			~OpenGLTexture();
 
 			void bind(uint16 unit);
 			void toVRAM();

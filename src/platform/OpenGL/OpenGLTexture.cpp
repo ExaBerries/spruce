@@ -1,12 +1,12 @@
 #include <platform/OpenGL/OpenGLTexture.h>
 
 namespace spruce {
-	OpenGLTexture::OpenGLTexture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel) {
+	OpenGLTexture::OpenGLTexture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel) : Texture(data, width, height, bitsPerPixel) {
 		texture = 0;
-		this->data = data;
-		this->width = width;
-		this->height = height;
-		this->bitsPerPixel = bitsPerPixel;
+	}
+
+	OpenGLTexture::OpenGLTexture(const OpenGLTexture& texture) : Texture(texture) {
+		this->texture = 0;
 	}
 
 	OpenGLTexture::~OpenGLTexture() {
@@ -22,7 +22,7 @@ namespace spruce {
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }

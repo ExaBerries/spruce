@@ -5,11 +5,11 @@ namespace spruce {
 	class Texture {
 		public:
 			uint8* data;
-			unsigned int width;
-			unsigned int height;
-			unsigned int bitsPerPixel;
+			uint16 width;
+			uint16 height;
+			uint16 bitsPerPixel;
 
-			Texture();
+			Texture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel);
 			Texture(const Texture& texture);
 			virtual ~Texture();
 			virtual void toVRAM() = 0;

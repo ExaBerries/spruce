@@ -1,11 +1,11 @@
 #include <graphics/Texture.h>
 
 namespace spruce {
-	Texture::Texture() {
-		data = nullptr;
-		width = 0;
-		height = 0;
-		bitsPerPixel = 0;
+	Texture::Texture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel) {
+		this->data = data;
+		this->width = width;
+		this->height = height;
+		this->bitsPerPixel = bitsPerPixel;
 	}
 
 	Texture::Texture(const Texture& texture) {
