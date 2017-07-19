@@ -191,12 +191,12 @@ namespace spruce {
 		return *this;
 	}
 
-	std::ostream& operator<<(std::ostream& stream, const vec2f& vector) {
-		std::cout << "vec3f(" << vector.x << ", " << vector.y << ")" << std::endl;
+	std::ostream& operator<<(std::ostream& stream, const vec3f& vector) {
+		std::cout << "vec3f(" << vector.x << ", " << vector.y << ", " << vector.z << ")" << std::endl;
 		return stream;
 	}
 
 	void log(const vec3f& vector) {
-		std::cout << "vec3f(" << vector.x << ", " << vector.y << ")" << std::endl;
+		std::cout << "vec3f(" << vector.x << ", " << vector.y << ", " << vector.z << ")" << std::endl;
 	}
 }
