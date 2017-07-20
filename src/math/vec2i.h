@@ -9,6 +9,7 @@ namespace spruce {
         int32 y;
 
         vec2i();
+        vec2i(const vec2i& vector);
 		vec2i(const int32& scalar);
 		vec2i(const int32& x, const int32& y);
 

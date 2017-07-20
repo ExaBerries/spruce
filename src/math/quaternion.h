@@ -11,6 +11,7 @@ namespace spruce {
 		float w;
 
 		quaternion();
+		quaternion(const quaternion& quaternion);
 		quaternion(const float& x, const float& y, const float& z, const float& w);
 		quaternion(const vec3f& axis, const float& angle);
 		quaternion(const float& pitch, const float& yaw, const float& roll);

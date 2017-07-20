@@ -4,6 +4,9 @@ namespace spruce {
 	vec3f::vec3f() : x(0), y(0), z(0) {
 	}
 
+	vec3f::vec3f(const vec3f& vector) : x(vector.x), y(vector.y), z(vector.z) {
+	}
+
 	vec3f::vec3f(const float& scalar) : x(scalar), y(scalar), z(scalar) {
 	}
 

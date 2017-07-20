@@ -4,6 +4,9 @@ namespace spruce {
 	quaternion::quaternion() : x(0), y(0), z(0), w(1) {
 	}
 
+	quaternion::quaternion(const quaternion& quaternion) : x(quaternion.x), y(quaternion.y), z(quaternion.z), w(quaternion.w) {
+	}
+
 	quaternion::quaternion(const float& x, const float& y, const float& z, const float& w) : x(x), y(y), z(z), w(w) {
 	}
 

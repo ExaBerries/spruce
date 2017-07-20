@@ -4,6 +4,9 @@ namespace spruce {
 	vec2i::vec2i() : x(0), y(0) {
 	}
 
+	vec2i::vec2i(const vec2i& vector) : x(vector.x), y(vector.y) {
+	}
+
 	vec2i::vec2i(const int32& scalar) : x(scalar), y(scalar) {
 	}
 
