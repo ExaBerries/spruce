@@ -3,7 +3,6 @@
 #include <platform/Backend.h>
 #include <GLFW/glfw3.h>
 #include <graphics/Screen.h>
-#include <log.h>
 
 namespace spruce {
 	namespace app {

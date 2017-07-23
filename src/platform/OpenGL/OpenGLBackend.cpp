@@ -38,7 +38,7 @@ namespace spruce {
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		window = glfwCreateWindow(1280, 720, "test", NULL, NULL);
@@ -66,6 +66,11 @@ namespace spruce {
 			if (app::screen != NULL) {
 				app::screen->update(delta);
 				app::screen->render(delta);
+				int tmpWidth = 0;
+				int tmpHeight = 0;
+				glfwGetWindowSize(window, &tmpWidth, &tmpHeight);
+				this->windowWidth = tmpWidth;
+				this->windowHeight = tmpHeight;
 			}
 			lastTime = newTime;
 			glfwSwapBuffers(window);
@@ -91,13 +96,5 @@ namespace spruce {
 		uint16 bitsPerPixel = 0;
 		uint8* data = util::loadImage(path, width, height, bitsPerPixel);
 		return new OpenGLTexture(data, width, height, bitsPerPixel);
-	}
-
-	int OpenGLBackend::getWindowWidth() {
-		return 0;
-	}
-
-	int OpenGLBackend::getWindowHeight() {
-		return 0;
 	}
 }

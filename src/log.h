@@ -12,6 +12,7 @@ namespace spruce {
 	void log(int value);
 	void log(long value);
 	void log(long long value);
+	void log(float value);
 	void log(void* pointer);
 	void log(string name, void* pointer);
 	void logGLError();

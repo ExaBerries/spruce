@@ -4,10 +4,12 @@
 #include <graphics/Shader.h>
 #include <graphics/MeshRenderer.h>
 #include <graphics/Texture.h>
-#include <graphics/Camera.h>
 
 namespace spruce {
 	class Backend {
+		protected:
+			uint16 windowWidth;
+			uint16 windowHeight;
 		public:
 			virtual ~Backend();
 			virtual void init() = 0;
@@ -18,7 +20,7 @@ namespace spruce {
 			virtual MeshRenderer* createMeshRenderer() = 0;
 			virtual Texture* createTexture(string& string) = 0;
 
-			virtual int getWindowWidth() = 0;
-			virtual int getWindowHeight() = 0;
+			uint16 getWindowWidth();
+			uint16 getWindowHeight();
 	};
 }

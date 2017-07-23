@@ -1,19 +1,17 @@
 #pragma once
 #include <common.h>
 #include <graphics/Camera.h>
-#include <cmath>
 
 namespace spruce {
-	namespace graphics {
-		class PerspectiveCamera: public Camera {
-			public:
-				float fieldOfView;
-				float near;
-				float far;
+	class PerspectiveCamera: public Camera {
+		public:
+			float fieldOfView;
+			float near;
+			float far;
+			vec3f up;
 
-				PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far);
-				virtual ~PerspectiveCamera();
-				void update();
-		};
-	}
+			PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up);
+			virtual ~PerspectiveCamera();
+			void update();
+	};
 }

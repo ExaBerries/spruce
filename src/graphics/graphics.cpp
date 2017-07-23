@@ -1,6 +1,7 @@
 #include <graphics/graphics.h>
 #include <Application.h>
 #include <platform/Backend.h>
+#include <graphics/PerspectiveCamera.h>
 
 namespace spruce {
 	namespace graphics {
@@ -14,6 +15,10 @@ namespace spruce {
 
 		MeshRenderer* createMeshRenderer() {
 			return app::backend->createMeshRenderer();
+		}
+
+		Camera* createCamera(uint16 viewportWidth, uint16 viewportHeight, float fieldOfView, float near, float far, vec3f& up) {
+			return new PerspectiveCamera(viewportWidth, viewportHeight, fieldOfView, near, far, up);
 		}
 
 		Texture* createTexture(string& path) {

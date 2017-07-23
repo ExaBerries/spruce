@@ -16,6 +16,9 @@ namespace spruce {
 		vec3f(const vec2f& vector, const float& z);
 		vec3f(const float& x, const float& y, const float& z);
 
+		vec3f& set(const vec3f& vector);
+		vec3f& set(const float x, const float y, const float z);
+
 		float mag2() const;
 		float mag() const;
 		vec3f& nor();

@@ -119,7 +119,7 @@ namespace spruce {
 	}
 
 	void OpenGLShader::setUniform(string name, mat4f& matrix) {
-		glUniform4fv(uniformLocations[name], GL_FALSE, matrix.values);
+		glUniformMatrix4fv(uniformLocations[name], 1, GL_FALSE, matrix.values);
 	}
 
 	void OpenGLShader::setUniform(string name, quaternion& quaternion) {
