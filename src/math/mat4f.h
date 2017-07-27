@@ -13,6 +13,7 @@ namespace spruce {
 		mat4f(vec3f& translation, quaternion& rotation, vec3f& scale);
 		mat4f(float& near, float& far, float& fov, float& aspectRatio);
 		mat4f(vec3f& direction, vec3f& up);
+		mat4f(float left, float right, float bottom, float top, float near, float far);
 		virtual ~mat4f();
 
 		mat4f& setIdentity();
@@ -20,6 +21,7 @@ namespace spruce {
 		mat4f& set(vec3f& translation, quaternion& rotation, vec3f& scale);
 		mat4f& set(float& near, float& far, float& fov, float& aspectRatio);
 		mat4f& set(vec3f& direction, vec3f& up);
+		mat4f& set(float left, float right, float bottom, float top, float near, float far);
 
 		float determinate();
 		mat4f& invert();

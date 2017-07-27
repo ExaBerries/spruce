@@ -2,6 +2,7 @@
 #include <Application.h>
 #include <platform/Backend.h>
 #include <graphics/PerspectiveCamera.h>
+#include <graphics/OrthographicCamera.h>
 
 namespace spruce {
 	namespace graphics {
@@ -17,8 +18,12 @@ namespace spruce {
 			return app::backend->createMeshRenderer();
 		}
 
-		Camera* createCamera(uint16 viewportWidth, uint16 viewportHeight, float fieldOfView, float near, float far, vec3f& up) {
+		Camera* createPerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up) {
 			return new PerspectiveCamera(viewportWidth, viewportHeight, fieldOfView, near, far, up);
+		}
+
+		Camera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up) {
+			return new OrthographicCamera(viewportWidth, viewportHeight, near, far, up);
 		}
 
 		Texture* createTexture(string& path) {

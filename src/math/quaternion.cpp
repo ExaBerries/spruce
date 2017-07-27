@@ -55,7 +55,7 @@ namespace spruce {
 	}
 
 	quaternion& quaternion::set(const vec3f& a, const vec3f& b) {
-		vec3f crs = vec3f(a).crs(b).nor();
+		vec3f crs = vec3f(a).crs(b);
 		this->x = crs.x;
 		this->y = crs.y;
 		this->z = crs.z;

@@ -73,23 +73,48 @@ namespace spruce {
 
 	mat4f::mat4f(vec3f& direction, vec3f& up) {
 		vec3f dirNor = vec3f(direction).nor();
-		vec3f dirCrsUp = vec3f(dirNor).crs(up);
-		vec3f dirCrsUpCrsDirNor = vec3f(dirCrsUp).crs(dirNor).nor();
+		vec3f dirCrsUp = vec3f(dirNor).crs(up).nor();
+		vec3f dirCrsUpCrsDir = vec3f(dirCrsUp).crs(dirNor).nor();
 		values[0] = dirCrsUp.x;
-		values[1] = dirCrsUpCrsDirNor.x;
+		values[1] = dirCrsUpCrsDir.x;
 		values[2] = -dirNor.x;
 		values[3] = 0;
 		values[4] = dirCrsUp.y;
-		values[5] = dirCrsUpCrsDirNor.y;
+		values[5] = dirCrsUpCrsDir.y;
 		values[6] = -dirNor.y;
 		values[7] = 0;
 		values[8] = dirCrsUp.z;
-		values[9] = dirCrsUpCrsDirNor.z;
+		values[9] = dirCrsUpCrsDir.z;
 		values[10] = -dirNor.z;
 		values[11] = 0;
 		values[12] = 0;
 		values[13] = 0;
 		values[14] = 0;
+		values[15] = 1;
+	}
+
+	mat4f::mat4f(float left, float right, float top, float bottom, float near, float far) {
+		float x = 2 / (right - left);
+		float y = 2 / (top - bottom);
+		float z = 2 / (far - near);
+		float tx = -(right + left) / (right - left);
+		float ty = -(top + bottom) / (top - bottom);
+		float tz = -(far + near) / (far - near);
+		values[0] = x;
+		values[1] = 0;
+		values[2] = 0;
+		values[3] = 0;
+		values[4] = 0;
+		values[5] = y;
+		values[6] = 0;
+		values[7] = 0;
+		values[8] = 0;
+		values[9] = 0;
+		values[10] = z;
+		values[11] = 0;
+		values[12] = tx;
+		values[13] = ty;
+		values[14] = tz;
 		values[15] = 1;
 	}
 
@@ -130,7 +155,7 @@ namespace spruce {
 		float wx = rotation.w * rotation.x;
 		float wy = rotation.w * rotation.y;
 		float wz = rotation.w * rotation.z;
-		values[0] = scale.x * (1.0 - y2 * 2.0 + z2 * 2.0);
+		values[0] = scale.x * (1.0 - (y2 * 2.0 + z2 * 2.0));
 		values[1] = scale.y * (rotation.x * rotation.y * 2.0 - wz);
 		values[2] = scale.z * (rotation.x * rotation.z * 2.0 + wy);
 		values[3] = translation.x;
@@ -150,7 +175,7 @@ namespace spruce {
 	}
 
 	mat4f& mat4f::set(float& near, float& far, float& fov, float& aspectRatio) {
-		float size = 1.0 / tan(fov / 2.0);
+		float size = 1.0 / atan(fov / 2.0);
 		values[0] = size / aspectRatio;
 		values[1] = 0.0;
 		values[2] = 0.0;
@@ -162,33 +187,59 @@ namespace spruce {
 		values[8] = 0.0;
 		values[9] = 0.0;
 		values[10] = (far + near) / (near - far);
-		values[11] = -1.0;
+		values[11] = (2.0 * far * near) / (near - far);
 		values[12] = 0.0;
 		values[13] = 0.0;
-		values[14] = (2.0 * far * near) / (near - far);
+		values[14] = -1.0;
 		values[15] = 0.0;
 		return *this;
 	}
 
 	mat4f& mat4f::set(vec3f& direction, vec3f& up) {
 		vec3f dirNor = vec3f(direction).nor();
-		vec3f dirCrsUp = vec3f(dirNor).crs(up);
-		vec3f dirCrsUpCrsDirNor = vec3f(dirCrsUp).crs(dirNor).nor();
+		vec3f dirCrsUp = vec3f(dirNor).crs(up).nor();
+		vec3f dirCrsUpCrsDir = vec3f(dirCrsUp).crs(dirNor).nor();
 		values[0] = dirCrsUp.x;
-		values[1] = dirCrsUpCrsDirNor.x;
-		values[2] = -dirNor.x;
+		values[1] = dirCrsUp.y;
+		values[2] = dirCrsUp.z;
 		values[3] = 0;
-		values[4] = dirCrsUp.y;
-		values[5] = dirCrsUpCrsDirNor.y;
-		values[6] = -dirNor.y;
+		values[4] = dirCrsUpCrsDir.x;
+		values[5] = dirCrsUpCrsDir.y;
+		values[6] = dirCrsUpCrsDir.z;
 		values[7] = 0;
-		values[8] = dirCrsUp.z;
-		values[9] = dirCrsUpCrsDirNor.z;
+		values[8] = -dirNor.x;
+		values[9] = -dirNor.y;
 		values[10] = -dirNor.z;
 		values[11] = 0;
 		values[12] = 0;
 		values[13] = 0;
 		values[14] = 0;
+		values[15] = 1;
+		return *this;
+	}
+
+	mat4f& mat4f::set(float left, float right, float top, float bottom, float near, float far) {
+		float x = 2 / (right - left);
+		float y = 2 / (top - bottom);
+		float z = 2 / (far - near);
+		float tx = -(right + left) / (right - left);
+		float ty = -(top + bottom) / (top - bottom);
+		float tz = -(far + near) / (far - near);
+		values[0] = x;
+		values[1] = 0;
+		values[2] = 0;
+		values[3] = 0;
+		values[4] = 0;
+		values[5] = y;
+		values[6] = 0;
+		values[7] = 0;
+		values[8] = 0;
+		values[9] = 0;
+		values[10] = z;
+		values[11] = 0;
+		values[12] = tx;
+		values[13] = ty;
+		values[14] = tz;
 		values[15] = 1;
 		return *this;
 	}
