@@ -2,9 +2,7 @@
 #include <common.h>
 
 namespace spruce {
-	class Input {
-		public:
-			Input();
-			virtual ~Input();
-	};
+	namespace input {
+		bool keyPressed(uint16 code);
+	}
 }

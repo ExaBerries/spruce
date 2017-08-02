@@ -1,9 +1,11 @@
-#include <Input.h>
+#include <input.h>
+#include <Application.h>
+#include <platform/Backend.h>
 
 namespace spruce {
-	Input::Input() {
-	}
-
-	Input::~Input() {
+	namespace input {
+		bool keyPressed(uint16 code) {
+			return app::backend->keyPressed(code);
+		}
 	}
 }

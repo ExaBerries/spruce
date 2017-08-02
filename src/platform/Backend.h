@@ -20,6 +20,8 @@ namespace spruce {
 			virtual MeshRenderer* createMeshRenderer() = 0;
 			virtual Texture* createTexture(string& string) = 0;
 
+			virtual bool keyPressed(uint16 code) = 0;
+
 			uint16 getWindowWidth();
 			uint16 getWindowHeight();
 	};

@@ -24,7 +24,6 @@ namespace spruce {
 			MeshRenderer* createMeshRenderer();
 			Texture* createTexture(string& path);
 
-			uint16 getWindowWidth();
-			uint16 getWindowHeight();
+			bool keyPressed(uint16 code);
 	};
 }

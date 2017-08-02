@@ -97,4 +97,8 @@ namespace spruce {
 		uint8* data = util::loadImage(path, width, height, bitsPerPixel);
 		return new OpenGLTexture(data, width, height, bitsPerPixel);
 	}
+
+	bool OpenGLBackend::keyPressed(uint16 code) {
+		return (glfwGetKey(window, code) == GLFW_PRESS);
+	}
 }
