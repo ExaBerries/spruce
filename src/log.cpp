@@ -42,6 +42,10 @@ namespace spruce {
 		std::cout << value << std::endl;
 	}
 
+	void log(double value) {
+		std::cout << value << std::endl;
+	}
+
 	void log(void* pointer) {
 		std::cout << pointer << std::endl;
 	}
