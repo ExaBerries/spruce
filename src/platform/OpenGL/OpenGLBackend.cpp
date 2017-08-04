@@ -3,7 +3,6 @@
 #include <platform/OpenGL/OpenGLShader.h>
 #include <platform/OpenGL/OpenGLMeshRenderer.h>
 #include <platform/OpenGL/OpenGLTexture.h>
-
 #include <util/image.h>
 
 namespace spruce {
@@ -29,6 +28,15 @@ namespace spruce {
 		}
 	}
 
+	static void joystickCallback(int32 joystick, int32 event) {
+		if (event == GLFW_CONNECTED) {
+
+		} else if (event == GLFW_DISCONNECTED) {
+
+		}
+	}
+
+
 	void OpenGLBackend::init() {
 		glfwSetErrorCallback(errorCallback);
 		if (!glfwInit()) {
@@ -46,6 +54,7 @@ namespace spruce {
 			log("window == NULL");
 		}
 		glfwSetKeyCallback(window, keyCallback);
+		glfwSetJoystickCallback(joystickCallback);
 		glfwMakeContextCurrent(window);
 		glfwSwapInterval(1);
 		glfwShowWindow(window);
@@ -100,5 +109,173 @@ namespace spruce {
 
 	bool OpenGLBackend::keyPressed(uint16 code) {
 		return (glfwGetKey(window, code) == GLFW_PRESS);
+	}
+
+	bool OpenGLBackend::mouseButtonPressed(uint16 code) {
+		return (glfwGetMouseButton(window, code) == GLFW_PRESS);
+	}
+
+	uint16 OpenGLBackend::codeFor(input::Key key) {
+		uint16 code = 0;
+		switch (key) {
+			case input::A:
+				code = GLFW_KEY_A;
+				break;
+			case input::B:
+				code = GLFW_KEY_B;
+				break;
+			case input::C:
+				code = GLFW_KEY_C;
+				break;
+			case input::D:
+				code = GLFW_KEY_D;
+				break;
+			case input::E:
+				code = GLFW_KEY_E;
+				break;
+			case input::F:
+				code = GLFW_KEY_F;
+				break;
+			case input::G:
+				code = GLFW_KEY_G;
+				break;
+			case input::H:
+				code = GLFW_KEY_H;
+				break;
+			case input::I:
+				code = GLFW_KEY_I;
+				break;
+			case input::J:
+				code = GLFW_KEY_J;
+				break;
+			case input::K:
+				code = GLFW_KEY_K;
+				break;
+			case input::L:
+				code = GLFW_KEY_L;
+				break;
+			case input::M:
+				code = GLFW_KEY_M;
+				break;
+			case input::N:
+				code = GLFW_KEY_N;
+				break;
+			case input::O:
+				code = GLFW_KEY_O;
+				break;
+			case input::P:
+				code = GLFW_KEY_P;
+				break;
+			case input::Q:
+				code = GLFW_KEY_Q;
+				break;
+			case input::R:
+				code = GLFW_KEY_R;
+				break;
+			case input::S:
+				code = GLFW_KEY_S;
+				break;
+			case input::T:
+				code = GLFW_KEY_T;
+				break;
+			case input::U:
+				code = GLFW_KEY_U;
+				break;
+			case input::V:
+				code = GLFW_KEY_V;
+				break;
+			case input::W:
+				code = GLFW_KEY_W;
+				break;
+			case input::X:
+				code = GLFW_KEY_X;
+				break;
+			case input::Y:
+				code = GLFW_KEY_Y;
+				break;
+			case input::Z:
+				code = GLFW_KEY_Z;
+				break;
+			case input::ZERO:
+				code = GLFW_KEY_0;
+				break;
+			case input::ONE:
+				code = GLFW_KEY_1;
+				break;
+			case input::TWO:
+				code = GLFW_KEY_2;
+				break;
+			case input::THREE:
+				 code = GLFW_KEY_3;
+				 break;
+			case input::FOUR:
+				code = GLFW_KEY_4;
+				break;
+			case input::FIVE:
+				code = GLFW_KEY_5;
+				break;
+			case input::SIX:
+				code = GLFW_KEY_6;
+				break;
+			case input::SEVEN:
+				code = GLFW_KEY_7;
+				break;
+			case input::EIGHT:
+				code = GLFW_KEY_8;
+				break;
+			case input::NINE:
+				code = GLFW_KEY_9;
+				break;
+			case input::ENTER:
+				code = GLFW_KEY_ENTER;
+				break;
+			case input::ESCAPE:
+				code = GLFW_KEY_ESCAPE;
+				break;
+			case input::DELETE:
+				code = GLFW_KEY_DELETE;
+				break;
+			case input::TAB:
+				code = GLFW_KEY_TAB;
+				break;
+			case input::SPACE:
+				code = GLFW_KEY_SPACE;
+				break;
+			case input::SHIFT_LEFT:
+				code = GLFW_KEY_LEFT_SHIFT;
+				break;
+			case input::SHIFT_RIGHT:
+				code = GLFW_KEY_RIGHT_SHIFT;
+				break;
+			case input::CONTROL_LEFT:
+				code = GLFW_KEY_LEFT_CONTROL;
+				break;
+			case input::CONTROL_RIGHT:
+				code = GLFW_KEY_RIGHT_CONTROL;
+				break;
+			default:
+				code = 0;
+				break;
+		}
+		return code;
+	}
+
+	uint16 OpenGLBackend::codeFor(input::MouseButton button) {
+		uint16 code = 0;
+		switch (button) {
+			case input::LEFT:
+				code = GLFW_MOUSE_BUTTON_LEFT;
+				break;
+			case input::CENTER:
+				code = GLFW_MOUSE_BUTTON_MIDDLE;
+				break;
+			case input::RIGHT:
+				code = GLFW_MOUSE_BUTTON_RIGHT;
+				break;
+			default:
+				code = 0;
+				break;
+		}
+		return 0;
 	}
 }

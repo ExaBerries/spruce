@@ -25,5 +25,9 @@ namespace spruce {
 			Texture* createTexture(string& path);
 
 			bool keyPressed(uint16 code);
+			bool mouseButtonPressed(uint16 code);
+
+			uint16 codeFor(input::Key key);
+			uint16 codeFor(input::MouseButton button);
 	};
 }

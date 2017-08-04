@@ -31,11 +31,11 @@ namespace spruce {
 		}
 
 		int getWidth() {
-			return app::backend->getWindowWidth();
+			return app::backend->windowWidth;
 		}
 
 		int getHeight() {
-			return app::backend->getWindowHeight();
+			return app::backend->windowHeight;
 		}
 	}
 }

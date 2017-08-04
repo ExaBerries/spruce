@@ -4,13 +4,14 @@
 #include <graphics/Shader.h>
 #include <graphics/MeshRenderer.h>
 #include <graphics/Texture.h>
+#include <input/input.h>
 
 namespace spruce {
 	class Backend {
-		protected:
+		public:
 			uint16 windowWidth;
 			uint16 windowHeight;
-		public:
+
 			virtual ~Backend();
 			virtual void init() = 0;
 			virtual void run() = 0;
@@ -21,8 +22,9 @@ namespace spruce {
 			virtual Texture* createTexture(string& string) = 0;
 
 			virtual bool keyPressed(uint16 code) = 0;
+			virtual bool mouseButtonPressed(uint16 code) = 0;
 
-			uint16 getWindowWidth();
-			uint16 getWindowHeight();
+			virtual uint16 codeFor(input::Key key) = 0;
+			virtual uint16 codeFor(input::MouseButton button) = 0;
 	};
 }
