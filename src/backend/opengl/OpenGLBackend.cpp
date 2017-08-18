@@ -1,8 +1,8 @@
-#include <platform/OpenGL/OpenGLBackend.h>
-#include <platform/OpenGL/OpenGLMesh.h>
-#include <platform/OpenGL/OpenGLShader.h>
-#include <platform/OpenGL/OpenGLMeshRenderer.h>
-#include <platform/OpenGL/OpenGLTexture.h>
+#include <backend/opengl/OpenGLBackend.h>
+#include <backend/opengl/OpenGLMesh.h>
+#include <backend/opengl/OpenGLMeshRenderer.h>
+#include <backend/opengl/OpenGLShader.h>
+#include <backend/opengl/OpenGLTexture.h>
 #include <util/image.h>
 
 namespace spruce {
@@ -66,7 +66,7 @@ namespace spruce {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			int error = glGetError();
 			if (error != GL_NO_ERROR) {
-				std::string string = "OpenGL Error=";
+				string string = "OpenGL Error=";
 				string += std::to_string(error);
 				log(string);
 			}
@@ -105,6 +105,26 @@ namespace spruce {
 		uint16 bitsPerPixel = 0;
 		uint8* data = util::loadImage(path, width, height, bitsPerPixel);
 		return new OpenGLTexture(data, width, height, bitsPerPixel);
+	}
+
+	string getGPUVendor() {
+		return glGetString(GL_VENDOR);
+	}
+
+	uint16 getAPIVersionMajor() {
+		int32 major = 0;
+		glGetIntegerv(GL_MAJOR_VERSION, &major);
+		return major;
+	}
+
+	uint16 getAPIVersionMinor() {
+		int32 minor = 0;
+		glGetIntegerv(GL_MAJOR_VERSION, &minor);
+		return minor;
+	}
+
+	string getAPIRendererName() {
+		return glGetString(GL_RENDERER);
 	}
 
 	bool OpenGLBackend::keyPressed(uint16 code) {

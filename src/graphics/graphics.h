@@ -18,5 +18,10 @@ namespace spruce {
 
 		int getWidth();
 		int getHeight();
+
+		string getGPUVendor();
+		uint16 getAPIVersionMajor();
+		uint16 getAPIVersionMinor();
+		string getAPIRendererName();
 	}
 }

@@ -1,6 +1,6 @@
+#include <app.h>
 #include <input/InputSource.h>
-#include <Application.h>
-#include <platform/Backend.h>
+#include <backend/Backend.h>
 
 namespace spruce {
 	namespace input {

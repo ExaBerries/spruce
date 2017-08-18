@@ -1,6 +1,8 @@
-#include <Application.h>
-#include <platform/Backend.h>
-#include <platform/OpenGL/OpenGLBackend.h>
+#include <app.h>
+#include <backend/Backend.h>
+#include <backend/opengl/OpenGLBackend.h>
+#include <thread>
+#include <system/system.h>
 
 namespace spruce {
 	namespace app {

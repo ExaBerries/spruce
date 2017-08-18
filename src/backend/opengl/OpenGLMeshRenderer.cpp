@@ -1,4 +1,5 @@
-#include <platform/OpenGL/OpenGLMeshRenderer.h>
+#include <backend/opengl/OpenGLMeshRenderer.h>
+
 #include <GLFW/glfw3.h>
 #include <graphics/Shader.h>
 #include <log.h>

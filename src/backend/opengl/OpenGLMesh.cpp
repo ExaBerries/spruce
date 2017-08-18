@@ -1,4 +1,4 @@
-#include <platform/OpenGL/OpenGLMesh.h>
+#include <backend/opengl/OpenGLMesh.h>
 #include <graphics/Shader.h>
 #include <log.h>
 

@@ -1,8 +1,9 @@
+#include <app.h>
 #include <graphics/graphics.h>
-#include <Application.h>
-#include <platform/Backend.h>
+#include <backend/Backend.h>
 #include <graphics/PerspectiveCamera.h>
 #include <graphics/OrthographicCamera.h>
+#include <thread>
 
 namespace spruce {
 	namespace graphics {
@@ -36,6 +37,26 @@ namespace spruce {
 
 		int getHeight() {
 			return app::backend->windowHeight;
+		}
+
+		uint16 getCPUNumThreads() {
+			return std::thread::hardware_concurrency();
+		}
+
+		string getGLVendor() {
+
+		}
+
+		uint16 getGLVersionMajor() {
+
+		}
+
+		uint16 getGLVersionMinor() {
+
+		}
+
+		string getGLRendererName() {
+
 		}
 	}
 }
