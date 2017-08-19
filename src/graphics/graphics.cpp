@@ -43,20 +43,20 @@ namespace spruce {
 			return std::thread::hardware_concurrency();
 		}
 
-		string getGLVendor() {
-
+		string getGPUVendor() {
+			return app::backend->getGPUVendor();
 		}
 
-		uint16 getGLVersionMajor() {
-
+		uint16 getAPIVersionMajor() {
+			return app::backend->getAPIVersionMajor();
 		}
 
-		uint16 getGLVersionMinor() {
-
+		uint16 getAPIVersionMinor() {
+			return app::backend->getAPIVersionMinor();
 		}
 
-		string getGLRendererName() {
-
+		string getAPIRendererName() {
+			return app::backend->getAPIRendererName();
 		}
 	}
 }
