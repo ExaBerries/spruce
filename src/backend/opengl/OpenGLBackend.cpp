@@ -107,24 +107,39 @@ namespace spruce {
 		return new OpenGLTexture(data, width, height, bitsPerPixel);
 	}
 
-	string getGPUVendor() {
-		return glGetString(GL_VENDOR);
+	string OpenGLBackend::getGPUVendor() {
+		return string(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
 	}
 
-	uint16 getAPIVersionMajor() {
+	uint16 OpenGLBackend::getAPIVersionMajor() {
 		int32 major = 0;
 		glGetIntegerv(GL_MAJOR_VERSION, &major);
 		return major;
 	}
 
-	uint16 getAPIVersionMinor() {
+	uint16 OpenGLBackend::getAPIVersionMinor() {
 		int32 minor = 0;
 		glGetIntegerv(GL_MAJOR_VERSION, &minor);
 		return minor;
 	}
 
-	string getAPIRendererName() {
-		return glGetString(GL_RENDERER);
+	string OpenGLBackend::getAPIRendererName() {
+		return string(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+	}
+
+	void OpenGLBackend::setCursorMode(input::CursorMode mode) {
+		uint32 glfwMode = GLFW_CURSOR_NORMAL;
+		switch (mode) {
+			case input::HIDDEN:
+				glfwMode = GLFW_CURSOR_HIDDEN;
+				break;
+			case input::DISABLED:
+				glfwMode = GLFW_CURSOR_DISABLED;
+				break;
+			default:
+				break;
+		}
+		glfwSetInputMode(window, GLFW_CURSOR, glfwMode);
 	}
 
 	bool OpenGLBackend::keyPressed(uint16 code) {

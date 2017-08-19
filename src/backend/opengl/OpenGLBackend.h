@@ -29,6 +29,8 @@ namespace spruce {
 			uint16 getAPIVersionMinor();
 			string getAPIRendererName();
 
+			void setCursorMode(input::CursorMode mode);
+
 			bool keyPressed(uint16 code);
 			bool mouseButtonPressed(uint16 code);
 

@@ -4,6 +4,10 @@
 
 namespace spruce {
 	namespace input {
+		void setCursorMode(CursorMode mode) {
+			return app::backend->setCursorMode(mode);
+		}
+
 		bool keyPressed(Key key) {
 			return app::backend->keyPressed(codeFor(key));
 		}

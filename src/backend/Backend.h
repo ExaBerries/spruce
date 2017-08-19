@@ -26,6 +26,8 @@ namespace spruce {
 			virtual uint16 getAPIVersionMinor() = 0;
 			virtual string getAPIRendererName() = 0;
 
+			virtual void setCursorMode(input::CursorMode mode) = 0;
+
 			virtual bool keyPressed(uint16 code) = 0;
 			virtual bool mouseButtonPressed(uint16 code) = 0;
 

@@ -51,12 +51,18 @@ namespace spruce {
 			CONTROL_LEFT,
 			CONTROL_RIGHT
 		};
-
 		enum MouseButton {
 			LEFT,
 			CENTER,
 			RIGHT
 		};
+		enum CursorMode {
+			NORMAL,
+			HIDDEN,
+			DISABLED
+		};
+
+		void setCursorMode(CursorMode mode);
 
 		bool keyPressed(Key key);
 		bool mouseButtonPressed(MouseButton button);
