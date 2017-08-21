@@ -5,6 +5,7 @@
 namespace spruce {
 	class MeshRenderer {
 		public:
-			void render(Mesh* mesh, Shader* shader) = 0;
+			virtual ~MeshRenderer();
+			virtual void render(Mesh* mesh, Shader* shader) = 0;
 	};
 }
