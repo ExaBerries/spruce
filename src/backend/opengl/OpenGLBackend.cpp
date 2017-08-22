@@ -70,16 +70,16 @@ namespace spruce {
 				string += std::to_string(error);
 				log(string);
 			}
+			int32 tmpWidth = 0;
+			int32 tmpHeight = 0;
+			glfwGetWindowSize(window, &tmpWidth, &tmpHeight);
+			this->windowWidth = tmpWidth;
+			this->windowHeight = tmpHeight;
 			double newTime = glfwGetTime();
 			double delta = newTime - lastTime;
 			if (app::screen != NULL) {
 				app::screen->update(delta);
 				app::screen->render(delta);
-				int tmpWidth = 0;
-				int tmpHeight = 0;
-				glfwGetWindowSize(window, &tmpWidth, &tmpHeight);
-				this->windowWidth = tmpWidth;
-				this->windowHeight = tmpHeight;
 			}
 			lastTime = newTime;
 			glfwSwapBuffers(window);
