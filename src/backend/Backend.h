@@ -30,6 +30,7 @@ namespace spruce {
 
 			virtual bool keyPressed(uint16 code) = 0;
 			virtual bool mouseButtonPressed(uint16 code) = 0;
+			virtual vec2f mousePos() = 0;
 
 			virtual uint16 codeFor(input::Key key) = 0;
 			virtual uint16 codeFor(input::MouseButton button) = 0;

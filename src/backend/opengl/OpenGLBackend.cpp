@@ -150,6 +150,13 @@ namespace spruce {
 		return (glfwGetMouseButton(window, code) == GLFW_PRESS);
 	}
 
+	vec2f OpenGLBackend::mousePos() {
+		double x = 0.0;
+		double y = 0.0;
+		glfwGetCursorPos(window, &x, &y);
+		return vec2f(x, y);
+	}
+
 	uint16 OpenGLBackend::codeFor(input::Key key) {
 		uint16 code = 0;
 		switch (key) {

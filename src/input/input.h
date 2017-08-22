@@ -1,5 +1,6 @@
 #pragma once
 #include <common.h>
+#include <math/vec2f.h>
 #include <input/InputMap.h>
 
 namespace spruce {
@@ -66,6 +67,7 @@ namespace spruce {
 
 		bool keyPressed(Key key);
 		bool mouseButtonPressed(MouseButton button);
+		vec2f mousePos();
 
 		uint16 codeFor(Key key);
 		uint16 codeFor(MouseButton button);

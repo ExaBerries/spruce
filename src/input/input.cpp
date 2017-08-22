@@ -16,6 +16,10 @@ namespace spruce {
 			return app::backend->mouseButtonPressed(codeFor(button));
 		}
 
+		vec2f mousePos() {
+			return app::backend->mousePos();
+		}
+
 		uint16 codeFor(Key key) {
 			return app::backend->codeFor(key);
 		}
