@@ -10,6 +10,13 @@ namespace spruce {
 	quaternion::quaternion(const float& x, const float& y, const float& z, const float& w) : x(x), y(y), z(z), w(w) {
 	}
 
+	quaternion::quaternion(const float& pitch, const float& yaw, const float& roll) {
+		x = cos(yaw/2) * sin(pitch/2) * cos(roll/2) + sin(yaw/2) * cos(pitch/2) * sin(roll/2);
+		y = sin(yaw/2) * cos(pitch/2) * cos(roll/2) - cos(yaw/2) * sin(pitch/2) * sin(roll/2);
+		z = cos(yaw/2) * cos(pitch/2) * sin(roll/2) - sin(yaw/2) * sin(pitch/2) * cos(roll/2);
+		w = cos(yaw/2) * cos(pitch/2) * cos(roll/2) + sin(yaw/2) * sin(pitch/2) * sin(roll/2);
+	}
+
 	quaternion::quaternion(const vec3f& a, const vec3f& b) {
 		vec3f crs = vec3f(a).crs(b).nor();
 		this->x = crs.x;
