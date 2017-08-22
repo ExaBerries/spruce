@@ -54,7 +54,7 @@ namespace spruce {
 		vec3f& operator*=(const float& value);
 		vec3f& operator/=(const float& value);
 
-		friend std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
+		friend std::ostream& operator<<(std::ostream& stream, const vec3f& vector);
 	};
 
 	void log(const vec3f& vector);
