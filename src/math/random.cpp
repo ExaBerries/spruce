@@ -1,35 +1,49 @@
 #include <math/random.h>
-#include <cstdlib>
-#include <ctime>
+#include <random>
 
 namespace spruce {
 	namespace rand {
+		std::seed_seq seedSeq;
+		std::uniform_real_distribution<float> realDisf;
+		std::uniform_real_distribution<double> realDisd;
+		std::normal_distribution<float> norDisf;
+		std::normal_distribution<double> norDisd;
+
 		void init(uint64 seed) {
+			seedSeq = std::seed_seq(seed);
 			srand(seed);
 		}
 
-		int32 rand(int32 min, int32 max) {
+		int32 rint(int32 min, int32 max) {
 			return std::rand() % max + min;
 		}
 
-		bool rand() {
+		bool rbool() {
 			return std::rand() % 2;
 		}
 
 		int32 randSign() {
-			return rand() ? 1 : -1;
+			return rbool() ? 1 : -1;
 		}
 
-		float rguassian() {
-			return rfloat(); // TODO actual guassian distribution
+		float rreal(float min, float max) {
+			realDisf = std::uniform_real_distribution<float>(min, max);
+			return realDisf(seedSeq);
 		}
 
-		float rfloat() {
-			return ((float)rand()) / (float) RAND_MAX;
+		double rreal(double min, double max) {
+			realDisd = std::uniform_real_distribution<double>(min, max);
+			return realDisd(seedSeq);
 		}
 
-		double rdouble() {
-			return ((double)rand()) / (double) RAND_MAX;
+		float rnor(float mean, float stddev) {
+			norDisf = std::normal_distribution(mean, stddev);
+			return norDisf(seedSeq);
+		}
+
+		double rnor(double mean, double stddev) {
+			norDisd = std::normal_distribution(mean, stddev);
+			return norDisd(seedSeq);
 		}
 	}
 }

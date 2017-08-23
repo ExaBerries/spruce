@@ -4,11 +4,12 @@
 namespace spruce {
 	namespace rand {
 		void init(uint64 seed);
-		int32 rand(int32 min, int32 max);
+		int32 rint(int32 min, int32 max);
 		int32 randSign();
-		bool rand();
-		float rguassian();
-		float rfloat();
-		double rdouble();
+		bool rbool();
+		float rreal();
+		double rreal();
+		float rnor();
+		double rnor();
 	}
 }
