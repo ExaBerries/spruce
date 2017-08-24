@@ -7,9 +7,9 @@ namespace spruce {
 		int32 rint(int32 min, int32 max);
 		int32 randSign();
 		bool rbool();
-		float rreal();
-		double rreal();
-		float rnor();
-		double rnor();
+		float rrealf(float min, float max);
+		double rreald(double min, double max);
+		float rnorf(float mean, float stddev);
+		double rnord(double mean, double stddev);
 	}
 }

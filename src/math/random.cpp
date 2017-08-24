@@ -3,14 +3,14 @@
 
 namespace spruce {
 	namespace rand {
-		std::seed_seq seedSeq;
+		std::mt19937 seed;
 		std::uniform_real_distribution<float> realDisf;
 		std::uniform_real_distribution<double> realDisd;
 		std::normal_distribution<float> norDisf;
 		std::normal_distribution<double> norDisd;
 
 		void init(uint64 seed) {
-			seedSeq = std::seed_seq(seed);
+			rand::seed = std::mt19937(seed);
 			srand(seed);
 		}
 
@@ -26,24 +26,24 @@ namespace spruce {
 			return rbool() ? 1 : -1;
 		}
 
-		float rreal(float min, float max) {
+		float rrealf(float min, float max) {
 			realDisf = std::uniform_real_distribution<float>(min, max);
-			return realDisf(seedSeq);
+			return realDisf(seed);
 		}
 
-		double rreal(double min, double max) {
+		double rreald(double min, double max) {
 			realDisd = std::uniform_real_distribution<double>(min, max);
-			return realDisd(seedSeq);
+			return realDisd(seed);
 		}
 
-		float rnor(float mean, float stddev) {
-			norDisf = std::normal_distribution(mean, stddev);
-			return norDisf(seedSeq);
+		float rnorf(float mean, float stddev) {
+			norDisf = std::normal_distribution<float>(mean, stddev);
+			return norDisf(seed);
 		}
 
-		double rnor(double mean, double stddev) {
-			norDisd = std::normal_distribution(mean, stddev);
-			return norDisd(seedSeq);
+		double rnord(double mean, double stddev) {
+			norDisd = std::normal_distribution<double>(mean, stddev);
+			return norDisd(seed);
 		}
 	}
 }
