@@ -11,18 +11,25 @@ namespace spruce {
 	}
 
 	quaternion::quaternion(const float& pitch, const float& yaw, const float& roll) {
-		x = cos(yaw/2) * sin(pitch/2) * cos(roll/2) + sin(yaw/2) * cos(pitch/2) * sin(roll/2);
-		y = sin(yaw/2) * cos(pitch/2) * cos(roll/2) - cos(yaw/2) * sin(pitch/2) * sin(roll/2);
-		z = cos(yaw/2) * cos(pitch/2) * sin(roll/2) - sin(yaw/2) * sin(pitch/2) * cos(roll/2);
-		w = cos(yaw/2) * cos(pitch/2) * cos(roll/2) + sin(yaw/2) * sin(pitch/2) * sin(roll/2);
+		float ys = sin(yaw /2);
+		float yc = cos(yaw / 2);
+		float ps = sin(pitch / 2);
+		float pc = cos(pitch / 2);
+		float rs = sin(roll / 2);
+		float rc = cos(roll / 2);
+		x = cos(yaw/2) * sin(pitch/2) * cos(roll/2) + sin(yaw/2) * cos(pitch/2) * sin(roll/2);//yc * pc * rs - ys * ps * rc;
+		y = sin(yaw/2) * cos(pitch/2) * cos(roll/2) - cos(yaw/2) * sin(pitch/2) * sin(roll/2);//yc * ps * rc + ys * pc * rs;
+		z = cos(yaw/2) * cos(pitch/2) * sin(roll/2) - sin(yaw/2) * sin(pitch/2) * cos(roll/2);//ys * pc * rc - yc * ps * rs;
+		w = cos(yaw/2) * cos(pitch/2) * cos(roll/2) + sin(yaw/2) * sin(pitch/2) * sin(roll/2);//yc * pc * rc + ys * ps * rs;
+		nor();
 	}
 
 	quaternion::quaternion(const vec3f& a, const vec3f& b) {
-		vec3f crs = vec3f(a).crs(b).nor();
+		vec3f crs = vec3f(a).crs(b);
 		this->x = crs.x;
 		this->y = crs.y;
 		this->z = crs.z;
-		this->w = (a.mag() * b.mag()) + a.dot(b);
+		this->w = (a.mag2() * b.mag2()) + a.dot(b);
 		nor();
 	}
 
@@ -69,6 +76,30 @@ namespace spruce {
 		this->w = (a.mag() * b.mag()) + a.dot(b);
 		nor();
 		return *this;
+	}
+
+	quaternion& quaternion::set(const float& yaw, const float& pitch, const float& roll) {
+		float ys = sin(yaw /2);
+		float yc = cos(yaw / 2);
+		float ps = sin(pitch / 2);
+		float pc = cos(pitch / 2);
+		float rs = sin(roll / 2);
+		float rc = cos(roll / 2);
+		x = cos(yaw/2) * sin(pitch/2) * cos(roll/2) + sin(yaw/2) * cos(pitch/2) * sin(roll/2);//yc * pc * rs - ys * ps * rc;
+		y = sin(yaw/2) * cos(pitch/2) * cos(roll/2) - cos(yaw/2) * sin(pitch/2) * sin(roll/2);//yc * ps * rc + ys * pc * rs;
+		z = cos(yaw/2) * cos(pitch/2) * sin(roll/2) - sin(yaw/2) * sin(pitch/2) * cos(roll/2);//ys * pc * rc - yc * ps * rs;
+		w = cos(yaw/2) * cos(pitch/2) * cos(roll/2) + sin(yaw/2) * sin(pitch/2) * sin(roll/2);//yc * pc * rc + ys * ps * rs;
+		nor();
+		return *this;
+	}
+
+	void quaternion::toEuler(float& yaw, float& pitch, float& roll) {
+		float t = y * x + z * w;
+		int8 pole = t > 0.499f ? 1 : (t < -0.499f ? -1 : 0);
+		bool locked = !(pole == 0);
+		yaw = !locked ? atan2(2.0 * (y * w + x * z), 1.0 - 2.0 * (y * y + x * x)) : 0;
+		pitch = !locked ? asin(2.0 * (w * x - z * y)) : pole * M_PI * 0.5;
+		roll = !locked ? atan2(2.0 * (w * z + y * x), 1.0 - 2.0 * (x * x + z * z)) : pole * 2.0 * atan2(y, w);
 	}
 
 	float quaternion::mag2() const {

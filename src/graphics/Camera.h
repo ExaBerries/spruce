@@ -1,8 +1,6 @@
 #pragma once
 #include <common.h>
-#include <math/vec3f.h>
-#include <math/mat4f.h>
-#include <math/quaternion.h>
+#include <math/math.h>
 
 namespace spruce {
 	class Camera {

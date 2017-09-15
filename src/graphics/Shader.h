@@ -1,12 +1,8 @@
 #pragma once
 #include <common.h>
+#include <math.h>
 #include <graphics/VertexAttribute.h>
 #include <graphics/Camera.h>
-#include <math/vec2i.h>
-#include <math/vec2f.h>
-#include <math/vec3f.h>
-#include <math/mat4f.h>
-#include <math/quaternion.h>
 #include <map>
 
 namespace spruce {

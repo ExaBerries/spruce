@@ -21,6 +21,8 @@ namespace spruce {
 		quaternion& set(const float x, const float y, const float z, const float w);
 		quaternion& set(const vec3f& axis, const float& angle);
 		quaternion& set(const vec3f& a, const vec3f& b);
+		quaternion& set(const float& yaw, const float& pitch, const float& roll);
+		void toEuler(float& yaw, float& pitch, float& roll);
 
 		float mag2() const;
 		float mag() const;
