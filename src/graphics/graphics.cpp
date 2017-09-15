@@ -19,11 +19,11 @@ namespace spruce {
 			return app::backend->createMeshRenderer();
 		}
 
-		Camera* createPerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up) {
-			return new PerspectiveCamera(viewportWidth, viewportHeight, fieldOfView, near, far, up);
+		PerspectiveCamera* createPerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir) {
+			return new PerspectiveCamera(viewportWidth, viewportHeight, fieldOfView, near, far, up, dir);
 		}
 
-		Camera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up) {
+		OrthographicCamera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up) {
 			return new OrthographicCamera(viewportWidth, viewportHeight, near, far, up);
 		}
 
