@@ -57,4 +57,8 @@ namespace spruce {
 	void logGLError() {
 		std::cout << "glError=" << glGetError() << std::endl;
 	}
+
+	void logGLError(string name) {
+		std:: cout << name << "=" << glGetError() << std::endl;
+	}
 }

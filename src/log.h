@@ -17,4 +17,5 @@ namespace spruce {
 	void log(void* pointer);
 	void log(string name, void* pointer);
 	void logGLError();
+	void logGLError(string name);
 }
