@@ -10,11 +10,9 @@ namespace spruce {
 	}
 
 	OpenGLMesh::~OpenGLMesh() {
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glDeleteBuffers(1, &vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glDeleteBuffers(1, &ibo);
-		glDeleteVertexArrays(1, &vao);
+		delete vertices;
+		delete indices;
+		freeVRAM();
 	}
 
 	void OpenGLMesh::toVRAM(Shader* shader) {
@@ -42,6 +40,16 @@ namespace spruce {
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(uint16), indices, GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
+	}
+
+	void OpenGLMesh::freeVRAM() {
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDeleteBuffers(1, &vbo);
+		if (ibo > 0) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glDeleteBuffers(1, &ibo);
+		}
+		glDeleteVertexArrays(1, &vao);
 	}
 
 	void OpenGLMesh::bind() {

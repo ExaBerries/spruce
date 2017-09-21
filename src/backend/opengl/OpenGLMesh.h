@@ -14,6 +14,7 @@ namespace spruce {
 			OpenGLMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 			~OpenGLMesh();
 			void toVRAM(Shader* shader);
+			void freeVRAM();
 			void bind();
 			void unbind();
 	};
