@@ -209,7 +209,7 @@ namespace spruce {
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const vec3f& vector) {
-		std::cout << "vec3f(" << vector.x << ", " << vector.y << ", " << vector.z << ")" << std::endl;
+		std::cout << "vec3f(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
 		return stream;
 	}
 
