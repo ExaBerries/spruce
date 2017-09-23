@@ -18,6 +18,8 @@ namespace spruce {
 
 	Mesh::~Mesh() {
 		delete[] vertices;
-		delete[] indices;
+		if (indices != nullptr) {
+			delete[] indices;
+		}
 	}
 }

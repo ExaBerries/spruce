@@ -10,8 +10,6 @@ namespace spruce {
 	}
 
 	OpenGLMesh::~OpenGLMesh() {
-		delete vertices;
-		delete indices;
 		freeVRAM();
 	}
 
