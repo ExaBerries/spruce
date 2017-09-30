@@ -2,8 +2,8 @@
 
 namespace spruce {
 	namespace util {
-		string readFileTxt(const char* filepath) {
-			FILE* file = fopen(filepath, "rt");
+		string readFileTxt(const string& filepath) {
+			FILE* file = fopen(filepath.c_str(), "rt");
 			if (file != NULL) {
 				fseek(file, 0, SEEK_END);
 				unsigned long length = ftell(file);
@@ -19,12 +19,8 @@ namespace spruce {
 			return "";
 		}
 
-		string readFileTxt(const string& filepath) {
-			return readFileTxt(filepath.c_str());
-		}
-
-		uint8* readFileBin(const char* filepath) {
-			FILE* file = fopen(filepath, "rb");
+		uint8* readFileBin(const string& filepath, uint32& count) {
+			FILE* file = fopen(filepath.c_str(), "rb");
 			if (file != NULL) {
 				fseek(file, 0, SEEK_END);
 				unsigned long length = ftell(file);
@@ -33,37 +29,26 @@ namespace spruce {
 				fseek(file, 0, SEEK_SET);
 				fread(data, sizeof(uint8), length, file);
 				fclose(file);
+				count = length;
 				return data;
 			}
 			return nullptr;
 		}
 
-		uint8* readFileBin(const string& filepath) {
-			return readFileBin(filepath.c_str());
-		}
-
-		void writeFileTxt(const char* filepath, const char* string) {
-			FILE* file = fopen(filepath, "wt");
-			if (file != NULL) {
-				fputs(string, file);
-				fclose(file);
-			}
-		}
-
 		void writeFileTxt(const string& filepath, string& string){
-			writeFileTxt(filepath.c_str(), string.c_str());
-		}
-
-		void writeFileBin(const char* filepath, uint8* data, uint32& count) {
-			FILE* file = fopen(filepath, "wb");
+			FILE* file = fopen(filepath.c_str(), "wt");
 			if (file != NULL) {
-				fwrite(data, sizeof(uint8), count, file);
+				fputs(string.c_str(), file);
 				fclose(file);
 			}
 		}
 
 		void writeFileBin(const string& filepath, uint8* data, uint32& count) {
-			writeFileBin(filepath.c_str(), data, count);
+			FILE* file = fopen(filepath.c_str(), "wb");
+			if (file != NULL) {
+				fwrite(data, sizeof(uint8), count, file);
+				fclose(file);
+			}
 		}
 	}
 }
