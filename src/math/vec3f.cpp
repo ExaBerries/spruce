@@ -158,12 +158,12 @@ namespace spruce {
 		return vec3f(x, y, z);
 	}
 
-	bool operator==(const vec3f& left, const vec3f& right) {
-		return (left.x == right.x && left.y == right.y && left.z == right.z);
+	bool vec3f::operator==(const vec3f& vector) const {
+		return (x == vector.x && y == vector.y && z == vector.z);
 	}
 
-	bool operator!=(const vec3f& left, const vec3f& right) {
-		return (left.x != right.x || left.y != right.y || left.z != right.z);
+	bool vec3f::operator!=(const vec3f& vector) const {
+		return (x != vector.x || y != vector.y || z != vector.z);
 	}
 
 	vec3f& vec3f::operator+=(const vec3f& vector) {

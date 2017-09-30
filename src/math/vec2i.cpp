@@ -107,12 +107,12 @@ namespace spruce {
 		return vec2i(x, y);
 	}
 
-	bool operator==(const vec2i& left, const vec2i& right) {
-		return (left.x == right.x && left.y == right.y);
+	bool vec2i::operator==(const vec2i& vector) const {
+		return (x == vector.x && y == vector.y);
 	}
 
-	bool operator!=(const vec2i& left, const vec2i& right) {
-		return (left.x != right.x || left.y != right.y);
+	bool vec2i::operator!=(const vec2i& vector) const {
+		return (x != vector.x || y != vector.y);
 	}
 
 	vec2i& vec2i::operator+=(const vec2i& vector) {
