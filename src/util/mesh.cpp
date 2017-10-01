@@ -9,17 +9,17 @@ namespace spruce {
 			uint8* data = readFileBin(path, count);
 			if (data[0] == 0x0) {
 				uint32 offset = 1;
-				uint32 vertexCount = 0;
+				uint16 vertexCount = 0;
 				memcpy(&vertexCount, data + offset, sizeof(uint16));
 				offset += sizeof(uint16);
-				uint32 indexCount = 0;
+				uint16 indexCount = 0;
 				memcpy(&indexCount, data + offset, sizeof(uint16));
 				offset += sizeof(uint16);
 				float* vertices = new float[vertexCount];
-				memcpy(data + offset, vertices, vertexCount * sizeof(float));
+				memcpy(vertices, data + offset, vertexCount * sizeof(float));
 				offset += vertexCount * sizeof(float);
 				uint16* indices = new uint16[indexCount];
-				memcpy(data + offset, indices, indexCount * sizeof(uint16));
+				memcpy(indices, data + offset, indexCount * sizeof(uint16));
 				offset += indexCount * sizeof(uint16);
 				return graphics::createMesh(vertexCount, vertices, indexCount, indices);
 			}
