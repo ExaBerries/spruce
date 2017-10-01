@@ -23,6 +23,13 @@ namespace spruce {
 		return *this;
 	}
 
+	vec3f& vec3f::set(const vec2f& vector, const float z) {
+		this->x = vector.x;
+		this->y = vector.y;
+		this->z = z;
+		return *this;
+	}
+
 	vec3f& vec3f::set(const float x, const float y, const float z) {
 		this->x = x;
 		this->y = y;
