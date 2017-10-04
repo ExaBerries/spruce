@@ -3,22 +3,14 @@
 
 namespace spruce {
 	namespace input {
+		template<typename TYPE>
 		class InputSource {
 			public:
-				enum InputSourceType {
-					KEYBOARD, MOUSE, AXIS, BUTTON
-				};
-				string name;
-				InputSourceType type;
-				uint16 joystick;
-				uint16 code;
-				float deadzone;
-
-				InputSource(string name, InputSourceType type, uint16 code);
-				InputSource(string name, InputSourceType type, uint16 joystick, uint16 code, float deadzone);
+				InputSource();
 				virtual ~InputSource();
 
-				bool active();
+				virtual void update();
+				virtual TYPE poll();
 		};
 	}
 }

@@ -1,7 +1,8 @@
 #pragma once
 #include <common.h>
 #include <math/vec2f.h>
-#include <input/InputMap.h>
+#include <input/InputSource.h>
+#include <input/BasicInputSource.h>
 
 namespace spruce {
 	namespace input {
@@ -50,7 +51,19 @@ namespace spruce {
 			SHIFT_LEFT,
 			SHIFT_RIGHT,
 			CONTROL_LEFT,
-			CONTROL_RIGHT
+			CONTROL_RIGHT,
+			F1,
+			F2,
+			F3,
+			F4,
+			F5,
+			F6,
+			F7,
+			F8,
+			F9,
+			F10,
+			F11,
+			F12
 		};
 		enum MouseButton {
 			LEFT,
