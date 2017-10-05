@@ -198,11 +198,7 @@ namespace spruce {
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const quaternion& quaternion) {
-		std::cout << "quaternion(" << quaternion.x << ", " << quaternion.y << ", " << quaternion.z << ", " << quaternion.w << ")" << std::endl;
+		stream << "quaternion(" << quaternion.x << ", " << quaternion.y << ", " << quaternion.z << ", " << quaternion.w << ")" << std::endl;
 		return stream;
-	}
-
-	void log(const quaternion& quaternion) {
-		std::cout << "quaternion(" << quaternion.x << ", " << quaternion.y << ", " << quaternion.z << ", " << quaternion.w << ")" << std::endl;
 	}
 }

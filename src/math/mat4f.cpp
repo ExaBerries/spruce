@@ -425,8 +425,4 @@ namespace spruce {
 		stream << matrix.values[15] << ")";
 		return stream;
 	}
-
-	void log(const mat4f& matrix) {
-		std::cout << matrix << std::endl;
-	}
 }

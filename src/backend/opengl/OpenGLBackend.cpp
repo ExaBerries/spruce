@@ -16,10 +16,7 @@ namespace spruce {
 	}
 
 	static void errorCallback(int error, const char* description) {
-		std::string string = "glfwError ";
-		string += error;
-		string += description;
-		log(string);
+		log("glfwError=", error, " ", description);
 	}
 
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -35,7 +32,6 @@ namespace spruce {
 
 		}
 	}
-
 
 	void OpenGLBackend::init() {
 		glfwSetErrorCallback(errorCallback);
@@ -61,6 +57,7 @@ namespace spruce {
 	}
 
 	void OpenGLBackend::run() {
+		log(glGetString(GL_VERSION));
 		double lastTime = glfwGetTime();
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

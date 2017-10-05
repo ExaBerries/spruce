@@ -9,11 +9,11 @@ namespace spruce {
 			FIBITMAP* temp = nullptr;
 			format = FreeImage_GetFileType(pathCStr, 0);
 			if (format == FIF_UNKNOWN) {
-				log("unknown image format " + path);
+				log("unknown image format ", path);
 				format = FreeImage_GetFIFFromFilename(pathCStr);
 			}
 			if (format == FIF_UNKNOWN) {
-				log("unknown image format " + path);
+				log("unknown image format ", path);
 				return nullptr;
 			}
 			if (FreeImage_FIFSupportsReading(format)) {
@@ -29,7 +29,7 @@ namespace spruce {
 				FreeImage_Unload(bitmap);
 				return data;
 			}
-			log("unsuppored file format " + path);
+			log("unsuppored file format ", path);
 			return nullptr;
 		}
 	}

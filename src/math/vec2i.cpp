@@ -155,8 +155,4 @@ namespace spruce {
 		stream << "vec2i(" << vector.x << ", " << vector.y << ")";
 		return stream;
 	}
-
-	void log(const vec2i& vector) {
-		std::cout << "vec2i(" << vector.x << ", " << vector.y << ")" << std::endl;
-	}
 }

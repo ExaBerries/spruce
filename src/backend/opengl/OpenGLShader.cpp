@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <OpenGL/gl3.h>
 #include <graphics/Mesh.h>
+#include <vector>
 
 namespace spruce {
 	OpenGLShader::OpenGLShader(string& vertSource, string& fragSource, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributeCount, attributes) {
