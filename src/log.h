@@ -1,24 +1,25 @@
 #pragma once
 #include <iostream>
+#define FOREACH_VARIADIC(EXPR) (int[]){((void)(EXPR(std::forward<TYPES>(args))),0)...,0}
 
 namespace spruce {
 	namespace {
 		template <typename TYPE>
-		void log(TYPE o) {
-			std::cout << o;
+		void print(TYPE type) {
+			std::cout << type;
 		}
 
 		template <typename TYPE>
-		void log(std::vector<TYPE> vector) {
-			for (TYPE t : vector) {
-				std::cout << t;
+		void print(std::vector<TYPE> vector) {
+			for (TYPE type : vector) {
+				print(type);
 			}
 		}
 	}
 
 	template <typename ... TYPES>
 	void log(TYPES... args) {
-		log(args...);
+		FOREACH_VARIADIC(print);
 		std::cout << std::endl;
 	}
 
