@@ -2,15 +2,17 @@
 #include <iostream>
 
 namespace spruce {
-	template <typename TYPE>
-	void log(TYPE o) {
-		std::cout << o;
-	}
+	namespace {
+		template <typename TYPE>
+		void log(TYPE o) {
+			std::cout << o;
+		}
 
-	template <typename TYPE>
-	void log(std::vector<TYPE> vector) {
-		for (TYPE t : vector) {
-			std::cout << t;
+		template <typename TYPE>
+		void log(std::vector<TYPE> vector) {
+			for (TYPE t : vector) {
+				std::cout << t;
+			}
 		}
 	}
 
