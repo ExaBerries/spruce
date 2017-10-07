@@ -45,6 +45,4 @@ namespace spruce {
 
 		friend std::ostream& operator<<(std::ostream& stream, const vec3i& vector);
 	};
-
-	void log(const vec3i vector);
 }

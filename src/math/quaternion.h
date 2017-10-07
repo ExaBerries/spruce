@@ -44,6 +44,4 @@ namespace spruce {
 
 		friend std::ostream& operator<<(std::ostream& stream, const quaternion& quaternion);
 	};
-
-	void log(const quaternion& quaternion);
 }
