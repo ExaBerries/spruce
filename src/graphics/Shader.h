@@ -14,7 +14,7 @@ namespace spruce {
 			VertexAttribute* attributes;
 
 			Shader(const Shader& shader);
-			Shader(string& vertSource, string& fragSource, uint16 attributeCount, VertexAttribute* attributes);
+			Shader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes);
 			virtual ~Shader();
 
 			virtual void compile() = 0;
@@ -24,12 +24,12 @@ namespace spruce {
 			virtual uint16 getAttributeLocation(string name) = 0;
 			virtual uint16 registerUniform(string name) = 0;
 
-			virtual void setUniform(string name, int& value) = 0;
-			virtual void setUniform(string name, vec2i& vector) = 0;
-			virtual void setUniform(string name, float& value) = 0;
-			virtual void setUniform(string name, vec2f& vector) = 0;
-			virtual void setUniform(string name, vec3f& vector) = 0;
-			virtual void setUniform(string name, mat4f& matrix) = 0;
-			virtual void setUniform(string name, quaternion& quaternion) = 0;
+			virtual void setUniform(string name, const int& value) = 0;
+			virtual void setUniform(string name, const vec2i& vector) = 0;
+			virtual void setUniform(string name, const float& value) = 0;
+			virtual void setUniform(string name, const vec2f& vector) = 0;
+			virtual void setUniform(string name, const vec3f& vector) = 0;
+			virtual void setUniform(string name, const mat4f& matrix) = 0;
+			virtual void setUniform(string name, const quaternion& quaternion) = 0;
 	};
 }

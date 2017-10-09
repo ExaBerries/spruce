@@ -3,6 +3,7 @@
 #include <graphics/Mesh.h>
 #include <graphics/Shader.h>
 #include <graphics/MeshRenderer.h>
+#include <graphics/ShapeRenderer.h>
 #include <graphics/Texture.h>
 #include <input/input.h>
 
@@ -19,6 +20,7 @@ namespace spruce {
 			virtual Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) = 0;
 			virtual Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) = 0;
 			virtual MeshRenderer* createMeshRenderer() = 0;
+			virtual ShapeRenderer* createShapeRenderer() = 0;
 			virtual Texture* createTexture(string& string) = 0;
 
 			virtual string getGPUVendor() = 0;

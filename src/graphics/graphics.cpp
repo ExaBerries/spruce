@@ -19,6 +19,10 @@ namespace spruce {
 			return app::backend->createMeshRenderer();
 		}
 
+		ShapeRenderer* createShapeRenderer() {
+			return app::backend->createShapeRenderer();
+		}
+
 		PerspectiveCamera* createPerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir) {
 			return new PerspectiveCamera(viewportWidth, viewportHeight, fieldOfView, near, far, up, dir);
 		}

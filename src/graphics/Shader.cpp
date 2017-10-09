@@ -8,7 +8,7 @@ namespace spruce {
 		this->attributes = shader.attributes;
 	}
 
-	Shader::Shader(string& vertSource, string& fragSource, uint16 attributeCount, VertexAttribute* attributes) {
+	Shader::Shader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes) {
 		this->vertSource = vertSource;
 		this->fragSource = fragSource;
 		this->attributeCount = attributeCount;

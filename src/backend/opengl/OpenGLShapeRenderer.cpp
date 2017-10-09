@@ -1,0 +1,181 @@
+#include <backend/opengl/OpenGLShapeRenderer.h>
+#include <backend/opengl/OpenGLShader.h>
+
+namespace spruce {
+	const string OpenGLShapeRenderer::vert  = "#version 330\nin vec3 a_pos;in vec3 a_color;uniform mat4 camera;out vec4 color;void main(){color=vec4(a_color,1.0);gl_Position=camera * vec4(a_pos,1.0);}";
+	const string OpenGLShapeRenderer::frag = "#version 330\nin vec4 color;out vec4 fragColor;void main(){fragColor=color;}";
+	const uint16 OpenGLShapeRenderer::MAX_VERTICES = 256;
+	const uint16 OpenGLShapeRenderer::MAX_INDICES = 256;
+
+	OpenGLShapeRenderer::OpenGLShapeRenderer() {
+		attributes = new VertexAttribute[2];
+		attributes[0] = VertexAttribute("a_pos", 3);
+		attributes[1] = VertexAttribute("a_color", 3);
+		shader = new OpenGLShader(vert, frag, 2, attributes);
+		shader->compile();
+		shader->registerUniform("camera");
+		lineVertexCount = 0;
+		lineIndexCount = 0;
+		filledVertexCount = 0;
+		filledIndexCount = 0;
+		lineVertices = new float[MAX_VERTICES];
+		lineIndices = new uint16[MAX_INDICES];
+		filledVertices = new float[MAX_VERTICES];
+		filledIndices = new uint16[MAX_INDICES];
+
+		uint16 stride = 0;
+		for (int i = 0; i < shader->attributeCount; i++) {
+			stride += shader->attributes[i].size;
+		}
+		stride *= sizeof(float);
+
+		glGenVertexArrays(1, &lineVao);
+		glBindVertexArray(lineVao);
+		glGenBuffers(1, &lineVbo);
+		glBindBuffer(GL_ARRAY_BUFFER, lineVbo);
+		glBufferData(GL_ARRAY_BUFFER, MAX_VERTICES * sizeof(float), lineVertices, GL_DYNAMIC_DRAW);
+		uint16 offset = 0;
+		for (int j = 0; j < shader->attributeCount; j++) {
+			glVertexAttribPointer(shader->getAttributeLocation(shader->attributes[j].name), shader->attributes[j].size, GL_FLOAT, GL_FALSE, stride, (void*) offset);
+			offset += shader->attributes[j].size * sizeof(float);
+		}
+		glGenBuffers(1, &lineIbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineIbo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, MAX_INDICES * sizeof(uint16), lineIndices, GL_DYNAMIC_DRAW);
+
+		glGenVertexArrays(1, &filledVao);
+		glBindVertexArray(filledVao);
+		glGenBuffers(1, &filledVbo);
+		glBindBuffer(GL_ARRAY_BUFFER, filledVbo);
+		glBufferData(GL_ARRAY_BUFFER, MAX_VERTICES * sizeof(float), filledVertices, GL_DYNAMIC_DRAW);
+		offset = 0;
+		for (int j = 0; j < shader->attributeCount; j++) {
+			glVertexAttribPointer(shader->getAttributeLocation(shader->attributes[j].name), shader->attributes[j].size, GL_FLOAT, GL_FALSE, stride, (void*) offset);
+			offset += shader->attributes[j].size * sizeof(float);
+		}
+		glGenBuffers(1, &filledIbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, filledIbo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, MAX_INDICES * sizeof(uint16), filledIndices, GL_DYNAMIC_DRAW);
+	}
+
+	OpenGLShapeRenderer::~OpenGLShapeRenderer() {
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glDeleteBuffers(1, &lineVbo);
+		glDeleteBuffers(1, &lineIbo);
+		glDeleteVertexArrays(1, &lineVao);
+		glDeleteBuffers(1, &filledVbo);
+		glDeleteBuffers(1, &filledIbo);
+		glDeleteVertexArrays(1, &filledVao);
+		delete[] filledVertices;
+		delete[] filledIndices;
+		delete[] lineVertices;
+		delete[] lineIndices;
+		delete[] attributes;
+		delete shader;
+	}
+
+	void OpenGLShapeRenderer::begin(Camera& camera) {
+		this->camera = &(camera.combined);
+		for (uint16 i = 0; i < MAX_VERTICES; i++) {
+			lineVertices[i] = 0;
+			filledVertices[i] = 0;
+		}
+		for (uint16 i = 0; i < MAX_INDICES; i++) {
+			lineIndices[i] = 0;
+			filledIndices[i] = 0;
+		}
+		lineVertexCount = 0;
+		filledVertexCount = 0;
+		lineIndexCount = 0;
+		filledIndexCount = 0;
+	}
+
+	void OpenGLShapeRenderer::end() {
+		shader->enable();
+		shader->setUniform("camera", *camera);
+		glEnable(GL_DEPTH_TEST);
+		glBindVertexArray(lineVao);
+		glBindBuffer(GL_ARRAY_BUFFER, lineVbo);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_VERTICES * sizeof(float), lineVertices);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineIbo);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, MAX_INDICES * sizeof(uint16), lineIndices);
+		for (int i = 0; i < shader->attributeCount; i++) {
+			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
+		}
+		glDrawElements(GL_LINES, lineIndexCount, GL_UNSIGNED_SHORT, 0);
+		for (int i = 0; i < shader->attributeCount; i++) {
+			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
+		}
+		glBindVertexArray(filledVao);
+		glBindBuffer(GL_ARRAY_BUFFER, filledVbo);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_VERTICES * sizeof(float), filledVertices);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, filledIbo);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, MAX_INDICES * sizeof(uint16), filledIndices);
+		for (int i = 0; i < shader->attributeCount; i++) {
+			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
+		}
+		glDrawElements(GL_TRIANGLES, filledIndexCount, GL_UNSIGNED_SHORT, 0);
+		for (int i = 0; i < shader->attributeCount; i++) {
+			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
+		}
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		shader->disable();
+	}
+
+	void OpenGLShapeRenderer::line(vec3f a, vec3f b, vec3f colora, vec3f colorb) {
+		uint16 i = lineIndexCount;
+		lineVertices[lineVertexCount++] = a.x;
+		lineVertices[lineVertexCount++] = a.y;
+		lineVertices[lineVertexCount++] = a.z;
+		lineVertices[lineVertexCount++] = colora.x;
+		lineVertices[lineVertexCount++] = colora.y;
+		lineVertices[lineVertexCount++] = colora.z;
+		lineIndices[i++] = lineIndexCount;
+		lineVertices[lineVertexCount++] = b.x;
+		lineVertices[lineVertexCount++] = b.y;
+		lineVertices[lineVertexCount++] = b.z;
+		lineVertices[lineVertexCount++] = colorb.x;
+		lineVertices[lineVertexCount++] = colorb.y;
+		lineVertices[lineVertexCount++] = colorb.z;
+		lineIndices[i++] = lineIndexCount + 1;
+		lineIndexCount = i;
+	}
+
+	void OpenGLShapeRenderer::rect(vec2f pos, vec2f size, vec3f color) {
+		vec2f halfSize = size / 2;
+		filledVertices[filledVertexCount++] = pos.x - halfSize.x;
+		filledVertices[filledVertexCount++] = pos.y - halfSize.y;
+		filledVertices[filledVertexCount++] = 0;
+		filledVertices[filledVertexCount++] = color.x;
+		filledVertices[filledVertexCount++] = color.y;
+		filledVertices[filledVertexCount++] = color.z;
+		filledVertices[filledVertexCount++] = pos.x + halfSize.x;
+		filledVertices[filledVertexCount++] = pos.y - halfSize.y;
+		filledVertices[filledVertexCount++] = 0;
+		filledVertices[filledVertexCount++] = color.x;
+		filledVertices[filledVertexCount++] = color.y;
+		filledVertices[filledVertexCount++] = color.z;
+		filledVertices[filledVertexCount++] = pos.x - halfSize.x;
+		filledVertices[filledVertexCount++] = pos.y + halfSize.y;
+		filledVertices[filledVertexCount++] = 0;
+		filledVertices[filledVertexCount++] = color.x;
+		filledVertices[filledVertexCount++] = color.y;
+		filledVertices[filledVertexCount++] = color.z;
+		filledVertices[filledVertexCount++] = pos.x + halfSize.x;
+		filledVertices[filledVertexCount++] = pos.y + halfSize.y;
+		filledVertices[filledVertexCount++] = 0;
+		filledVertices[filledVertexCount++] = color.x;
+		filledVertices[filledVertexCount++] = color.y;
+		filledVertices[filledVertexCount++] = color.z;
+		uint16 i = filledIndexCount;
+		filledIndices[i++] = filledIndexCount + 0;
+		filledIndices[i++] = filledIndexCount + 1;
+		filledIndices[i++] = filledIndexCount + 2;
+		filledIndices[i++] = filledIndexCount + 2;
+		filledIndices[i++] = filledIndexCount + 1;
+		filledIndices[i++] = filledIndexCount + 3;
+		filledIndexCount = i;
+	}
+}

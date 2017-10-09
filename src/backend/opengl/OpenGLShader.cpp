@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace spruce {
-	OpenGLShader::OpenGLShader(string& vertSource, string& fragSource, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributeCount, attributes) {
+	OpenGLShader::OpenGLShader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributeCount, attributes) {
 		vert = 0;
 		frag = 0;
 		program = 0;
@@ -99,31 +99,31 @@ namespace spruce {
 		return location;
 	}
 
-	void OpenGLShader::setUniform(string name, int& value) {
+	void OpenGLShader::setUniform(string name, const int& value) {
 		glUniform1i(uniformLocations[name], value);
 	}
 
-	void OpenGLShader::setUniform(string name, vec2i& vector) {
+	void OpenGLShader::setUniform(string name, const vec2i& vector) {
 		glUniform2i(uniformLocations[name], vector.x, vector.y);
 	}
 
-	void OpenGLShader::setUniform(string name, float& value) {
+	void OpenGLShader::setUniform(string name, const float& value) {
 		glUniform1f(uniformLocations[name], value);
 	}
 
-	void OpenGLShader::setUniform(string name, vec2f& vector) {
+	void OpenGLShader::setUniform(string name, const vec2f& vector) {
 		glUniform2f(uniformLocations[name], vector.x, vector.y);
 	}
 
-	void OpenGLShader::setUniform(string name, vec3f& vector) {
+	void OpenGLShader::setUniform(string name, const vec3f& vector) {
 		glUniform3f(uniformLocations[name], vector.x, vector.y, vector.z);
 	}
 
-	void OpenGLShader::setUniform(string name, mat4f& matrix) {
+	void OpenGLShader::setUniform(string name, const mat4f& matrix) {
 		glUniformMatrix4fv(uniformLocations[name], 1, GL_TRUE, matrix.values);
 	}
 
-	void OpenGLShader::setUniform(string name, quaternion& quaternion) {
+	void OpenGLShader::setUniform(string name, const quaternion& quaternion) {
 		glUniform4f(uniformLocations[name], quaternion.x, quaternion.y, quaternion.z, quaternion.w);
 	}
 }

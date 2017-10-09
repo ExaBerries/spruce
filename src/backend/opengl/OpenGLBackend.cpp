@@ -1,6 +1,7 @@
 #include <backend/opengl/OpenGLBackend.h>
 #include <backend/opengl/OpenGLMesh.h>
 #include <backend/opengl/OpenGLMeshRenderer.h>
+#include <backend/opengl/OpenGLShapeRenderer.h>
 #include <backend/opengl/OpenGLShader.h>
 #include <backend/opengl/OpenGLTexture.h>
 #include <util/image.h>
@@ -93,6 +94,10 @@ namespace spruce {
 
 	MeshRenderer* OpenGLBackend::createMeshRenderer() {
 		return new OpenGLMeshRenderer();
+	}
+
+	ShapeRenderer* OpenGLBackend::createShapeRenderer() {
+		return new OpenGLShapeRenderer();
 	}
 
 	Texture* OpenGLBackend::createTexture(string& path) {
