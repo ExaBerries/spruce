@@ -126,4 +126,8 @@ namespace spruce {
 	void OpenGLShader::setUniform(string name, const quaternion& quaternion) {
 		glUniform4f(uniformLocations[name], quaternion.x, quaternion.y, quaternion.z, quaternion.w);
 	}
+
+	void OpenGLShader::setUniform(string name, const color& color) {
+		glUniform4f(uniformLocations[name], color.r, color.g, color.b, color.a);
+	}
 }

@@ -9,6 +9,7 @@
 #include <graphics/PerspectiveCamera.h>
 #include <graphics/OrthographicCamera.h>
 #include <graphics/Texture.h>
+#include <graphics/color.h>
 
 namespace spruce {
 	namespace graphics {

@@ -3,6 +3,7 @@
 #include <math.h>
 #include <graphics/VertexAttribute.h>
 #include <graphics/Camera.h>
+#include <graphics/color.h>
 #include <map>
 
 namespace spruce {
@@ -31,5 +32,6 @@ namespace spruce {
 			virtual void setUniform(string name, const vec3f& vector) = 0;
 			virtual void setUniform(string name, const mat4f& matrix) = 0;
 			virtual void setUniform(string name, const quaternion& quaternion) = 0;
+			virtual void setUniform(string name, const color& color) = 0;
 	};
 }

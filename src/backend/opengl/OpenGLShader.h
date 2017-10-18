@@ -28,5 +28,6 @@ namespace spruce {
 			void setUniform(string name, const vec3f& vector);
 			void setUniform(string name, const mat4f& matrix);
 			void setUniform(string name, const quaternion& quaternion);
+			void setUniform(string name, const color& color);
 	};
 }

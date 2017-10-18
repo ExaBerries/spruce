@@ -2,7 +2,7 @@
 #include <backend/opengl/OpenGLShader.h>
 
 namespace spruce {
-	const string OpenGLShapeRenderer::vert  = "#version 330\nin vec3 a_pos;in vec3 a_color;uniform mat4 camera;out vec4 color;void main(){color=vec4(a_color,1.0);gl_Position=camera * vec4(a_pos,1.0);}";
+	const string OpenGLShapeRenderer::vert  = "#version 330\nin vec3 a_pos;in vec4 a_color;uniform mat4 camera;out vec4 color;void main(){color=a_color;gl_Position=camera * vec4(a_pos,1.0);}";
 	const string OpenGLShapeRenderer::frag = "#version 330\nin vec4 color;out vec4 fragColor;void main(){fragColor=color;}";
 	const uint16 OpenGLShapeRenderer::MAX_VERTICES = 256;
 	const uint16 OpenGLShapeRenderer::MAX_INDICES = 256;
@@ -10,7 +10,7 @@ namespace spruce {
 	OpenGLShapeRenderer::OpenGLShapeRenderer() {
 		attributes = new VertexAttribute[2];
 		attributes[0] = VertexAttribute("a_pos", 3);
-		attributes[1] = VertexAttribute("a_color", 3);
+		attributes[1] = VertexAttribute("a_color", 4);
 		shader = new OpenGLShader(vert, frag, 2, attributes);
 		shader->compile();
 		shader->registerUniform("camera");
@@ -124,51 +124,57 @@ namespace spruce {
 		shader->disable();
 	}
 
-	void OpenGLShapeRenderer::line(vec3f a, vec3f b, vec3f colora, vec3f colorb) {
+	void OpenGLShapeRenderer::line(vec3f a, vec3f b, color colora, color colorb) {
 		uint16 i = lineIndexCount;
 		lineVertices[lineVertexCount++] = a.x;
 		lineVertices[lineVertexCount++] = a.y;
 		lineVertices[lineVertexCount++] = a.z;
-		lineVertices[lineVertexCount++] = colora.x;
-		lineVertices[lineVertexCount++] = colora.y;
-		lineVertices[lineVertexCount++] = colora.z;
+		lineVertices[lineVertexCount++] = colora.r;
+		lineVertices[lineVertexCount++] = colora.g;
+		lineVertices[lineVertexCount++] = colora.b;
+		lineVertices[lineVertexCount++] = colora.a;
 		lineIndices[i++] = lineIndexCount;
 		lineVertices[lineVertexCount++] = b.x;
 		lineVertices[lineVertexCount++] = b.y;
 		lineVertices[lineVertexCount++] = b.z;
-		lineVertices[lineVertexCount++] = colorb.x;
-		lineVertices[lineVertexCount++] = colorb.y;
-		lineVertices[lineVertexCount++] = colorb.z;
+		lineVertices[lineVertexCount++] = colorb.r;
+		lineVertices[lineVertexCount++] = colorb.g;
+		lineVertices[lineVertexCount++] = colorb.b;
+		lineVertices[lineVertexCount++] = colorb.a;
 		lineIndices[i++] = lineIndexCount + 1;
 		lineIndexCount = i;
 	}
 
-	void OpenGLShapeRenderer::rect(vec2f pos, vec2f size, vec3f color) {
+	void OpenGLShapeRenderer::rect(vec2f pos, vec2f size, color color) {
 		vec2f halfSize = size / 2;
 		filledVertices[filledVertexCount++] = pos.x - halfSize.x;
 		filledVertices[filledVertexCount++] = pos.y - halfSize.y;
 		filledVertices[filledVertexCount++] = 0;
-		filledVertices[filledVertexCount++] = color.x;
-		filledVertices[filledVertexCount++] = color.y;
-		filledVertices[filledVertexCount++] = color.z;
+		filledVertices[filledVertexCount++] = color.r;
+		filledVertices[filledVertexCount++] = color.g;
+		filledVertices[filledVertexCount++] = color.b;
+		filledVertices[filledVertexCount++] = color.a;
 		filledVertices[filledVertexCount++] = pos.x + halfSize.x;
 		filledVertices[filledVertexCount++] = pos.y - halfSize.y;
 		filledVertices[filledVertexCount++] = 0;
-		filledVertices[filledVertexCount++] = color.x;
-		filledVertices[filledVertexCount++] = color.y;
-		filledVertices[filledVertexCount++] = color.z;
+		filledVertices[filledVertexCount++] = color.r;
+		filledVertices[filledVertexCount++] = color.g;
+		filledVertices[filledVertexCount++] = color.b;
+		filledVertices[filledVertexCount++] = color.a;
 		filledVertices[filledVertexCount++] = pos.x - halfSize.x;
 		filledVertices[filledVertexCount++] = pos.y + halfSize.y;
 		filledVertices[filledVertexCount++] = 0;
-		filledVertices[filledVertexCount++] = color.x;
-		filledVertices[filledVertexCount++] = color.y;
-		filledVertices[filledVertexCount++] = color.z;
+		filledVertices[filledVertexCount++] = color.r;
+		filledVertices[filledVertexCount++] = color.g;
+		filledVertices[filledVertexCount++] = color.b;
+		filledVertices[filledVertexCount++] = color.a;
 		filledVertices[filledVertexCount++] = pos.x + halfSize.x;
 		filledVertices[filledVertexCount++] = pos.y + halfSize.y;
 		filledVertices[filledVertexCount++] = 0;
-		filledVertices[filledVertexCount++] = color.x;
-		filledVertices[filledVertexCount++] = color.y;
-		filledVertices[filledVertexCount++] = color.z;
+		filledVertices[filledVertexCount++] = color.r;
+		filledVertices[filledVertexCount++] = color.g;
+		filledVertices[filledVertexCount++] = color.b;
+		filledVertices[filledVertexCount++] = color.a;
 		uint16 i = filledIndexCount;
 		filledIndices[i++] = filledIndexCount + 0;
 		filledIndices[i++] = filledIndexCount + 1;

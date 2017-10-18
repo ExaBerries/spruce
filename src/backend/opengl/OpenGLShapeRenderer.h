@@ -31,7 +31,7 @@ namespace spruce {
 			~OpenGLShapeRenderer();
 			void begin(Camera& camera);
 			void end();
-			void line(vec3f a, vec3f b, vec3f colora, vec3f colorb);
-			void rect(vec2f pos, vec2f size, vec3f color);
+			void line(vec3f a, vec3f b, color colora, color colorb);
+			void rect(vec2f pos, vec2f size, color color);
 	};
 }
