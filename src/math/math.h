@@ -15,4 +15,5 @@ namespace spruce {
 	extern const float PI;
 
 	float clamp(const float& value, float min, float max);
+	float lerp(float a, float b, float alpha);
 }
