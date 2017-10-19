@@ -21,7 +21,7 @@ namespace spruce {
 	}
 
 	mat4f::mat4f(float values[16]) {
-		for (int i = 0; i < 16; i++) {
+		for (uint8 i = 0; i < 16; i++) {
 			this->values[i] = values[i];
 		}
 	}
