@@ -56,5 +56,7 @@ namespace spruce {
 		vec3d& operator/=(const double& value);
 
 		friend std::ostream& operator<<(std::ostream& stream, const vec3d& vector);
+
+		static vec3d lerp(const vec3d& a, const vec3d& b, double alpha);
 	};
 }

@@ -219,4 +219,8 @@ namespace spruce {
 		stream << "vec3f(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
 		return stream;
 	}
+
+	vec3f vec3f::lerp(const vec3f& a, const vec3f& b, float alpha) {
+		return vec3f((1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y, (1 - alpha) * a.z + alpha * b.z);
+	}
 }

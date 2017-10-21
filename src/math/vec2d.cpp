@@ -168,4 +168,8 @@ namespace spruce {
 		stream << "vec2d(" << vector.x << ", " << vector.y << ")";
 		return stream;
 	}
+
+	vec2d vec2d::lerp(const vec2d& a, const vec2d& b, double alpha) {
+		return vec2d((1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y);
+	}
 }

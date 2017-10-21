@@ -215,4 +215,8 @@ namespace spruce {
 		stream << "vec3d(" << vector.x << ", " << vector.y << ", " << vector.z << ")" << std::endl;
 		return stream;
 	}
+
+	vec3d vec3d::lerp(const vec3d& a, const vec3d& b, double alpha) {
+		return vec3d((1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y, (1 - alpha) * a.z + alpha * b.z);
+	}
 }

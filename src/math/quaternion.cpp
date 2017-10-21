@@ -201,4 +201,8 @@ namespace spruce {
 		stream << "quaternion(" << quaternion.x << ", " << quaternion.y << ", " << quaternion.z << ", " << quaternion.w << ")" << std::endl;
 		return stream;
 	}
+
+	quaternion quaternion::lerp(const quaternion& a, const quaternion& b, float alpha) {
+		return quaternion((1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y, (1 - alpha) * a.z + alpha * b.z, (1 - alpha) * a.w + alpha * b.w);
+	}
 }

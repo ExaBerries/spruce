@@ -43,5 +43,7 @@ namespace spruce {
 		quaternion& operator/=(const quaternion& quaternion);
 
 		friend std::ostream& operator<<(std::ostream& stream, const quaternion& quaternion);
+
+		static quaternion lerp(const quaternion& a, const quaternion& b, float alpha);
 	};
 }
