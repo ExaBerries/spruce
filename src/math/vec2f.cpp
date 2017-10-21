@@ -166,7 +166,7 @@ namespace spruce {
 		return stream;
 	}
 
-	vec2f vec2f::lerp(vec2f& a, vec2f& b, float alpha) {
+	vec2f vec2f::lerp(const vec2f& a, const vec2f& b, float alpha) {
 		return vec2f((1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y);
 	}
 }
