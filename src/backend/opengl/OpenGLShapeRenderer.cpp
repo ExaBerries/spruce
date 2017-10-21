@@ -94,7 +94,6 @@ namespace spruce {
 	void OpenGLShapeRenderer::end() {
 		shader->enable();
 		shader->setUniform("camera", *camera);
-		glEnable(GL_DEPTH_TEST);
 		glBindVertexArray(lineVao);
 		glBindBuffer(GL_ARRAY_BUFFER, lineVbo);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_VERTICES * sizeof(float), lineVertices);
@@ -147,6 +146,7 @@ namespace spruce {
 
 	void OpenGLShapeRenderer::rect(vec2f pos, vec2f size, color color) {
 		vec2f halfSize = size / 2;
+		uint16 firstIndex = filledVertexCount / 7;
 		filledVertices[filledVertexCount++] = pos.x - halfSize.x;
 		filledVertices[filledVertexCount++] = pos.y - halfSize.y;
 		filledVertices[filledVertexCount++] = 0;
@@ -175,13 +175,11 @@ namespace spruce {
 		filledVertices[filledVertexCount++] = color.g;
 		filledVertices[filledVertexCount++] = color.b;
 		filledVertices[filledVertexCount++] = color.a;
-		uint16 i = filledIndexCount;
-		filledIndices[i++] = filledIndexCount + 0;
-		filledIndices[i++] = filledIndexCount + 1;
-		filledIndices[i++] = filledIndexCount + 2;
-		filledIndices[i++] = filledIndexCount + 2;
-		filledIndices[i++] = filledIndexCount + 1;
-		filledIndices[i++] = filledIndexCount + 3;
-		filledIndexCount = i;
+		filledIndices[filledIndexCount++] = firstIndex + 0;
+		filledIndices[filledIndexCount++] = firstIndex + 1;
+		filledIndices[filledIndexCount++] = firstIndex + 2;
+		filledIndices[filledIndexCount++] = firstIndex + 2;
+		filledIndices[filledIndexCount++] = firstIndex + 1;
+		filledIndices[filledIndexCount++] = firstIndex + 3;
 	}
 }
