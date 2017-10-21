@@ -21,6 +21,9 @@ namespace spruce {
 		OrthographicCamera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up);
 		Texture* createTexture(string& path);
 
+		void setBlend(bool value);
+		void setDepth(bool value);
+
 		int getWidth();
 		int getHeight();
 

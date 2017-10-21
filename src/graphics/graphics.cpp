@@ -35,6 +35,14 @@ namespace spruce {
 			return app::backend->createTexture(path);
 		}
 
+		void setBlend(bool value) {
+			app::backend->setBlend(value);
+		}
+
+		void setDepth(bool value) {
+			app::backend->setDepth(value);
+		}
+
 		int getWidth() {
 			return app::backend->windowWidth;
 		}

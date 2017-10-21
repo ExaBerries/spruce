@@ -108,6 +108,23 @@ namespace spruce {
 		return new OpenGLTexture(data, width, height, bitsPerPixel);
 	}
 
+	void OpenGLBackend::setBlend(bool value) {
+		if (value) {
+			glEnable(GL_BLEND);
+			glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+		} else {
+			glDisable(GL_BLEND);
+		}
+	}
+
+	void OpenGLBackend::setDepth(bool value) {
+		if (value) {
+			glEnable(GL_DEPTH_TEST);
+		} else {
+			glDisable(GL_DEPTH_TEST);
+		}
+	}
+
 	string OpenGLBackend::getGPUVendor() {
 		return string(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
 	}

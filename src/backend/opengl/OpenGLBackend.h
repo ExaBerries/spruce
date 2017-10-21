@@ -25,6 +25,9 @@ namespace spruce {
 			ShapeRenderer* createShapeRenderer();
 			Texture* createTexture(string& path);
 
+			void setBlend(bool value);
+			void setDepth(bool value);
+
 			string getGPUVendor();
 			uint16 getAPIVersionMajor();
 			uint16 getAPIVersionMinor();

@@ -23,6 +23,9 @@ namespace spruce {
 			virtual ShapeRenderer* createShapeRenderer() = 0;
 			virtual Texture* createTexture(string& string) = 0;
 
+			virtual void setBlend(bool value) = 0;
+			virtual void setDepth(bool value) = 0;
+
 			virtual string getGPUVendor() = 0;
 			virtual uint16 getAPIVersionMajor() = 0;
 			virtual uint16 getAPIVersionMinor() = 0;
