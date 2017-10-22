@@ -16,4 +16,9 @@ namespace spruce {
 
 	color::~color() {
 	}
+
+	std::ostream& operator<<(std::ostream& stream, const color& color) {
+		stream << "color(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")" << std::endl;
+		return stream;
+	}
 }
