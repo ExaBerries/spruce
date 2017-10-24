@@ -1,8 +1,8 @@
-#include <util/image.h>
+#include <io/image.h>
 #include <FreeImagePlus.h>
 
 namespace spruce {
-	namespace util {
+	namespace io {
 		uint8* loadImage(string& path, uint16& width, uint16& height, uint16& bitsPerPixel) {
 			const char* pathCStr = path.c_str();
 			FREE_IMAGE_FORMAT format = FIF_UNKNOWN;

@@ -1,7 +1,7 @@
-#include <util/file.h>
+#include <io/file.h>
 
 namespace spruce {
-	namespace util {
+	namespace io {
 		string readFileTxt(const string& filepath) {
 			FILE* file = fopen(filepath.c_str(), "rt");
 			if (file != NULL) {

@@ -2,7 +2,7 @@
 #include <common.h>
 
 namespace spruce {
-	namespace util {
+	namespace io {
 		string readFileTxt(const string& filepath);
 		uint8* readFileBin(const string& filepath, uint32& count);
 		void writeFileTxt(const string& filepath, string& string);

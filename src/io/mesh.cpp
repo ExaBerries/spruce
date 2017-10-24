@@ -1,9 +1,9 @@
-#include <util/mesh.h>
+#include <io/mesh.h>
 #include <graphics/graphics.h>
-#include <util/file.h>
+#include <io/file.h>
 
 namespace spruce {
-	namespace util {
+	namespace io {
 		Mesh* loadMesh(string& path) {
 			uint32 count = 0;
 			uint8* data = readFileBin(path, count);
