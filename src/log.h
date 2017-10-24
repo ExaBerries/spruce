@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#define FOREACH_VARIADIC(EXPR) (int[]){((void)(EXPR(std::forward<TYPES>(args))),0)...,0}
+#define FOREACH_VARIADIC(EXPR, ARGS) (int[]){((void)(EXPR(std::forward<TYPES>(ARGS))),0)...,0}
 
 namespace spruce {
 	namespace {
@@ -19,7 +19,7 @@ namespace spruce {
 
 	template <typename ... TYPES>
 	void log(TYPES... args) {
-		FOREACH_VARIADIC(print);
+		FOREACH_VARIADIC(print, args);
 		std::cout << std::endl;
 	}
 
