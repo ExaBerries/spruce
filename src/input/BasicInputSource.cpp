@@ -1,6 +1,6 @@
 #include <input/BasicInputSource.h>
 #include <app.h>
-#include <backend/Backend.h>
+#include <backend/api/RenderAPI.h>
 
 namespace spruce {
 	namespace input {
@@ -51,9 +51,9 @@ namespace spruce {
 
 		bool BasicInputSource::poll() {
 			if (type == KEY) {
-				return app::backend->keyPressed(code);
+				return false;//return app::api->keyPressed(code);
 			} else if (type == MOUSEBUTTON) {
-				return app::backend->mouseButtonPressed(code);
+				return false;//return app::api->mouseButtonPressed(code);
 			} else if (type == AXIS) {
 				return false;//app::backend->axis(joystick, code) > deadzone;
 			} else if (type == BUTTON) {

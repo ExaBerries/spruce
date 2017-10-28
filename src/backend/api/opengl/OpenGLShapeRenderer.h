@@ -1,6 +1,5 @@
 #pragma once
 #include <graphics/ShapeRenderer.h>
-#include <GLFW/glfw3.h>
 #include <OpenGL/gl3.h>
 
 namespace spruce {

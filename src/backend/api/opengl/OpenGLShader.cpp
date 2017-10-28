@@ -1,7 +1,9 @@
-#include <backend/opengl/OpenGLShader.h>
-#include <GLFW/glfw3.h>
-#include <OpenGL/gl3.h>
+#include <backend/api/opengl/OpenGLShader.h>
 #include <graphics/Mesh.h>
+#ifdef __APPLE__
+	#include <OpenGL/gl.h>
+	#include <OpenGL/gl3.h>
+#endif
 #include <vector>
 
 namespace spruce {

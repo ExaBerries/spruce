@@ -1,15 +1,18 @@
 #pragma once
 #include <common.h>
+#include <API.h>
+#include <backend/Window.h>
 #include <graphics/Screen.h>
 
 namespace spruce {
-	class Backend;
+	class RenderAPI;
 
 	namespace app {
-		extern Backend* backend;
+		extern Window* window;
+		extern RenderAPI* api;
 		extern graphics::Screen* screen;
 
-		void init();
+		void init(API api);
 		void run();
 		void free();
 

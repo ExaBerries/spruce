@@ -1,8 +1,10 @@
-#include <backend/opengl/OpenGLMeshRenderer.h>
-
-#include <GLFW/glfw3.h>
+#include <backend/api/opengl/OpenGLMeshRenderer.h>
 #include <graphics/Shader.h>
 #include <log.h>
+#ifdef __APPLE__
+	#include <OpenGL/gl.h>
+	#include <OpenGL/gl3.h>
+#endif
 
 namespace spruce {
 	OpenGLMeshRenderer::OpenGLMeshRenderer() {

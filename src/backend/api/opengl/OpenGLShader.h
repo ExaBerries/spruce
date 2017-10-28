@@ -1,7 +1,7 @@
 #pragma once
 #include <common.h>
 #include <graphics/Shader.h>
-#include <GLFW/glfw3.h>
+#include <OpenGL/gl3.h>
 
 namespace spruce {
 	class OpenGLShader : public Shader {

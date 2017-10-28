@@ -1,7 +1,7 @@
 #pragma once
-#include <backend/Backend.h>
 #include <common.h>
-#include <GLFW/glfw3.h>
+#include <backend/api/RenderAPI.h>
+#include <backend/api/opengl/OpenGLContext.h>
 #include <graphics/Screen.h>
 
 namespace spruce {
@@ -9,15 +9,14 @@ namespace spruce {
 		extern graphics::Screen* screen;
 	}
 
-	class OpenGLBackend : public Backend {
+	class OpenGL : public RenderAPI {
 		public:
-			GLFWwindow* window;
-
-			OpenGLBackend();
-			~OpenGLBackend();
+			OpenGL(Window* window);
+			~OpenGL();
 
 			void init();
-			void run();
+			void updateStart();
+			void updateEnd();
 
 			Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 			Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
@@ -34,12 +33,5 @@ namespace spruce {
 			string getAPIRendererName();
 
 			void setCursorMode(input::CursorMode mode);
-
-			bool keyPressed(uint16 code);
-			bool mouseButtonPressed(uint16 code);
-			vec2f mousePos();
-
-			uint16 codeFor(input::Key key);
-			uint16 codeFor(input::MouseButton button);
 	};
 }

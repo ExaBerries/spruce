@@ -1,7 +1,6 @@
 #pragma once
 #include <common.h>
 #include <graphics/Mesh.h>
-#include <GLFW/glfw3.h>
 #include <OpenGL/gl3.h>
 
 namespace spruce {
