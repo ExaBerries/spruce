@@ -6,6 +6,8 @@
 
 namespace spruce {
 	namespace os {
+		void init();
+		void free();
 		Window* createWindow(app::API api);
 		bool supportsAPI(app::API api);
 		float timeSec();

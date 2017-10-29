@@ -12,6 +12,7 @@ namespace spruce {
 		graphics::Screen* screen;
 
 		void init(API api) {
+			os::init();
 			if (!os::supportsAPI(api)) {
 				log("unsupported API");
 				exit(EXIT_FAILURE);
@@ -55,6 +56,7 @@ namespace spruce {
 		}
 
 		void free() {
+			window->close();
 			delete window;
 			delete screen;
 			delete api;

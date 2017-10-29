@@ -2,11 +2,6 @@
 #include <backend/mac/opengl/OpenGLView.h>
 #include <log.h>
 
-@implementation CocoaApp
-- (void) doNothing:(id) object {
-}
-@end
-
 @implementation CocoaWindowObj
 - (BOOL) canBecomeKeyWindow {
 	return YES;
@@ -17,13 +12,19 @@
 }
 @end
 
-@implementation AppDelegate
-- (void) applicationDidFinishLaunching:(NSNotification*)notification {
-	[NSApp stop:nil];
+@implementation WindowDelegate
+- (instancetype) initWithWindow:(spruce::Window*)_spruceWindow cocoaWindow:(NSWindow*)_cocoaWindow {
+	spruceWindow = _spruceWindow;
+	cocoaWindow = (CocoaWindowObj*) _cocoaWindow;
+	return self;
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)_app {
-	return YES;
+- (void) windowDidResize:(NSNotification*)notification {
+	[cocoaWindow update];
+	NSRect viewFrame = cocoaWindow.contentView.frame;
+	NSRect viewFrameBacking = [cocoaWindow.contentView convertRectToBacking:viewFrame];
+	spruceWindow->width = viewFrameBacking.size.width;
+	spruceWindow->height = viewFrameBacking.size.height;
 }
 @end
 
@@ -54,9 +55,6 @@ namespace spruce {
 	}
 
 	CocoaWindow::CocoaWindow(app::API api, uint16 width, uint16 height) : Window() {
-		[CocoaApp sharedApplication];
-		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-		[NSThread detachNewThreadSelector:@selector(doNothing:) toTarget:NSApp withObject:nil];
 		NSString* appName = @"spruce";
 		createMenu(appName);
 		NSUInteger windowStyle = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable;
@@ -70,25 +68,25 @@ namespace spruce {
 		} else if (app::METAL2) {
 		}
 		[window setContentView:view];
+		[window makeFirstResponder:view];
 		[view initContext];
+		spruce::Window* spruceWindow = this;
+		delegate = [[WindowDelegate alloc] initWithWindow:spruceWindow cocoaWindow:window];
+		[window setDelegate:delegate];
 		[window makeKeyAndOrderFront: window];
-		delegate = [[AppDelegate alloc] init];
-		[NSApp setDelegate:delegate];
 		[NSApp activateIgnoringOtherApps:YES];
-		this->width = view.frame.size.width;
-		this->height = view.frame.size.height;
 		[NSApp run];
 	}
 
 	CocoaWindow::~CocoaWindow() {
+		[delegate dealloc];
+		delegate = nullptr;
 		[view dealloc];
 		view = nullptr;
 		[windowController dealloc];
 		windowController = nullptr;
 		[window dealloc];
 		window = nullptr;
-		[delegate dealloc];
-		delegate = nullptr;
 	}
 
 	void CocoaWindow::setTitle(string title) {

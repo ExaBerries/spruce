@@ -86,7 +86,7 @@ namespace spruce {
 
 	uint16 OpenGL::getAPIVersionMinor() {
 		int32 minor = 0;
-		glGetIntegerv(GL_MAJOR_VERSION, &minor);
+		glGetIntegerv(GL_MINOR_VERSION, &minor);
 		return minor;
 	}
 

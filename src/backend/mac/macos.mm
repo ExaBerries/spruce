@@ -4,8 +4,48 @@
 #include <sys/sysctl.h>
 #include <backend/mac/CocoaWindow.h>
 
+@interface CocoaApp : NSApplication {
+}
+- (void) doNothing:(id) object;
+@end
+
+@implementation CocoaApp
+- (void) doNothing:(id) object {
+}
+@end
+
+@interface AppDelegate : NSObject <NSApplicationDelegate>
+@end
+
+@implementation AppDelegate
+- (void) applicationDidFinishLaunching:(NSNotification*)notification {
+	[NSApp stop:nil];
+	NSEvent* event = [NSEvent otherEventWithType:NSEventTypeApplicationDefined location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0  windowNumber:0 context:nil subtype:0 data1:0 data2:0];
+	[NSApp postEvent:event atStart:YES];
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)_app {
+	return YES;
+}
+@end
+
 namespace spruce {
 	namespace os {
+		AppDelegate* delegate;
+
+		void init() {
+			[CocoaApp sharedApplication];
+			[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+			[NSThread detachNewThreadSelector:@selector(doNothing:) toTarget:NSApp withObject:nil];
+			delegate = [[AppDelegate alloc] init];
+			[NSApp setDelegate:delegate];
+		}
+
+		void free() {
+			[delegate dealloc];
+			delegate = nullptr;
+		}
+
 		Window* createWindow(app::API api) {
 			return new CocoaWindow(api, 1920, 1080);
 		}
@@ -27,9 +67,8 @@ namespace spruce {
 		void updateEnd() {
 			NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
 			if (event != nullptr) {
-				return;
+				[NSApp sendEvent:event];
 			}
-			[NSApp sendEvent:event];
 		}
 	}
 

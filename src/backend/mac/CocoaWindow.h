@@ -3,16 +3,16 @@
 #include <backend/Window.h>
 #include <Cocoa/Cocoa.h>
 
-@interface CocoaApp : NSApplication {
-}
-- (void) doNothing:(id) object;
-@end
-
 @interface CocoaWindowObj : NSWindow {
 }
 @end
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface WindowDelegate : NSObject <NSWindowDelegate> {
+	spruce::Window* spruceWindow;
+	CocoaWindowObj* cocoaWindow;
+}
+- (instancetype) initWithWindow:(spruce::Window*)spruceWindow cocoaWindow:(NSWindow*)cocoaWindow;
+- (void) windowDidResize:(NSNotification*)notification;
 @end
 
 namespace spruce {
@@ -21,7 +21,7 @@ namespace spruce {
 			CocoaWindowObj* window;
 			NSWindowController* windowController;
 			NSView* view;
-			AppDelegate* delegate;
+			WindowDelegate* delegate;
 
 			CocoaWindow(app::API api, uint16 width, uint16 height);
 			virtual ~CocoaWindow();

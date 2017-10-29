@@ -55,6 +55,10 @@
 	return YES;
 }
 
+- (BOOL) acceptsFirstRelationShip {
+	return YES;
+}
+
 - (void) drawRect:(NSRect)rect {
 }
 
