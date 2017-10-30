@@ -81,11 +81,11 @@ namespace spruce {
 	CocoaWindow::~CocoaWindow() {
 		[delegate dealloc];
 		delegate = nullptr;
-		[view dealloc];
+		[view release];
 		view = nullptr;
-		[windowController dealloc];
+		[windowController release];
 		windowController = nullptr;
-		[window dealloc];
+		[window release];
 		window = nullptr;
 	}
 

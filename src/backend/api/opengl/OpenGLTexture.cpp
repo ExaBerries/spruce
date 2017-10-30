@@ -10,7 +10,7 @@ namespace spruce {
 	}
 
 	OpenGLTexture::OpenGLTexture(const OpenGLTexture& texture) : Texture(texture) {
-		this->texture = 0;
+		this->texture = texture.texture;
 	}
 
 	OpenGLTexture::~OpenGLTexture() {

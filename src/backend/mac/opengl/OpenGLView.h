@@ -10,6 +10,5 @@
 - (id) initWithFrame:(NSRect) bounds;
 - (void) initContext;
 - (void) update;
-- (void) drawRect:(NSRect)rect;
 - (NSOpenGLContext*) getContext;
 @end

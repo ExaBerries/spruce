@@ -36,6 +36,10 @@ namespace spruce {
 				log("unsupported API");
 				exit(EXIT_FAILURE);
 			}
+			if (app::api == nullptr) {
+				log("could not instantiate api");
+				exit(EXIT_FAILURE);
+			}
 			app::api->init();
 		}
 

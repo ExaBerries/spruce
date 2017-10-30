@@ -11,6 +11,9 @@
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewGlobalFrameDidChangeNotification object:self];
+	[pixelFormat release];
+	[NSOpenGLContext clearCurrentContext];
+	[context release];
 	[super dealloc];
 }
 
@@ -27,7 +30,6 @@
 		0
 	};
 	pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-	[pixelFormat autorelease];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surfaceNeedsUpdate:) name:NSViewGlobalFrameDidChangeNotification object:self];
 	context = [[NSOpenGLContext alloc] initWithFormat: pixelFormat shareContext: nil];
 	if (context == nullptr) {
@@ -57,9 +59,6 @@
 
 - (BOOL) acceptsFirstRelationShip {
 	return YES;
-}
-
-- (void) drawRect:(NSRect)rect {
 }
 
 - (NSOpenGLContext*) getContext {

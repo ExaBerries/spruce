@@ -20,11 +20,9 @@
 @implementation AppDelegate
 - (void) applicationDidFinishLaunching:(NSNotification*)notification {
 	[NSApp stop:nil];
-	NSEvent* event = [NSEvent otherEventWithType:NSEventTypeApplicationDefined location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0  windowNumber:0 context:nil subtype:0 data1:0 data2:0];
-	[NSApp postEvent:event atStart:YES];
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)_app {
+- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)_app {
 	return YES;
 }
 @end
@@ -42,7 +40,7 @@ namespace spruce {
 		}
 
 		void free() {
-			[delegate dealloc];
+			[delegate release];
 			delegate = nullptr;
 		}
 
@@ -65,9 +63,12 @@ namespace spruce {
 		}
 
 		void updateEnd() {
-			NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
-			if (event != nullptr) {
-				[NSApp sendEvent:event];
+			while (true) {
+				NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
+				if (event != nullptr) {
+					[NSApp sendEvent:event];
+				}
+				break;
 			}
 		}
 	}
