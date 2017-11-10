@@ -1,5 +1,6 @@
 #include <app.h>
 #include <backend/api/opengl/OpenGL.h>
+#include <backend/api/metal/Metal.h>
 #include <backend/api/RenderAPI.h>
 #include <backend/os.h>
 #include <system/system.h>
@@ -8,10 +9,12 @@
 namespace spruce {
 	namespace app {
 		Window* window;
+		API apiType;
 		RenderAPI* api;
 		graphics::Screen* screen;
 
 		void init(API api) {
+			apiType = api;
 			os::init();
 			if (!os::supportsAPI(api)) {
 				log("unsupported API");
@@ -24,8 +27,7 @@ namespace spruce {
 				log("unsupported API");
 				exit(EXIT_FAILURE);
 			} else if (api == METAL) {
-				log("unsupported API");
-				exit(EXIT_FAILURE);
+				app::api = new Metal(window);
 			} else if (api == METAL2) {
 				log("unsupported API");
 				exit(EXIT_FAILURE);
@@ -44,16 +46,16 @@ namespace spruce {
 		}
 
 		void run() {
-			float lastTime = os::timeSec();
+			long lastTime = os::timeNano();
 			while (true) {
 				os::updateStart();
 				api->updateStart();
-				float delta = os::timeSec() - lastTime;
+				float delta = ((float)(os::timeNano() - lastTime) / 1.0e9);
 				if (screen != nullptr) {
 					screen->update(delta);
 					screen->render(delta);
 				}
-				lastTime = os::timeSec();
+				lastTime = os::timeNano();
 				api->updateEnd();
 				os::updateEnd();
 			}

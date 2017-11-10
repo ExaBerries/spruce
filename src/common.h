@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+#include <array>
+#include <vector>
+#include <map>
 #include <log.h>
 
 typedef int8_t int8;

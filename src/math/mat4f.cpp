@@ -118,6 +118,12 @@ namespace spruce {
 		values[15] = 1;
 	}
 
+	mat4f::mat4f(const mat4f& matrix) {
+		for (uint8 i = 0; i < 16; i++) {
+			values[i] = matrix.values[i];
+		}
+	}
+
 	mat4f::~mat4f() {
 	}
 

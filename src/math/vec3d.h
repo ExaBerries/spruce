@@ -15,7 +15,7 @@ namespace spruce {
 		vec3d(const double& scalar);
 		vec3d(const vec2d& vector, const double& z);
 		vec3d(const double& x, const double& y, const double& z);
-		virtual ~vec3d();
+		~vec3d();
 
 		vec3d& set(const vec3d& vector);
 		vec3d& set(const double x, const double y, const double z);

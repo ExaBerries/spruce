@@ -12,6 +12,7 @@ namespace spruce {
 		vec2f(const vec2f& vector);
 		vec2f(const float& scalar);
 		vec2f(const float& x, const float& y);
+		~vec2f();
 
 		float mag2() const;
 		float mag() const;

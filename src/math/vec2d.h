@@ -12,7 +12,7 @@ namespace spruce {
 		vec2d(const vec2d& vector);
 		vec2d(const double& scalar);
 		vec2d(const double& x, const double& y);
-		virtual ~vec2d();
+		~vec2d();
 
 		double mag2() const;
 		double mag() const;

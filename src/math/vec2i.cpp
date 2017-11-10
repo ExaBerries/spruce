@@ -13,6 +13,9 @@ namespace spruce {
 	vec2i::vec2i(const int32& x, const int32& y) : x(x), y(y){
 	}
 
+	vec2i::~vec2i() {
+	}
+
 	float vec2i::mag2() const {
 		return x * x + y * y;
 	}

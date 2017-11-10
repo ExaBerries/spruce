@@ -15,6 +15,12 @@ namespace spruce {
 		this->attributes = attributes;
 	}
 
+	Shader::Shader(const string& source, uint16 attributeCount, VertexAttribute* attributes) {
+		this->vertSource = source;
+		this->attributeCount = attributeCount;
+		this->attributes = attributes;
+	}
+
 	Shader::~Shader() {
 	}
 }

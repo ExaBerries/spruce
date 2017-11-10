@@ -14,7 +14,8 @@ namespace spruce {
 		mat4f(float& near, float& far, float& fov, float& aspectRatio);
 		mat4f(vec3f& direction, vec3f& up);
 		mat4f(float left, float right, float bottom, float top, float near, float far);
-		virtual ~mat4f();
+		mat4f(const mat4f& matrix);
+		~mat4f();
 
 		mat4f& setIdentity();
 		mat4f& set(float values[16]);
@@ -39,6 +40,4 @@ namespace spruce {
 
 		friend std::ostream& operator<<(std::ostream& stream, const mat4f& matrix);
 	};
-
-	void log(const mat4f& matrix);
 }

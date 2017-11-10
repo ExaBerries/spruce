@@ -4,7 +4,6 @@
 #include <graphics/VertexAttribute.h>
 #include <graphics/Camera.h>
 #include <graphics/color.h>
-#include <map>
 
 namespace spruce {
 	class Shader {
@@ -16,6 +15,7 @@ namespace spruce {
 
 			Shader(const Shader& shader);
 			Shader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes);
+			Shader(const string& source, uint16 attributeCount, VertexAttribute* attributes);
 			virtual ~Shader();
 
 			virtual void compile() = 0;
@@ -23,7 +23,7 @@ namespace spruce {
 			virtual void disable() = 0;
 
 			virtual uint16 getAttributeLocation(string name) = 0;
-			virtual uint16 registerUniform(string name) = 0;
+			virtual uint16 registerUniform(string name, uint16 index) = 0;
 
 			virtual void setUniform(string name, const int& value) = 0;
 			virtual void setUniform(string name, const vec2i& vector) = 0;

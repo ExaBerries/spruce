@@ -16,6 +16,9 @@ namespace spruce {
 	vec3f::vec3f(const float& x, const float& y, const float& z) : x(x), y(y), z(z) {
 	}
 
+	vec3f::~vec3f() {
+	}
+
 	vec3f& vec3f::set(const vec3f& vector) {
 		this->x = vector.x;
 		this->y = vector.y;

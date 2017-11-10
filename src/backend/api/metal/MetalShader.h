@@ -1,18 +1,19 @@
 #pragma once
 #include <common.h>
 #include <graphics/Shader.h>
-#include <OpenGL/gl3.h>
+#include <Metal/Metal.h>
 
 namespace spruce {
-	class OpenGLShader : public Shader {
+	class MetalShader : public Shader {
 		public:
-			GLuint vert;
-			GLuint frag;
-			GLuint program;
+			id<MTLRenderPipelineState> pipelineState;
+			id<MTLLibrary> library;
+			id<MTLFunction> vertexFunction;
+			id<MTLFunction> fragmentFunction;
 			std::map<string, uint16> uniformLocations;
 
-			OpenGLShader(const string& vertSource, const string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
-			~OpenGLShader();
+			MetalShader(const string& vertSource, const string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
+			~MetalShader();
 
 			void compile();
 			void enable();

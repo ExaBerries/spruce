@@ -1,4 +1,5 @@
 #include <graphics/PerspectiveCamera.h>
+#include <app.h>
 #include <cmath>
 
 namespace spruce {
@@ -27,6 +28,12 @@ namespace spruce {
 		quaternion identityQuat(0, 0, 0, 1);
 		vec3f scale(1, 1, 1);
 		view *= mat4f(pos, identityQuat, scale);
-		combined = projection * view;
+		if (app::apiType == app::METAL) {
+			mat4f metalTrans;
+			metalTrans.values[11] = 0.5;
+			combined = projection * metalTrans * view;
+		} else {
+			combined = projection * view;
+		}
 	}
 }

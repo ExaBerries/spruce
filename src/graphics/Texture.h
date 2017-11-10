@@ -13,6 +13,7 @@ namespace spruce {
 			Texture(const Texture& texture);
 			virtual ~Texture();
 			virtual void toVRAM() = 0;
+			virtual void freeVRAM() = 0;
 			virtual void bind(uint16 unit) = 0;
 	};
 }

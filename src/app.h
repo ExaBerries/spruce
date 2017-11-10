@@ -9,6 +9,7 @@ namespace spruce {
 
 	namespace app {
 		extern Window* window;
+		extern API apiType;
 		extern RenderAPI* api;
 		extern graphics::Screen* screen;
 

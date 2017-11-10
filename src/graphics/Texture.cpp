@@ -16,6 +16,6 @@ namespace spruce {
 	}
 
 	Texture::~Texture() {
-		delete data;
+		delete[] data;
 	}
 }

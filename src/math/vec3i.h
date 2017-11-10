@@ -13,7 +13,7 @@ namespace spruce {
 		vec3i();
 		vec3i(int32 x, int32 y, int32 z);
 		vec3i(const vec2i vector, int32 z);
-		virtual ~vec3i();
+		~vec3i();
 
 		float mag2() const;
 		float mag() const;

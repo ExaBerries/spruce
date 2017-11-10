@@ -13,6 +13,9 @@ namespace spruce {
 	vec2f::vec2f(const float& x, const float& y) : x(x), y(y) {
 	}
 
+	vec2f::~vec2f() {
+	}
+
 	float vec2f::mag2() const {
 		return x * x + y * y;
 	}

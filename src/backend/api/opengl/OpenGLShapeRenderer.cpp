@@ -17,7 +17,7 @@ namespace spruce {
 		attributes[1] = VertexAttribute("a_color", 4);
 		shader = new OpenGLShader(vert, frag, 2, attributes);
 		shader->compile();
-		shader->registerUniform("camera");
+		shader->registerUniform("camera", 1);
 		lineVertexCount = 0;
 		lineIndexCount = 0;
 		filledVertexCount = 0;

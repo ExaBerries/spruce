@@ -1,5 +1,7 @@
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/opengl/OpenGLView.h>
+#include <backend/api/metal/MetalContext.h>
+#include <backend/mac/metal/MetalView.h>
 #include <log.h>
 
 @implementation CocoaWindowObj
@@ -46,9 +48,9 @@ namespace spruce {
 		[[appMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"] setKeyEquivalentModifierMask:NSEventModifierFlagOption | NSEventModifierFlagCommand];
 		[appMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
 		[appMenu addItem:[NSMenuItem separatorItem]];
-		[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit %@", appName] action:@selector(terminate:) keyEquivalent:@"q"];
+		[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@selector(terminate:) keyEquivalent:@"q"];
 		NSMenuItem* windowMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
-		[bar release];
+		s[bar release];
 		NSMenu* windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
 		[NSApp setWindowsMenu:windowMenu];
 		[windowMenuItem setSubmenu:windowMenu];
@@ -64,12 +66,17 @@ namespace spruce {
 		[window setTitle:appName];
 		if (api == app::OPENGL) {
 			view = [[OpenGLView alloc] initWithFrame:windowRect];
-		} else if (app::METAL) {
-		} else if (app::METAL2) {
+		} else if (api == app::METAL) {
+			spruce::initDevice();
+			view = [[MetalView alloc] initWithFrame:windowRect];
+			spruce::view = view;
+		} else if (api == app::METAL2) {
 		}
 		[window setContentView:view];
 		[window makeFirstResponder:view];
-		[view initContext];
+		if (api == app::OPENGL) {
+			[view initContext];
+		}
 		spruce::Window* spruceWindow = this;
 		delegate = [[WindowDelegate alloc] initWithWindow:spruceWindow cocoaWindow:window];
 		[window setDelegate:delegate];

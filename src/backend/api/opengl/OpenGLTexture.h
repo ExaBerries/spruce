@@ -14,5 +14,6 @@ namespace spruce {
 
 			void bind(uint16 unit);
 			void toVRAM();
+			void freeVRAM();
 	};
 }

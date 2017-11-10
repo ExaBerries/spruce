@@ -4,7 +4,6 @@
 	#include <OpenGL/gl.h>
 	#include <OpenGL/gl3.h>
 #endif
-#include <vector>
 
 namespace spruce {
 	OpenGLShader::OpenGLShader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributeCount, attributes) {
@@ -95,8 +94,8 @@ namespace spruce {
 		return glGetAttribLocation(program, name.c_str());
 	}
 
-	uint16 OpenGLShader::registerUniform(std::string name) {
-		int location = glGetUniformLocation(program, name.c_str());
+	uint16 OpenGLShader::registerUniform(std::string name, uint16 index) {
+		uint16 location = glGetUniformLocation(program, name.c_str());
 		uniformLocations[name] = location;
 		return location;
 	}

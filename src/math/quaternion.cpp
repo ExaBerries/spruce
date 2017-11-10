@@ -42,6 +42,9 @@ namespace spruce {
 		nor();
 	}
 
+	quaternion::~quaternion() {
+	}
+
 	quaternion& quaternion::set(const quaternion& quaternion) {
 		this->x = quaternion.x;
 		this->y = quaternion.y;
