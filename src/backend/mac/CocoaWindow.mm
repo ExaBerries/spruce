@@ -50,7 +50,7 @@ namespace spruce {
 		[appMenu addItem:[NSMenuItem separatorItem]];
 		[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@selector(terminate:) keyEquivalent:@"q"];
 		NSMenuItem* windowMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
-		s[bar release];
+		[bar release];
 		NSMenu* windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
 		[NSApp setWindowsMenu:windowMenu];
 		[windowMenuItem setSubmenu:windowMenu];
