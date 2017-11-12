@@ -90,10 +90,10 @@ namespace spruce {
 			keyCodes[input::MINUS] = 0x1B;
 			keyCodes[input::LEFT_BRACKET] = 0x21;
 			keyCodes[input::RIGHT_BRACKET] = 0x1E;
-			keyCodes[input::LEFT_ARROW] = 0x7B;
-			keyCodes[input::RIGHT_ARROW] = 0x7C;
-			keyCodes[input::UP_ARROW] = 0x7E;
-			keyCodes[input::DOWN_ARROW] = 0x7D;
+			keyCodes[input::ARROW_LEFT] = 0x7B;
+			keyCodes[input::ARROW_RIGHT] = 0x7C;
+			keyCodes[input::ARROW_UP] = 0x7E;
+			keyCodes[input::ARROW_DOWN] = 0x7D;
 			keyCodes[input::SHIFT_LEFT] = 0x38;
 			keyCodes[input::SHIFT_RIGHT] = 0x3C;
 			keyCodes[input::CONTROL_LEFT] = 0x3B;
