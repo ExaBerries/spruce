@@ -1,4 +1,5 @@
 #include <backend/mac/CocoaWindow.h>
+#include <backend/mac/SpruceView.h>
 #include <backend/mac/opengl/OpenGLView.h>
 #include <backend/api/metal/MetalContext.h>
 #include <backend/mac/metal/MetalView.h>
@@ -65,10 +66,10 @@ namespace spruce {
 		windowController = [[NSWindowController alloc] initWithWindow:window];
 		[window setTitle:appName];
 		if (api == app::OPENGL) {
-			view = [[OpenGLView alloc] initWithFrame:windowRect];
+			view = [[OpenGLView alloc] initWithFrame:windowRect window:this];
 		} else if (api == app::METAL) {
 			spruce::initDevice();
-			view = [[MetalView alloc] initWithFrame:windowRect];
+			view = [[MetalView alloc] initWithFrame:windowRect window:this];
 			spruce::view = view;
 		} else if (api == app::METAL2) {
 		}
@@ -119,5 +120,14 @@ namespace spruce {
 
 	void CocoaWindow::close() {
 		[windowController close];
+	}
+
+	void CocoaWindow::setCursorMode(input::CursorMode mode) {
+		this->cursorMode = mode;
+		if (mode == input::HIDDEN || mode == input::DISABLED) {
+			[NSCursor hide];
+		} else {
+			[NSCursor unhide];
+		}
 	}
 }

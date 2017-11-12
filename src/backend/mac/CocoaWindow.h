@@ -30,5 +30,6 @@ namespace spruce {
 			void setVisible(bool visible);
 			void setFullscreen(bool fullscreen);
 			void close();
+			void setCursorMode(input::CursorMode mode);
 	};
 }

@@ -4,8 +4,8 @@
 #include <log.h>
 
 @implementation OpenGLView
-- (id) initWithFrame:(NSRect)frameRect {
-	self = [super initWithFrame:frameRect];
+- (id) initWithFrame:(NSRect)frameRect window:(spruce::CocoaWindow*)_window {
+	self = [super initWithFrame:frameRect window:_window];
 	return self;
 }
 

@@ -1,31 +1,32 @@
 #include <app.h>
 #include <backend/api/RenderAPI.h>
 #include <input/input.h>
+#include <backend/Window.h>
+#include <app.h>
+#include <backend/os.h>
 
 namespace spruce {
 	namespace input {
+		std::vector<InputProcessor*> processors;
+
+		void addProcessor(InputProcessor* processor) {
+			processors.push_back(processor);
+		}
+
+		void removeProcessor(InputProcessor* processor) {
+			for (uint16 i = 0; i < processors.size(); i++) {
+				if (processors[i] == processor) {
+					processors.erase(processors.begin() + i);
+				}
+			}
+		}
+
 		void setCursorMode(CursorMode mode) {
-			//return app::api->setCursorMode(mode);
-		}
-
-		bool keyPressed(Key key) {
-			return false;//return app::api->keyPressed(codeFor(key));
-		}
-
-		bool mousePressed(MouseButton button) {
-			return false;//return app::api->mouseButtonPressed(codeFor(button));
-		}
-
-		vec2f mousePos() {
-			return vec2f();//return app::api->mousePos();
+			app::window->setCursorMode(mode);
 		}
 
 		uint16 codeFor(Key key) {
-			return 0;//return app::api->codeFor(key);
-		}
-
-		uint16 codeFor(MouseButton button) {
-			return 0;//return app::api->codeFor(button);
+			return os::codeFor(key);
 		}
 	}
 }
