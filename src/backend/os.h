@@ -13,9 +13,6 @@ namespace spruce {
 		bool supportsAPI(app::API api);
 		bool supportsPrecompiledShader(app::API api);
 
-		float timeSec();
-		long timeNano();
-
 		void updateStart();
 		void updateEnd();
 

@@ -5,7 +5,6 @@
 #include <graphics/OrthographicCamera.h>
 #include <io/file.h>
 #include <app.h>
-#include <thread>
 
 namespace spruce {
 	namespace graphics {
