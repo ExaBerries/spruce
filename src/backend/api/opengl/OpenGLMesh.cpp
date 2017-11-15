@@ -1,10 +1,6 @@
 #include <backend/api/opengl/OpenGLMesh.h>
 #include <graphics/Shader.h>
 #include <log.h>
-#ifdef __APPLE__
-	#include <OpenGL/gl.h>
-	#include <OpenGL/gl3.h>
-#endif
 
 namespace spruce {
 	OpenGLMesh::OpenGLMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) : Mesh(vertexCount, vertices, indexCount, indices) {

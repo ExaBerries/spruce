@@ -3,19 +3,39 @@
 #include <io/file.h>
 
 namespace spruce {
+	MetalShader::MetalShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertData, vertDataSize, fragData, fragDataSize, attributeCount, attributes) {
+	}
+
 	MetalShader::MetalShader(const string& vertSource, const string& fragSource, uint16 attributesCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributesCount, attributes) {
 	}
 
 	MetalShader::~MetalShader() {
 	}
 
-	void MetalShader::compile() {
+	void MetalShader::compileData() {
+		NSError* compileError = NULL;
+		dispatch_data_t data = dispatch_data_create(vertData, vertDataSize, dispatch_get_main_queue(), DISPATCH_DATA_DESTRUCTOR_FREE);
+		library = [device newLibraryWithData:data error:&compileError];
+		if (!library) {
+			NSLog(@"%@", compileError);
+		}
+	}
+
+	void MetalShader::compileSource() {
 		string source = vertSource + "\n" + fragSource;
 		NSString* objcSource = [NSString stringWithCString:source.c_str() encoding:[NSString defaultCStringEncoding]];
 		NSError* compileError = NULL;
 		library = [device newLibraryWithSource:objcSource options:nil error:&compileError];
 		if (!library) {
 			NSLog(@"%@", compileError);
+		}
+	}
+
+	void MetalShader::compile() {
+		if (vertData == nullptr) {
+			compileSource();
+		} else {
+			compileData();
 		}
 		vertexFunction = [library newFunctionWithName:@"vertexShader"];
 		fragmentFunction = [library newFunctionWithName:@"fragmentShader"];

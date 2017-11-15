@@ -12,9 +12,12 @@ namespace spruce {
 			id<MTLFunction> fragmentFunction;
 			std::map<string, uint16> uniformLocations;
 
+			MetalShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes);
 			MetalShader(const string& vertSource, const string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
 			~MetalShader();
 
+			void compileData();
+			void compileSource();
 			void compile();
 			void enable();
 			void disable();

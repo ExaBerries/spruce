@@ -1,11 +1,21 @@
 #include <backend/api/opengl/OpenGLShader.h>
 #include <graphics/Mesh.h>
-#ifdef __APPLE__
-	#include <OpenGL/gl.h>
-	#include <OpenGL/gl3.h>
-#endif
 
 namespace spruce {
+	OpenGLShader::OpenGLShader(const OpenGLShader& shader) : Shader(shader) {
+		this->vert = shader.vert;
+		this->frag = shader.frag;
+		this->program = shader.program;
+		this->uniformLocations = std::map<string, uint16>(shader.uniformLocations);
+	}
+
+	OpenGLShader::OpenGLShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertData, vertDataSize, fragData, fragDataSize, attributeCount, attributes) {
+		vert = 0;
+		frag = 0;
+		program = 0;
+		this->uniformLocations = std::map<string, uint16>();
+	}
+
 	OpenGLShader::OpenGLShader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributeCount, attributes) {
 		vert = 0;
 		frag = 0;
@@ -20,7 +30,43 @@ namespace spruce {
 		uniformLocations.clear();
 	}
 
-	void OpenGLShader::compile() {
+	void OpenGLShader::compileSPIRV() {
+		vert = glCreateShader(GL_VERTEX_SHADER);
+		glShaderBinary(1, &vert, GL_SHADER_BINARY_FORMAT_SPIR_V, vertData, vertDataSize);
+		glSpecializeShader(vert, "main", 0, nullptr, nullptr);
+		GLint vertSuccess = 0;
+		glGetShaderiv(vert, GL_COMPILE_STATUS, &vertSuccess);
+		if (vertSuccess == GL_FALSE) {
+			GLint length = 0;
+			glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &length);
+			std::vector<GLchar> errorLog(2048);
+			glGetShaderInfoLog(vert, length, &length, &errorLog[0]);
+			log(errorLog);
+			glDeleteShader(vert);
+			return;
+		} else {
+			log("vertex shader successfully specialized");
+		}
+
+		frag = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderBinary(1, &frag, GL_SHADER_BINARY_FORMAT_SPIR_V, fragData, fragDataSize);
+		glSpecializeShader(frag, "main", 0, nullptr, nullptr);
+		GLint fragSuccess = 0;
+		glGetShaderiv(frag, GL_COMPILE_STATUS, &fragSuccess);
+		if (fragSuccess == GL_FALSE) {
+			GLint length = 0;
+			glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &length);
+			std::vector<GLchar> errorLog(2048);
+			glGetShaderInfoLog(frag, length, &length, &errorLog[0]);
+			log(errorLog);
+			glDeleteShader(frag);
+			return;
+		} else {
+			log("fragment shader successfully specialized");
+		}
+	}
+
+	void OpenGLShader::compileSource() {
 		const char* vertCStr = vertSource.c_str();
 		vert = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vert, 1, &vertCStr, NULL);
@@ -56,7 +102,14 @@ namespace spruce {
 		} else {
 			log("fragment shader successfully compiled");
 		}
+	}
 
+	void OpenGLShader::compile() {
+		if (vertData == nullptr) {
+			compileSource();
+		} else {
+			compileSPIRV();
+		}
 		program = glCreateProgram();
 		glAttachShader(program, vert);
 		glAttachShader(program, frag);

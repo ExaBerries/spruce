@@ -20,6 +20,7 @@ namespace spruce {
 			virtual void updateEnd() = 0;
 
 			virtual Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) = 0;
+			virtual Shader* createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes) = 0;
 			virtual Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) = 0;
 			virtual MeshRenderer* createMeshRenderer() = 0;
 			virtual ShapeRenderer* createShapeRenderer() = 0;

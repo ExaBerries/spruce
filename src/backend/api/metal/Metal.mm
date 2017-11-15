@@ -56,6 +56,10 @@ namespace spruce {
 		return new MetalMesh(vertexCount, vertices, indexCount, indices);
 	}
 
+	Shader* Metal::createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes) {
+		return new MetalShader(vertData, vertDataSize, fragData, fragDataSize, attributeCount, attributes);
+	}
+
 	Shader* Metal::createShader(string& vert, string& frag, uint16 attributeCount, VertexAttribute* attributes) {
 		return new MetalShader(vert, frag, attributeCount, attributes);
 	}

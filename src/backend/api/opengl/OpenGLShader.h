@@ -1,7 +1,7 @@
 #pragma once
 #include <common.h>
 #include <graphics/Shader.h>
-#include <OpenGL/gl3.h>
+#include <backend/api/opengl/platform.h>
 
 namespace spruce {
 	class OpenGLShader : public Shader {
@@ -11,9 +11,13 @@ namespace spruce {
 			GLuint program;
 			std::map<string, uint16> uniformLocations;
 
+			OpenGLShader(const OpenGLShader& shader);
+			OpenGLShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes);
 			OpenGLShader(const string& vertSource, const string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
 			~OpenGLShader();
 
+			void compileSPIRV();
+			void compileSource();
 			void compile();
 			void enable();
 			void disable();

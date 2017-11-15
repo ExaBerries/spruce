@@ -1,6 +1,6 @@
 #pragma once
 #include <graphics/ShapeRenderer.h>
-#include <OpenGL/gl3.h>
+#include <backend/api/opengl/platform.h>
 
 namespace spruce {
 	class OpenGLShapeRenderer : public ShapeRenderer {

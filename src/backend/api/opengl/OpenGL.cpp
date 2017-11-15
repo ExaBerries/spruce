@@ -1,14 +1,11 @@
 #include <backend/api/opengl/OpenGL.h>
+#include <backend/api/opengl/platform.h>
 #include <backend/api/opengl/OpenGLMesh.h>
 #include <backend/api/opengl/OpenGLMeshRenderer.h>
 #include <backend/api/opengl/OpenGLShader.h>
 #include <backend/api/opengl/OpenGLShapeRenderer.h>
 #include <backend/api/opengl/OpenGLTexture.h>
 #include <io/image.h>
-#ifdef __APPLE__
-	#include <OpenGL/gl.h>
-	#include <OpenGL/gl3.h>
-#endif
 
 namespace spruce {
 	OpenGL::OpenGL(Window* window) : RenderAPI(window) {
@@ -35,6 +32,10 @@ namespace spruce {
 
 	Mesh* OpenGL::createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) {
 		return new OpenGLMesh(vertexCount, vertices, indexCount, indices);
+	}
+
+	Shader* OpenGL::createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes) {
+		return new OpenGLShader(vertData, vertDataSize, fragData, fragDataSize, attributesCount, attributes);
 	}
 
 	Shader* OpenGL::createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) {

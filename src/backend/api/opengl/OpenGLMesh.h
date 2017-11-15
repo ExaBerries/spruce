@@ -1,7 +1,7 @@
 #pragma once
 #include <common.h>
+#include <backend/api/opengl/platform.h>
 #include <graphics/Mesh.h>
-#include <OpenGL/gl3.h>
 
 namespace spruce {
 	class OpenGLMesh : public Mesh {

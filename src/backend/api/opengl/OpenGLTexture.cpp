@@ -1,8 +1,4 @@
 #include <backend/api/opengl/OpenGLTexture.h>
-#ifdef __APPLE__
-	#include <OpenGL/gl.h>
-	#include <OpenGL/gl3.h>
-#endif
 
 namespace spruce {
 	OpenGLTexture::OpenGLTexture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel) : Texture(data, width, height, bitsPerPixel) {

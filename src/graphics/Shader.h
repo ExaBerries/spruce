@@ -8,14 +8,18 @@
 namespace spruce {
 	class Shader {
 		public:
+			uint8* vertData;
+			uint16 vertDataSize;
 			string vertSource;
+			uint8* fragData;
+			uint16 fragDataSize;
 			string fragSource;
 			int attributeCount;
 			VertexAttribute* attributes;
 
 			Shader(const Shader& shader);
+			Shader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes);
 			Shader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes);
-			Shader(const string& source, uint16 attributeCount, VertexAttribute* attributes);
 			virtual ~Shader();
 
 			virtual void compile() = 0;

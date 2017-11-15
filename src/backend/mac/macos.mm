@@ -141,6 +141,13 @@ namespace spruce {
 			return false;
 		}
 
+		bool supportsPrecompiledShader(app::API api) {
+			if (api == app::METAL) {
+				return true;
+			}
+			return false;
+		}
+
 		void updateStart() {
 		}
 

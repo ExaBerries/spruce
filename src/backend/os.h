@@ -11,6 +11,7 @@ namespace spruce {
 
 		Window* createWindow(app::API api);
 		bool supportsAPI(app::API api);
+		bool supportsPrecompiledShader(app::API api);
 
 		float timeSec();
 		long timeNano();

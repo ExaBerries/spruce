@@ -1,9 +1,5 @@
 #include <backend/api/opengl/OpenGLShader.h>
 #include <backend/api/opengl/OpenGLShapeRenderer.h>
-#ifdef __APPLE__
-	#include <OpenGL/gl.h>
-	#include <OpenGL/gl3.h>
-#endif
 
 namespace spruce {
 	const string OpenGLShapeRenderer::vert  = "#version 330\nin vec3 a_pos;in vec4 a_color;uniform mat4 camera;out vec4 color;void main(){color=a_color;gl_Position=camera * vec4(a_pos,1.0);}";

@@ -1,6 +1,6 @@
 #pragma once
 #include <common.h>
-#include <OpenGL/gl3.h>
+#include <backend/api/opengl/platform.h>
 #include <graphics/Texture.h>
 
 namespace spruce {
