@@ -12,7 +12,7 @@
 	CocoaWindowObj* cocoaWindow;
 }
 - (instancetype) initWithWindow:(spruce::Window*)spruceWindow cocoaWindow:(NSWindow*)cocoaWindow;
-- (void) windowDidResize:(NSNotification*)notification;
+//- (void) windowDidResize:(NSNotification*)notification;
 @end
 
 namespace spruce {

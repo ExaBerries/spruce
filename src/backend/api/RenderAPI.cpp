@@ -7,6 +7,5 @@ namespace spruce {
 	}
 
 	RenderAPI::~RenderAPI() {
-		delete window;
 	}
 }

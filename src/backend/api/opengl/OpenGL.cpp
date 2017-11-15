@@ -12,7 +12,6 @@ namespace spruce {
 	}
 
 	OpenGL::~OpenGL() {
-		window->close();
 	}
 
 	void OpenGL::init() {

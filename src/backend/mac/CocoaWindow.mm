@@ -29,6 +29,10 @@
 	spruceWindow->width = viewFrameBacking.size.width;
 	spruceWindow->height = viewFrameBacking.size.height;
 }
+
+- (void) windowWillClose:(NSNotification*)notification {
+	spruceWindow->open = false;
+}
 @end
 
 namespace spruce {

@@ -5,6 +5,7 @@
 namespace spruce {
 	class Window {
 		public:
+			bool open;
 			uint16 width;
 			uint16 height;
 			bool visible;

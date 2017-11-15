@@ -47,7 +47,7 @@ namespace spruce {
 
 		void run() {
 			long lastTime = sys::timeNano();
-			while (true) {
+			while (window->open) {
 				os::updateStart();
 				api->updateStart();
 				float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
@@ -62,7 +62,9 @@ namespace spruce {
 		}
 
 		void free() {
-			window->close();
+			if (window->open) {
+				window->close();
+			}
 			delete window;
 			delete screen;
 			delete api;

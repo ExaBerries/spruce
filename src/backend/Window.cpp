@@ -5,6 +5,8 @@ namespace spruce {
 		width = 0;
 		height = 0;
 		visible = false;
+		open = true;
+		cursorMode = input::CursorMode::NORMAL;
 	}
 
 	Window::~Window() {
