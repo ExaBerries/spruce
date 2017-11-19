@@ -8,17 +8,21 @@ namespace spruce {
 	}
 
 	color::color(int32 hex) {
-		r = ((hex << 32) & 0xFF) / 255.0;
-		g = ((hex << 16) & 0xFF) / 255.0;
-		b = ((hex << 8) & 0xFF) / 255.0;
+		r = ((hex >> 24) & 0xFF) / 255.0;
+		g = ((hex >> 16) & 0xFF) / 255.0;
+		b = ((hex >> 8) & 0xFF) / 255.0;
 		a = (hex & 0xFF) / 255.0;
 	}
 
 	color::~color() {
 	}
 
+	bool color::operator==(const color& color) const {
+		return (r == color.r && g == color.g && b == color.b && a == color.a);
+	}
+
 	std::ostream& operator<<(std::ostream& stream, const color& color) {
-		stream << "color(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")" << std::endl;
+		stream << "color(" << color.r << ", " << color.g << ", " << color.b << ", " << color.a << ")";
 		return stream;
 	}
 }

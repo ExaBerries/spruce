@@ -13,6 +13,7 @@ namespace spruce {
 		color(int32 hex);
 		~color();
 
+		bool operator==(const color& color) const;
 		friend std::ostream& operator<<(std::ostream& stream, const color& color);
 	};
 }
