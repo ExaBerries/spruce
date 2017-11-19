@@ -46,16 +46,16 @@ namespace spruce {
 		}
 
 		void run() {
-			long lastTime = sys::timeNano();
+			uint64 lastTime = sys::timeNano();
 			while (window->open) {
 				os::updateStart();
 				api->updateStart();
 				float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
+				lastTime = sys::timeNano();
 				if (screen != nullptr) {
 					screen->update(delta);
 					screen->render(delta);
 				}
-				lastTime = sys::timeNano();
 				api->updateEnd();
 				os::updateEnd();
 			}

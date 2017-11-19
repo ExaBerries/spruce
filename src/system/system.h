@@ -8,6 +8,6 @@ namespace spruce {
 		uint16 getCPUThreadCount();
 
 		float timeSec();
-		long timeNano();
+		uint64 timeNano();
 	}
 }
