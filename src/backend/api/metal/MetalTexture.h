@@ -8,11 +8,12 @@ namespace spruce {
 		public:
 			id<MTLTexture> mtlTexture;
 
-			MetalTexture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel);
+			MetalTexture(PixelFormat format, uint8* data, uint16& width, uint16& height);
 			MetalTexture(const MetalTexture& texture);
 			~MetalTexture();
 
-			void bind(uint16 unit);
+			void bind();
+			void unbind();
 			void toVRAM();
 			void freeVRAM();
 	};

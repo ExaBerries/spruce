@@ -10,18 +10,21 @@
 }
 
 - (CALayer*) makeBackingLayer {
+	uint16 width = self.frame.size.width;
+	uint16 height = self.frame.size.height;
 	CAMetalLayer* layer = [[CAMetalLayer alloc] init];
 	layer.device = spruce::device;
 	layer.pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
-	layer.drawableSize = CGSizeMake(1280, 720);
+	layer.drawableSize = CGSizeMake(width, height);
 	self.layer = layer;
-	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:1280 height:720 mipmapped:NO];
+	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:width height:height mipmapped:NO];
 	desc.resourceOptions = MTLResourceStorageModePrivate;
 	desc.storageMode = MTLStorageModePrivate;
 	desc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
 	depthTexture = [spruce::device newTextureWithDescriptor:desc];
 	return layer;
 }
+
 - (void) dealloc {
 	[depthTexture release];
 }
@@ -62,5 +65,9 @@
 
 - (MTLPixelFormat) getDepthPixelFormat {
 	return depthTexture.pixelFormat;
+}
+
+- (CGSize) getDrawableSize {
+	return ((CAMetalLayer*)self.layer).drawableSize;
 }
 @end

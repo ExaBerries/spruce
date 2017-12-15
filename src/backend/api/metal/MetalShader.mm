@@ -1,5 +1,7 @@
 #include <backend/api/metal/MetalShader.h>
 #include <backend/api/metal/MetalContext.h>
+#include <backend/api/metal/MetalTexture.h>
+#include <backend/api/metal/MetalRenderTarget.h>
 #include <io/file.h>
 
 namespace spruce {
@@ -31,7 +33,7 @@ namespace spruce {
 		}
 	}
 
-	void MetalShader::compile() {
+	void MetalShader::compile(graphics::RenderPass* renderPass) {
 		if (vertData == nullptr) {
 			compileSource();
 		} else {
@@ -42,7 +44,17 @@ namespace spruce {
 		MTLVertexDescriptor* vertexDescriptor = [MTLVertexDescriptor vertexDescriptor];
 		uint8 off = 0;
 		for (uint8 i = 0; i < attributeCount; i++) {
-			vertexDescriptor.attributes[i].format = MTLVertexFormatFloat3;
+			MTLVertexFormat format = MTLVertexFormatInvalid;
+			if (attributes[i].size == 1) {
+				format = MTLVertexFormatFloat;
+			} else if (attributes[i].size == 2) {
+				format = MTLVertexFormatFloat2;
+			} else if (attributes[i].size == 3) {
+				format = MTLVertexFormatFloat3;
+			} else if (attributes[i].size == 4) {
+				format = MTLVertexFormatFloat4;
+			}
+			vertexDescriptor.attributes[i].format = format;
 			vertexDescriptor.attributes[i].bufferIndex = 0;
 			vertexDescriptor.attributes[i].offset = off;
 			off += attributes[i].size * sizeof(float);
@@ -53,9 +65,17 @@ namespace spruce {
 		desc.label = @"Spruce Render Pipeline";
 		desc.vertexFunction = vertexFunction;
 		desc.fragmentFunction = fragmentFunction;
-		desc.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+		if (renderPass != nullptr && ((MetalRenderTarget*)renderPass->target)->color != nullptr) {
+			desc.colorAttachments[0].pixelFormat = ((MetalRenderTarget*)renderPass->target)->color->mtlTexture.pixelFormat;
+		} else {
+			desc.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+		}
 		desc.vertexDescriptor = vertexDescriptor;
-		desc.depthAttachmentPixelFormat = [view getDepthPixelFormat];
+		if (renderPass != nullptr) {
+			desc.depthAttachmentPixelFormat = ((MetalRenderTarget*)renderPass->target)->depth->mtlTexture.pixelFormat;
+		} else {
+			desc.depthAttachmentPixelFormat = [view getDepthPixelFormat];
+		}
 		NSError* error = NULL;
 		pipelineState = [device newRenderPipelineStateWithDescriptor:desc error:&error];
 		if (!pipelineState) {
@@ -119,5 +139,19 @@ namespace spruce {
 	void MetalShader::setUniform(string name, const color& color) {
 		vector_float4 col = {color.r, color.g, color.b, color.a};
 		[renderEncoder setVertexBytes:&col length:sizeof(col) atIndex:uniformLocations[name]];
+	}
+
+	void MetalShader::setUniform(string name, const Texture* texture) {
+		[renderEncoder setFragmentTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformLocations[name]];
+	}
+
+	void MetalShader::setUniform(string name, const graphics::RenderPass* renderPass) {
+		id<MTLTexture> texture;
+		if (((MetalRenderTarget*)renderPass->target)->color != nullptr) {
+			texture = ((MetalRenderTarget*)renderPass->target)->color->mtlTexture;
+		} else {
+			texture = ((MetalRenderTarget*)renderPass->target)->depth->mtlTexture;
+		}
+		[renderEncoder setFragmentTexture:texture atIndex:uniformLocations[name]];
 	}
 }

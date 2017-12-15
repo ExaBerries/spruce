@@ -29,7 +29,7 @@ namespace spruce {
 		this->x = crs.x;
 		this->y = crs.y;
 		this->z = crs.z;
-		this->w = (a.mag2() * b.mag2()) + a.dot(b);
+		this->w = (a.mag() * b.mag()) + a.dot(b);
 		nor();
 	}
 

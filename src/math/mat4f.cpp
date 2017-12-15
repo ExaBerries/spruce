@@ -51,26 +51,6 @@ namespace spruce {
 		values[15] = 1.0f;
 	}
 
-	mat4f::mat4f(float& near, float& far, float& fov, float& aspectRatio) {
-		float size = 1.0 / tan(fov / 2.0);
-		values[0] = size / aspectRatio;
-		values[1] = 0.0;
-		values[2] = 0.0;
-		values[3] = 0.0;
-		values[4] = 0.0;
-		values[5] = size;
-		values[6] = 0.0;
-		values[7] = 0.0;
-		values[8] = 0.0;
-		values[9] = 0.0;
-		values[10] = (far + near) / (near - far);
-		values[11] = -1.0;
-		values[12] = 0.0;
-		values[13] = 0.0;
-		values[14] = (2.0 * far * near) / (near - far);
-		values[15] = 0.0;
-	}
-
 	mat4f::mat4f(vec3f& direction, vec3f& up) {
 		vec3f dirNor = vec3f(direction).nor();
 		vec3f dirCrsUp = vec3f(dirNor).crs(up).nor();
@@ -90,31 +70,6 @@ namespace spruce {
 		values[12] = 0;
 		values[13] = 0;
 		values[14] = 0;
-		values[15] = 1;
-	}
-
-	mat4f::mat4f(float left, float right, float top, float bottom, float near, float far) {
-		float x = 2 / (right - left);
-		float y = 2 / (top - bottom);
-		float z = 2 / (far - near);
-		float tx = -(right + left) / (right - left);
-		float ty = -(top + bottom) / (top - bottom);
-		float tz = -(far + near) / (far - near);
-		values[0] = x;
-		values[1] = 0;
-		values[2] = 0;
-		values[3] = 0;
-		values[4] = 0;
-		values[5] = y;
-		values[6] = 0;
-		values[7] = 0;
-		values[8] = 0;
-		values[9] = 0;
-		values[10] = z;
-		values[11] = 0;
-		values[12] = tx;
-		values[13] = ty;
-		values[14] = tz;
 		values[15] = 1;
 	}
 
@@ -180,27 +135,6 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f& mat4f::set(float& near, float& far, float& fov, float& aspectRatio) {
-		float size = 1.0 / atan(fov / 2.0);
-		values[0] = size / aspectRatio;
-		values[1] = 0.0;
-		values[2] = 0.0;
-		values[3] = 0.0;
-		values[4] = 0.0;
-		values[5] = size;
-		values[6] = 0.0;
-		values[7] = 0.0;
-		values[8] = 0.0;
-		values[9] = 0.0;
-		values[10] = (far + near) / (near - far);
-		values[11] = (2.0 * far * near) / (near - far);
-		values[12] = 0.0;
-		values[13] = 0.0;
-		values[14] = -1.0;
-		values[15] = 0.0;
-		return *this;
-	}
-
 	mat4f& mat4f::set(vec3f& direction, vec3f& up) {
 		vec3f dirNor = vec3f(direction).nor();
 		vec3f dirCrsUp = vec3f(dirNor).crs(up).nor();
@@ -220,32 +154,6 @@ namespace spruce {
 		values[12] = 0;
 		values[13] = 0;
 		values[14] = 0;
-		values[15] = 1;
-		return *this;
-	}
-
-	mat4f& mat4f::set(float left, float right, float top, float bottom, float near, float far) {
-		float x = 2 / (right - left);
-		float y = 2 / (top - bottom);
-		float z = 2 / (far - near);
-		float tx = -(right + left) / (right - left);
-		float ty = -(top + bottom) / (top - bottom);
-		float tz = -(far + near) / (far - near);
-		values[0] = x;
-		values[1] = 0;
-		values[2] = 0;
-		values[3] = 0;
-		values[4] = 0;
-		values[5] = y;
-		values[6] = 0;
-		values[7] = 0;
-		values[8] = 0;
-		values[9] = 0;
-		values[10] = z;
-		values[11] = 0;
-		values[12] = tx;
-		values[13] = ty;
-		values[14] = tz;
 		values[15] = 1;
 		return *this;
 	}

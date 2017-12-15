@@ -16,4 +16,5 @@
 - (MTLRenderPassDescriptor*) getRenderPassDescriptor;
 - (void) releaseDrawable;
 - (MTLPixelFormat) getDepthPixelFormat;
+- (CGSize) getDrawableSize;
 @end

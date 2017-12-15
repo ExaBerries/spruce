@@ -4,6 +4,8 @@
 #include <graphics/VertexAttribute.h>
 #include <graphics/Camera.h>
 #include <graphics/color.h>
+#include <graphics/Texture.h>
+#include <graphics/RenderPass.h>
 
 namespace spruce {
 	class Shader {
@@ -22,7 +24,7 @@ namespace spruce {
 			Shader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes);
 			virtual ~Shader();
 
-			virtual void compile() = 0;
+			virtual void compile(graphics::RenderPass* renderPass) = 0;
 			virtual void enable() = 0;
 			virtual void disable() = 0;
 
@@ -37,5 +39,7 @@ namespace spruce {
 			virtual void setUniform(string name, const mat4f& matrix) = 0;
 			virtual void setUniform(string name, const quaternion& quaternion) = 0;
 			virtual void setUniform(string name, const color& color) = 0;
+			virtual void setUniform(string name, const Texture* texture) = 0;
+			virtual void setUniform(string name, const graphics::RenderPass* renderPass) = 0;
 	};
 }

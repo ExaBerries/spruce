@@ -7,13 +7,19 @@ namespace spruce {
 	class OpenGLTexture: public Texture {
 		public:
 			GLuint texture;
+			uint16 unit;
 
-			OpenGLTexture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel);
+			OpenGLTexture(PixelFormat format, uint8* data, uint16& width, uint16& height);
 			OpenGLTexture(const OpenGLTexture& texture);
 			~OpenGLTexture();
 
-			void bind(uint16 unit);
+			void bind();
+			void unbind();
 			void toVRAM();
 			void freeVRAM();
+		protected:
+			static int32 maxUnit;
+			static bool* units;
+			static uint16 getFreeUnit();
 	};
 }

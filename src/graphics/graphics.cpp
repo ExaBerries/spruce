@@ -47,6 +47,8 @@ namespace spruce {
 					} else {
 						return app::api->createShader(vertSource, fragSource, attributeCount, attributes);
 					}
+				} else {
+					i += glVertSourceSize + glFragSourceSize;
 				}
 				i += glVertSize + glFragSize;
 				uint32 metalSize = 0;
@@ -86,10 +88,6 @@ namespace spruce {
 			return app::api->createShader(vertSource, fragSource, attributesCount, attributes);
 		}
 
-		MeshRenderer* createMeshRenderer() {
-			return app::api->createMeshRenderer();
-		}
-
 		ShapeRenderer* createShapeRenderer() {
 			return app::api->createShapeRenderer();
 		}
@@ -98,12 +96,25 @@ namespace spruce {
 			return new PerspectiveCamera(viewportWidth, viewportHeight, fieldOfView, near, far, up, dir);
 		}
 
-		OrthographicCamera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up) {
-			return new OrthographicCamera(viewportWidth, viewportHeight, near, far, up);
+		OrthographicCamera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up, vec3f& dir) {
+			return new OrthographicCamera(viewportWidth, viewportHeight, near, far, up, dir);
 		}
 
 		Texture* createTexture(string& path) {
 			return app::api->createTexture(path);
+		}
+
+		RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) {
+			return app::api->createRenderTarget(format, width, height);
+		}
+
+		void render(Mesh* mesh, Shader* shader) {
+			app::api->render(mesh, shader);
+		}
+
+		void render(RenderPass* renderPass) {
+			app::api->renderStart(renderPass);
+			renderPass->render();
 		}
 
 		void setBlend(bool value) {
@@ -114,12 +125,16 @@ namespace spruce {
 			app::api->setDepth(value);
 		}
 
-		int getWidth() {
+		uint16 getWidth() {
 			return app::window->width;
 		}
 
-		int getHeight() {
+		uint16 getHeight() {
 			return app::window->height;
+		}
+
+		vec3f getNDCSize() {
+			return app::api->ndcSize;
 		}
 
 		string getGPUVendor() {

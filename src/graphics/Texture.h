@@ -4,16 +4,23 @@
 namespace spruce {
 	class Texture {
 		public:
+			enum PixelFormat {
+				RGB,
+				RGBA,
+				DEPTH
+			};
+			PixelFormat format;
 			uint8* data;
 			uint16 width;
 			uint16 height;
-			uint16 bitsPerPixel;
 
-			Texture(uint8* data, uint16& width, uint16& height, uint16& bitsPerPixel);
+			Texture(PixelFormat format, uint8* data, uint16& width, uint16& height);
 			Texture(const Texture& texture);
 			virtual ~Texture();
+
 			virtual void toVRAM() = 0;
 			virtual void freeVRAM() = 0;
-			virtual void bind(uint16 unit) = 0;
+			virtual void bind() = 0;
+			virtual void unbind() = 0;
 	};
 }

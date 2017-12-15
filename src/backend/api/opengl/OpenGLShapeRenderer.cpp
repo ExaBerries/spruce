@@ -1,5 +1,6 @@
 #include <backend/api/opengl/OpenGLShader.h>
 #include <backend/api/opengl/OpenGLShapeRenderer.h>
+#include <backend/api/opengl/platform.h>
 
 namespace spruce {
 	const string OpenGLShapeRenderer::vert  = "#version 330\nin vec3 a_pos;in vec4 a_color;uniform mat4 camera;out vec4 color;void main(){color=a_color;gl_Position=camera * vec4(a_pos,1.0);}";
@@ -12,7 +13,7 @@ namespace spruce {
 		attributes[0] = VertexAttribute("a_pos", 3);
 		attributes[1] = VertexAttribute("a_color", 4);
 		shader = new OpenGLShader(vert, frag, 2, attributes);
-		shader->compile();
+		shader->compile(nullptr);
 		shader->registerUniform("camera", 1);
 		lineVertexCount = 0;
 		lineIndexCount = 0;

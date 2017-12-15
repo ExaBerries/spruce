@@ -1,5 +1,8 @@
 #include <backend/api/opengl/OpenGLShader.h>
 #include <graphics/Mesh.h>
+#include <backend/api/opengl/OpenGLTexture.h>
+#include <backend/api/opengl/OpenGLRenderTarget.h>
+#include <backend/api/opengl/platform.h>
 
 namespace spruce {
 	OpenGLShader::OpenGLShader(const OpenGLShader& shader) : Shader(shader) {
@@ -104,7 +107,7 @@ namespace spruce {
 		}
 	}
 
-	void OpenGLShader::compile() {
+	void OpenGLShader::compile(graphics::RenderPass* renderPass) {
 		if (vertData == nullptr) {
 			compileSource();
 		} else {
@@ -183,5 +186,15 @@ namespace spruce {
 
 	void OpenGLShader::setUniform(string name, const color& color) {
 		glUniform4f(uniformLocations[name], color.r, color.g, color.b, color.a);
+	}
+
+	void OpenGLShader::setUniform(string name, const Texture* texture) {
+		((Texture*)texture)->bind();
+		glUniform1i(uniformLocations[name], ((OpenGLTexture*)texture)->unit);
+	}
+
+	void OpenGLShader::setUniform(string name, const graphics::RenderPass* renderPass) {
+		((OpenGLRenderTarget*)renderPass->target)->texture->bind();
+		glUniform1i(uniformLocations[name], ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
 	}
 }
