@@ -34,14 +34,18 @@ namespace spruce {
 
 		friend vec3i operator+(const vec3i left, int32 value);
 		friend vec3i operator-(const vec3i left, int32 value);
+		friend vec3i operator%(const vec3i left, int32 value);
 		friend vec3i operator*(const vec3i left, int32 value);
 		friend vec3i operator/(const vec3i left, int32 value);
 
 		vec3i& operator+=(const vec3i& vector);
 		vec3i& operator-=(const vec3i& vector);
 
-		vec3i& operator*=(const uint32 value);
-		vec3i& operator/=(const uint32 value);
+		vec3i& operator+=(int32 value);
+		vec3i& operator-=(int32 value);
+		vec3i& operator%=(int32 value);
+		vec3i& operator*=(int32 value);
+		vec3i& operator/=(int32 value);
 
 		friend std::ostream& operator<<(std::ostream& stream, const vec3i& vector);
 	};

@@ -79,44 +79,51 @@ namespace spruce {
 	}
 
 	vec3i operator+(const vec3i left, const vec3i& right) {
-		uint32 x = left.x + right.x;
-		uint32 y = left.y + right.y;
-		uint32 z = left.z + right.z;
+		int32 x = left.x + right.x;
+		int32 y = left.y + right.y;
+		int32 z = left.z + right.z;
 		return vec3i(x, y, z);
 	}
 
 	vec3i operator-(const vec3i left, const vec3i& right) {
-		uint32 x = left.x - right.x;
-		uint32 y = left.y - right.y;
-		uint32 z = left.z - right.z;
+		int32 x = left.x - right.x;
+		int32 y = left.y - right.y;
+		int32 z = left.z - right.z;
 		return vec3i(x, y, z);
 	}
 
 	vec3i operator+(const vec3i left, int32 value) {
-		uint32 x = left.x + value;
-		uint32 y = left.y + value;
-		uint32 z = left.z + value;
+		int32 x = left.x + value;
+		int32 y = left.y + value;
+		int32 z = left.z + value;
 		return vec3i(x, y, z);
 	}
 
 	vec3i operator-(const vec3i left, int32 value) {
-		uint32 x = left.x - value;
-		uint32 y = left.y - value;
-		uint32 z = left.z - value;
+		int32 x = left.x - value;
+		int32 y = left.y - value;
+		int32 z = left.z - value;
+		return vec3i(x, y, z);
+	}
+
+	vec3i operator%(const vec3i left, int32 value) {
+		int32 x = left.x % value;
+		int32 y = left.y % value;
+		int32 z = left.y % value;
 		return vec3i(x, y, z);
 	}
 
 	vec3i operator*(const vec3i left, int32 value) {
-		uint32 x = left.x * value;
-		uint32 y = left.y * value;
-		uint32 z = left.z * value;
+		int32 x = left.x * value;
+		int32 y = left.y * value;
+		int32 z = left.z * value;
 		return vec3i(x, y, z);
 	}
 
 	vec3i operator/(const vec3i left, int32 value) {
-		uint32 x = left.x / value;
-		uint32 y = left.y / value;
-		uint32 z = left.z / value;
+		int32 x = left.x / value;
+		int32 y = left.y / value;
+		int32 z = left.z / value;
 		return vec3i(x, y, z);
 	}
 
@@ -134,14 +141,35 @@ namespace spruce {
 		return *this;
 	}
 
-	vec3i& vec3i::operator*=(const uint32 value) {
+	vec3i& vec3i::operator+=(int32 value) {
+		x += value;
+		y += value;
+		z += value;
+		return *this;
+	}
+
+	vec3i& vec3i::operator-=(int32 value) {
+		x -= value;
+		y -= value;
+		z -= value;
+		return *this;
+	}
+
+	vec3i& vec3i::operator %=(int32 value) {
+		x %= value;
+		y %= value;
+		z %= value;
+		return *this;
+	}
+
+	vec3i& vec3i::operator*=(int32 value) {
 		x *= value;
 		y *= value;
 		z *= value;
 		return *this;
 	}
 
-	vec3i& vec3i::operator/=(const uint32 value) {
+	vec3i& vec3i::operator/=(int32 value) {
 		x /= value;
 		y /= value;
 		z /= value;
