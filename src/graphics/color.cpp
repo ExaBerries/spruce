@@ -4,6 +4,9 @@ namespace spruce {
 	color::color()  : r(0), g(0), b(0), a(0) {
 	}
 
+	color::color(const color& color) : r(color.r), g(color.g), b(color.b), a(color.a) {
+	}
+
 	color::color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {
 	}
 

@@ -9,6 +9,7 @@ namespace spruce {
 		float a;
 
 		color();
+		color(const color& color);
 		color(float r, float g, float b, float a);
 		color(int32 hex);
 		~color();
