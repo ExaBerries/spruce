@@ -33,6 +33,7 @@ namespace spruce {
 
 		friend vec2i operator+(const vec2i left, int32 value);
 		friend vec2i operator-(const vec2i left, int32 value);
+		friend vec2i operator%(const vec2i left, int32 value);
 		friend vec2i operator*(const vec2i left, int32 value);
 		friend vec2i operator/(const vec2i left, int32 value);
 
@@ -44,6 +45,7 @@ namespace spruce {
 
 		vec2i& operator+=(const int32& value);
 		vec2i& operator-=(const int32& value);
+		vec2i& operator%=(const int32& value);
 		vec2i& operator*=(const int32& value);
 		vec2i& operator/=(const int32& value);
 

@@ -75,38 +75,44 @@ namespace spruce {
 	}
 
 	vec2i operator+(const vec2i left, const vec2i& right) {
-		int x = left.x + right.x;
-		int y = left.y + right.y;
+		int32 x = left.x + right.x;
+		int32 y = left.y + right.y;
 		return vec2i(x, y);
 	}
 
 	vec2i operator-(const vec2i left, const vec2i& right) {
-		int x = left.x - right.x;
-		int y = left.y - right.y;
+		int32 x = left.x - right.x;
+		int32 y = left.y - right.y;
 		return vec2i(x, y);
 	}
 
 	vec2i operator+(const vec2i left, int32 value) {
-		int x = left.x + value;
-		int y  = left.y + value;
+		int32 x = left.x + value;
+		int32 y  = left.y + value;
 		return vec2i(x, y);
 	}
 
 	vec2i operator-(const vec2i left, int32 value) {
-		int x = left.x - value;
-		int y = left.y - value;
+		int32 x = left.x - value;
+		int32 y = left.y - value;
+		return vec2i(x, y);
+	}
+
+	vec2i operator%(const vec2i left, int32 value) {
+		int32 x = left.x % value;
+		int32 y = left.y % value;
 		return vec2i(x, y);
 	}
 
 	vec2i operator*(const vec2i left, int32 value) {
-		int x = left.x * value;
-		int y = left.y * value;
+		int32 x = left.x * value;
+		int32 y = left.y * value;
 		return vec2i(x, y);
 	}
 
 	vec2i operator/(const vec2i left, int32 value) {
-		int x = left.x / value;
-		int y = left.y / value;
+		int32 x = left.x / value;
+		int32 y = left.y / value;
 		return vec2i(x, y);
 	}
 
@@ -139,6 +145,12 @@ namespace spruce {
 	vec2i& vec2i::operator-=(const int32& value) {
 		this->x -= value;
 		this->y -= value;
+		return *this;
+	}
+
+	vec2i& vec2i::operator %=(const int32& value) {
+		this->x %= value;
+		this->y %= value;
 		return *this;
 	}
 
