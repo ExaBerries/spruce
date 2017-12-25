@@ -8,6 +8,7 @@
 	self = [super initWithFrame:frameRect];
 	[self updateTrackingAreas];
 	virtualMousePos = spruce::vec2f(0.5, 0.5);
+	modifiers = std::map<uint16, bool>();
 	return self;
 }
 
@@ -55,6 +56,30 @@
 	uint16 keyCode = [event keyCode];
 	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
 		spruce::input::processors[i]->keyUp(keyCode);
+	}
+}
+
+- (void) flagsChanged:(NSEvent*)event {
+	uint16 keyCode = [event keyCode];
+	std::map<uint16, bool>::iterator it = modifiers.find(keyCode);
+	if (it != modifiers.end()) {
+		bool down = it->second;
+		if (down) {
+			modifiers[keyCode] = false;
+			for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
+				spruce::input::processors[i]->keyUp(keyCode);
+			}
+		} else {
+			modifiers[keyCode] = true;
+			for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
+				spruce::input::processors[i]->keyDown(keyCode);
+			}
+		}
+	} else {
+		modifiers[keyCode] = true;
+		for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
+			spruce::input::processors[i]->keyDown(keyCode);
+		}
 	}
 }
 

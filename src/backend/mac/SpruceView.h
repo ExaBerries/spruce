@@ -7,6 +7,7 @@
 	spruce::CocoaWindow* spruceWindow;
 	spruce::vec2f virtualMousePos;
 	NSTrackingArea* trackingArea;
+	std::map<uint16, bool> modifiers;
 }
 - (instancetype) initWithFrame:(NSRect)frameRect window:(spruce::CocoaWindow*)window;
 @end
