@@ -12,11 +12,11 @@ namespace spruce {
 			return app::api->createMesh(vertexCount, vertices, indexCount, indices);
 		}
 
-		Shader* createShader(string path, uint16 attributeCount, VertexAttribute* attributes) {
+		Shader* createShader(const FileHandle& file, uint16 attributeCount, VertexAttribute* attributes) {
 			uint32 count = 0;
-			uint8* data = io::readFileBin(path, count);
+			uint8* data = io::readFileBin(file, count);
 			if (data == nullptr) {
-				log("could not read shader file: ", path);
+				log("could not read shader file: ", file);
 				return nullptr;
 			}
 			if (data[0] == 1) {

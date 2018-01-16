@@ -4,9 +4,9 @@
 
 namespace spruce {
 	namespace io {
-		Mesh* loadMesh(string& path) {
+		Mesh* loadMesh(const FileHandle& file) {
 			uint32 count = 0;
-			uint8* data = readFileBin(path, count);
+			uint8* data = readFileBin(file, count);
 			if (data[0] == 0x0) {
 				uint32 offset = 1;
 				uint16 vertexCount = 0;
@@ -26,7 +26,7 @@ namespace spruce {
 			return nullptr;
 		}
 
-		void writeMesh(string& path, Mesh* mesh) {
+		void writeMesh(const FileHandle& file, Mesh* mesh) {
 			uint32 size = 1;
 			size += sizeof(uint16);
 			size += sizeof(uint16);
@@ -36,7 +36,7 @@ namespace spruce {
 			uint32 offset = 1;
 			data[0] = 0;
 			serializeMesh(mesh, data, offset);
-			writeFileBin(path, data, size);
+			writeFileBin(file, data, size);
 		}
 
 		uint8* serializeMesh(Mesh* mesh, uint8* data, uint32& offset) {

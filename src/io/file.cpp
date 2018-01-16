@@ -2,16 +2,16 @@
 
 namespace spruce {
 	namespace io {
-		string readFileTxt(const string& filepath) {
-			FILE* file = fopen(filepath.c_str(), "rt");
-			if (file != NULL) {
-				fseek(file, 0, SEEK_END);
-				unsigned long length = ftell(file);
+		string readFileTxt(const FileHandle& file) {
+			FILE* cfile = fopen(file.absolutePath.c_str(), "rt");
+			if (cfile != NULL) {
+				fseek(cfile, 0, SEEK_END);
+				uint64 length = ftell(cfile);
 				char* data = new char[length + 1];
 				memset(data, 0, length + 1);
-				fseek(file, 0, SEEK_SET);
-				fread(data, sizeof(char), length, file);
-				fclose(file);
+				fseek(cfile, 0, SEEK_SET);
+				fread(data, sizeof(char), length, cfile);
+				fclose(cfile);
 				string result(data);
 				delete[] data;
 				return result;
@@ -19,35 +19,35 @@ namespace spruce {
 			return "";
 		}
 
-		uint8* readFileBin(const string& filepath, uint32& count) {
-			FILE* file = fopen(filepath.c_str(), "rb");
-			if (file != NULL) {
-				fseek(file, 0, SEEK_END);
-				unsigned long length = ftell(file);
+		uint8* readFileBin(const FileHandle& file, uint32& count) {
+			FILE* cfile = fopen(file.absolutePath.c_str(), "rb");
+			if (cfile != NULL) {
+				fseek(cfile, 0, SEEK_END);
+				uint64 length = ftell(cfile);
 				uint8* data = new uint8[length + 1];
 				memset(data, 0, length + 1);
-				fseek(file, 0, SEEK_SET);
-				fread(data, sizeof(uint8), length, file);
-				fclose(file);
+				fseek(cfile, 0, SEEK_SET);
+				fread(data, sizeof(uint8), length, cfile);
+				fclose(cfile);
 				count = length;
 				return data;
 			}
 			return nullptr;
 		}
 
-		void writeFileTxt(const string& filepath, string& string){
-			FILE* file = fopen(filepath.c_str(), "wt");
-			if (file != NULL) {
-				fputs(string.c_str(), file);
-				fclose(file);
+		void writeFileTxt(const FileHandle& file, string& string){
+			FILE* cfile = fopen(file.absolutePath.c_str(), "wt");
+			if (cfile != NULL) {
+				fputs(string.c_str(), cfile);
+				fclose(cfile);
 			}
 		}
 
-		void writeFileBin(const string& filepath, uint8* data, uint32& count) {
-			FILE* file = fopen(filepath.c_str(), "wb");
-			if (file != NULL) {
-				fwrite(data, sizeof(uint8), count, file);
-				fclose(file);
+		void writeFileBin(const FileHandle& file, uint8* data, uint32& count) {
+			FILE* cfile = fopen(file.absolutePath.c_str(), "wb");
+			if (cfile != NULL) {
+				fwrite(data, sizeof(uint8), count, cfile);
+				fclose(cfile);
 			}
 		}
 	}
