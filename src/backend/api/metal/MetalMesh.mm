@@ -3,6 +3,8 @@
 
 namespace spruce {
 	MetalMesh::MetalMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) : Mesh(vertexCount, vertices, indexCount, indices) {
+		bufferVertexCount = 0;
+		bufferIndexCount = 0;
 	}
 
 	MetalMesh::~MetalMesh() {
@@ -10,12 +12,36 @@ namespace spruce {
 	}
 
 	void MetalMesh::toVRAM(Shader* shader) {
-		vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeManaged];
-		memcpy(vertexBuffer.contents, vertices, vertexCount * sizeof(float));
-		[vertexBuffer didModifyRange:NSMakeRange(0, vertexCount * sizeof(float))];
-		indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeManaged];
-		memcpy(indexBuffer.contents, indices, indexCount * sizeof(uint16));
-		[indexBuffer didModifyRange:NSMakeRange(0, indexCount * sizeof(uint16))];
+		if (vertexBuffer == nil && vertexCount != 0) {
+			vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeShared];
+			bufferVertexCount = vertexCount;
+		} else {
+			if (vertexCount == 0) {
+			} else if (bufferVertexCount != vertexCount) {
+				//[vertexBuffer release];
+				vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeShared];
+				bufferVertexCount = vertexCount;
+			}
+		}
+		if (vertexCount > 0) {
+			memcpy(vertexBuffer.contents, vertices, vertexCount * sizeof(float));
+			[vertexBuffer didModifyRange:NSMakeRange(0, vertexCount * sizeof(float))];
+		}
+		if (indexBuffer == nil && indexCount != 0) {
+			indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeShared];
+			bufferIndexCount = indexCount;
+		} else {
+			if (indexCount == 0) {
+			} else if (bufferIndexCount != indexCount) {
+				//[indexBuffer release];
+				indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeShared];
+				bufferIndexCount = indexCount;
+			}
+		}
+		if (indexCount > 0) {
+			memcpy(indexBuffer.contents, indices, indexCount * sizeof(uint16));
+			[indexBuffer didModifyRange:NSMakeRange(0, indexCount * sizeof(uint16))];
+		}
 	}
 
 	void MetalMesh::freeVRAM() {

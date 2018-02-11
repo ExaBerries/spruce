@@ -9,6 +9,8 @@ namespace spruce {
 			GLuint vao;
 			GLuint vbo;
 			GLuint ibo;
+			uint16 bufferVertexCount;
+			uint16 bufferIndexCount;
 
 			OpenGLMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 			~OpenGLMesh();

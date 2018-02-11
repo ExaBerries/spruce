@@ -79,6 +79,7 @@ namespace spruce {
 		if (vertSuccess == GL_FALSE) {
 			GLint length = 0;
 			glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &length);
+			log(length);
 			std::vector<GLchar> errorLog(2048);
 			glGetShaderInfoLog(vert, length, &length, &errorLog[0]);
 			log(errorLog);

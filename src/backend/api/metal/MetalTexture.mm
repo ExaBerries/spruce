@@ -27,6 +27,8 @@ namespace spruce {
 			format = MTLPixelFormatRGBA32Float;
 		} else if (this->format == Texture::DEPTH) {
 			format = MTLPixelFormatDepth32Float;
+		} else if (this->format == Texture::RED) {
+			format = MTLPixelFormatR32Float;
 		}
 		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:format width:this->width height:this->height mipmapped:NO];
 		if (this->format == Texture::DEPTH) {
@@ -39,14 +41,17 @@ namespace spruce {
 		mtlTexture = [device newTextureWithDescriptor:desc];
 		if (data != nullptr) {
 			uint16 bytesPerRow = 0;
+			bytesPerRow = width;
 			if (this->format == Texture::RGB) {
-				bytesPerRow = 0;
+				bytesPerRow *= 0;
 			} else if (this->format == Texture::RGBA) {
-				bytesPerRow = sizeof(float);
+				bytesPerRow *= sizeof(float);
 			} else if (this->format == Texture::DEPTH) {
-				bytesPerRow = sizeof(float);
+				bytesPerRow *= sizeof(float);
+			} else if (this->format == Texture::RED) {
+				bytesPerRow *= sizeof(float);
 			}
-			[mtlTexture replaceRegion:MTLRegionMake2D(0, 0, this->width, this->height) mipmapLevel:0 slice:0 withBytes:this->data bytesPerRow:bytesPerRow bytesPerImage:0];
+			[mtlTexture replaceRegion:MTLRegionMake2D(0, 0, this->width, this->height) mipmapLevel:0 withBytes:this->data bytesPerRow:bytesPerRow];
 		}
 	}
 

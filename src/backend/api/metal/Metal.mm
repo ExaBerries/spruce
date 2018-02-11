@@ -11,6 +11,10 @@
 
 namespace spruce {
 	Metal::Metal(Window* window) : RenderAPI(window, vec3f(2, 2, 1)) {
+		fontVert =
+				#include <backend/api/metal/font.metal>
+		;
+		fontFrag = "";
 	}
 
 	Metal::~Metal() {
@@ -78,13 +82,21 @@ namespace spruce {
 		return new MetalTexture(Texture::RGBA, data, width, height);
 	}
 
+	Texture* Metal::createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height) {
+		return new MetalTexture(format, data, width, height);
+	}
+
 	RenderTarget* Metal::createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) {
 		return new MetalRenderTarget(format, width, height);
 	}
 
 	void Metal::render(Mesh* mesh, Shader* shader) {
 		[renderEncoder setVertexBuffer:((MetalMesh*)mesh)->vertexBuffer offset:0 atIndex:0];
-		[renderEncoder drawIndexedPrimitives:MTLPrimitiveTypeTriangle indexCount:((MetalMesh*)mesh)->indexCount indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
+		if (mesh->indexCount > 0) {
+			[renderEncoder drawIndexedPrimitives:MTLPrimitiveTypeTriangle indexCount:((MetalMesh*)mesh)->indexCount indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
+		} else {
+			[renderEncoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:mesh->vertexCount];
+		}
 	}
 
 	void Metal::renderStart(graphics::RenderPass* renderPass) {

@@ -7,16 +7,20 @@
 #include <graphics/Texture.h>
 #include <graphics/RenderPass.h>
 #include <graphics/RenderTarget.h>
+#include <graphics/Font.h>
 #include <input/input.h>
 
 namespace spruce {
 	class RenderAPI {
 		public:
+			string fontVert;
+			string fontFrag;
 			Window* window;
 			vec3f ndcSize;
 
 			RenderAPI(Window* window, vec3f ndcSize);
 			virtual ~RenderAPI();
+
 			virtual void init() = 0;
 			virtual void updateStart() = 0;
 			virtual void updateEnd() = 0;
@@ -26,6 +30,7 @@ namespace spruce {
 			virtual Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) = 0;
 			virtual ShapeRenderer* createShapeRenderer() = 0;
 			virtual Texture* createTexture(string& string) = 0;
+			virtual Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height) = 0;
 			virtual RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) = 0;
 
 			virtual void render(Mesh* mesh, Shader* shader) = 0;

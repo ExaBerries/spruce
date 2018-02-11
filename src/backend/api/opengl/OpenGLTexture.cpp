@@ -62,6 +62,11 @@ namespace spruce {
 			type = GL_FLOAT;
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+		} else if (format == Texture::RED) {
+			internal = GL_RED;
+			external = GL_RED;
+			type = GL_FLOAT;
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		} else {
 			log("unknown pixel format");
 			return;

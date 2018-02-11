@@ -8,6 +8,8 @@ namespace spruce {
 		public:
 			id<MTLBuffer> vertexBuffer;
 			id<MTLBuffer> indexBuffer;
+			uint16 bufferVertexCount;
+			uint16 bufferIndexCount;
 
 			MetalMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 			~MetalMesh();

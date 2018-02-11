@@ -10,6 +10,7 @@
 #include <graphics/Texture.h>
 #include <graphics/RenderPass.h>
 #include <graphics/color.h>
+#include <graphics/Font.h>
 #include <io/FileHandle.h>
 
 namespace spruce {
@@ -21,10 +22,12 @@ namespace spruce {
 		PerspectiveCamera* createPerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir);
 		OrthographicCamera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up, vec3f& dir);
 		Texture* createTexture(const FileHandle& path);
+		Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height);
 		RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 		void render(Mesh* mesh, Shader* shader);
 		void render(RenderPass* renderPass);
+		void render(string str, Font& font, vec3f position, quaternion rotation, vec2f size, Camera* camera);
 
 		void setBlend(bool value);
 		void setDepth(bool value);

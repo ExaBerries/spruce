@@ -22,6 +22,7 @@ namespace spruce {
 			Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
 			ShapeRenderer* createShapeRenderer();
 			Texture* createTexture(string& path);
+			Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height);
 			RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 			void render(Mesh* mesh, Shader* shader);

@@ -42,7 +42,7 @@ namespace spruce {
 		vertexFunction = [library newFunctionWithName:@"vertexShader"];
 		fragmentFunction = [library newFunctionWithName:@"fragmentShader"];
 		MTLVertexDescriptor* vertexDescriptor = [MTLVertexDescriptor vertexDescriptor];
-		uint8 off = 0;
+		uint8 offset = 0;
 		for (uint8 i = 0; i < attributeCount; i++) {
 			MTLVertexFormat format = MTLVertexFormatInvalid;
 			if (attributes[i].size == 1) {
@@ -56,10 +56,10 @@ namespace spruce {
 			}
 			vertexDescriptor.attributes[i].format = format;
 			vertexDescriptor.attributes[i].bufferIndex = 0;
-			vertexDescriptor.attributes[i].offset = off;
-			off += attributes[i].size * sizeof(float);
+			vertexDescriptor.attributes[i].offset = offset;
+			offset += attributes[i].size * sizeof(float);
 		}
-		vertexDescriptor.layouts[0].stride = off;
+		vertexDescriptor.layouts[0].stride = offset;
 		vertexDescriptor.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
 		MTLRenderPipelineDescriptor* desc = [[MTLRenderPipelineDescriptor alloc] init];
 		desc.label = @"Spruce Render Pipeline";
@@ -70,6 +70,13 @@ namespace spruce {
 		} else {
 			desc.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
 		}
+		desc.colorAttachments[0].blendingEnabled = YES;
+		desc.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;
+		desc.colorAttachments[0].alphaBlendOperation = MTLBlendOperationAdd;
+		desc.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+		desc.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+		desc.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+		desc.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
 		desc.vertexDescriptor = vertexDescriptor;
 		if (renderPass != nullptr) {
 			desc.depthAttachmentPixelFormat = ((MetalRenderTarget*)renderPass->target)->depth->mtlTexture.pixelFormat;
@@ -139,6 +146,7 @@ namespace spruce {
 	void MetalShader::setUniform(string name, const color& color) {
 		vector_float4 col = {color.r, color.g, color.b, color.a};
 		[renderEncoder setVertexBytes:&col length:sizeof(col) atIndex:uniformLocations[name]];
+		[renderEncoder setFragmentBytes:&col length:sizeof(col) atIndex:uniformLocations[name]];
 	}
 
 	void MetalShader::setUniform(string name, const Texture* texture) {

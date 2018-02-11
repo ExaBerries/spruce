@@ -12,6 +12,11 @@ namespace spruce {
 
 	class OpenGL : public RenderAPI {
 		public:
+			VertexAttribute* fontAttributes;
+			Shader* fontShader;
+			uint32 fontVao;
+			uint32 fontVbo;
+
 			OpenGL(Window* window);
 			~OpenGL();
 
@@ -24,10 +29,12 @@ namespace spruce {
 			Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
 			ShapeRenderer* createShapeRenderer();
 			Texture* createTexture(string& path);
+			Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height);
 			RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 			void render(Mesh* mesh, Shader* shader);
 			void renderStart(graphics::RenderPass* renderPass);
+			void render(string& str, Font& font, vec3f position, quaternion rotation, vec2f size, Camera* camera);
 
 			void setBlend(bool value);
 			void setDepth(bool value);

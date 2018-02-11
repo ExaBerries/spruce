@@ -7,7 +7,8 @@ namespace spruce {
 			enum PixelFormat {
 				RGB,
 				RGBA,
-				DEPTH
+				DEPTH,
+				RED
 			};
 			PixelFormat format;
 			uint8* data;
