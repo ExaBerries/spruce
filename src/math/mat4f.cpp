@@ -167,6 +167,43 @@ namespace spruce {
 	}
 
 	mat4f& mat4f::invert() {
+		float det = determinate();
+		if (det == 0.0) {
+			return *this;
+		}
+		float values[16];
+		values[0] = this->values[9] * this->values[14] * this->values[7] - this->values[13] * this->values[10] * this->values[7] + this->values[13] * this->values[6] * this->values[11] - this->values[5] * this->values[14] * this->values[11] - this->values[9] * this->values[6] * this->values[15] + this->values[5] * this->values[10] * this->values[15];
+		values[1] = this->values[13] * this->values[10] * this->values[3] - this->values[9] * this->values[14] * this->values[3] - this->values[13] * this->values[2] * this->values[11] + this->values[1] * this->values[14] * this->values[11] + this->values[9] * this->values[2] * this->values[15] - this->values[1] * this->values[10] * this->values[15];
+		values[2] = this->values[5] * this->values[14] * this->values[3] - this->values[13] * this->values[6] * this->values[3] + this->values[13] * this->values[2] * this->values[7] - this->values[1] * this->values[14] * this->values[7] - this->values[5] * this->values[2] * this->values[15] + this->values[1] * this->values[6] * this->values[15];
+		values[3] = this->values[9] * this->values[6] * this->values[3] - this->values[5] * this->values[10] * this->values[3] - this->values[9] * this->values[2] * this->values[7] + this->values[1] * this->values[10] * this->values[7] + this->values[5] * this->values[2] * this->values[11] - this->values[1] * this->values[6] * this->values[11];
+		values[4] = this->values[12] * this->values[10] * this->values[7] - this->values[8] * this->values[14] * this->values[7] - this->values[12] * this->values[6] * this->values[11] + this->values[4] * this->values[14] * this->values[11] + this->values[8] * this->values[6] * this->values[15] - this->values[4] * this->values[10] * this->values[15];
+		values[5] = this->values[8] * this->values[14] * this->values[3] - this->values[12] * this->values[10] * this->values[3] + this->values[12] * this->values[2] * this->values[11] - this->values[0] * this->values[14] * this->values[11] - this->values[8] * this->values[2] * this->values[15] + this->values[0] * this->values[10] * this->values[15];
+		values[6] = this->values[12] * this->values[6] * this->values[3] - this->values[4] * this->values[14] * this->values[3] - this->values[12] * this->values[2] * this->values[7] + this->values[0] * this->values[14] * this->values[7] + this->values[4] * this->values[2] * this->values[15] - this->values[0] * this->values[6] * this->values[15];
+		values[7] = this->values[4] * this->values[10] * this->values[3] - this->values[8] * this->values[6] * this->values[3] + this->values[8] * this->values[2] * this->values[7] - this->values[0] * this->values[10] * this->values[7] - this->values[4] * this->values[2] * this->values[11] + this->values[0] * this->values[6] * this->values[11];
+		values[8] = this->values[8] * this->values[13] * this->values[7] - this->values[12] * this->values[9] * this->values[7] + this->values[12] * this->values[5] * this->values[11] - this->values[4] * this->values[13] * this->values[11] - this->values[8] * this->values[5] * this->values[15] + this->values[4] * this->values[9] * this->values[15];
+		values[9] = this->values[12] * this->values[9] * this->values[3] - this->values[8] * this->values[13] * this->values[3] - this->values[12] * this->values[1] * this->values[11] + this->values[0] * this->values[13] * this->values[11] + this->values[8] * this->values[1] * this->values[15] - this->values[0] * this->values[9] * this->values[15];
+		values[10] = this->values[4] * this->values[13] * this->values[3] - this->values[12] * this->values[5] * this->values[3] + this->values[12] * this->values[1] * this->values[7] - this->values[0] * this->values[13] * this->values[7] - this->values[4] * this->values[1] * this->values[15] + this->values[0] * this->values[5] * this->values[15];
+		values[11] = this->values[8] * this->values[5] * this->values[3] - this->values[4] * this->values[9] * this->values[3] - this->values[8] * this->values[1] * this->values[7] + this->values[0] * this->values[9] * this->values[7] + this->values[4] * this->values[1] * this->values[11] - this->values[0] * this->values[5] * this->values[11];
+		values[12] = this->values[12] * this->values[9] * this->values[6] - this->values[8] * this->values[13] * this->values[6] - this->values[12] * this->values[5] * this->values[10] + this->values[4] * this->values[13] * this->values[10] + this->values[8] * this->values[5] * this->values[14] - this->values[4] * this->values[9] * this->values[14];
+		values[13] = this->values[8] * this->values[13] * this->values[2] - this->values[12] * this->values[9] * this->values[2] + this->values[12] * this->values[1] * this->values[10] - this->values[0] * this->values[13] * this->values[10] - this->values[8] * this->values[1] * this->values[14] + this->values[0] * this->values[9] * this->values[14];
+		values[14] = this->values[12] * this->values[5] * this->values[2] - this->values[4] * this->values[13] * this->values[2] - this->values[12] * this->values[1] * this->values[6] + this->values[0] * this->values[13] * this->values[6] + this->values[4] * this->values[1] * this->values[14] - this->values[0] * this->values[5] * this->values[14];
+		values[15] = this->values[4] * this->values[9] * this->values[2] - this->values[8] * this->values[5] * this->values[2] + this->values[8] * this->values[1] * this->values[6] - this->values[0] * this->values[9] * this->values[6] - this->values[4] * this->values[1] * this->values[10] + this->values[0] * this->values[5] * this->values[10];
+		this->values[0] = values[0] / det;
+		this->values[1] = values[1] / det;
+		this->values[2] = values[2] / det;
+		this->values[3] = values[3] / det;
+		this->values[4] = values[4] / det;
+		this->values[5] = values[5] / det;
+		this->values[6] = values[6] / det;
+		this->values[7] = values[7] / det;
+		this->values[8] = values[8] / det;
+		this->values[9] = values[9] / det;
+		this->values[12] = values[12] / det;
+		this->values[10] = values[10] / det;
+		this->values[13] = values[13] / det;
+		this->values[14] = values[14] / det;
+		this->values[11] = values[11] / det;
+		this->values[15] = values[15] / det;
 		return *this;
 	}
 
@@ -256,17 +293,33 @@ namespace spruce {
 	}
 
 	vec3f operator*(const vec3f& vector, const mat4f& matrix) {
-		float x = vector.x * matrix.values[0] + vector.y * matrix.values[4] + vector.z * matrix.values[8] + matrix.values[12];
-		float y = vector.x * matrix.values[1] + vector.y * matrix.values[5] + vector.z * matrix.values[9] + matrix.values[13];
-		float z = vector.x * matrix.values[2] + vector.y * matrix.values[6] + vector.z * matrix.values[10] + matrix.values[14];
+		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + matrix.values[3];
+		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + matrix.values[7];
+		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + matrix.values[11];
 		return vec3f(x, y, z);
 	}
 
 	vec3f operator*(const mat4f& matrix, const vec3f& vector) {
-		float x = vector.x * matrix.values[0] + vector.y * matrix.values[4] + vector.z * matrix.values[8] + matrix.values[12];
-		float y = vector.x * matrix.values[1] + vector.y * matrix.values[5] + vector.z * matrix.values[9] + matrix.values[13];
-		float z = vector.x * matrix.values[2] + vector.y * matrix.values[6] + vector.z * matrix.values[10] + matrix.values[14];
+		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + matrix.values[3];
+		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + matrix.values[7];
+		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + matrix.values[11];
 		return vec3f(x, y, z);
+	}
+
+	vec4f operator*(const vec4f& vector, const mat4f& matrix) {
+		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + vector.w * matrix.values[3];
+		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + vector.w * matrix.values[7];
+		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + vector.w * matrix.values[11];
+		float w = vector.x * matrix.values[12] + vector.y * matrix.values[13] + vector.z * matrix.values[14] + vector.w * matrix.values[15];
+		return vec4f(x, y, z, w);
+	}
+
+	vec4f operator*(const mat4f& matrix, const vec4f& vector) {
+		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + vector.w * matrix.values[3];
+		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + vector.w * matrix.values[7];
+		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + vector.w * matrix.values[11];
+		float w = vector.x * matrix.values[12] + vector.y * matrix.values[13] + vector.z * matrix.values[14] + vector.w * matrix.values[15];
+		return vec4f(x, y, z, w);
 	}
 
 	mat4f& mat4f::operator+=(const mat4f& matrix) {

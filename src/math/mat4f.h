@@ -1,6 +1,7 @@
 #pragma once
 #include <common.h>
 #include <math/vec3f.h>
+#include <math/vec4f.h>
 #include <math/quaternion.h>
 #include <math.h>
 
@@ -29,6 +30,8 @@ namespace spruce {
 		friend mat4f operator*(const mat4f& left, const mat4f& right);
 		friend vec3f operator*(const vec3f& vector, const mat4f& matrix);
 		friend vec3f operator*(const mat4f& matrix, const vec3f& vector);
+		friend vec4f operator*(const vec4f& vector, const mat4f& matrix);
+		friend vec4f operator*(const mat4f& matrix, const vec4f& vector);
 
 		mat4f& operator+=(const mat4f& matrix);
 		mat4f& operator-=(const mat4f& matrix);
