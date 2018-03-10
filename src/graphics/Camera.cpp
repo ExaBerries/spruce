@@ -10,19 +10,22 @@ namespace spruce {
 	Camera::~Camera() {
 	}
 
-	vec3f Camera::unproject(vec2f& screen) {
-		float x = 2.0 * screen.x / viewportWidth - 1;
-		float y = 2.0 * (graphics::getHeight() - screen.y - 1) / viewportHeight - 1;
-		float z = -1;
-		// project vector inverse
-		vec3f world = vec3f(x, y, z);
+	vec3f Camera::unproject(vec2f& screen, float depth) {
+		float x = 2.0 * screen.x;
+		float y = 2.0 * screen.y;
+		float z = 2.0 * depth - 1;
+		vec4f vec(x, y, z, 1);
+		vec = inverse * vec;
+		vec /= vec.w;
+		vec3f world(vec.x, vec.y, vec.z);
 		return world;
 	}
 
 	vec2f Camera::project(vec3f& world) {
-		vec3f projected = vec3f(world.x, world.y, world.z) * combined;
-		float x = viewportWidth * (projected.x + 1) / 2;
-		float y = viewportHeight * (projected.y + 1) / 2;
+		vec4f projected = combined * vec4f(world, 1);
+		projected /= projected.w;
+		float x = projected.x / 2.0;
+		float y = projected.y / 2.0;
 		return vec2f(x, y);
 	}
 }

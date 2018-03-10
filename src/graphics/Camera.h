@@ -18,7 +18,7 @@ namespace spruce {
 			virtual ~Camera();
 
 			virtual void update() = 0;
-			vec3f unproject(vec2f& vector);
+			vec3f unproject(vec2f& vector, float depth);
 			vec2f project(vec3f& vector);
 	};
 }

@@ -25,5 +25,6 @@ namespace spruce {
 		vec3f scale(1, 1, 1);
 		view *= mat4f(pos, identityQuat, scale);
 		combined = projection * view;
+		inverse = mat4f(combined).invert();
 	}
 }
