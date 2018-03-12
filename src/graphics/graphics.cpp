@@ -125,7 +125,7 @@ namespace spruce {
 			renderPass->render();
 		}
 
-		void render(string str, Font& font, vec3f position, quaternion rotation, vec2f size, Camera* camera) {
+		void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, Camera* camera) {
 			struct vertex {
 				vec3f position;
 				vec2f coord;
@@ -195,7 +195,7 @@ namespace spruce {
 			} else {
 				fontShader->setUniform("camera", mat4f());
 			}
-			fontShader->setUniform("color", spruce::color(1, 0, 0, 1));
+			fontShader->setUniform("color", color);
 			font.texture->bind();
 			fontShader->setUniform("tex", font.texture);
 			fontMesh->vertices = (float*) coords;

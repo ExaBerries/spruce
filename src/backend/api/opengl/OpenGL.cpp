@@ -9,10 +9,6 @@
 
 namespace spruce {
 	OpenGL::OpenGL(Window* window) : RenderAPI(window, vec3f(2, 2, 2)) {
-		fontAttributes = nullptr;
-		fontShader = nullptr;
-		fontVao = 0;
-		fontVbo = 0;
 		fontVert =
 				#include "font.vert"
 		;
@@ -22,11 +18,6 @@ namespace spruce {
 	}
 
 	OpenGL::~OpenGL() {
-		delete fontShader;
-		delete[] fontAttributes;
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glDeleteBuffers(1, &fontVbo);
-		glDeleteVertexArrays(1, &fontVao);
 	}
 
 	void OpenGL::init() {
@@ -102,94 +93,6 @@ namespace spruce {
 			glViewport(0, 0, window->width, window->height);
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	}
-
-	void OpenGL::render(string& str, Font& font, vec3f position, quaternion rotation, vec2f size, Camera* camera) {
-		if (font.texture == nullptr || font.texture->width == 0 || font.texture->height == 0) {
-			return;
-		}
-		setBlend(true);
-		if (fontShader == nullptr) {
-			fontAttributes = new VertexAttribute[2];
-			fontAttributes[0] = VertexAttribute("position", 3);
-			fontAttributes[1] = VertexAttribute("coord", 2);
-			string fontVert = OpenGL::fontVert;
-			string fontFrag = OpenGL::fontFrag;
-			fontShader = createShader(fontVert, fontFrag, 2, fontAttributes);
-			fontShader->compile(nullptr);
-			fontShader->registerUniform("camera", 1);
-			fontShader->registerUniform("tex", 2);
-			fontShader->registerUniform("color", 3);
-		}
-		if (fontVao == 0) {
-			glGenVertexArrays(1, &fontVao);
-			glBindVertexArray(fontVao);
-		}
-		if (fontVbo == 0) {
-			glBindVertexArray(fontVao);
-			glGenBuffers(1, &fontVbo);
-			glBindBuffer(GL_ARRAY_BUFFER, fontVbo);
-			float stride = sizeof(vec3f) + sizeof(vec2f);
-			glEnableVertexAttribArray(fontShader->getAttributeLocation(fontAttributes[0].name));
-			glVertexAttribPointer(fontShader->getAttributeLocation(fontAttributes[0].name), 4, GL_FLOAT, GL_FALSE, stride, 0);
-			glEnableVertexAttribArray(fontShader->getAttributeLocation(fontAttributes[1].name));
-			glVertexAttribPointer(fontShader->getAttributeLocation(fontAttributes[1].name), 4, GL_FLOAT, GL_FALSE, stride, (void*)sizeof(vec3f));
-		}
-		float x = 0;
-		float y = 0;
-		struct point {
-			vec3f position;
-			vec2f coord;
-		};
-		point coords[6 * str.size()];
-		int n = 0;
-		for (uint32 i = 0; i < str.size(); i++) {
-			char p = str.c_str()[i];
-			if (p < 0) {
-				continue;
-			}
-			float x2 = x + font.chars[p].bl * size.x;
-			float y2 = -y - font.chars[p].bt * size.y;
-			float w = font.chars[p].bw * size.x;
-			float h = font.chars[p].bh * size.y;
-			x += font.chars[p].ax * size.x;
-			y += font.chars[p].ay * size.y;
-			if (!w || !h) {
-				continue;
-			}
-			coords[n].position = position + vec3f(x2, -y2, 0) * rotation;
-			coords[n].coord = vec2f(font.chars[p].tx, 0);
-			n++;
-			coords[n].position = position + vec3f(x2 + w, -y2, 0) * rotation;
-			coords[n].coord = vec2f(font.chars[p].tx + font.chars[p].bw / font.texture->width, 0);
-			n++;
-			coords[n].position = position + vec3f(x2, -y2 - h, 0) * rotation;
-			coords[n].coord = vec2f(font.chars[p].tx, font.chars[p].bh / font.texture->height);
-			n++;
-			coords[n].position = position + vec3f(x2 + w, -y2, 0) * rotation;
-			coords[n].coord = vec2f(font.chars[p].tx + font.chars[p].bw / font.texture->width, 0);
-			n++;
-			coords[n].position = position + vec3f(x2, -y2 - h, 0) * rotation;
-			coords[n].coord = vec2f(font.chars[p].tx, font.chars[p].bh / font.texture->height);
-			n++;
-			coords[n].position = position + vec3f(x2 + w, -y2 - h, 0) * rotation;
-			coords[n].coord = vec2f(font.chars[p].tx + font.chars[p].bw / font.texture->width, font.chars[p].bh / font.texture->height);
-			n++;
-		}
-		fontShader->enable();
-		if (camera != nullptr) {
-			fontShader->setUniform("camera", camera->combined);
-		} else {
-			fontShader->setUniform("camera", mat4f());
-		}
-		fontShader->setUniform("color", spruce::color(1, 0, 0, 1));
-		font.texture->bind();
-		fontShader->setUniform("tex", font.texture);
-		glBindVertexArray(fontVao);
-		glBindBuffer(GL_ARRAY_BUFFER, fontVbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(coords), coords, GL_DYNAMIC_DRAW);
-		glDrawArrays(GL_TRIANGLES, 0, n);
-		fontShader->disable();
 	}
 
 	void OpenGL::setBlend(bool value) {

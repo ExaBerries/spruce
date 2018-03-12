@@ -27,7 +27,7 @@ namespace spruce {
 
 		void render(Mesh* mesh, Shader* shader);
 		void render(RenderPass* renderPass);
-		void render(string str, Font& font, vec3f position, quaternion rotation, vec2f size, Camera* camera);
+		void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, Camera* camera);
 
 		void setBlend(bool value);
 		void setDepth(bool value);
