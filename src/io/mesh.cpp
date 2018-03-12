@@ -7,6 +7,9 @@ namespace spruce {
 		Mesh* loadMesh(const FileHandle& file) {
 			uint32 count = 0;
 			uint8* data = readFileBin(file, count);
+			if (data == nullptr) {
+				return nullptr;
+			}
 			if (data[0] == 0x0) {
 				uint32 offset = 1;
 				uint16 vertexCount = 0;
