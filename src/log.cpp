@@ -1,15 +1,16 @@
 #include <log.h>
+#include <app.h>
+#include <backend/api/RenderAPI.h>
 #include <iostream>
-#include <GLFW/glfw3.h>
 #include <stdarg.h>
 #include <stdlib.h>
 
 namespace spruce {
-	void logGLError() {
-		std::cout << "glError=" << glGetError() << std::endl;
+	void logAPIError() {
+		std::cout << "apiError=" << app::api->getError() << std::endl;
 	}
 
-	void logGLError(std::string name) {
-		std:: cout << name << "=" << glGetError() << std::endl;
+	void logAPIError(std::string name) {
+		std:: cout << name << "=" << app::api->getError() << std::endl;
 	}
 }

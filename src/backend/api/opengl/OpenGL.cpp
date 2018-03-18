@@ -35,6 +35,10 @@ namespace spruce {
 		swapBuffers(window);
 	}
 
+	string OpenGL::getError() {
+		return std::to_string(glGetError());
+	}
+
 	Mesh* OpenGL::createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) {
 		return new OpenGLMesh(vertexCount, vertices, indexCount, indices);
 	}
@@ -73,7 +77,7 @@ namespace spruce {
 		for (int i = 0; i < shader->attributeCount; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
-		if (mesh->indices > 0) {
+		if (mesh->indexCount > 0) {
 			glDrawElements(GL_TRIANGLES, mesh->indexCount, GL_UNSIGNED_SHORT, 0);
 		} else {
 			glDrawArrays(GL_TRIANGLES, 0, mesh->vertexCount);

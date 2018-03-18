@@ -23,6 +23,6 @@ namespace spruce {
 		std::cout << std::endl;
 	}
 
-	void logGLError();
-	void logGLError(std::string name);
+	void logAPIError();
+	void logAPIError(std::string name);
 }

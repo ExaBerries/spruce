@@ -19,6 +19,8 @@ namespace spruce {
 			void updateStart();
 			void updateEnd();
 
+			string getError();
+
 			Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 			Shader* createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes);
 			Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
