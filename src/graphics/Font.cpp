@@ -17,16 +17,16 @@ namespace spruce {
 	void Font::toVRAM() {
 		FT_Library ft;
 		if (FT_Init_FreeType(&ft)) {
-			log("Could not init freetype library");
+			serr("Could not init freetype library");
 		}
 		FT_Face face;
 		if (FT_New_Face(ft, path.c_str(), 0, &face)) {
-			log("could not open font file");
+			slog("could not open font file");
 			return;
 		}
 		FT_Set_Pixel_Sizes(face, 0, 48);
 		if (FT_Load_Char(face, 'X', FT_LOAD_RENDER)) {
-			log("Could not load character 'X'");
+			serr("Could not load character 'X'");
 			return;
 		}
 		FT_GlyphSlot g = face->glyph;
@@ -34,7 +34,7 @@ namespace spruce {
 		uint16 height = 0;
 		for (int32 i = 0; i < 128; i++) {
 			if (FT_Load_Char(face, i, FT_LOAD_RENDER)) {
-				log("character not found: ", i);
+				serr("character not found: ", i);
 				continue;
 			}
 			width += g->bitmap.width;

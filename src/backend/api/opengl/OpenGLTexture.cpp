@@ -68,7 +68,7 @@ namespace spruce {
 			type = GL_FLOAT;
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		} else {
-			log("unknown pixel format");
+			serr("unknown pixel format");
 			return;
 		}
 		glTexImage2D(GL_TEXTURE_2D, 0, internal, width, height, 0, external, type, data);
@@ -91,7 +91,7 @@ namespace spruce {
 				return i;
 			}
 		}
-		log("no texture unit available");
+		serr("no texture unit available");
 		return 0;
 	}
 }

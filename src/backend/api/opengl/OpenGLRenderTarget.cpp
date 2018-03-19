@@ -26,7 +26,7 @@ namespace spruce {
 			glDrawBuffer(GL_NONE);
 		}
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-			log("error creating framebuffer");
+			serr("error creating framebuffer");
 		}
 	}
 

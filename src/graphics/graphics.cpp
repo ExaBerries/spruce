@@ -20,7 +20,7 @@ namespace spruce {
 			uint32 count = 0;
 			uint8* data = io::readFileBin(file, count);
 			if (data == nullptr) {
-				log("could not read shader file: ", file);
+				serr("could not read shader file: ", file);
 				return nullptr;
 			}
 			if (data[0] == 1) {
@@ -60,7 +60,7 @@ namespace spruce {
 				i += sizeof(uint32);
 				if (app::apiType == app::METAL) {
 					if (metalSize == 0) {
-						log("no metal shader data");
+						serr("no metal shader data");
 						return nullptr;
 					}
 					uint8* metalData = new uint8[metalSize / sizeof(uint8)];
@@ -70,19 +70,22 @@ namespace spruce {
 				}
 				i += metalSize;
 				if (app::apiType == app::VULKAN) {
+					serr("unsupported api");
 					delete[] data;
 					return nullptr; // TODO create Vulkan shader from SPIR-V data
 				}
 				if (app::apiType == app::DX11) {
+					serr("unsupported api");
 					delete[] data;
 					return nullptr; // TODO support dx11 HLSL
 				}
 				if (app::apiType == app::DX12) {
+					serr("unsupported api");
 					delete[] data;
 					return nullptr; // TODO support dx12 HLSL
 				}
 			} else {
-				log("invalid version of spruce-shader");
+				serr("invalid version of spruce-shader");
 			}
 			delete[] data;
 			return nullptr;

@@ -6,11 +6,13 @@
 #include <stdlib.h>
 
 namespace spruce {
-	void logAPIError() {
-		std::cout << "apiError=" << app::api->getError() << std::endl;
-	}
+	namespace log {
+		void logAPIError() {
+			std::cout << "apiError=" << app::api->getError() << std::endl;
+		}
 
-	void logAPIError(std::string name) {
-		std:: cout << name << "=" << app::api->getError() << std::endl;
+		void logAPIError(std::string name) {
+			std:: cout << name << "=" << app::api->getError() << std::endl;
+		}
 	}
 }

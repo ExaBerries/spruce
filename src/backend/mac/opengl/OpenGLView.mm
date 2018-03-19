@@ -33,7 +33,8 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surfaceNeedsUpdate:) name:NSViewGlobalFrameDidChangeNotification object:self];
 	context = [[NSOpenGLContext alloc] initWithFormat: pixelFormat shareContext: nil];
 	if (context == nullptr) {
-		spruce::log("could not create OpenGL context");
+		serr("could not create OpenGL context");
+		exit(EXIT_FAILURE);
 	}
 	[context setView: self];
 	[self setWantsBestResolutionOpenGLSurface:YES];

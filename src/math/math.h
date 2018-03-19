@@ -1,5 +1,4 @@
 #pragma once
-
 #include <math/random.h>
 #include <math/quaternion.h>
 #include <math/vec2i.h>

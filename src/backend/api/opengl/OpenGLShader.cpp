@@ -44,11 +44,13 @@ namespace spruce {
 			glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &length);
 			std::vector<GLchar> errorLog(2048);
 			glGetShaderInfoLog(vert, length, &length, &errorLog[0]);
-			log(errorLog);
+			serr(errorLog);
 			glDeleteShader(vert);
 			return;
 		} else {
-			log("vertex shader successfully specialized");
+			#ifdef SHDR_SUCCESS_LOG
+				slog("vertex shader successfully specialized");
+			#endif
 		}
 
 		frag = glCreateShader(GL_FRAGMENT_SHADER);
@@ -61,11 +63,13 @@ namespace spruce {
 			glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &length);
 			std::vector<GLchar> errorLog(2048);
 			glGetShaderInfoLog(frag, length, &length, &errorLog[0]);
-			log(errorLog);
+			serr(errorLog);
 			glDeleteShader(frag);
 			return;
 		} else {
-			log("fragment shader successfully specialized");
+			#ifdef SHDR_SUCCESS_LOG
+				slog("fragment shader successfully specialized");
+			#endif
 		}
 	}
 
@@ -79,14 +83,16 @@ namespace spruce {
 		if (vertSuccess == GL_FALSE) {
 			GLint length = 0;
 			glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &length);
-			log(length);
+			serr(length);
 			std::vector<GLchar> errorLog(2048);
 			glGetShaderInfoLog(vert, length, &length, &errorLog[0]);
-			log(errorLog);
+			slog(errorLog);
 			glDeleteShader(vert);
 			return;
 		} else {
-			log("vertex shader successfully compiled");
+			#ifdef SHDR_SUCCESS_LOG
+				slog("vertex shader successfully compiled");
+			#endif
 		}
 
 		const char* fragCStr = fragSource.c_str();
@@ -100,11 +106,13 @@ namespace spruce {
 			glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &length);
 			std::vector<GLchar> errorLog(2048);
 			glGetShaderInfoLog(frag, length, &length, &errorLog[0]);
-			log(errorLog);
+			serr(errorLog);
 			glDeleteShader(frag);
 			return;
 		} else {
-			log("fragment shader successfully compiled");
+			#ifdef SHDR_SUCCESS_LOG
+				slog("fragment shader successfully compiled");
+			#endif
 		}
 	}
 
@@ -128,13 +136,15 @@ namespace spruce {
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
 			std::vector<GLchar> errorLog(2048);
 			glGetProgramInfoLog(program, length, &length, &errorLog[0]);
-			log(errorLog);
+			serr(errorLog);
 			glDeleteProgram(program);
 			glDeleteShader(vert);
 			glDeleteShader(frag);
 			return;
 		} else {
-			log("shader successfully linked");
+			#ifdef SHDR_SUCCESS_LOG
+				slog("shader successfully linked");
+			#endif
 		}
 		glValidateProgram(program);
 	}

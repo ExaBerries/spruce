@@ -17,29 +17,29 @@ namespace spruce {
 			apiType = api;
 			os::init();
 			if (!os::supportsAPI(api)) {
-				log("unsupported API");
+				serr("unsupported API");
 				exit(EXIT_FAILURE);
 			}
 			window = os::createWindow(api);
 			if (api == OPENGL) {
 				app::api = new OpenGL(window);
 			} else if (api == VULKAN) {
-				log("unsupported API");
+				slog("unsupported API");
 				exit(EXIT_FAILURE);
 			} else if (api == METAL) {
 				app::api = new Metal(window);
 			} else if (api == METAL2) {
-				log("unsupported API");
+				serr("unsupported API");
 				exit(EXIT_FAILURE);
 			} else if (api == DX11) {
-				log("unsupported API");
+				serr("unsupported API");
 				exit(EXIT_FAILURE);
 			} else if (api == DX12) {
-				log("unsupported API");
+				serr("unsupported API");
 				exit(EXIT_FAILURE);
 			}
 			if (app::api == nullptr) {
-				log("could not instantiate api");
+				serr("could not instantiate api");
 				exit(EXIT_FAILURE);
 			}
 			app::api->init();

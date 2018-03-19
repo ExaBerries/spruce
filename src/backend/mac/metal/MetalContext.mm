@@ -12,7 +12,7 @@ namespace spruce {
 	void initDevice() {
 		device = MTLCreateSystemDefaultDevice();
 		if (device == nil) {
-			log("could not create Metal device");
+			serr("could not create Metal device");
 			exit(EXIT_FAILURE);
 		}
 		commandQueue = [device newCommandQueue];

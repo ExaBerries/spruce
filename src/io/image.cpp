@@ -9,15 +9,18 @@ namespace spruce {
 			FIBITMAP* temp = nullptr;
 			format = FreeImage_GetFileType(pathCStr, 0);
 			if (format == FIF_UNKNOWN) {
-				log("unknown image format ", file.absolutePath);
 				format = FreeImage_GetFIFFromFilename(pathCStr);
 			}
 			if (format == FIF_UNKNOWN) {
-				log("unknown image format ", file.absolutePath);
+				serr("unknown image format ", file.absolutePath);
 				return nullptr;
 			}
 			if (FreeImage_FIFSupportsReading(format)) {
 				temp = FreeImage_Load(format, pathCStr);
+				if (temp == nullptr) {
+					serr("could not load image ", file.absolutePath);
+					return nullptr;
+				}
 				FIBITMAP* bitmap = FreeImage_ConvertTo32Bits(temp);
 				FreeImage_Unload(temp);
 				uint8* pixels = FreeImage_GetBits(bitmap);
@@ -29,7 +32,7 @@ namespace spruce {
 				FreeImage_Unload(bitmap);
 				return data;
 			}
-			log("unsupported file format ", file.absolutePath);
+			serr("unsupported file format ", file.absolutePath);
 			return nullptr;
 		}
 	}
