@@ -1,6 +1,5 @@
 #pragma once
 #include <graphics/RenderTarget.h>
-#include <graphics/RenderBuffer.h>
 #include <backend/api/opengl/platform.h>
 #include <backend/api/opengl/OpenGLTexture.h>
 
