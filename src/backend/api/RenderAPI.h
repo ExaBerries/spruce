@@ -9,6 +9,7 @@
 #include <graphics/RenderTarget.h>
 #include <graphics/Font.h>
 #include <input/input.h>
+#include <io/FileHandle.h>
 
 namespace spruce {
 	class RenderAPI {
@@ -31,7 +32,7 @@ namespace spruce {
 			virtual Shader* createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes) = 0;
 			virtual Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) = 0;
 			virtual ShapeRenderer* createShapeRenderer() = 0;
-			virtual Texture* createTexture(string& string) = 0;
+			virtual Texture* createTexture(const FileHandle& file) = 0;
 			virtual Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height) = 0;
 			virtual RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) = 0;
 

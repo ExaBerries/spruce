@@ -107,7 +107,7 @@ namespace spruce {
 			return new OrthographicCamera(viewportWidth, viewportHeight, near, far, up, dir);
 		}
 
-		Texture* createTexture(string& path) {
+		Texture* createTexture(const FileHandle& path) {
 			return app::api->createTexture(path);
 		}
 

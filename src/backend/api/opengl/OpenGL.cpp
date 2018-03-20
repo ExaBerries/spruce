@@ -55,7 +55,7 @@ namespace spruce {
 		return new OpenGLShapeRenderer();
 	}
 
-	Texture* OpenGL::createTexture(string& path) {
+	Texture* OpenGL::createTexture(const FileHandle& path) {
 		uint16 width = 0;
 		uint16 height = 0;
 		uint16 bitsPerPixel = 0;

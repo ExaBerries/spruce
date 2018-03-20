@@ -17,5 +17,9 @@ namespace spruce {
 		void updateEnd();
 
 		uint16 codeFor(input::Key key);
+
+		string getHomePath();
+		string getBasePathInternal();
+		string getBasePathExternal();
 	}
 }

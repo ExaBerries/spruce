@@ -15,6 +15,8 @@ namespace spruce {
 				string result(data);
 				delete[] data;
 				return result;
+			} else {
+				serr("could not read file txt ", file);
 			}
 			return "";
 		}
@@ -31,6 +33,8 @@ namespace spruce {
 				fclose(cfile);
 				count = length;
 				return data;
+			} else {
+				serr("could not read file bin ", file);
 			}
 			return nullptr;
 		}
@@ -40,6 +44,8 @@ namespace spruce {
 			if (cfile != NULL) {
 				fputs(string.c_str(), cfile);
 				fclose(cfile);
+			} else {
+				serr("could not write file txt ", file);
 			}
 		}
 
@@ -48,6 +54,8 @@ namespace spruce {
 			if (cfile != NULL) {
 				fwrite(data, sizeof(uint8), count, cfile);
 				fclose(cfile);
+			} else {
+				serr("could not write file bin ", file);
 			}
 		}
 	}

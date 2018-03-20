@@ -4,7 +4,6 @@
 #include <backend/api/RenderAPI.h>
 #include <backend/os.h>
 #include <system/system.h>
-#include <thread>
 
 namespace spruce {
 	namespace app {
@@ -12,6 +11,7 @@ namespace spruce {
 		API apiType;
 		RenderAPI* api;
 		graphics::Screen* screen;
+		bool debug;
 
 		void init(API api) {
 			apiType = api;
@@ -43,6 +43,7 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			app::api->init();
+			debug = false;
 		}
 
 		void run() {

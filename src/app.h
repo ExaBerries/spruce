@@ -12,6 +12,7 @@ namespace spruce {
 		extern API apiType;
 		extern RenderAPI* api;
 		extern graphics::Screen* screen;
+		extern bool debug;
 
 		void init(API api);
 		void run();

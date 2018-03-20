@@ -3,6 +3,7 @@
 #include <input/input.h>
 #include <sys/sysctl.h>
 #include <backend/mac/CocoaWindow.h>
+#include <app.h>
 
 @interface CocoaApp : NSApplication {
 }
@@ -163,6 +164,23 @@ namespace spruce {
 
 		uint16 codeFor(input::Key key) {
 			return keyCodes[key];
+		}
+
+		string getHomePath() {
+			return getenv("HOME");
+		}
+
+		string getBasePathInternal() {
+			if (app::debug) {
+				return "assets/";
+			} else {
+				NSBundle* bundle = [NSBundle mainBundle];
+				return string([bundle.resourcePath UTF8String]) + "/";
+			}
+		}
+
+		string getBasePathExternal() {
+			return string(getHomePath() + "/Library/Application Support/");
 		}
 	}
 

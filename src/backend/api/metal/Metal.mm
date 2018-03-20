@@ -78,7 +78,7 @@ namespace spruce {
 		return new MetalShapeRenderer();
 	}
 
-	Texture* Metal::createTexture(string& path) {
+	Texture* Metal::createTexture(const FileHandle& path) {
 		uint16 width = 0;
 		uint16 height = 0;
 		uint16 bitsPerPixel = 0;
