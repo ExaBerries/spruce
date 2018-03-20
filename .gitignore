@@ -38,6 +38,7 @@
 /.settings
 /Debug
 /Release
+.checkstyle
 
 # Mac
 .DS_Store
