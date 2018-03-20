@@ -21,5 +21,8 @@ namespace spruce {
 		string getHomePath();
 		string getBasePathInternal();
 		string getBasePathExternal();
+		bool isDir(string path);
+		bool exists(string path);
+		void createDir(string path);
 	}
 }

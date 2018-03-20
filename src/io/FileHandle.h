@@ -13,6 +13,7 @@ namespace spruce {
 			string extension;
 			uint64 size;
 			bool exists;
+			bool directory;
 
 			FileHandle(FileHandleType type, const unsigned char* path);
 			FileHandle(FileHandleType type, const char* path);

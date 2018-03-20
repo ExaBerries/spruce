@@ -1,9 +1,10 @@
 #include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
-#include <sys/sysctl.h>
-#include <backend/mac/CocoaWindow.h>
 #include <app.h>
+#include <backend/mac/CocoaWindow.h>
+#include <sys/sysctl.h>
+#include <sys/stat.h>
 
 @interface CocoaApp : NSApplication {
 }
@@ -181,6 +182,29 @@ namespace spruce {
 
 		string getBasePathExternal() {
 			return string(getHomePath() + "/Library/Application Support/");
+		}
+
+		bool isDir(string path) {
+			struct stat s;
+			if (stat(path.c_str(), &s) == 0) {
+				return (s.st_mode & S_IFDIR);
+			} else {
+				serr("stat error, may not exist ", path);
+				return false;
+			}
+		}
+
+		bool exists(string path) {
+			struct stat s;
+			if (stat(path.c_str(), &s) == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		void createDir(string path) {
+			mkdir(path.c_str(), S_IWUSR);
 		}
 	}
 
