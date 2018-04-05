@@ -4,6 +4,8 @@
 
 namespace spruce {
 	namespace log {
+		extern std::mutex logMutex;
+
 		template <typename TYPE>
 		void print(TYPE type) {
 			std::cout << type;
@@ -18,12 +20,14 @@ namespace spruce {
 
 		template <typename ... TYPES>
 		void log(std::string file, uint32_t line, TYPES ... args) {
+			std::lock_guard<std::mutex> guard(logMutex);
 			FOREACH_VARIADIC(print, args);
 			std::cout << std::endl;
 		}
 
 		template <typename ... TYPES>
 		void err(std::string file, uint32_t line, TYPES ... args) {
+			std::lock_guard<std::mutex> guard(logMutex);
 			std::cout << file << ":" << line << "\t";
 			FOREACH_VARIADIC(print, args);
 			std::cout << std::endl;

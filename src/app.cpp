@@ -4,6 +4,7 @@
 #include <backend/api/RenderAPI.h>
 #include <backend/os.h>
 #include <system/system.h>
+#include <backend/task/taskmanager.h>
 
 namespace spruce {
 	namespace app {
@@ -16,6 +17,7 @@ namespace spruce {
 		void init(API api) {
 			apiType = api;
 			os::init();
+			task::init();
 			if (!os::supportsAPI(api)) {
 				serr("unsupported API");
 				exit(EXIT_FAILURE);
@@ -57,6 +59,16 @@ namespace spruce {
 					screen->update(delta);
 					screen->render(delta);
 				}
+				task::TaskBackend* taskBackend = task::getNextTask(true);
+				while (taskBackend != nullptr) {
+					if (taskBackend->functionData != nullptr) {
+						taskBackend->functionData->execute();
+						taskBackend->complete = true;
+						delete taskBackend;
+					} else {
+						serr("invalid task, functionData == nullptr");
+					}
+				}
 				api->updateEnd();
 				os::updateEnd();
 			}
@@ -69,6 +81,8 @@ namespace spruce {
 			delete window;
 			delete screen;
 			delete api;
+			task::free();
+			os::free();
 		}
 
 		void setScreen(graphics::Screen* newScreen) {

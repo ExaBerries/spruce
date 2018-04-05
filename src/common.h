@@ -3,6 +3,7 @@
 #include <array>
 #include <vector>
 #include <map>
+#include <stack>
 #include <log.h>
 
 typedef int8_t int8;

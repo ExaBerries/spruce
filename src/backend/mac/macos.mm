@@ -5,6 +5,7 @@
 #include <backend/mac/CocoaWindow.h>
 #include <sys/sysctl.h>
 #include <sys/stat.h>
+#include <system/system.h>
 
 @interface CocoaApp : NSApplication {
 }
@@ -208,7 +209,7 @@ namespace spruce {
 		}
 	}
 
-	namespace system {
+	namespace sys {
 		string getCPUName() {
 			size_t length = 128;
 			char buffer[length];
