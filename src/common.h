@@ -1,10 +1,12 @@
 #pragma once
+#ifdef __cplusplus
 #include <string>
 #include <array>
 #include <vector>
 #include <map>
 #include <stack>
 #include <log.h>
+#endif
 
 typedef int8_t int8;
 typedef int16_t int16;
@@ -16,4 +18,6 @@ typedef uint16_t uint16;
 typedef uint32_t uint32;
 typedef uint64_t uint64;
 
+#ifdef __cplusplus
 typedef std::string string;
+#endif
