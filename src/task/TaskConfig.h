@@ -1,5 +1,6 @@
 #pragma once
 #include <common.h>
+#include <task/TaskPriority.h>
 #include <tuple>
 
 namespace spruce {
@@ -7,7 +8,7 @@ namespace spruce {
 	class TaskConfig;
 
 	template <typename OUTPUT, typename ... TYPES>
-	class TaskConfig {
+	class TaskConfig<OUTPUT(TYPES...)> {
 		public:
 			std::function<OUTPUT(TYPES...)> function;
 			task::TaskPriority priority;
