@@ -7,3 +7,4 @@
 #include <input/input.h>
 #include <task/Task.h>
 #include <task/TaskConfig.h>
+#include <task/TaskGroup.h>
