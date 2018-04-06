@@ -5,8 +5,8 @@
 
 namespace spruce {
 	namespace task {
-		std::stack<TaskBackend*> mainTasks;
-		std::stack<TaskBackend*> concurrentTasks;
+		std::vector<TaskBackend*> mainTasks;
+		std::vector<TaskBackend*> concurrentTasks;
 		std::map<uint64, TaskData*> data;
 		std::map<uint64, uint16> references;
 		std::vector<WorkerThread> threads;
@@ -26,13 +26,11 @@ namespace spruce {
 			for (uint16 i = 0; i < threads.size(); i++) {
 				threads[i].join();
 			}
-			while (mainTasks.size() > 0) {
-				delete mainTasks.top();
-				mainTasks.pop();
+			for (uint32 i = 0; i < mainTasks.size(); i++) {
+				delete mainTasks[i];
 			}
-			while (concurrentTasks.size() > 0) {
-				delete concurrentTasks.top();
-				concurrentTasks.pop();
+			for (uint32 i = 0; i < concurrentTasks.size(); i++) {
+				delete concurrentTasks[i];
 			}
 			for (auto taskData : data) {
 				delete taskData.second;
@@ -44,16 +42,32 @@ namespace spruce {
 			std::lock_guard<std::mutex> dataGuard(task::dataMutex);
 			data[id] = taskData;
 			if (taskBackend->concurrent) {
-				concurrentTasks.push(taskBackend);
+				concurrentTasks.push_back(taskBackend);
 			} else {
-				mainTasks.push(taskBackend);
+				mainTasks.push_back(taskBackend);
 			}
+		}
+
+		bool compareTasks(TaskBackend* taskA, TaskBackend* taskB) {
+			if (taskA->priority < taskB->priority) {
+				return true;
+			}
+			return false;
 		}
 
 		TaskBackend* getConcurrentTask() {
 			if (concurrentTasks.size() > 0) {
-				TaskBackend* task = concurrentTasks.top();
-				concurrentTasks.pop();
+				TaskBackend* task = concurrentTasks[0];
+				uint32 eraseIndex = 0;
+				for (uint32 i = 1; i < mainTasks.size(); i++) {
+					if (concurrentTasks[i] != nullptr) {
+						if (compareTasks(task, concurrentTasks[i])) {
+							task = mainTasks[i];
+							eraseIndex = i;
+						}
+					}
+				}
+				concurrentTasks.erase(concurrentTasks.begin() + eraseIndex);
 				return task;
 			}
 			return nullptr;
@@ -61,8 +75,17 @@ namespace spruce {
 
 		TaskBackend* getMainTask() {
 			if (mainTasks.size() > 0) {
-				TaskBackend* task = mainTasks.top();
-				mainTasks.pop();
+				TaskBackend* task = mainTasks[0];
+				uint32 eraseIndex = 0;
+				for (uint32 i = 1; i < mainTasks.size(); i++) {
+					if (mainTasks[i] != nullptr) {
+						if (compareTasks(task, mainTasks[i])) {
+							task = mainTasks[i];
+							eraseIndex = i;
+						}
+					}
+				}
+				mainTasks.erase(mainTasks.begin() + eraseIndex);
 				return task;
 			}
 			return nullptr;
