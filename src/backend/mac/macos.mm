@@ -218,10 +218,59 @@ namespace spruce {
 		}
 
 		uint16 getCPUCoreCount() {
-			size_t size = sizeof(uint16);
-			uint16 coreCount = 0;
-			sysctlbyname("machdep.cpu.core_count", &coreCount, &size, NULL, 0);
+			uint32 coreCount = 0;
+			size_t size = sizeof(coreCount);
+			sysctlbyname("hw.physicalcpu", &coreCount, &size, NULL, 0);
 			return coreCount;
+		}
+
+		uint64 getCPUFrequency() {
+			uint64 frequency = 0;
+			size_t size = sizeof(frequency);
+			sysctlbyname("hw.cpufrequency", &frequency, &size, NULL, 0);
+			return frequency;
+		}
+
+		uint64 getCacheLineSize() {
+			uint64 cacheLineSize = 0;
+			size_t size = sizeof(cacheLineSize);
+			sysctlbyname("hw.cachelinesize", &cacheLineSize, &size, NULL, 0);
+			return cacheLineSize;
+		}
+
+		uint64 getL1CacheSize() {
+			uint64 l1CacheSize = 0;
+			size_t size = sizeof(l1CacheSize);
+			sysctlbyname("hw.l1icachesize", &l1CacheSize, &size, NULL, 0);
+			return l1CacheSize;
+		}
+
+		uint64 getL2CacheSize() {
+			uint64 l2CacheSize = 0;
+			size_t size = sizeof(l2CacheSize);
+			sysctlbyname("hw.l2cachesize", &l2CacheSize, &size, NULL, 0);
+			return l2CacheSize;
+		}
+
+		uint64 getL3CacheSize() {
+			uint64 l3CacheSize = 0;
+			size_t size = sizeof(l3CacheSize);
+			sysctlbyname("hw.l3cachesize", &l3CacheSize, &size, NULL, 0);
+			return l3CacheSize;
+		}
+
+		uint64 getRAMSize() {
+			uint64 ramSize = 0;
+			size_t size = sizeof(ramSize);
+			sysctlbyname("hw.memsize", &ramSize, &size, NULL, 0);
+			return ramSize;
+		}
+
+		uint64 getSwapUsed() {
+			uint64 swapUsed = 0;
+			size_t size = sizeof(swapUsed);
+			sysctlbyname("vm.swapused", &swapUsed, &size, NULL, 0);
+			return swapUsed;
 		}
 	}
 }
