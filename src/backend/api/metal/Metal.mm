@@ -138,7 +138,8 @@ namespace spruce {
 	}
 
 	string Metal::getAPIRendererName() {
-		return "";
+		NSString* rendererName = [device name];
+		return std::string([rendererName cStringUsingEncoding:NSASCIIStringEncoding]);
 	}
 
 	void Metal::setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio) {
