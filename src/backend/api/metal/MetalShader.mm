@@ -2,6 +2,7 @@
 #include <backend/api/metal/MetalContext.h>
 #include <backend/api/metal/MetalTexture.h>
 #include <backend/api/metal/MetalRenderTarget.h>
+#include <backend/mac/objcpp.h>
 #include <io/file.h>
 
 namespace spruce {
@@ -25,7 +26,7 @@ namespace spruce {
 
 	void MetalShader::compileSource() {
 		string source = vertSource + "\n" + fragSource;
-		NSString* objcSource = [NSString stringWithCString:source.c_str() encoding:[NSString defaultCStringEncoding]];
+		NSString* objcSource = convertStr(source);
 		NSError* compileError = NULL;
 		library = [device newLibraryWithSource:objcSource options:nil error:&compileError];
 		if (!library) {

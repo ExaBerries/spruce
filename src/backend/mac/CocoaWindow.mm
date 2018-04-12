@@ -3,6 +3,7 @@
 #include <backend/mac/opengl/OpenGLView.h>
 #include <backend/api/metal/MetalContext.h>
 #include <backend/mac/metal/MetalView.h>
+#include <backend/mac/objcpp.h>
 #include <log.h>
 
 @implementation CocoaWindowObj
@@ -102,7 +103,7 @@ namespace spruce {
 	}
 
 	void CocoaWindow::setTitle(string title) {
-		NSString* nTitle = [NSString stringWithCString:title.c_str() encoding:[NSString defaultCStringEncoding]];
+		NSString* nTitle = convertStr(title);
 		[window setTitle:nTitle];
 	}
 

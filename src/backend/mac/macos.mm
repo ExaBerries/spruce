@@ -3,6 +3,7 @@
 #include <input/input.h>
 #include <app.h>
 #include <backend/mac/CocoaWindow.h>
+#include <backend/mac/objcpp.h>
 #include <sys/sysctl.h>
 #include <sys/stat.h>
 #include <system/system.h>
@@ -177,7 +178,7 @@ namespace spruce {
 				return "assets/";
 			} else {
 				NSBundle* bundle = [NSBundle mainBundle];
-				return string([bundle.resourcePath UTF8String]) + "/";
+				return convertStr(bundle.resourcePath) + "/";
 			}
 		}
 

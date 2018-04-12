@@ -8,6 +8,7 @@
 #include <io/image.h>
 #include <graphics/graphics.h>
 #include <Metal/Metal.h>
+#include <backend/mac/objcpp.h>
 
 namespace spruce {
 	Metal::Metal(Window* window) : RenderAPI(window, vec3f(2, 2, 1)) {
@@ -139,7 +140,7 @@ namespace spruce {
 
 	string Metal::getAPIRendererName() {
 		NSString* rendererName = [device name];
-		return std::string([rendererName cStringUsingEncoding:NSASCIIStringEncoding]);
+		return convertStr(rendererName);
 	}
 
 	void Metal::setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio) {
