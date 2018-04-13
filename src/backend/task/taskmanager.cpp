@@ -105,6 +105,63 @@ namespace spruce {
 			return nextTask;
 		}
 
+		TaskBackend* getGraphicsTask() {
+			std::lock_guard<std::mutex> taskGuard(taskMutex);
+			if (mainTasks.size() > 0) {
+				TaskBackend* task = mainTasks[0];
+				uint32 eraseIndex = 0;
+				for (uint32 i = 1; i < mainTasks.size(); i++) {
+					if (mainTasks[i] != nullptr) {
+						if (mainTasks[i]->priority == GRAPHICS) {
+							task = mainTasks[i];
+							eraseIndex = i;
+							break;
+						}
+					}
+				}
+				mainTasks.erase(mainTasks.begin() + eraseIndex);
+				return task;
+			}
+			if (concurrentTasks.size() > 0) {
+				TaskBackend* task = concurrentTasks[0];
+				uint32 eraseIndex = 0;
+				for (uint32 i = 1; i < mainTasks.size(); i++) {
+					if (concurrentTasks[i] != nullptr) {
+						if (concurrentTasks[i]->priority == GRAPHICS) {
+							task = mainTasks[i];
+							eraseIndex = i;
+							break;
+						}
+					}
+				}
+				concurrentTasks.erase(concurrentTasks.begin() + eraseIndex);
+				return task;
+			}
+			return nullptr;
+		}
+
+		bool executeTask(task::TaskBackend* taskBackend) {
+			if (taskBackend != nullptr) {
+				if (taskBackend->functionData != nullptr) {
+					taskBackend->functionData->execute();
+					taskBackend->complete = true;
+					delete taskBackend;
+					return true;
+				} else {
+					serr("invalid task, functionData == nullptr");
+				}
+			}
+			return false;
+		}
+
+		bool executeMainTask() {
+			return executeTask(task::getNextTask(true));
+		}
+
+		bool executeGraphicsTask() {
+			return executeTask(task::getGraphicsTask());
+		}
+
 		void incrementRef(uint64 taskId) {
 			std::lock_guard<std::mutex> dataGuard(task::refMutex);
 			references[taskId]++;
@@ -118,19 +175,6 @@ namespace spruce {
 				delete data[taskId];
 				data.erase(taskId);
 				references.erase(taskId);
-			}
-		}
-
-		void executeMainTask() {
-			task::TaskBackend* taskBackend = task::getNextTask(true);
-			if (taskBackend != nullptr) {
-				if (taskBackend->functionData != nullptr) {
-					taskBackend->functionData->execute();
-					taskBackend->complete = true;
-					delete taskBackend;
-				} else {
-					serr("invalid task, functionData == nullptr");
-				}
 			}
 		}
 	}

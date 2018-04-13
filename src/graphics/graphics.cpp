@@ -5,6 +5,7 @@
 #include <graphics/OrthographicCamera.h>
 #include <io/file.h>
 #include <app.h>
+#include <task/async.h>
 
 namespace spruce {
 	namespace graphics {
@@ -124,6 +125,7 @@ namespace spruce {
 		}
 
 		void render(RenderPass* renderPass) {
+			waitForGraphicsTasks();
 			app::api->renderStart(renderPass);
 			renderPass->render();
 		}

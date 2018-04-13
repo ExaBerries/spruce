@@ -21,4 +21,7 @@ namespace spruce {
 			task::executeMainTask();
 		}
 	}
+
+	void waitForMainTasks();
+	void waitForGraphicsTasks();
 }

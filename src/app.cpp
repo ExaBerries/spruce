@@ -4,7 +4,7 @@
 #include <backend/api/RenderAPI.h>
 #include <backend/os.h>
 #include <system/system.h>
-#include <backend/task/taskmanager.h>
+#include <task/async.h>
 
 namespace spruce {
 	namespace app {
@@ -58,17 +58,9 @@ namespace spruce {
 				if (screen != nullptr) {
 					screen->update(delta);
 					screen->render(delta);
+					waitForGraphicsTasks();
 				}
-				task::TaskBackend* taskBackend = task::getNextTask(true);
-				while (taskBackend != nullptr) {
-					if (taskBackend->functionData != nullptr) {
-						taskBackend->functionData->execute();
-						taskBackend->complete = true;
-						delete taskBackend;
-					} else {
-						serr("invalid task, functionData == nullptr");
-					}
-				} // TODO replace with task::executeMainTask();
+				waitForMainTasks();
 				api->updateEnd();
 				os::updateEnd();
 			}
