@@ -123,12 +123,14 @@ namespace spruce {
 
 		void executeMainTask() {
 			task::TaskBackend* taskBackend = task::getNextTask(true);
-			if (taskBackend->functionData != nullptr) {
-				taskBackend->functionData->execute();
-				taskBackend->complete = true;
-				delete taskBackend;
-			} else {
-				serr("invalid task, functionData == nullptr");
+			if (taskBackend != nullptr) {
+				if (taskBackend->functionData != nullptr) {
+					taskBackend->functionData->execute();
+					taskBackend->complete = true;
+					delete taskBackend;
+				} else {
+					serr("invalid task, functionData == nullptr");
+				}
 			}
 		}
 	}
