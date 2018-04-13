@@ -7,11 +7,6 @@
 #include <tuple>
 
 namespace spruce {
-	namespace task {
-		void incrementRef(uint64 id);
-		void deincrementRef(uint64 id);
-	}
-
 	template <typename T>
 	class Task;
 

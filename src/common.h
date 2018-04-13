@@ -19,5 +19,5 @@ typedef uint32_t uint32;
 typedef uint64_t uint64;
 
 #ifdef __cplusplus
-typedef std::string string;
+using string = std::string;
 #endif

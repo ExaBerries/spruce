@@ -10,5 +10,8 @@ namespace spruce {
 		void addTask(uint64 id, TaskData* data, TaskBackend* taskBackend);
 		TaskBackend* getNextTask(bool main);
 		extern uint64 taskId;
+		void executeMainTask();
+		void incrementRef(uint64 id);
+		void deincrementRef(uint64 id);
 	}
 }

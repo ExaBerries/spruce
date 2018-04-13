@@ -35,10 +35,5 @@ namespace spruce {
 				}
 				return complete;
 			}
-
-			void waitUntilComple() {
-				while (!complete()) {
-				}
-			}
 	};
 }

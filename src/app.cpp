@@ -68,7 +68,7 @@ namespace spruce {
 					} else {
 						serr("invalid task, functionData == nullptr");
 					}
-				}
+				} // TODO replace with task::executeMainTask();
 				api->updateEnd();
 				os::updateEnd();
 			}
