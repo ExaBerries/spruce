@@ -23,8 +23,8 @@ namespace spruce {
 			virtual ~RenderAPI();
 
 			virtual void init() = 0;
-			virtual void updateStart() = 0;
-			virtual void updateEnd() = 0;
+			virtual void renderStart() = 0;
+			virtual void renderEnd() = 0;
 
 			virtual string getError() = 0;
 

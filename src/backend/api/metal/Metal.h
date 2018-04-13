@@ -14,8 +14,8 @@ namespace spruce {
 			~Metal();
 
 			void init();
-			void updateStart();
-			void updateEnd();
+			void renderStart();
+			void renderEnd();
 
 			string getError();
 

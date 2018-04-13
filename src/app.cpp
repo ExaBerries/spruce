@@ -52,7 +52,7 @@ namespace spruce {
 			uint64 lastTime = sys::timeNano();
 			while (window->open) {
 				os::updateStart();
-				api->updateStart();
+				api->renderStart();
 				float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
 				if (screen != nullptr) {
@@ -61,7 +61,7 @@ namespace spruce {
 					waitForGraphicsTasks();
 				}
 				waitForMainTasks();
-				api->updateEnd();
+				api->renderEnd();
 				os::updateEnd();
 			}
 		}

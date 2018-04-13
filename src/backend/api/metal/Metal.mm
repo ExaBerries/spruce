@@ -33,7 +33,7 @@ namespace spruce {
 		depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
 	}
 
-	void Metal::updateStart() {
+	void Metal::renderStart() {
 		commandBuffer = [commandQueue commandBuffer];
 		[commandBuffer enqueue];
 		[view update];
@@ -47,7 +47,7 @@ namespace spruce {
 		[renderEncoder setDepthStencilState:depthStencilState];
 	}
 
-	void Metal::updateEnd() {
+	void Metal::renderEnd() {
 		if ([view getRenderPassDescriptor] == nullptr) {
 			return;
 		}

@@ -16,8 +16,8 @@ namespace spruce {
 			~OpenGL();
 
 			void init();
-			void updateStart();
-			void updateEnd();
+			void renderStart();
+			void renderEnd();
 
 			string getError();
 

@@ -26,12 +26,12 @@ namespace spruce {
 		window->setVisible(true);
 	}
 
-	void OpenGL::updateStart() {
+	void OpenGL::renderStart() {
 		glViewport(0, 0, window->width, window->height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGL::updateEnd() {
+	void OpenGL::renderEnd() {
 		swapBuffers(window);
 	}
 
