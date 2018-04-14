@@ -3,47 +3,39 @@
 
 namespace spruce {
 	namespace rand {
-		std::mt19937 seed;
-		std::uniform_real_distribution<float> realDisf;
-		std::uniform_real_distribution<double> realDisd;
-		std::normal_distribution<float> norDisf;
-		std::normal_distribution<double> norDisd;
-
-		void init(uint64 seed) {
-			rand::seed = std::mt19937(seed);
-			srand(seed);
-		}
-
-		int32 rint(int32 min, int32 max) {
+		int32 rint(seed& seed, int32 min, int32 max) {
+			srand(seed.value);
 			return std::rand() % max + min;
 		}
 
-		bool rbool() {
+		bool rbool(seed& seed) {
+			srand(seed.value);
 			return std::rand() % 2;
 		}
 
-		int32 randSign() {
-			return rbool() ? 1 : -1;
+		int32 randSign(seed& seed) {
+			srand(seed.value);
+			return rbool(seed) ? 1 : -1;
 		}
 
-		float rrealf(float min, float max) {
-			realDisf = std::uniform_real_distribution<float>(min, max);
-			return realDisf(seed);
+		float rrealf(seed& seed, float min, float max) {
+			std::uniform_real_distribution<float> realDisf = std::uniform_real_distribution<float>(min, max);
+			return realDisf(seed.mt);
 		}
 
-		double rreald(double min, double max) {
-			realDisd = std::uniform_real_distribution<double>(min, max);
-			return realDisd(seed);
+		double rreald(seed& seed, double min, double max) {
+			std::uniform_real_distribution<double> realDisd = std::uniform_real_distribution<double>(min, max);
+			return realDisd(seed.mt);
 		}
 
-		float rnorf(float mean, float stddev) {
-			norDisf = std::normal_distribution<float>(mean, stddev);
-			return norDisf(seed);
+		float rnorf(seed& seed, float mean, float stddev) {
+			std::normal_distribution<float> norDisf = std::normal_distribution<float>(mean, stddev);
+			return norDisf(seed.mt);
 		}
 
-		double rnord(double mean, double stddev) {
-			norDisd = std::normal_distribution<double>(mean, stddev);
-			return norDisd(seed);
+		double rnord(seed& seed, double mean, double stddev) {
+			std::normal_distribution<double> norDisd = std::normal_distribution<double>(mean, stddev);
+			return norDisd(seed.mt);
 		}
 	}
 }
