@@ -38,8 +38,8 @@ namespace spruce {
 		}
 
 		void addTask(uint64 id, TaskData* taskData, TaskBackend* taskBackend) {
-			std::lock_guard<std::mutex> taskGuard(task::taskMutex);
-			std::lock_guard<std::mutex> dataGuard(task::dataMutex);
+			std::lock_guard<std::mutex> taskGuard(taskMutex);
+			std::lock_guard<std::mutex> dataGuard(dataMutex);
 			data[id] = taskData;
 			if (taskBackend->concurrent) {
 				concurrentTasks.push_back(taskBackend);
@@ -163,15 +163,15 @@ namespace spruce {
 		}
 
 		void incrementRef(uint64 taskId) {
-			std::lock_guard<std::mutex> dataGuard(task::refMutex);
+			std::lock_guard<std::mutex> dataGuard(refMutex);
 			references[taskId]++;
 		}
 
 		void deincrementRef(uint64 taskId) {
-			std::lock_guard<std::mutex> dataGuard(task::refMutex);
+			std::lock_guard<std::mutex> dataGuard(refMutex);
 			references[taskId]--;
 			if (references[taskId] <= 0) {
-				std::lock_guard<std::mutex> dataGuard(task::dataMutex);
+				std::lock_guard<std::mutex> dataGuard(dataMutex);
 				delete data[taskId];
 				data.erase(taskId);
 				references.erase(taskId);
