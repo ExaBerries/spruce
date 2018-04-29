@@ -5,6 +5,11 @@
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
+#ifdef DEBUG
+#ifdef TASK_PROFILE
+#include <util/task/taskprofile.h>
+#endif
+#endif
 
 namespace spruce {
 	namespace app {
@@ -46,6 +51,14 @@ namespace spruce {
 			}
 			app::api->init();
 			debug = false;
+			#ifdef DEBUG
+			#ifdef TASK_PROFILE
+			std::atexit([] {
+				slog("saving task profile data to ", util::task::saveFile);
+				util::task::saveProfileData(util::task::data, util::task::saveFile);
+			});
+			#endif
+			#endif
 		}
 
 		void run() {
@@ -59,6 +72,13 @@ namespace spruce {
 					screen->update(delta);
 					screen->render(delta);
 					waitForGraphicsTasks();
+					#ifdef DEBUG
+					#ifdef TASK_PROFILE
+					util::task::dataMutex.lock();
+					util::task::data.frameTimes.push_back(sys::timeNano());
+					util::task::dataMutex.unlock();
+					#endif
+					#endif
 				}
 				waitForMainTasks();
 				api->renderEnd();

@@ -3,9 +3,22 @@
 #include <common.h>
 #include <util/function.h>
 #include <tuple>
+#include <thread>
+#ifdef DEBUG
+#ifdef TASK_PROFILE
+#include <system/system.h>
+#include <util/task/taskprofile.h>
+#endif
+#endif
 
 namespace spruce {
 	namespace task {
+		#ifdef DEBUG
+		#ifdef TASK_PROFILE
+		uint8 convert(std::thread::id id);
+		#endif
+		#endif
+
 		template <typename OUTPUT, typename ... ARGS>
 		class FunctionDataTemplate : public FunctionData {
 			public:
@@ -22,7 +35,22 @@ namespace spruce {
 				}
 
 				void execute() {
+					#ifdef DEBUG
+					#ifdef TASK_PROFILE
+					util::task::TaskProfileData data;
+					data.startTime = sys::timeNano();
+					data.thread = convert(std::this_thread::get_id());
+					#endif
+					#endif
 					(*output) = util::execute(function, args);
+					#ifdef DEBUG
+					#ifdef TASK_PROFILE
+					util::task::dataMutex.lock();
+					data.endTime = sys::timeNano();
+					util::task::data.profiles.push_back(data);
+					util::task::dataMutex.unlock();
+					#endif
+					#endif
 				}
 		};
 
@@ -42,7 +70,22 @@ namespace spruce {
 				}
 
 				void execute() {
+					#ifdef DEBUG
+					#ifdef TASK_PROFILE
+					util::task::TaskProfileData data;
+					data.startTime = sys::timeNano();
+					data.thread = convert(std::this_thread::get_id());
+					#endif
+					#endif
 					util::execute(function, args);
+					#ifdef DEBUG
+					#ifdef TASK_PROFILE
+					util::task::dataMutex.lock();
+					data.endTime = sys::timeNano();
+					util::task::data.profiles.push_back(data);
+					util::task::dataMutex.unlock();
+					#endif
+					#endif
 				}
 		};
 	}

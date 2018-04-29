@@ -18,7 +18,7 @@ namespace spruce {
 		void init() {
 			threads = std::vector<WorkerThread>(sys::getCPUThreadCount() - 1);
 			if (app::debug) {
-				slog(sys::getCPUThreadCount() - 1, " threads");
+				slog(threads.size(), " threads");
 			}
 		}
 
@@ -177,5 +177,19 @@ namespace spruce {
 				references.erase(taskId);
 			}
 		}
+
+		#ifdef DEBUG
+		#ifdef TASK_PROFILE
+		uint8 convert(std::thread::id id) {
+			for (uint16 i = 0; i < threads.size(); i++) {
+				if (threads[i].thread.get_id() == id) {
+					slog(i + 1);
+					return i + 1;
+				}
+			}
+			return 0;
+		}
+		#endif
+		#endif
 	}
 }
