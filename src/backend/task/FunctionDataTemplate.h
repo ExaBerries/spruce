@@ -25,10 +25,12 @@ namespace spruce {
 				OUTPUT* output;
 				std::function<OUTPUT(ARGS...)> function;
 				std::tuple<ARGS...> args;
+				uint64 taskId;
 
-				FunctionDataTemplate(OUTPUT* output, std::function<OUTPUT(ARGS...)> function, std::tuple<ARGS...> args) : args(args) {
+				FunctionDataTemplate(OUTPUT* output, std::function<OUTPUT(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId) : args(args) {
 					this->output = output;
 					this->function = function;
+					this->taskId = taskId;
 				}
 
 				~FunctionDataTemplate() {
@@ -40,6 +42,7 @@ namespace spruce {
 					util::task::TaskProfileData data;
 					data.startTime = sys::timeNano();
 					data.thread = convert(std::this_thread::get_id());
+					data.taskId = taskId;
 					#endif
 					#endif
 					(*output) = util::execute(function, args);
@@ -60,10 +63,12 @@ namespace spruce {
 				bool* output;
 				std::function<void(ARGS...)> function;
 				std::tuple<ARGS...> args;
+				uint64 taskId;
 
-				FunctionDataTemplate(bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args) : args(args) {
+				FunctionDataTemplate(bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId) : args(args) {
 					this->output = output;
 					this->function = function;
+					this->taskId = taskId;
 				}
 
 				~FunctionDataTemplate() {

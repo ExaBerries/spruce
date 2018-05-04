@@ -12,6 +12,7 @@ namespace spruce {
 					uint64 startTime;
 					uint64 endTime;
 					uint8 thread;
+					uint64 taskId;
 
 					TaskProfileData();
 					TaskProfileData(const TaskProfileData& data);

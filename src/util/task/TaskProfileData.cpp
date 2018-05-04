@@ -16,13 +16,14 @@ namespace spruce {
 				this->startTime = data.startTime;
 				this->endTime = data.endTime;
 				this->thread = data.thread;
+				this->taskId = data.taskId;
 			}
 
 			TaskProfileData::~TaskProfileData() {
 			}
 
 			uint32 TaskProfileData::size() {
-				return sizeof(uint32) + name.size() + 1 + sizeof(uint64) + sizeof(uint64) + sizeof(uint8);
+				return sizeof(uint32) + name.size() + 1 + sizeof(uint64) + sizeof(uint64) + sizeof(uint8) + sizeof(uint64);
 			}
 
 			void TaskProfileData::serialize(uint8* data, uint32& i, uint32 size) {
@@ -37,6 +38,8 @@ namespace spruce {
 				i += sizeof(uint64);
 				memcpy(data + i, &thread, sizeof(uint8));
 				i += sizeof(uint8);
+				memcpy(data + i, &taskId, sizeof(uint64));
+				i += sizeof(uint64);
 			}
 
 			TaskProfileData TaskProfileData::deserialize(uint8* data, uint32& i, uint32 size) {
@@ -52,6 +55,8 @@ namespace spruce {
 				i += sizeof(uint64);
 				memcpy(&thread, data + i, sizeof(uint8));
 				i += sizeof(uint8);
+				memcpy(&taskId, data + i, sizeof(uint64));
+				i += sizeof(uint64);
 				return taskData;
 			}
 		}

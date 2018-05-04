@@ -37,7 +37,7 @@ namespace spruce {
 		task::TaskBackend* taskBackend = new task::TaskBackend(id, data->complete);
 		taskBackend->priority = config.priority;
 		taskBackend->concurrent = config.concurrent;
-		taskBackend->functionData = new task::FunctionDataTemplate<RETURN, TYPES...>((RETURN*)data->data, config.function, config.args);
+		taskBackend->functionData = new task::FunctionDataTemplate<RETURN, TYPES...>((RETURN*)data->data, config.function, config.args, id);
 		addTask(id, data, taskBackend);
 		return task;
 	}
@@ -51,7 +51,7 @@ namespace spruce {
 		task::TaskBackend* taskBackend = new task::TaskBackend(id, data->complete);
 		taskBackend->priority = config.priority;
 		taskBackend->concurrent = config.concurrent;
-		taskBackend->functionData = new task::FunctionDataTemplate<void, TYPES...>((bool*)data->data, config.function, config.args);
+		taskBackend->functionData = new task::FunctionDataTemplate<void, TYPES...>((bool*)data->data, config.function, config.args, id);
 		addTask(id, data, taskBackend);
 		return task;
 	}
