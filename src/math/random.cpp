@@ -4,17 +4,16 @@
 namespace spruce {
 	namespace rand {
 		int32 rint(seed& seed, int32 min, int32 max) {
-			srand(seed.value);
-			return std::rand() % max + min;
+			std::uniform_int_distribution<int32> intDis = std::uniform_int_distribution<int32>(min, max);
+			return intDis(seed.mt);
 		}
 
 		bool rbool(seed& seed) {
-			srand(seed.value);
-			return std::rand() % 2;
+			std::uniform_real_distribution<bool> intDis = std::uniform_real_distribution<bool>(0, 1);
+			return intDis(seed.mt);
 		}
 
 		int32 randSign(seed& seed) {
-			srand(seed.value);
 			return rbool(seed) ? 1 : -1;
 		}
 
