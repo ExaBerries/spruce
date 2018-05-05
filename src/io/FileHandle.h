@@ -5,7 +5,7 @@ namespace spruce {
 	class FileHandle {
 		public:
 			enum FileHandleType {
-				INTERNAL, EXTERNAL
+				INTERNAL, EXTERNAL, ABSOLUTE
 			};
 			FileHandleType type;
 			string absolutePath;

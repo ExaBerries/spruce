@@ -15,6 +15,8 @@ namespace spruce {
 			absolutePath = os::getBasePathInternal() + path;
 		} else if (type == EXTERNAL) {
 			absolutePath = os::getBasePathExternal() + path;
+		} else if (type == ABSOLUTE) {
+			absolutePath = path;
 		}
 		if (path.size() == 0) {
 			serr("no path specified");
