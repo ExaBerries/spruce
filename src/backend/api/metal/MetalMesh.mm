@@ -13,13 +13,13 @@ namespace spruce {
 
 	void MetalMesh::toVRAM(Shader* shader) {
 		if (vertexBuffer == nil && vertexCount != 0) {
-			vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeShared];
+			vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeManaged];
 			bufferVertexCount = vertexCount;
 		} else {
 			if (vertexCount == 0) {
 			} else if (bufferVertexCount != vertexCount) {
 				//[vertexBuffer release];
-				vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeShared];
+				vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeManaged];
 				bufferVertexCount = vertexCount;
 			}
 		}
@@ -28,13 +28,13 @@ namespace spruce {
 			[vertexBuffer didModifyRange:NSMakeRange(0, vertexCount * sizeof(float))];
 		}
 		if (indexBuffer == nil && indexCount != 0) {
-			indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeShared];
+			indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeManaged];
 			bufferIndexCount = indexCount;
 		} else {
 			if (indexCount == 0) {
 			} else if (bufferIndexCount != indexCount) {
 				//[indexBuffer release];
-				indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeShared];
+				indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeManaged];
 				bufferIndexCount = indexCount;
 			}
 		}
