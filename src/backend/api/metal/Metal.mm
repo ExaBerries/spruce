@@ -164,7 +164,7 @@ namespace spruce {
 
 		vec3f pos(0, 0, 0.5);
 		quaternion rot(0, 0, 0, 1);
-		vec3f scale(1, 1, 1);
+		vec3f scale(1, -1, 1);
 		mat4f trans(pos, rot, scale);
 		matrix *= trans;
 	}
