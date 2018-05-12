@@ -5,6 +5,8 @@ namespace spruce {
 	MetalMesh::MetalMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) : Mesh(vertexCount, vertices, indexCount, indices) {
 		bufferVertexCount = 0;
 		bufferIndexCount = 0;
+		vertexBuffer = nil;
+		indexBuffer = nil;
 	}
 
 	MetalMesh::~MetalMesh() {

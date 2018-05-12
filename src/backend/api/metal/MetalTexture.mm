@@ -56,6 +56,9 @@ namespace spruce {
 	}
 
 	void MetalTexture::freeVRAM() {
-		[mtlTexture release];
+		if (mtlTexture != nil) {
+			[mtlTexture release];
+			mtlTexture = nil;
+		}
 	}
 }

@@ -25,6 +25,8 @@ namespace spruce {
 		Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height);
 		RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
+		void initFontRendering();
+
 		void render(Mesh* mesh, Shader* shader);
 		void render(RenderPass* renderPass);
 		void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, Camera* camera);

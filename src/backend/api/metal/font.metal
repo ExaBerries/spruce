@@ -22,8 +22,7 @@ vertex RasterizerData vertexShader(SpruceVertex vert [[stage_in]], constant floa
 
 fragment float4 fragmentShader(RasterizerData in [[stage_in]], texture2d<float> tex [[texture(2)]], constant float4& color [[buffer(3)]]) {
 	constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
-	return tex.sample(textureSampler, in.texCoord);
-	//float alpha = tex.sample(textureSampler, in.texCoord).r;
-	//return float4(1, 1, 1, alpha) * color;
+	float alpha = tex.sample(textureSampler, in.texCoord).r;
+	return float4(1, 1, 1, alpha) * color;
 }
 )***"

@@ -5,7 +5,7 @@
 #include FT_FREETYPE_H
 
 namespace spruce {
-	Font::Font(string& path) : path(path) {
+	Font::Font(FileHandle fileHandle) : fileHandle(fileHandle) {
 		texture = nullptr;
 	}
 
@@ -22,8 +22,8 @@ namespace spruce {
 			serr("Could not init freetype library");
 		}
 		FT_Face face;
-		if (FT_New_Face(ft, path.c_str(), 0, &face)) {
-			slog("could not open font file");
+		if (FT_New_Face(ft, fileHandle.absolutePath.c_str(), 0, &face)) {
+			serr("could not open font file");
 			return;
 		}
 		FT_Set_Pixel_Sizes(face, 0, 48);

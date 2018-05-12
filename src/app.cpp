@@ -5,6 +5,7 @@
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
+#include <graphics/graphics.h>
 #ifdef DEBUG
 #ifdef TASK_PROFILE
 #include <util/task/taskprofile.h>
@@ -74,7 +75,6 @@ namespace spruce {
 
 		void setRenderAPI(API api) {
 			if (app::api != nullptr) {
-				//app::api->renderEnd();
 				delete app::api;
 			}
 			if (!os::supportsAPI(api)) {
@@ -105,6 +105,7 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			app::api->init();
+			graphics::initFontRendering();
 		}
 
 		void setScreen(graphics::Screen* newScreen) {

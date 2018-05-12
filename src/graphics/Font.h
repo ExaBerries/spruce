@@ -1,6 +1,7 @@
 #pragma once
 #include <common.h>
 #include <graphics/Texture.h>
+#include <io/FileHandle.h>
 
 namespace spruce {
 	class Font {
@@ -14,10 +15,10 @@ namespace spruce {
 				float bt;
 				float tx;
 			} chars[128];
-			string path;
+			FileHandle fileHandle;
 			Texture* texture;
 
-			Font(string& path);
+			Font(FileHandle fileHandle);
 			virtual ~Font();
 
 			void toVRAM();

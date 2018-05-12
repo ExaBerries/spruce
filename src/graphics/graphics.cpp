@@ -120,6 +120,34 @@ namespace spruce {
 			return app::api->createRenderTarget(format, width, height);
 		}
 
+		void initFontRendering() {
+			if (fontAttributes == nullptr) {
+				fontAttributes = new VertexAttribute[2];
+				fontAttributes[0] = VertexAttribute("position", 3);
+				fontAttributes[1] = VertexAttribute("texCoord", 2);
+			}
+			if (fontShader != nullptr) {
+				delete fontShader;
+			}
+			string fontVert = app::api->fontVert;
+			string fontFrag = app::api->fontFrag;
+			fontShader = createShader(fontVert, fontFrag, 2, fontAttributes);
+			fontShader->compile(nullptr);
+			fontShader->registerUniform("camera", 1);
+			fontShader->registerUniform("tex", 2);
+			fontShader->registerUniform("color", 3);
+			if (fontMesh != nullptr) {
+				struct vertex {
+					vec3f position;
+					vec2f coord;
+				};
+				delete[] (vertex*)(fontMesh->vertices);
+				fontMesh->vertices = nullptr;
+				delete fontMesh;
+			}
+			fontMesh = createMesh(0, nullptr, 0, nullptr);
+		}
+
 		void render(Mesh* mesh, Shader* shader) {
 			app::api->render(mesh, shader);
 		}
@@ -138,22 +166,11 @@ namespace spruce {
 			if (font.texture == nullptr || font.texture->width == 0 || font.texture->height == 0) {
 				return;
 			}
-			setBlend(true);
-			if (fontShader == nullptr) {
-				fontAttributes = new VertexAttribute[2];
-				fontAttributes[0] = VertexAttribute("position", 3);
-				fontAttributes[1] = VertexAttribute("texCoord", 2);
-				string fontVert = app::api->fontVert;
-				string fontFrag = app::api->fontFrag;
-				fontShader = createShader(fontVert, fontFrag, 2, fontAttributes);
-				fontShader->compile(nullptr);
-				fontShader->registerUniform("camera", 1);
-				fontShader->registerUniform("tex", 2);
-				fontShader->registerUniform("color", 3);
+			if (fontShader == nullptr || fontMesh == nullptr) {
+				return;
 			}
-			if (fontMesh == nullptr) {
-				fontMesh = createMesh(0, nullptr, 0, nullptr);
-			} else {
+			setBlend(true);
+			if (fontMesh->vertices != nullptr) {
 				delete[] (vertex*)(fontMesh->vertices);
 				fontMesh->vertices = nullptr;
 			}
