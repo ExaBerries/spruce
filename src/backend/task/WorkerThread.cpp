@@ -10,7 +10,9 @@ namespace spruce {
 		}
 
 		WorkerThread::~WorkerThread() {
-			join();
+			if (thread.joinable()) {
+				join();
+			}
 		}
 
 		void WorkerThread::join() {

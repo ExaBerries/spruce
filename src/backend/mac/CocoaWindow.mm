@@ -37,57 +37,22 @@
 @end
 
 namespace spruce {
-	void createMenu(NSString* appName) {
-		NSMenu* bar = [[NSMenu alloc] init];
-		[NSApp setMainMenu:bar];
-		NSMenuItem* appMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
-		NSMenu* appMenu = [[NSMenu alloc] init];
-		[appMenuItem setSubmenu:appMenu];
-		[appMenu addItemWithTitle:[NSString stringWithFormat:@"About %@", appName] action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-		[appMenu addItem:[NSMenuItem separatorItem]];
-		NSMenu* servicesMenu = [[NSMenu alloc] init];
-		[NSApp setServicesMenu:servicesMenu];
-		[[appMenu addItemWithTitle:@"Services" action:NULL keyEquivalent:@""] setSubmenu:servicesMenu];
-		[servicesMenu release];
-		[appMenu addItem:[NSMenuItem separatorItem]];
-		[appMenu addItemWithTitle:[NSString stringWithFormat:@"Hide %@", appName] action:@selector(hide:) keyEquivalent:@"h"];
-		[[appMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"] setKeyEquivalentModifierMask:NSEventModifierFlagOption | NSEventModifierFlagCommand];
-		[appMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
-		[appMenu addItem:[NSMenuItem separatorItem]];
-		[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@selector(terminate:) keyEquivalent:@"q"];
-		NSMenuItem* windowMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
-		[bar release];
-		NSMenu* windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
-		[NSApp setWindowsMenu:windowMenu];
-		[windowMenuItem setSubmenu:windowMenu];
-	}
-
-	CocoaWindow::CocoaWindow(app::API api, uint16 width, uint16 height) : Window() {
+	CocoaWindow::CocoaWindow() : Window() {
+		width = 1920;
+		height = 1080;
 		NSString* appName = @"spruce";
-		createMenu(appName);
 		NSUInteger windowStyle = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskResizable;
 		NSRect windowRect = NSMakeRect(0, 0, width, height);
 		window = [[CocoaWindowObj alloc] initWithContentRect:windowRect styleMask:windowStyle backing:NSBackingStoreBuffered defer:NO];
 		windowController = [[NSWindowController alloc] initWithWindow:window];
 		[window setTitle:appName];
-		if (api == app::OPENGL) {
-			view = [[OpenGLView alloc] initWithFrame:windowRect window:this];
-		} else if (api == app::METAL) {
-			spruce::initDevice();
-			view = [[MetalView alloc] initWithFrame:windowRect window:this];
-			spruce::view = view;
-		} else if (api == app::METAL2) {
-		}
+		view = [[NSView alloc] initWithFrame:windowRect];
 		[window setContentView:view];
 		[window makeFirstResponder:view];
-		if (api == app::OPENGL) {
-			[view initContext];
-		}
 		spruce::Window* spruceWindow = this;
 		delegate = [[WindowDelegate alloc] initWithWindow:spruceWindow cocoaWindow:window];
 		[window setDelegate:delegate];
 		[window makeKeyAndOrderFront: window];
-		[NSApp activateIgnoringOtherApps:YES];
 		[NSApp run];
 	}
 
@@ -100,6 +65,27 @@ namespace spruce {
 		windowController = nullptr;
 		[window release];
 		window = nullptr;
+	}
+
+	void CocoaWindow::initForAPI(app::API api) {
+		NSRect viewRect = NSMakeRect(0, 0, width, height);
+		if (api == app::OPENGL) {
+			this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];
+		} else if (api == app::METAL) {
+			spruce::initDevice();
+			this->view = [[MetalView alloc] initWithFrame:viewRect window:this];
+			spruce::view = (MetalView*) view;
+		} else if (api == app::METAL2) {
+		}
+		NSView* oldView = window.contentView;
+		[window setContentView:this->view];
+		[window makeFirstResponder:this->view];
+		[oldView release];
+		if (api == app::OPENGL) {
+			[(OpenGLView*)view initContext];
+		}
+		[window update];
+		[window.contentView update];
 	}
 
 	void CocoaWindow::setTitle(string title) {

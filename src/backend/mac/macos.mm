@@ -11,10 +11,15 @@
 @interface CocoaApp : NSApplication {
 }
 - (void) doNothing:(id) object;
+- (void) quit;
 @end
 
 @implementation CocoaApp
 - (void) doNothing:(id) object {
+}
+
+- (void) quit {
+	spruce::app::window->close();
 }
 @end
 
@@ -24,6 +29,7 @@
 @implementation AppDelegate
 - (void) applicationDidFinishLaunching:(NSNotification*)notification {
 	[NSApp stop:nil];
+	[NSApp activateIgnoringOtherApps:YES];
 }
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)_app {
@@ -123,6 +129,30 @@ namespace spruce {
 			[NSThread detachNewThreadSelector:@selector(doNothing:) toTarget:NSApp withObject:nil];
 			delegate = [[AppDelegate alloc] init];
 			[NSApp setDelegate:delegate];
+			NSString* appName = @"spruce";
+			NSMenu* bar = [[NSMenu alloc] init];
+			[NSApp setMainMenu:bar];
+			NSMenuItem* appMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
+			NSMenu* appMenu = [[NSMenu alloc] init];
+			[appMenuItem setSubmenu:appMenu];
+			[appMenu addItemWithTitle:[NSString stringWithFormat:@"About %@", appName] action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+			[appMenu addItem:[NSMenuItem separatorItem]];
+			NSMenu* servicesMenu = [[NSMenu alloc] init];
+			[NSApp setServicesMenu:servicesMenu];
+			[[appMenu addItemWithTitle:@"Services" action:NULL keyEquivalent:@""] setSubmenu:servicesMenu];
+			[servicesMenu release];
+			[appMenu addItem:[NSMenuItem separatorItem]];
+			[appMenu addItemWithTitle:[NSString stringWithFormat:@"Hide %@", appName] action:@selector(hide:) keyEquivalent:@"h"];
+			[[appMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"] setKeyEquivalentModifierMask:NSEventModifierFlagOption | NSEventModifierFlagCommand];
+			[appMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
+			[appMenu addItem:[NSMenuItem separatorItem]];
+			//[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@s    n b elector(terminate:) keyEquivalent:@"q"];
+			[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@selector(quit) keyEquivalent:@"q"];
+			NSMenuItem* windowMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
+			[bar release];
+			NSMenu* windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
+			[NSApp setWindowsMenu:windowMenu];
+			[windowMenuItem setSubmenu:windowMenu];
 		}
 
 		void free() {
@@ -130,8 +160,8 @@ namespace spruce {
 			delegate = nullptr;
 		}
 
-		Window* createWindow(app::API api) {
-			return new CocoaWindow(api, 1920, 1080);
+		Window* createWindow() {
+			return new CocoaWindow();
 		}
 
 		bool supportsAPI(app::API api) {

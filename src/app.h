@@ -14,10 +14,11 @@ namespace spruce {
 		extern graphics::Screen* screen;
 		extern bool debug;
 
-		void init(API api);
+		void init();
 		void run();
 		void free();
 
+		void setRenderAPI(API api);
 		void setScreen(graphics::Screen* newScreen);
 	}
 }

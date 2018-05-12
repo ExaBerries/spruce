@@ -21,8 +21,6 @@ namespace spruce {
 	Metal::~Metal() {
 		[device release];
 		[commandQueue release];
-		[commandBuffer release];
-		[renderEncoder release];
 		[depthStencilState release];
 	}
 
@@ -31,6 +29,7 @@ namespace spruce {
 		depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionLess;
 		depthStencilDescriptor.depthWriteEnabled = YES;
 		depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+		[depthStencilDescriptor release];
 	}
 
 	void Metal::renderStart() {
@@ -150,23 +149,17 @@ namespace spruce {
 		matrix.values[2] = 0.0;
 		matrix.values[3] = 0.0;
 		matrix.values[4] = 0.0;
-		matrix.values[5] = -size;
+		matrix.values[5] = size;
 		matrix.values[6] = 0.0;
 		matrix.values[7] = 0.0;
 		matrix.values[8] = 0.0;
 		matrix.values[9] = 0.0;
-		matrix.values[10] = far / (near - far);
+		matrix.values[10] = (far + near) / (near - far);
 		matrix.values[11] = (2.0 * far * near) / (near - far);
 		matrix.values[12] = 0.0;
 		matrix.values[13] = 0.0;
 		matrix.values[14] = -1.0;
 		matrix.values[15] = 0.0;
-
-		vec3f pos(0, 0, 0.5);
-		quaternion rot(0, 0, 0, 1);
-		vec3f scale(1, -1, 1);
-		mat4f trans(pos, rot, scale);
-		matrix *= trans;
 	}
 
 	void Metal::setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) {
@@ -180,11 +173,11 @@ namespace spruce {
 		matrix.values[7] = (bottom + top) / (bottom - top);
 		matrix.values[8] = 0.0;
 		matrix.values[9] = 0.0;
-		matrix.values[10] = -1 / (far - near);
+		matrix.values[10] = -1.0 / (far - near);
 		matrix.values[11] = near / (near - far);
 		matrix.values[12] = 0.0;
 		matrix.values[13] = 0.0;
 		matrix.values[14] = 0.0;
-		matrix.values[15] = 1;
+		matrix.values[15] = 1.0;
 	}
 }

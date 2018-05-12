@@ -19,37 +19,11 @@ namespace spruce {
 		graphics::Screen* screen;
 		bool debug;
 
-		void init(API api) {
-			apiType = api;
+		void init() {
 			os::init();
 			task::init();
-			if (!os::supportsAPI(api)) {
-				serr("unsupported API");
-				exit(EXIT_FAILURE);
-			}
-			window = os::createWindow(api);
-			if (api == OPENGL) {
-				app::api = new OpenGL(window);
-			} else if (api == VULKAN) {
-				slog("unsupported API");
-				exit(EXIT_FAILURE);
-			} else if (api == METAL) {
-				app::api = new Metal(window);
-			} else if (api == METAL2) {
-				serr("unsupported API");
-				exit(EXIT_FAILURE);
-			} else if (api == DX11) {
-				serr("unsupported API");
-				exit(EXIT_FAILURE);
-			} else if (api == DX12) {
-				serr("unsupported API");
-				exit(EXIT_FAILURE);
-			}
-			if (app::api == nullptr) {
-				serr("could not instantiate api");
-				exit(EXIT_FAILURE);
-			}
-			app::api->init();
+			api = nullptr;
+			window = os::createWindow();
 			debug = false;
 			#ifdef DEBUG
 			#ifdef TASK_PROFILE
@@ -75,7 +49,8 @@ namespace spruce {
 					#ifdef DEBUG
 					#ifdef TASK_PROFILE
 					util::task::dataMutex.lock();
-					util::task::data.frameTimes.push_back(sys::timeNano());
+					uint64 time = sys::timeNano();
+					util::task::data.frameTimes.push_back(time);
 					util::task::dataMutex.unlock();
 					#endif
 					#endif
@@ -95,6 +70,41 @@ namespace spruce {
 			delete api;
 			task::free();
 			os::free();
+		}
+
+		void setRenderAPI(API api) {
+			if (app::api != nullptr) {
+				//app::api->renderEnd();
+				delete app::api;
+			}
+			if (!os::supportsAPI(api)) {
+				serr("unsupported API");
+				exit(EXIT_FAILURE);
+			}
+			apiType = api;
+			window->initForAPI(api);
+			if (api == OPENGL) {
+				app::api = new OpenGL(window);
+			} else if (api == VULKAN) {
+				slog("unsupported API ", api);
+				exit(EXIT_FAILURE);
+			} else if (api == METAL) {
+				app::api = new Metal(window);
+			} else if (api == METAL2) {
+				serr("unsupported API ", api);
+				exit(EXIT_FAILURE);
+			} else if (api == DX11) {
+				serr("unsupported API ", api);
+				exit(EXIT_FAILURE);
+			} else if (api == DX12) {
+				serr("unsupported API ", api);
+				exit(EXIT_FAILURE);
+			}
+			if (app::api == nullptr) {
+				serr("could not instantiate api ", api);
+				exit(EXIT_FAILURE);
+			}
+			app::api->init();
 		}
 
 		void setScreen(graphics::Screen* newScreen) {

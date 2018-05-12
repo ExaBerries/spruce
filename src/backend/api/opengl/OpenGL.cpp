@@ -157,21 +157,21 @@ namespace spruce {
 	}
 
 	void OpenGL::setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) {
-		matrix.values[0] = 2 / (right - left);
-		matrix.values[1] = 0;
-		matrix.values[2] = 0;
+		matrix.values[0] = 2.0 / (right - left);
+		matrix.values[1] = 0.0;
+		matrix.values[2] = 0.0;
 		matrix.values[3] = (left + right) / (left - right);
-		matrix.values[4] = 0;
-		matrix.values[5] = 2 / (top - bottom);
-		matrix.values[6] = 0;
+		matrix.values[4] = 0.0;
+		matrix.values[5] = 2.0 / (top - bottom);
+		matrix.values[6] = 0.0;
 		matrix.values[7] = (top + bottom) / (bottom - top);
-		matrix.values[8] = 0;
-		matrix.values[9] = 0;
-		matrix.values[10] = 2 / (near - far);
+		matrix.values[8] = 0.0;
+		matrix.values[9] = 0.0;
+		matrix.values[10] = 2.0 / (near - far);
 		matrix.values[11] = near / (near - far);
-		matrix.values[12] = 0;
-		matrix.values[13] = 0;
-		matrix.values[14] = 0;
-		matrix.values[15] = 1;
+		matrix.values[12] = 0.0;
+		matrix.values[13] = 0.0;
+		matrix.values[14] = 0.0;
+		matrix.values[15] = 1.0;
 	}
 }

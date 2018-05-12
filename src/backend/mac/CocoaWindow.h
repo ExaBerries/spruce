@@ -23,9 +23,10 @@ namespace spruce {
 			NSView* view;
 			WindowDelegate* delegate;
 
-			CocoaWindow(app::API api, uint16 width, uint16 height);
+			CocoaWindow();
 			virtual ~CocoaWindow();
 
+			void initForAPI(app::API api);
 			void setTitle(string title);
 			void setVisible(bool visible);
 			void setFullscreen(bool fullscreen);

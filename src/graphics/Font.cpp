@@ -10,8 +10,10 @@ namespace spruce {
 	}
 
 	Font::~Font() {
-		texture->freeVRAM();
-		delete texture;
+		if (texture != nullptr) {
+			texture->freeVRAM();
+			delete texture;
+		}
 	}
 
 	void Font::toVRAM() {
@@ -66,5 +68,7 @@ namespace spruce {
 		}
 		texture = graphics::createTexture(Texture::RED, data, width, height);
 		texture->toVRAM();
+		FT_Done_Face(face);
+		FT_Done_FreeType(ft);
 	}
 }

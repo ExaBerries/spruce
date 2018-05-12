@@ -14,7 +14,11 @@
 	uint16 height = self.frame.size.height;
 	CAMetalLayer* layer = [[CAMetalLayer alloc] init];
 	layer.device = spruce::device;
-	layer.pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+	layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+	layer.colorspace = CGColorSpaceCreateDeviceRGB();
+	layer.wantsExtendedDynamicRangeContent = YES;
+	layer.displaySyncEnabled = YES;
+	layer.framebufferOnly = YES;
 	layer.drawableSize = CGSizeMake(width, height);
 	self.layer = layer;
 	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:width height:height mipmapped:NO];

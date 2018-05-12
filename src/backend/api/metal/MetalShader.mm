@@ -13,11 +13,15 @@ namespace spruce {
 	}
 
 	MetalShader::~MetalShader() {
+		[pipelineState release];
+		[library release];
+		[vertexFunction release];
+		[fragmentFunction release];
 	}
 
 	void MetalShader::compileData() {
 		NSError* compileError = NULL;
-		dispatch_data_t data = dispatch_data_create(vertData, vertDataSize, dispatch_get_main_queue(), DISPATCH_DATA_DESTRUCTOR_FREE);
+		dispatch_data_t data = dispatch_data_create(vertData, vertDataSize, dispatch_get_main_queue(), DISPATCH_DATA_DESTRUCTOR_DEFAULT);
 		library = [device newLibraryWithData:data error:&compileError];
 		if (!library) {
 			NSLog(@"%@", compileError);
@@ -89,6 +93,7 @@ namespace spruce {
 		if (!pipelineState) {
 			NSLog(@"%@", error);
 		}
+		[desc release];
 	}
 
 	void MetalShader::enable() {

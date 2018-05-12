@@ -1,6 +1,7 @@
 #pragma once
 #include <common.h>
 #include <input/input.h>
+#include <API.h>
 
 namespace spruce {
 	class Window {
@@ -14,6 +15,7 @@ namespace spruce {
 			Window();
 			virtual ~Window();
 
+			virtual void initForAPI(app::API api) = 0;
 			virtual void setTitle(string title) = 0;
 			virtual void setVisible(bool visible) = 0;
 			virtual void setFullscreen(bool fullscreen) = 0;
