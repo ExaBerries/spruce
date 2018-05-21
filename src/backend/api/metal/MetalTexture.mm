@@ -13,12 +13,6 @@ namespace spruce {
 		freeVRAM();
 	}
 
-	void MetalTexture::bind() {
-	}
-
-	void MetalTexture::unbind() {
-	}
-
 	void MetalTexture::toVRAM() {
 		MTLPixelFormat format = MTLPixelFormatInvalid;
 		if (this->format == Texture::RGB) {

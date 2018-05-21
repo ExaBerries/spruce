@@ -2,6 +2,7 @@
 #include <common.h>
 #include <backend/task/TaskBackend.h>
 #include <backend/task/TaskData.h>
+#include <graphics/CommandBuffer.h>
 
 namespace spruce {
 	namespace task {
@@ -14,5 +15,7 @@ namespace spruce {
 		bool executeGraphicsTask();
 		void incrementRef(uint64 id);
 		void deincrementRef(uint64 id);
+		CommandBuffer& getCommandBuffer();
+		std::vector<CommandBuffer*> getCommandBuffers();
 	}
 }

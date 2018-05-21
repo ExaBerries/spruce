@@ -1,5 +1,6 @@
 #pragma once
 #include <backend/task/TaskBackend.h>
+#include <graphics/CommandBuffer.h>
 #include <thread>
 
 namespace spruce {
@@ -9,6 +10,7 @@ namespace spruce {
 				std::thread thread;
 				TaskBackend* taskBackend;
 				bool running;
+				CommandBuffer commandBuffer;
 
 				WorkerThread();
 				WorkerThread(const WorkerThread& thread) = delete;

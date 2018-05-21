@@ -1,14 +1,20 @@
 #include <graphics/graphics.h>
 #include <backend/api/RenderAPI.h>
 #include <backend/os.h>
-#include <graphics/PerspectiveCamera.h>
-#include <graphics/OrthographicCamera.h>
 #include <io/file.h>
 #include <app.h>
 #include <task/async.h>
+#include <backend/task/taskmanager.h>
+#include <graphics/command/RenderMeshCommand.h>
+#include <graphics/command/RenderPassCommand.h>
+#include <graphics/command/RenderFontCommand.h>
 
 namespace spruce {
 	namespace graphics {
+		CommandBuffer& getCommandBuffer() {
+			return task::getCommandBuffer();
+		}
+
 		VertexAttribute* fontAttributes;
 		Shader* fontShader;
 		Mesh* fontMesh;
@@ -120,111 +126,22 @@ namespace spruce {
 			return app::api->createRenderTarget(format, width, height);
 		}
 
-		void initFontRendering() {
-			if (fontAttributes == nullptr) {
-				fontAttributes = new VertexAttribute[2];
-				fontAttributes[0] = VertexAttribute("position", 3);
-				fontAttributes[1] = VertexAttribute("texCoord", 2);
-			}
-			if (fontShader != nullptr) {
-				delete fontShader;
-			}
-			string fontVert = app::api->fontVert;
-			string fontFrag = app::api->fontFrag;
-			fontShader = createShader(fontVert, fontFrag, 2, fontAttributes);
-			fontShader->compile(nullptr);
-			fontShader->registerUniform("camera", 1);
-			fontShader->registerUniform("tex", 2);
-			fontShader->registerUniform("color", 3);
-			if (fontMesh != nullptr) {
-				struct vertex {
-					vec3f position;
-					vec2f coord;
-				};
-				delete[] (vertex*)(fontMesh->vertices);
-				fontMesh->vertices = nullptr;
-				delete fontMesh;
-			}
-			fontMesh = createMesh(0, nullptr, 0, nullptr);
-		}
-
 		void render(Mesh* mesh, Shader* shader) {
-			app::api->render(mesh, shader);
+			getCommandBuffer().add(new RenderMeshCommand(mesh, shader));
 		}
 
 		void render(RenderPass* renderPass) {
+			getCommandBuffer().add(new RenderPassCommand(renderPass));
 			waitForGraphicsTasks();
-			app::api->renderStart(renderPass);
 			renderPass->render();
 		}
 
 		void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, Camera* camera) {
-			struct vertex {
-				vec3f position;
-				vec2f coord;
-			};
-			if (font.texture == nullptr || font.texture->width == 0 || font.texture->height == 0) {
-				return;
-			}
-			if (fontShader == nullptr || fontMesh == nullptr) {
-				return;
-			}
-			setBlend(true);
-			if (fontMesh->vertices != nullptr) {
-				delete[] (vertex*)(fontMesh->vertices);
-				fontMesh->vertices = nullptr;
-			}
-			float x = 0;
-			float y = 0;
-			vertex* coords = new vertex[6 * str.size()];
-			int n = 0;
-			for (uint32 i = 0; i < str.size(); i++) {
-				char p = str.c_str()[i];
-				if (p < 0) {
-					continue;
-				}
-				float x2 = x + font.chars[p].bl * size.x;
-				float y2 = -y - font.chars[p].bt * size.y;
-				float w = font.chars[p].bw * size.x;
-				float h = font.chars[p].bh * size.y;
-				x += font.chars[p].ax * size.x;
-				y += font.chars[p].ay * size.y;
-				if (!w || !h) {
-					continue;
-				}
-				coords[n].position = position + vec3f(x2, -y2, 0) * rotation;
-				coords[n].coord = vec2f(font.chars[p].tx, 0);
-				n++;
-				coords[n].position = position + vec3f(x2 + w, -y2, 0) * rotation;
-				coords[n].coord = vec2f(font.chars[p].tx + font.chars[p].bw / font.texture->width, 0);
-				n++;
-				coords[n].position = position + vec3f(x2, -y2 - h, 0) * rotation;
-				coords[n].coord = vec2f(font.chars[p].tx, font.chars[p].bh / font.texture->height);
-				n++;
-				coords[n].position = position + vec3f(x2 + w, -y2, 0) * rotation;
-				coords[n].coord = vec2f(font.chars[p].tx + font.chars[p].bw / font.texture->width, 0);
-				n++;
-				coords[n].position = position + vec3f(x2, -y2 - h, 0) * rotation;
-				coords[n].coord = vec2f(font.chars[p].tx, font.chars[p].bh / font.texture->height);
-				n++;
-				coords[n].position = position + vec3f(x2 + w, -y2 - h, 0) * rotation;
-				coords[n].coord = vec2f(font.chars[p].tx + font.chars[p].bw / font.texture->width, font.chars[p].bh / font.texture->height);
-				n++;
-			}
-			fontShader->enable();
+			mat4f cameraTrans;
 			if (camera != nullptr) {
-				fontShader->setUniform("camera", camera->combined);
-			} else {
-				fontShader->setUniform("camera", mat4f());
+				cameraTrans = camera->combined;
 			}
-			fontShader->setUniform("color", color);
-			font.texture->bind();
-			fontShader->setUniform("tex", font.texture);
-			fontMesh->vertices = (float*) coords;
-			fontMesh->vertexCount = 6 * str.size() * sizeof(vertex) / sizeof(float);
-			fontMesh->toVRAM(fontShader);
-			render(fontMesh, fontShader);
-			fontShader->disable();
+			getCommandBuffer().add(new RenderFontCommand(str, font, color, position, rotation, size, cameraTrans));
 		}
 
 		void setBlend(bool value) {

@@ -10,6 +10,9 @@
 namespace spruce {
 	class Shader {
 		public:
+			enum ShaderUniformLocation {
+				VERTEX, FRAGMENT
+			};
 			uint8* vertData;
 			uint16 vertDataSize;
 			string vertSource;
@@ -25,21 +28,20 @@ namespace spruce {
 			virtual ~Shader();
 
 			virtual void compile(graphics::RenderPass* renderPass) = 0;
-			virtual void enable() = 0;
-			virtual void disable() = 0;
+			void bind();
 
 			virtual uint16 getAttributeLocation(string name) = 0;
 			virtual uint16 registerUniform(string name, uint16 index) = 0;
 
-			virtual void setUniform(string name, const int& value) = 0;
-			virtual void setUniform(string name, const vec2i& vector) = 0;
-			virtual void setUniform(string name, const float& value) = 0;
-			virtual void setUniform(string name, const vec2f& vector) = 0;
-			virtual void setUniform(string name, const vec3f& vector) = 0;
-			virtual void setUniform(string name, const mat4f& matrix) = 0;
-			virtual void setUniform(string name, const quaternion& quaternion) = 0;
-			virtual void setUniform(string name, const color& color) = 0;
-			virtual void setUniform(string name, const Texture* texture) = 0;
-			virtual void setUniform(string name, const graphics::RenderPass* renderPass) = 0;
+			void setUniform(string name, ShaderUniformLocation location, const int32& value);
+			void setUniform(string name, ShaderUniformLocation location, const vec2i& vector);
+			void setUniform(string name, ShaderUniformLocation location, const float& value);
+			void setUniform(string name, ShaderUniformLocation location, const vec2f& vector);
+			void setUniform(string name, ShaderUniformLocation location, const vec3f& vector);
+			void setUniform(string name, ShaderUniformLocation location, const mat4f& matrix);
+			void setUniform(string name, ShaderUniformLocation location, const quaternion& quaternion);
+			void setUniform(string name, ShaderUniformLocation location, const color& color);
+			void setUniform(string name, ShaderUniformLocation location, const Texture* texture);
+			void setUniform(string name, ShaderUniformLocation location, const graphics::RenderPass* renderPass);
 	};
 }

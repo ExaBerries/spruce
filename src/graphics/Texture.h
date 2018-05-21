@@ -21,7 +21,7 @@ namespace spruce {
 
 			virtual void toVRAM() = 0;
 			virtual void freeVRAM() = 0;
-			virtual void bind() = 0;
-			virtual void unbind() = 0;
+			void bind();
+			void unbind();
 	};
 }

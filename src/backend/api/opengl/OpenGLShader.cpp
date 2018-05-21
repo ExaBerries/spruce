@@ -83,7 +83,6 @@ namespace spruce {
 		if (vertSuccess == GL_FALSE) {
 			GLint length = 0;
 			glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &length);
-			serr(length);
 			std::vector<GLchar> errorLog(2048);
 			glGetShaderInfoLog(vert, length, &length, &errorLog[0]);
 			slog(errorLog);
@@ -149,14 +148,6 @@ namespace spruce {
 		glValidateProgram(program);
 	}
 
-	void OpenGLShader::enable() {
-		glUseProgram(program);
-	}
-
-	void OpenGLShader::disable() {
-		glUseProgram(0);
-	}
-
 	uint16 OpenGLShader::getAttributeLocation(std::string name) {
 		return glGetAttribLocation(program, name.c_str());
 	}
@@ -165,47 +156,5 @@ namespace spruce {
 		uint16 location = glGetUniformLocation(program, name.c_str());
 		uniformLocations[name] = location;
 		return location;
-	}
-
-	void OpenGLShader::setUniform(string name, const int& value) {
-		glUniform1i(uniformLocations[name], value);
-	}
-
-	void OpenGLShader::setUniform(string name, const vec2i& vector) {
-		glUniform2i(uniformLocations[name], vector.x, vector.y);
-	}
-
-	void OpenGLShader::setUniform(string name, const float& value) {
-		glUniform1f(uniformLocations[name], value);
-	}
-
-	void OpenGLShader::setUniform(string name, const vec2f& vector) {
-		glUniform2f(uniformLocations[name], vector.x, vector.y);
-	}
-
-	void OpenGLShader::setUniform(string name, const vec3f& vector) {
-		glUniform3f(uniformLocations[name], vector.x, vector.y, vector.z);
-	}
-
-	void OpenGLShader::setUniform(string name, const mat4f& matrix) {
-		glUniformMatrix4fv(uniformLocations[name], 1, GL_TRUE, matrix.values);
-	}
-
-	void OpenGLShader::setUniform(string name, const quaternion& quaternion) {
-		glUniform4f(uniformLocations[name], quaternion.x, quaternion.y, quaternion.z, quaternion.w);
-	}
-
-	void OpenGLShader::setUniform(string name, const color& color) {
-		glUniform4f(uniformLocations[name], color.r, color.g, color.b, color.a);
-	}
-
-	void OpenGLShader::setUniform(string name, const Texture* texture) {
-		((Texture*)texture)->bind();
-		glUniform1i(uniformLocations[name], ((OpenGLTexture*)texture)->unit);
-	}
-
-	void OpenGLShader::setUniform(string name, const graphics::RenderPass* renderPass) {
-		((OpenGLRenderTarget*)renderPass->target)->texture->bind();
-		glUniform1i(uniformLocations[name], ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
 	}
 }

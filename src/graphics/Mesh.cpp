@@ -1,5 +1,7 @@
 #include <graphics/Mesh.h>
 #include <graphics/Shader.h>
+#include <graphics/command/MeshBindCommand.h>
+#include <graphics/graphics.h>
 
 namespace spruce {
 	Mesh::Mesh(const Mesh& mesh) {
@@ -23,5 +25,9 @@ namespace spruce {
 		if (indices != nullptr) {
 			delete[] indices;
 		}
+	}
+
+	void Mesh::bind() {
+		graphics::getCommandBuffer().add(new MeshBindCommand(this));
 	}
 }

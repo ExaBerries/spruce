@@ -13,9 +13,9 @@ namespace spruce {
 			Mesh(const Mesh& mesh);
 			Mesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 			virtual ~Mesh();
+
 			virtual void toVRAM(Shader* shader) = 0;
 			virtual void freeVRAM() = 0;
-			virtual void bind() = 0;
-			virtual void unbind() = 0;
+			void bind();
 	};
 }

@@ -12,7 +12,5 @@ namespace spruce {
 
 			MetalRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 			virtual ~MetalRenderTarget();
-
-			void bind();
 	};
 }

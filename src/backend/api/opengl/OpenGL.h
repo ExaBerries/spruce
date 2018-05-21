@@ -31,6 +31,20 @@ namespace spruce {
 
 			void render(Mesh* mesh, Shader* shader);
 			void renderStart(graphics::RenderPass* renderPass);
+			void bind(Mesh* mesh);
+			void bind(Texture* texture);
+			void unbind(Texture* texture);
+			void bind(Shader* shader);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const int32& value);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2i& vector);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const float& value);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2f& vector);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec3f& vector);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const mat4f& matrix);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const quaternion& quaternion);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const color& color);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* texture);
+			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* renderPass);
 
 			void setBlend(bool value);
 			void setDepth(bool value);

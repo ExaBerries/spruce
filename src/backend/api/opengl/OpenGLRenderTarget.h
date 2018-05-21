@@ -12,7 +12,5 @@ namespace spruce {
 
 			OpenGLRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 			virtual ~OpenGLRenderTarget();
-
-			void bind();
 	};
 }

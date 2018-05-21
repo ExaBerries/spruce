@@ -24,6 +24,15 @@ namespace spruce {
 		makeContextCurrent(window);
 		swapInterval(window, 1);
 		window->setVisible(true);
+		fontAttributes = new VertexAttribute[2];
+		fontAttributes[0] = VertexAttribute("position", 3);
+		fontAttributes[1] = VertexAttribute("texCoord", 2);
+		fontShader = createShader(fontVert, fontFrag, 2, fontAttributes);
+		fontShader->compile(nullptr);
+		fontShader->registerUniform("camera", 1);
+		fontShader->registerUniform("tex", 2);
+		fontShader->registerUniform("color", 3);
+		fontMesh = createMesh(0, nullptr, 0, nullptr);
 	}
 
 	void OpenGL::renderStart() {
@@ -73,7 +82,7 @@ namespace spruce {
 
 	void OpenGL::render(Mesh* mesh, Shader* shader) {
 		setDepth(true);
-		mesh->bind();
+		bind(mesh);
 		for (int i = 0; i < shader->attributeCount; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
@@ -85,18 +94,89 @@ namespace spruce {
 		for (int i = 0; i < shader->attributeCount; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
-		mesh->unbind();
 	}
 
 	void OpenGL::renderStart(graphics::RenderPass* renderPass) {
 		if (renderPass->target != nullptr) {
-			renderPass->target->bind();
+			bind(((OpenGLRenderTarget*)renderPass->target)->texture);
+			glBindFramebuffer(GL_FRAMEBUFFER, ((OpenGLRenderTarget*)renderPass->target)->framebuffer);
 			glViewport(0, 0, renderPass->target->width, renderPass->target->height);
 		} else {
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, window->width, window->height);
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void OpenGL::bind(Mesh* mesh) {
+		glBindVertexArray(((OpenGLMesh*)mesh)->vao);
+		if (((OpenGLMesh*)mesh)->ibo > 0) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ((OpenGLMesh*)mesh)->ibo);
+		}
+	}
+
+	void OpenGL::bind(Texture* texture) {
+		if (!((OpenGLTexture*) texture)->unit) {
+			((OpenGLTexture*) texture)->unit = ((OpenGLTexture*) texture)->getFreeUnit();
+			((OpenGLTexture*) texture)->units[((OpenGLTexture*) texture)->unit] = true;
+		}
+		glActiveTexture(GL_TEXTURE0 + ((OpenGLTexture*) texture)->unit);
+		glBindTexture(GL_TEXTURE_2D, ((OpenGLTexture*) texture)->texture);
+	}
+
+	void OpenGL::unbind(Texture* texture) {
+		if (((OpenGLTexture*) texture)->units != nullptr) {
+			((OpenGLTexture*) texture)->units[((OpenGLTexture*) texture)->unit] = false;
+			((OpenGLTexture*) texture)->unit = 0;
+		}
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	void OpenGL::bind(Shader* shader) {
+		glUseProgram(((OpenGLShader*)shader)->program);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const int32& value) {
+		glUniform1i(((OpenGLShader*)shader)->uniformLocations[name], value);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2i& vector) {
+		glUniform2i(((OpenGLShader*)shader)->uniformLocations[name], vector.x, vector.y);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const float& value) {
+		glUniform1f(((OpenGLShader*)shader)->uniformLocations[name], value);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2f& vector) {
+		glUniform2f(((OpenGLShader*)shader)->uniformLocations[name], vector.x, vector.y);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec3f& vector) {
+		glUniform3f(((OpenGLShader*)shader)->uniformLocations[name], vector.x, vector.y, vector.z);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const mat4f& matrix) {
+		glUniformMatrix4fv(((OpenGLShader*)shader)->uniformLocations[name], 1, GL_TRUE, matrix.values);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const quaternion& quaternion) {
+		glUniform4f(((OpenGLShader*)shader)->uniformLocations[name], quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const color& color) {
+		glUniform4f(((OpenGLShader*)shader)->uniformLocations[name], color.r, color.g, color.b, color.a);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* texture) {
+		((Texture*)texture)->bind();
+		glUniform1i(((OpenGLShader*)shader)->uniformLocations[name], ((OpenGLTexture*)texture)->unit);
+	}
+
+	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* renderPass) {
+		((OpenGLRenderTarget*)renderPass->target)->texture->bind();
+		glUniform1i(((OpenGLShader*)shader)->uniformLocations[name], ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
 	}
 
 	void OpenGL::setBlend(bool value) {

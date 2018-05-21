@@ -93,8 +93,8 @@ namespace spruce {
 	}
 
 	void OpenGLShapeRenderer::end() {
-		shader->enable();
-		shader->setUniform("camera", *camera);
+		shader->bind();
+		shader->setUniform("camera", Shader::FRAGMENT, *camera);
 		glBindVertexArray(lineVao);
 		glBindBuffer(GL_ARRAY_BUFFER, lineVbo);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_VERTICES * sizeof(float), lineVertices);
@@ -121,7 +121,6 @@ namespace spruce {
 		}
 		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		shader->disable();
 	}
 
 	void OpenGLShapeRenderer::line(vec3f a, vec3f b, color colora, color colorb) {

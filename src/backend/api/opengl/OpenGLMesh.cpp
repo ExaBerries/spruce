@@ -81,18 +81,4 @@ namespace spruce {
 		}
 		glDeleteVertexArrays(1, &vao);
 	}
-
-	void OpenGLMesh::bind() {
-		glBindVertexArray(vao);
-		if (ibo > 0) {
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		}
-	}
-
-	void OpenGLMesh::unbind() {
-		glBindVertexArray(0);
-		if (ibo > 0) {
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		}
-	}
 }

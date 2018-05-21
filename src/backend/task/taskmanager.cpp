@@ -14,6 +14,7 @@ namespace spruce {
 		std::mutex taskMutex;
 		std::mutex dataMutex;
 		std::mutex refMutex;
+		CommandBuffer mainCommandBuffer;
 
 		void init() {
 			threads = std::vector<WorkerThread>(sys::getCPUThreadCount() - 1);
@@ -176,6 +177,24 @@ namespace spruce {
 				data.erase(taskId);
 				references.erase(taskId);
 			}
+		}
+
+		CommandBuffer& getCommandBuffer() {
+			for (WorkerThread& thread : threads) {
+				if (thread.thread.get_id() == std::this_thread::get_id()) {
+					return thread.commandBuffer;
+				}
+			}
+			return mainCommandBuffer;
+		}
+
+		std::vector<CommandBuffer*> getCommandBuffers() {
+			std::vector<CommandBuffer*> cmdBuffers;
+			cmdBuffers.push_back(&mainCommandBuffer);
+			for (WorkerThread& thread : threads) {
+				cmdBuffers.push_back(&thread.commandBuffer);
+			}
+			return cmdBuffers;
 		}
 
 		#ifdef DEBUG

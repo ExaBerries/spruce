@@ -30,7 +30,4 @@ namespace spruce {
 		}
 		[renderPassDescriptor release];
 	}
-
-	void MetalRenderTarget::bind() {
-	}
 }

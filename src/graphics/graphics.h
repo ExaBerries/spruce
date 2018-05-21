@@ -11,10 +11,13 @@
 #include <graphics/RenderPass.h>
 #include <graphics/color.h>
 #include <graphics/Font.h>
+#include <graphics/CommandBuffer.h>
 #include <io/FileHandle.h>
 
 namespace spruce {
 	namespace graphics {
+		CommandBuffer& getCommandBuffer();
+
 		Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
 		Shader* createShader(const FileHandle& file, uint16 attributesCount, VertexAttribute* attributes);
 		Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
@@ -24,8 +27,6 @@ namespace spruce {
 		Texture* createTexture(const FileHandle& path);
 		Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height);
 		RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
-
-		void initFontRendering();
 
 		void render(Mesh* mesh, Shader* shader);
 		void render(RenderPass* renderPass);

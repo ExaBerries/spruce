@@ -9,7 +9,5 @@ namespace spruce {
 
 			RenderTarget(uint16 width, uint16 height);
 			virtual ~RenderTarget();
-
-			virtual void bind() = 0;
 	};
 }
