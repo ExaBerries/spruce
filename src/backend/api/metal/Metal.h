@@ -19,12 +19,12 @@ namespace spruce {
 
 			string getError();
 
-			Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
-			Shader* createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes);
-			Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
+			Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
+			Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
+			Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes);
 			ShapeRenderer* createShapeRenderer();
 			Texture* createTexture(const FileHandle& path);
-			Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height);
+			Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height);
 			RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 			void render(Mesh* mesh, Shader* shader);

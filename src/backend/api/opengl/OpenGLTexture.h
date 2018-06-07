@@ -9,8 +9,8 @@ namespace spruce {
 			GLuint texture;
 			uint16 unit;
 
-			OpenGLTexture(PixelFormat format, uint8* data, uint16& width, uint16& height);
-			OpenGLTexture(const OpenGLTexture& texture);
+			OpenGLTexture(PixelFormat format, buffer<uint8> data, uint16& width, uint16& height);
+			OpenGLTexture(const OpenGLTexture& texture) = delete;
 			~OpenGLTexture();
 
 			void bind();
@@ -18,8 +18,7 @@ namespace spruce {
 			void toVRAM();
 			void freeVRAM();
 		protected:
-			static int32 maxUnit;
-			static bool* units;
+			static buffer<bool> units;
 			static uint16 getFreeUnit();
 	};
 }

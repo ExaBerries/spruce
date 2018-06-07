@@ -39,11 +39,11 @@
 
 namespace spruce {
 	namespace os {
-		uint16* keyCodes;
+		buffer<uint16> keyCodes(nullptr);
 		AppDelegate* delegate;
 
 		void init() {
-			keyCodes = new uint16[79];
+			keyCodes = buffer<uint16>(79);
 			keyCodes[input::A] = 0x00;
 			keyCodes[input::B] = 0x0B;
 			keyCodes[input::C] = 0x08;

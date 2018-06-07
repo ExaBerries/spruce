@@ -2,7 +2,7 @@
 #include <backend/api/metal/MetalContext.h>
 
 namespace spruce {
-	MetalMesh::MetalMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) : Mesh(vertexCount, vertices, indexCount, indices) {
+	MetalMesh::MetalMesh(buffer<float> vertices, buffer<uint16> indices) : Mesh(vertices, indices) {
 		bufferVertexCount = 0;
 		bufferIndexCount = 0;
 		vertexBuffer = nil;
@@ -14,35 +14,35 @@ namespace spruce {
 	}
 
 	void MetalMesh::toVRAM(Shader* shader) {
-		if (vertexBuffer == nil && vertexCount != 0) {
-			vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeManaged];
-			bufferVertexCount = vertexCount;
+		if (vertexBuffer == nil && vertices.size != 0) {
+			vertexBuffer = [device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
+			bufferVertexCount = vertices.size;
 		} else {
-			if (vertexCount == 0) {
-			} else if (bufferVertexCount != vertexCount) {
+			if (vertices.size == 0) {
+			} else if (bufferVertexCount != vertices.size) {
 				//[vertexBuffer release];
-				vertexBuffer = [device newBufferWithLength:(vertexCount * sizeof(float)) options:MTLResourceStorageModeManaged];
-				bufferVertexCount = vertexCount;
+				vertexBuffer = [device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
+				bufferVertexCount = vertices.size;
 			}
 		}
-		if (vertexCount > 0) {
-			memcpy(vertexBuffer.contents, vertices, vertexCount * sizeof(float));
-			[vertexBuffer didModifyRange:NSMakeRange(0, vertexCount * sizeof(float))];
+		if (vertices.size > 0) {
+			memcpy(vertexBuffer.contents, vertices.data, vertices.size * sizeof(float));
+			[vertexBuffer didModifyRange:NSMakeRange(0, vertices.size * sizeof(float))];
 		}
-		if (indexBuffer == nil && indexCount != 0) {
-			indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeManaged];
-			bufferIndexCount = indexCount;
+		if (indexBuffer == nil && indices.size != 0) {
+			indexBuffer = [device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
+			bufferIndexCount = indices.size;
 		} else {
-			if (indexCount == 0) {
-			} else if (bufferIndexCount != indexCount) {
+			if (indices.size == 0) {
+			} else if (bufferIndexCount != indices.size) {
 				//[indexBuffer release];
-				indexBuffer = [device newBufferWithLength:(indexCount * sizeof(uint16)) options:MTLResourceStorageModeManaged];
-				bufferIndexCount = indexCount;
+				indexBuffer = [device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
+				bufferIndexCount = indices.size;
 			}
 		}
-		if (indexCount > 0) {
-			memcpy(indexBuffer.contents, indices, indexCount * sizeof(uint16));
-			[indexBuffer didModifyRange:NSMakeRange(0, indexCount * sizeof(uint16))];
+		if (indices.size > 0) {
+			memcpy(indexBuffer.contents, indices.data, indices.size * sizeof(uint16));
+			[indexBuffer didModifyRange:NSMakeRange(0, indices.size * sizeof(uint16))];
 		}
 	}
 

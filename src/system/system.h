@@ -1,5 +1,7 @@
 #pragma once
 #include <common.h>
+#include <system/time.h>
+#include <system/memory.h>
 
 namespace spruce {
 	namespace sys {
@@ -14,8 +16,5 @@ namespace spruce {
 		uint64 getL3CacheSize();
 		uint64 getRAMSize();
 		uint64 getSwapUsed();
-
-		float timeSec();
-		uint64 timeNano();
 	}
 }

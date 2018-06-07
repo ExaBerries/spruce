@@ -13,8 +13,8 @@ namespace spruce {
 
 			ProfileData loadProfiledata(FileHandle file) {
 				ProfileData profileData;
-				uint32 size = 0;
-				uint8* data = io::readFileBin(file, size);
+				buffer<uint8> data = io::readFileBin(file);
+				uint32 size = data.size;
 				if (data[0] == 0) {
 					uint32 i = sizeof(uint8);
 					uint32 profileCount = 0;
@@ -50,7 +50,7 @@ namespace spruce {
 				}
 				size += sizeof(uint32);
 				size += sizeof(uint64) * profileData.frameTimes.size();
-				uint8* data = new uint8[size];
+				buffer<uint8> data(size);
 				uint32 i = 0;
 				data[i] = 0;
 				i += sizeof(uint8);
@@ -67,7 +67,7 @@ namespace spruce {
 					memcpy(data + i, &profileData.frameTimes[j], sizeof(uint64));
 					i += sizeof(uint64);
 				}
-				io::writeFileBin(file, data, size);
+				io::writeFileBin(file, data);
 				delete[] data;
 			}
 		}

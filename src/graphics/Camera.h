@@ -15,6 +15,7 @@ namespace spruce {
 			float viewportHeight;
 
 			Camera(float viewportWidth, float viewportHeight);
+			Camera(const Camera& camera) = delete;
 			virtual ~Camera();
 
 			virtual void update() = 0;
