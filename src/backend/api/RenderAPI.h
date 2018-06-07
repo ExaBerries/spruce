@@ -9,6 +9,7 @@
 #include <graphics/RenderTarget.h>
 #include <graphics/Font.h>
 #include <graphics/CommandBuffer.h>
+#include <graphics/VertexAttribute.h>
 #include <input/input.h>
 #include <io/FileHandle.h>
 
@@ -19,7 +20,7 @@ namespace spruce {
 			vec3f ndcSize;
 			string fontVert;
 			string fontFrag;
-			VertexAttribute* fontAttributes;
+			buffer<VertexAttribute> fontAttributes;
 			Shader* fontShader;
 			Mesh* fontMesh;
 
@@ -55,12 +56,12 @@ namespace spruce {
 			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* texture) = 0;
 			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* renderPass) = 0;
 
-			virtual Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) = 0;
-			virtual Shader* createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes) = 0;
-			virtual Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) = 0;
+			virtual Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) = 0;
+			virtual Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) = 0;
+			virtual Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes) = 0;
 			virtual ShapeRenderer* createShapeRenderer() = 0;
 			virtual Texture* createTexture(const FileHandle& file) = 0;
-			virtual Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height) = 0;
+			virtual Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) = 0;
 			virtual RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) = 0;
 
 			virtual void setBlend(bool value) = 0;

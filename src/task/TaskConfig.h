@@ -30,7 +30,7 @@ namespace spruce {
 	template <typename RETURN, typename ... TYPES>
 	Task<RETURN(TYPES...)> createTask(TaskConfig<RETURN(TYPES...)> config) {
 		uint64 id = task::taskId++;
-		task::TaskData* data = new task::TaskData(sizeof(RETURN));
+		task::TaskData* data = new task::TaskData(sizeof(RETURN), [](void* data) {((RETURN*)data)->~RETURN();});
 		new (data->data) RETURN();
 		Task<RETURN(TYPES...)> task(id, data->complete, *((RETURN*)data->data));
 		task.priority = config.priority;
@@ -45,7 +45,7 @@ namespace spruce {
 	template <typename ... TYPES>
 	Task<void(TYPES...)> createTask(TaskConfig<void(TYPES...)> config) {
 		uint64 id = task::taskId++;
-		task::TaskData* data = new task::TaskData(sizeof(bool));
+		task::TaskData* data = new task::TaskData(sizeof(bool), [](void* data) {});
 		Task<void(TYPES...)> task(id, data->complete);
 		task.priority = config.priority;
 		task::TaskBackend* taskBackend = new task::TaskBackend(id, data->complete);

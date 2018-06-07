@@ -30,15 +30,15 @@ namespace spruce {
 		depthStencilDescriptor.depthWriteEnabled = YES;
 		depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
 		[depthStencilDescriptor release];
-		fontAttributes = new VertexAttribute[2];
+		fontAttributes = buffer<VertexAttribute>(2);
 		fontAttributes[0] = VertexAttribute("position", 3);
 		fontAttributes[1] = VertexAttribute("texCoord", 2);
-		fontShader = createShader(fontVert, fontFrag, 2, fontAttributes);
+		fontShader = createShader(fontVert, fontFrag, fontAttributes);
 		fontShader->compile(nullptr);
 		fontShader->registerUniform("camera", 1);
 		fontShader->registerUniform("tex", 2);
 		fontShader->registerUniform("color", 3);
-		fontMesh = createMesh(0, nullptr, 0, nullptr);
+		fontMesh = createMesh(nullptr, nullptr);
 	}
 
 	void Metal::renderStart() {
@@ -71,16 +71,16 @@ namespace spruce {
 		return "";
 	}
 
-	Mesh* Metal::createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) {
-		return new MetalMesh(vertexCount, vertices, indexCount, indices);
+	Mesh* Metal::createMesh(buffer<float> vertices, buffer<uint16> indices) {
+		return new MetalMesh(vertices, indices);
 	}
 
-	Shader* Metal::createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes) {
-		return new MetalShader(vertData, vertDataSize, fragData, fragDataSize, attributeCount, attributes);
+	Shader* Metal::createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) {
+		return new MetalShader(vertData, fragData, attributes);
 	}
 
-	Shader* Metal::createShader(string& vert, string& frag, uint16 attributeCount, VertexAttribute* attributes) {
-		return new MetalShader(vert, frag, attributeCount, attributes);
+	Shader* Metal::createShader(string& vert, string& frag, buffer<VertexAttribute> attributes) {
+		return new MetalShader(vert, frag, attributes);
 	}
 
 	ShapeRenderer* Metal::createShapeRenderer() {
@@ -91,11 +91,11 @@ namespace spruce {
 		uint16 width = 0;
 		uint16 height = 0;
 		uint16 bitsPerPixel = 0;
-		uint8* data = io::loadImage(path, width, height, bitsPerPixel);
+		buffer<uint8> data = io::loadImage(path, width, height, bitsPerPixel);
 		return new MetalTexture(Texture::RGBA, data, width, height);
 	}
 
-	Texture* Metal::createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height) {
+	Texture* Metal::createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) {
 		return new MetalTexture(format, data, width, height);
 	}
 
@@ -105,10 +105,10 @@ namespace spruce {
 
 	void Metal::render(Mesh* mesh, Shader* shader) {
 		[renderEncoder setVertexBuffer:((MetalMesh*)mesh)->vertexBuffer offset:0 atIndex:0];
-		if (mesh->indexCount > 0) {
-			[renderEncoder drawIndexedPrimitives:MTLPrimitiveTypeTriangle indexCount:((MetalMesh*)mesh)->indexCount indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
+		if (mesh->indices.size > 0) {
+			[renderEncoder drawIndexedPrimitives:MTLPrimitiveTypeTriangle indexCount:((MetalMesh*)mesh)->indices.size indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
 		} else {
-			[renderEncoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:mesh->vertexCount];
+			[renderEncoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:mesh->vertices.size];
 		}
 	}
 

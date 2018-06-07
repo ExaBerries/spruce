@@ -11,21 +11,17 @@
 
 namespace spruce {
 	namespace graphics {
+
 		CommandBuffer& getCommandBuffer() {
 			return task::getCommandBuffer();
 		}
 
-		VertexAttribute* fontAttributes;
-		Shader* fontShader;
-		Mesh* fontMesh;
-
-		Mesh* createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) {
-			return app::api->createMesh(vertexCount, vertices, indexCount, indices);
+		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) {
+			return app::api->createMesh(vertices, indices);
 		}
 
-		Shader* createShader(const FileHandle& file, uint16 attributeCount, VertexAttribute* attributes) {
-			uint32 count = 0;
-			uint8* data = io::readFileBin(file, count);
+		Shader* createShader(const FileHandle& file, buffer<VertexAttribute> attributes) {
+			buffer<uint8> data = io::readFileBin(file);
 			if (data == nullptr) {
 				serr("could not read shader file: ", file);
 				return nullptr;
@@ -45,18 +41,18 @@ namespace spruce {
 				memcpy(&glFragSize, data + i, sizeof(uint32));
 				i += sizeof(uint32);
 				if (app::apiType == app::OPENGL) {
-					string vertSource = string((const char*) data + i);
-					string fragSource = string((const char*) data + i + glVertSourceSize);
+					string vertSource = string((const buffer<char>) data + i);
+					string fragSource = string((const buffer<char>) data + i + glVertSourceSize);
 					i += glVertSourceSize + glFragSourceSize;
-					uint8* vertexData = new uint8[glVertSize / sizeof(uint8)];
+					buffer<uint8> vertexData(glVertSize / sizeof(uint8));
 					memcpy(vertexData, data + i, glVertSize);
-					uint8* fragmentData = new uint8[glFragSize / sizeof(uint8)];
+					buffer<uint8> fragmentData(glFragSize / sizeof(uint8));
 					memcpy(fragmentData, data + i + glVertSize, glFragSize);
 					delete[] data;
 					if (os::supportsPrecompiledShader(app::OPENGL)) {
-						return app::api->createShader(vertexData, glVertSize, fragmentData, glFragSize, attributeCount, attributes);
+						return app::api->createShader(vertexData, fragmentData, attributes);
 					} else {
-						return app::api->createShader(vertSource, fragSource, attributeCount, attributes);
+						return app::api->createShader(vertSource, fragSource, attributes);
 					}
 				} else {
 					i += glVertSourceSize + glFragSourceSize;
@@ -70,10 +66,10 @@ namespace spruce {
 						serr("no metal shader data");
 						return nullptr;
 					}
-					uint8* metalData = new uint8[metalSize / sizeof(uint8)];
+					buffer<uint8> metalData(metalSize / sizeof(uint8));
 					memcpy(metalData, data + i, metalSize);
 					delete[] data;
-					return app::api->createShader(metalData, metalSize, nullptr, 0, attributeCount, attributes);
+					return app::api->createShader(metalData, buffer<uint8>(nullptr), attributes);
 				}
 				i += metalSize;
 				if (app::apiType == app::VULKAN) {
@@ -98,8 +94,8 @@ namespace spruce {
 			return nullptr;
 		}
 
-		Shader* createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) {
-			return app::api->createShader(vertSource, fragSource, attributesCount, attributes);
+		Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes) {
+			return app::api->createShader(vertSource, fragSource, attributes);
 		}
 
 		ShapeRenderer* createShapeRenderer() {
@@ -118,7 +114,7 @@ namespace spruce {
 			return app::api->createTexture(path);
 		}
 
-		Texture* createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height) {
+		Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) {
 			return app::api->createTexture(format, data, width, height);
 		}
 

@@ -19,6 +19,7 @@ namespace spruce {
 			Texture* texture;
 
 			Font(FileHandle fileHandle);
+			Font(const Font& font) = delete;
 			virtual ~Font();
 
 			void toVRAM();

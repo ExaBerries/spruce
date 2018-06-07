@@ -11,8 +11,10 @@ namespace spruce {
 			uint16 bufferVertexCount;
 			uint16 bufferIndexCount;
 
-			MetalMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
+			MetalMesh(buffer<float> vertices, buffer<uint16> indices);
+			MetalMesh(const MetalMesh& mesh) = delete;
 			~MetalMesh();
+
 			void toVRAM(Shader* shader);
 			void freeVRAM();
 			void bind();

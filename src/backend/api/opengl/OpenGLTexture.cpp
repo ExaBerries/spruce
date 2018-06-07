@@ -2,17 +2,11 @@
 #include <backend/api/opengl/platform.h>
 
 namespace spruce {
-	int32 OpenGLTexture::maxUnit = -1;
-	bool* OpenGLTexture::units = nullptr;
+	buffer<bool> OpenGLTexture::units(nullptr);
 
-	OpenGLTexture::OpenGLTexture(PixelFormat format, uint8* data, uint16& width, uint16& height) : Texture(format, data, width, height) {
+	OpenGLTexture::OpenGLTexture(PixelFormat format, buffer<uint8> data, uint16& width, uint16& height) : Texture(format, data, width, height) {
 		texture = 0;
 		unit = 0;
-	}
-
-	OpenGLTexture::OpenGLTexture(const OpenGLTexture& texture) : Texture(texture) {
-		this->texture = texture.texture;
-		this->unit = texture.unit;
 	}
 
 	OpenGLTexture::~OpenGLTexture() {
@@ -65,13 +59,14 @@ namespace spruce {
 
 	uint16 OpenGLTexture::getFreeUnit() {
 		if (units == nullptr) {
+			int32 maxUnit = 0;
 			glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxUnit);
-			units = new bool[maxUnit];
+			units = buffer<bool>(maxUnit);
 			for (uint16 i = 0; i < maxUnit; i++) {
 				units[i] = false;
 			}
 		}
-		for (uint16 i = 1; i < maxUnit; i++) {
+		for (uint16 i = 1; i < units.size; i++) {
 			if (units[i] == false) {
 				return i;
 			}

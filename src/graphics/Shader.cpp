@@ -4,45 +4,22 @@
 #include <graphics/command/ShaderBindCommand.h>
 
 namespace spruce {
-	Shader::Shader(const Shader& shader) {
-		this->vertData = shader.vertData;
-		this->vertDataSize = shader.vertDataSize;
-		this->vertSource = shader.vertSource;
-		this->fragData = shader.fragData;
-		this->fragDataSize = shader.fragDataSize;
-		this->fragSource = shader.fragSource;
-		this->attributeCount = shader.attributeCount;
-		this->attributes = shader.attributes;
-	}
-
-	Shader::Shader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes) {
-		this->vertData = vertData;
-		this->vertDataSize = vertDataSize;
+	Shader::Shader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) : vertData(vertData), fragData(fragData), attributes(attributes) {
 		this->vertSource = string();
-		this->fragData = fragData;
-		this->fragDataSize = fragDataSize;
 		this->fragSource = string();
-		this->attributeCount = attributeCount;
-		this->attributes = attributes;
 	}
 
-	Shader::Shader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes) {
-		this->vertData = nullptr;
-		this->vertDataSize = 0;
+	Shader::Shader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes) : vertData(nullptr), fragData(nullptr), attributes(attributes) {
 		this->vertSource = vertSource;
-		this->fragData = nullptr;
-		this->fragDataSize = 0;
 		this->fragSource = fragSource;
-		this->attributeCount = attributeCount;
-		this->attributes = attributes;
 	}
 
 	Shader::~Shader() {
-		if (vertDataSize > 0) {
-			delete[] vertData;
+		if (vertData.size > 0) {
+			vertData.free();
 		}
-		if (fragDataSize > 0) {
-			delete[] fragData;
+		if (fragData.size > 0) {
+			fragData.free();
 		}
 	}
 

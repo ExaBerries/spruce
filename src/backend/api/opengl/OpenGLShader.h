@@ -11,9 +11,9 @@ namespace spruce {
 			GLuint program;
 			std::map<string, uint16> uniformLocations;
 
-			OpenGLShader(const OpenGLShader& shader);
-			OpenGLShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes);
-			OpenGLShader(const string& vertSource, const string& fragSource, uint16 attributesCount, VertexAttribute* attributes);
+			OpenGLShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
+			OpenGLShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes);
+			OpenGLShader(const OpenGLShader& shader) = delete;
 			~OpenGLShader();
 
 			void compileSPIRV();

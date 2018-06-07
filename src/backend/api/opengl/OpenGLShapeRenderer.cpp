@@ -8,11 +8,10 @@ namespace spruce {
 	const uint16 OpenGLShapeRenderer::MAX_VERTICES = 256;
 	const uint16 OpenGLShapeRenderer::MAX_INDICES = 256;
 
-	OpenGLShapeRenderer::OpenGLShapeRenderer() {
-		attributes = new VertexAttribute[2];
+	OpenGLShapeRenderer::OpenGLShapeRenderer() : attributes(2) {
 		attributes[0] = VertexAttribute("a_pos", 3);
 		attributes[1] = VertexAttribute("a_color", 4);
-		shader = new OpenGLShader(vert, frag, 2, attributes);
+		shader = new OpenGLShader(vert, frag, attributes);
 		shader->compile(nullptr);
 		shader->registerUniform("camera", 1);
 		lineVertexCount = 0;
@@ -25,7 +24,7 @@ namespace spruce {
 		filledIndices = new uint16[MAX_INDICES];
 
 		uint16 stride = 0;
-		for (int i = 0; i < shader->attributeCount; i++) {
+		for (int i = 0; i < shader->attributes.size; i++) {
 			stride += shader->attributes[i].size;
 		}
 		stride *= sizeof(float);
@@ -36,7 +35,7 @@ namespace spruce {
 		glBindBuffer(GL_ARRAY_BUFFER, lineVbo);
 		glBufferData(GL_ARRAY_BUFFER, MAX_VERTICES * sizeof(float), lineVertices, GL_DYNAMIC_DRAW);
 		uint16 offset = 0;
-		for (int j = 0; j < shader->attributeCount; j++) {
+		for (int j = 0; j < shader->attributes.size; j++) {
 			glVertexAttribPointer(shader->getAttributeLocation(shader->attributes[j].name), shader->attributes[j].size, GL_FLOAT, GL_FALSE, stride, (void*) offset);
 			offset += shader->attributes[j].size * sizeof(float);
 		}
@@ -50,7 +49,7 @@ namespace spruce {
 		glBindBuffer(GL_ARRAY_BUFFER, filledVbo);
 		glBufferData(GL_ARRAY_BUFFER, MAX_VERTICES * sizeof(float), filledVertices, GL_DYNAMIC_DRAW);
 		offset = 0;
-		for (int j = 0; j < shader->attributeCount; j++) {
+		for (int j = 0; j < shader->attributes.size; j++) {
 			glVertexAttribPointer(shader->getAttributeLocation(shader->attributes[j].name), shader->attributes[j].size, GL_FLOAT, GL_FALSE, stride, (void*) offset);
 			offset += shader->attributes[j].size * sizeof(float);
 		}
@@ -100,11 +99,11 @@ namespace spruce {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_VERTICES * sizeof(float), lineVertices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lineIbo);
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, MAX_INDICES * sizeof(uint16), lineIndices);
-		for (int i = 0; i < shader->attributeCount; i++) {
+		for (int i = 0; i < shader->attributes.size; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 		glDrawElements(GL_LINES, lineIndexCount, GL_UNSIGNED_SHORT, 0);
-		for (int i = 0; i < shader->attributeCount; i++) {
+		for (int i = 0; i < shader->attributes.size; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 		glBindVertexArray(filledVao);
@@ -112,11 +111,11 @@ namespace spruce {
 		glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_VERTICES * sizeof(float), filledVertices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, filledIbo);
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, MAX_INDICES * sizeof(uint16), filledIndices);
-		for (int i = 0; i < shader->attributeCount; i++) {
+		for (int i = 0; i < shader->attributes.size; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 		glDrawElements(GL_TRIANGLES, filledIndexCount, GL_UNSIGNED_SHORT, 0);
-		for (int i = 0; i < shader->attributeCount; i++) {
+		for (int i = 0; i < shader->attributes.size; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 		glBindVertexArray(0);

@@ -23,11 +23,13 @@ namespace spruce {
 			uint16* lineIndices;
 			float* filledVertices;
 			uint16* filledIndices;
-			VertexAttribute* attributes;
+			buffer<VertexAttribute> attributes;
 			Shader* shader;
 
 			OpenGLShapeRenderer();
+			OpenGLShapeRenderer(const OpenGLShapeRenderer& renderer) = delete;
 			~OpenGLShapeRenderer();
+
 			void begin(Camera& camera);
 			void end();
 			void line(vec3f a, vec3f b, color colora, color colorb);

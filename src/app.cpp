@@ -67,6 +67,7 @@ namespace spruce {
 				}
 				api->renderEnd();
 				os::updateEnd();
+				mem::update();
 			}
 		}
 

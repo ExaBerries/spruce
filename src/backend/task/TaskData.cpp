@@ -2,13 +2,15 @@
 
 namespace spruce {
 	namespace task {
-		TaskData::TaskData(size_t size) {
+		TaskData::TaskData(size_t size, void(*dataDestructor)(void*)) {
 			this->size = size;
 			this->data = malloc(size);
 			this->complete = false;
+			this->dataDestructor = dataDestructor;
 		}
 
 		TaskData::~TaskData() {
+			dataDestructor(data);
 			free(data);
 		}
 	}

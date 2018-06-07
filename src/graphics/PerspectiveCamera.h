@@ -12,7 +12,9 @@ namespace spruce {
 			vec3f dir;
 
 			PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir);
+			PerspectiveCamera(const PerspectiveCamera& camera) = delete;
 			virtual ~PerspectiveCamera();
+
 			void update();
 	};
 }

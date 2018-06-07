@@ -13,18 +13,15 @@ namespace spruce {
 			enum ShaderUniformLocation {
 				VERTEX, FRAGMENT
 			};
-			uint8* vertData;
-			uint16 vertDataSize;
+			buffer<uint8> vertData;
 			string vertSource;
-			uint8* fragData;
-			uint16 fragDataSize;
+			buffer<uint8> fragData;
 			string fragSource;
-			int attributeCount;
-			VertexAttribute* attributes;
+			buffer<VertexAttribute> attributes;
 
-			Shader(const Shader& shader);
-			Shader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes);
-			Shader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes);
+			Shader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
+			Shader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes);
+			Shader(const Shader& shader) = delete;
 			virtual ~Shader();
 
 			virtual void compile(graphics::RenderPass* renderPass) = 0;

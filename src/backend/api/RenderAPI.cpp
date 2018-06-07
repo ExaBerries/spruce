@@ -2,17 +2,16 @@
 #include <common.h>
 
 namespace spruce {
-	RenderAPI::RenderAPI(Window* window, vec3f ndcSize) {
+	RenderAPI::RenderAPI(Window* window, vec3f ndcSize) : fontAttributes(nullptr) {
 		this->window = window;
 		this->ndcSize = ndcSize;
-		this->fontAttributes = nullptr;
 		this->fontShader = nullptr;
 		this->fontMesh = nullptr;
 	}
 
 	RenderAPI::~RenderAPI() {
 		if (fontAttributes != nullptr) {
-			delete[] fontAttributes;
+			fontAttributes.free();
 		}
 		if (fontShader != nullptr) {
 			delete fontShader;
@@ -33,12 +32,12 @@ namespace spruce {
 		}
 		setBlend(true);
 		if (fontMesh->vertices != nullptr) {
-			delete[] (FontVertex*)(fontMesh->vertices);
+			fontMesh->vertices.free();
 			fontMesh->vertices = nullptr;
 		}
 		float x = 0;
 		float y = 0;
-		FontVertex* coords = new FontVertex[6 * str.size()];
+		buffer<FontVertex> coords(6 * str.size());
 		int n = 0;
 		for (uint32 i = 0; i < str.size(); i++) {
 			char p = str.c_str()[i];
@@ -78,8 +77,7 @@ namespace spruce {
 		setUniform(fontShader, "color", Shader::FRAGMENT, color);
 		bind(font.texture);
 		setUniform(fontShader, "tex", Shader::FRAGMENT, font.texture);
-		fontMesh->vertices = (float*) coords;
-		fontMesh->vertexCount = 6 * str.size() * sizeof(FontVertex) / sizeof(float);
+		fontMesh->vertices = (buffer<float>) coords;
 		fontMesh->toVRAM(fontShader);
 		render(fontMesh, fontShader);
 	}

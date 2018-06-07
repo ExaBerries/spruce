@@ -62,7 +62,7 @@ namespace spruce {
 	template <typename RETURN, typename ... TYPES>
 	Task<RETURN(TYPES...)> createTask(std::function<RETURN(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
 		uint64 id = task::taskId++;
-		task::TaskData* data = new task::TaskData(sizeof(RETURN));
+		task::TaskData* data = new task::TaskData(sizeof(RETURN), [](void* data) {((RETURN*)data)->~RETURN();});
 		new (data->data) RETURN();
 		Task<RETURN(TYPES...)> task(id, data->complete, *((RETURN*)data->data));
 		task.priority = priority;
@@ -77,7 +77,7 @@ namespace spruce {
 	template <typename ... TYPES>
 	Task<void(TYPES...)> createTask(std::function<void(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
 		uint64 id = task::taskId++;
-		task::TaskData* data = new task::TaskData(sizeof(bool));
+		task::TaskData* data = new task::TaskData(sizeof(bool), [](void* data) {});
 		Task<void(TYPES...)> task(id, data->complete);
 		task.priority = priority;
 		task::TaskBackend* taskBackend = new task::TaskBackend(id, data->complete);

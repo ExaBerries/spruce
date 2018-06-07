@@ -4,6 +4,6 @@
 
 namespace spruce {
 	namespace io {
-		uint8* loadImage(const FileHandle& file, uint16& width, uint16& height, uint16& bytes);
+		buffer<uint8> loadImage(const FileHandle& file, uint16& width, uint16& height, uint16& bytes);
 	}
 }

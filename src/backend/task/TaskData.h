@@ -8,8 +8,9 @@ namespace spruce {
 				size_t size;
 				void* data;
 				bool complete;
+				void(*dataDestructor)(void*);
 
-				TaskData(size_t size);
+				TaskData(size_t size, void(*dataDestructor)(void*));
 				TaskData(const TaskData& taskData) = delete;
 				virtual ~TaskData();
 		};

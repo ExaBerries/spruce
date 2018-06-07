@@ -8,6 +8,7 @@ namespace spruce {
 			uint16 height;
 
 			RenderTarget(uint16 width, uint16 height);
+			RenderTarget(const RenderTarget& renderTarget) = delete;
 			virtual ~RenderTarget();
 	};
 }

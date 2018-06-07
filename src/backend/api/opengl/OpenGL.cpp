@@ -24,15 +24,15 @@ namespace spruce {
 		makeContextCurrent(window);
 		swapInterval(window, 1);
 		window->setVisible(true);
-		fontAttributes = new VertexAttribute[2];
+		fontAttributes = buffer<VertexAttribute>(2);
 		fontAttributes[0] = VertexAttribute("position", 3);
 		fontAttributes[1] = VertexAttribute("texCoord", 2);
-		fontShader = createShader(fontVert, fontFrag, 2, fontAttributes);
+		fontShader = createShader(fontVert, fontFrag, fontAttributes);
 		fontShader->compile(nullptr);
 		fontShader->registerUniform("camera", 1);
 		fontShader->registerUniform("tex", 2);
 		fontShader->registerUniform("color", 3);
-		fontMesh = createMesh(0, nullptr, 0, nullptr);
+		fontMesh = createMesh(nullptr, nullptr);
 	}
 
 	void OpenGL::renderStart() {
@@ -48,16 +48,16 @@ namespace spruce {
 		return std::to_string(glGetError());
 	}
 
-	Mesh* OpenGL::createMesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices) {
-		return new OpenGLMesh(vertexCount, vertices, indexCount, indices);
+	Mesh* OpenGL::createMesh(buffer<float> vertices, buffer<uint16> indices) {
+		return new OpenGLMesh(vertices, indices);
 	}
 
-	Shader* OpenGL::createShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributesCount, VertexAttribute* attributes) {
-		return new OpenGLShader(vertData, vertDataSize, fragData, fragDataSize, attributesCount, attributes);
+	Shader* OpenGL::createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) {
+		return new OpenGLShader(vertData, fragData, attributes);
 	}
 
-	Shader* OpenGL::createShader(string& vertSource, string& fragSource, uint16 attributesCount, VertexAttribute* attributes) {
-		return new OpenGLShader(vertSource, fragSource, attributesCount, attributes);
+	Shader* OpenGL::createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes) {
+		return new OpenGLShader(vertSource, fragSource, attributes);
 	}
 
 	ShapeRenderer* OpenGL::createShapeRenderer() {
@@ -68,11 +68,11 @@ namespace spruce {
 		uint16 width = 0;
 		uint16 height = 0;
 		uint16 bitsPerPixel = 0;
-		uint8* data = io::loadImage(path, width, height, bitsPerPixel);
+		buffer<uint8> data = io::loadImage(path, width, height, bitsPerPixel);
 		return new OpenGLTexture(Texture::RGBA, data, width, height);
 	}
 
-	Texture* OpenGL::createTexture(Texture::PixelFormat format, uint8* data, uint16 width, uint16 height) {
+	Texture* OpenGL::createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) {
 		return new OpenGLTexture(format, data, width, height);
 	}
 
@@ -83,15 +83,15 @@ namespace spruce {
 	void OpenGL::render(Mesh* mesh, Shader* shader) {
 		setDepth(true);
 		bind(mesh);
-		for (int i = 0; i < shader->attributeCount; i++) {
+		for (int i = 0; i < shader->attributes.size; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
-		if (mesh->indexCount > 0) {
-			glDrawElements(GL_TRIANGLES, mesh->indexCount, GL_UNSIGNED_SHORT, 0);
+		if (mesh->indices.size > 0) {
+			glDrawElements(GL_TRIANGLES, mesh->indices.size, GL_UNSIGNED_SHORT, 0);
 		} else {
-			glDrawArrays(GL_TRIANGLES, 0, mesh->vertexCount);
+			glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.size);
 		}
-		for (int i = 0; i < shader->attributeCount; i++) {
+		for (int i = 0; i < shader->attributes.size; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 	}
