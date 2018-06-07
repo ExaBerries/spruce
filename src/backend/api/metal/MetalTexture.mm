@@ -21,14 +21,22 @@ namespace spruce {
 
 	void MetalTexture::toVRAM() {
 		MTLPixelFormat format = MTLPixelFormatInvalid;
-		if (this->format == Texture::RGB) {
-			// TODO select a RGB format for metal
-		} else if (this->format == Texture::RGBA) {
-			format = MTLPixelFormatRGBA32Float;
-		} else if (this->format == Texture::DEPTH) {
-			format = MTLPixelFormatDepth32Float;
-		} else if (this->format == Texture::RED) {
-			format = MTLPixelFormatR32Float;
+		switch (this->format) {
+			case RGB:
+				format = MTLPixelFormatRGBA32Float; // TODO select a proper RGB format for metal, currently interpreted as RGBA
+				break;
+			case RGBA:
+				format = MTLPixelFormatRGBA32Float;
+				break;
+			case DEPTH:
+				format = MTLPixelFormatDepth32Float;
+				break;
+			case RED:
+				format = MTLPixelFormatR32Float;
+				break;
+			default:
+				format = MTLPixelFormatInvalid;
+				break;
 		}
 		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:format width:this->width height:this->height mipmapped:NO];
 		if (this->format == Texture::DEPTH) {
