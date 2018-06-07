@@ -12,6 +12,7 @@ namespace spruce {
 				RenderTarget* target;
 
 				RenderPass();
+				RenderPass(const RenderPass& renderPass) = delete;
 				virtual ~RenderPass();
 			protected:
 				virtual void render() = 0;

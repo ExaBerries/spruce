@@ -6,4 +6,10 @@ namespace spruce {
 
 	VertexAttribute::VertexAttribute(string name, uint8 size) : name(name), size(size) {
 	}
+
+	VertexAttribute::VertexAttribute(const VertexAttribute& vertexAttribute) : name(vertexAttribute.name), size(vertexAttribute.size) {
+	}
+
+	VertexAttribute::~VertexAttribute() {
+	}
 }

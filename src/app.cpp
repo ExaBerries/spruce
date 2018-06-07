@@ -59,6 +59,7 @@ namespace spruce {
 				waitForMainTasks();
 				api->renderEnd();
 				os::updateEnd();
+				mem::update();
 			}
 		}
 

@@ -6,10 +6,10 @@
 #include <io/file.h>
 
 namespace spruce {
-	MetalShader::MetalShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertData, vertDataSize, fragData, fragDataSize, attributeCount, attributes) {
+	MetalShader::MetalShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) : Shader(vertData, fragData, attributes) {
 	}
 
-	MetalShader::MetalShader(const string& vertSource, const string& fragSource, uint16 attributesCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributesCount, attributes) {
+	MetalShader::MetalShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes) : Shader(vertSource, fragSource, attributes) {
 	}
 
 	MetalShader::~MetalShader() {
@@ -21,7 +21,7 @@ namespace spruce {
 
 	void MetalShader::compileData() {
 		NSError* compileError = NULL;
-		dispatch_data_t data = dispatch_data_create(vertData, vertDataSize, dispatch_get_main_queue(), DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+		dispatch_data_t data = dispatch_data_create(vertData, vertData.size, dispatch_get_main_queue(), DISPATCH_DATA_DESTRUCTOR_DEFAULT);
 		library = [device newLibraryWithData:data error:&compileError];
 		if (!library) {
 			NSLog(@"%@", compileError);
@@ -48,7 +48,7 @@ namespace spruce {
 		fragmentFunction = [library newFunctionWithName:@"fragmentShader"];
 		MTLVertexDescriptor* vertexDescriptor = [MTLVertexDescriptor vertexDescriptor];
 		uint8 offset = 0;
-		for (uint8 i = 0; i < attributeCount; i++) {
+		for (uint8 i = 0; i < attributes.size; i++) {
 			MTLVertexFormat format = MTLVertexFormatInvalid;
 			if (attributes[i].size == 1) {
 				format = MTLVertexFormatFloat;

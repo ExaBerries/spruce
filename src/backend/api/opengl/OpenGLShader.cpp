@@ -5,21 +5,14 @@
 #include <backend/api/opengl/platform.h>
 
 namespace spruce {
-	OpenGLShader::OpenGLShader(const OpenGLShader& shader) : Shader(shader) {
-		this->vert = shader.vert;
-		this->frag = shader.frag;
-		this->program = shader.program;
-		this->uniformLocations = std::map<string, uint16>(shader.uniformLocations);
-	}
-
-	OpenGLShader::OpenGLShader(uint8* vertData, uint16 vertDataSize, uint8* fragData, uint16 fragDataSize, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertData, vertDataSize, fragData, fragDataSize, attributeCount, attributes) {
+	OpenGLShader::OpenGLShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) : Shader(vertData, fragData, attributes) {
 		vert = 0;
 		frag = 0;
 		program = 0;
 		this->uniformLocations = std::map<string, uint16>();
 	}
 
-	OpenGLShader::OpenGLShader(const string& vertSource, const string& fragSource, uint16 attributeCount, VertexAttribute* attributes) : Shader(vertSource, fragSource, attributeCount, attributes) {
+	OpenGLShader::OpenGLShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes) : Shader(vertSource, fragSource, attributes) {
 		vert = 0;
 		frag = 0;
 		program = 0;
@@ -35,7 +28,7 @@ namespace spruce {
 
 	void OpenGLShader::compileSPIRV() {
 		vert = glCreateShader(GL_VERTEX_SHADER);
-		glShaderBinary(1, &vert, GL_SHADER_BINARY_FORMAT_SPIR_V, vertData, vertDataSize);
+		glShaderBinary(1, &vert, GL_SHADER_BINARY_FORMAT_SPIR_V, vertData, vertData.size);
 		glSpecializeShader(vert, "main", 0, nullptr, nullptr);
 		GLint vertSuccess = 0;
 		glGetShaderiv(vert, GL_COMPILE_STATUS, &vertSuccess);
@@ -54,7 +47,7 @@ namespace spruce {
 		}
 
 		frag = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderBinary(1, &frag, GL_SHADER_BINARY_FORMAT_SPIR_V, fragData, fragDataSize);
+		glShaderBinary(1, &frag, GL_SHADER_BINARY_FORMAT_SPIR_V, fragData, fragData.size);
 		glSpecializeShader(frag, "main", 0, nullptr, nullptr);
 		GLint fragSuccess = 0;
 		glGetShaderiv(frag, GL_COMPILE_STATUS, &fragSuccess);
@@ -125,7 +118,7 @@ namespace spruce {
 		program = glCreateProgram();
 		glAttachShader(program, vert);
 		glAttachShader(program, frag);
-		for (int i = 0; i < attributeCount; i++) {
+		for (int i = 0; i < attributes.size; i++) {
 			glBindAttribLocation(program, i, attributes[i].name.c_str());
 		}
 		glLinkProgram(program);

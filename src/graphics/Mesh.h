@@ -5,14 +5,13 @@
 namespace spruce {
 	class Mesh {
 		public:
-			uint16 vertexCount;
-			float* vertices;
-			uint16 indexCount;
-			uint16* indices;
+			buffer<float> vertices;
+			buffer<uint16> indices;
 
-			Mesh(const Mesh& mesh);
-			Mesh(uint16 vertexCount, float* vertices, uint16 indexCount, uint16* indices);
+			Mesh(buffer<float> vertices, buffer<uint16> indices);
+			Mesh(const Mesh& mesh) = delete;
 			virtual ~Mesh();
+
 			virtual void toVRAM(Shader* shader) = 0;
 			virtual void freeVRAM() = 0;
 			virtual void bind() = 0;

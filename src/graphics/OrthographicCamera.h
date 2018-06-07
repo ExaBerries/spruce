@@ -10,6 +10,7 @@ namespace spruce {
 			vec3f up;
 
 			OrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up, vec3f& dir);
+			OrthographicCamera(const OrthographicCamera& camera) = delete;
 			virtual ~OrthographicCamera();
 
 			void update();

@@ -21,17 +21,16 @@ namespace spruce {
 			return "";
 		}
 
-		uint8* readFileBin(const FileHandle& file, uint32& count) {
+		buffer<uint8> readFileBin(const FileHandle& file) {
 			FILE* cfile = fopen(file.absolutePath.c_str(), "rb");
 			if (cfile != NULL) {
 				fseek(cfile, 0, SEEK_END);
 				uint64 length = ftell(cfile);
-				uint8* data = new uint8[length + 1];
+				buffer<uint8> data(length + 1);
 				memset(data, 0, length + 1);
 				fseek(cfile, 0, SEEK_SET);
 				fread(data, sizeof(uint8), length, cfile);
 				fclose(cfile);
-				count = length;
 				return data;
 			} else {
 				serr("could not read file bin ", file);
@@ -49,10 +48,10 @@ namespace spruce {
 			}
 		}
 
-		void writeFileBin(const FileHandle& file, uint8* data, uint32& count) {
+		void writeFileBin(const FileHandle& file, buffer<uint8> data) {
 			FILE* cfile = fopen(file.absolutePath.c_str(), "wb");
 			if (cfile != NULL) {
-				fwrite(data, sizeof(uint8), count, cfile);
+				fwrite(data, sizeof(uint8), data.size, cfile);
 				fclose(cfile);
 			} else {
 				serr("could not write file bin ", file);

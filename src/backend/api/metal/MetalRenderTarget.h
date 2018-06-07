@@ -11,6 +11,7 @@ namespace spruce {
 			MTLRenderPassDescriptor* renderPassDescriptor;
 
 			MetalRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
+			MetalRenderTarget(const MetalRenderTarget& renderTarget) = delete;
 			virtual ~MetalRenderTarget();
 
 			void bind();

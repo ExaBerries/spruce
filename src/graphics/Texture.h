@@ -11,12 +11,12 @@ namespace spruce {
 				RED
 			};
 			PixelFormat format;
-			uint8* data;
+			buffer<uint8> data;
 			uint16 width;
 			uint16 height;
 
-			Texture(PixelFormat format, uint8* data, uint16& width, uint16& height);
-			Texture(const Texture& texture);
+			Texture(PixelFormat format, buffer<uint8> data, uint16& width, uint16& height);
+			Texture(const Texture& texture) = delete;
 			virtual ~Texture();
 
 			virtual void toVRAM() = 0;

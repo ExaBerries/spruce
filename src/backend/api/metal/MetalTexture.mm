@@ -2,11 +2,7 @@
 #include <backend/api/metal/MetalContext.h>
 
 namespace spruce {
-	MetalTexture::MetalTexture(PixelFormat format, uint8* data, uint16& width, uint16& height) : Texture(format, data, width, height) {
-	}
-
-	MetalTexture::MetalTexture(const MetalTexture& texture) : Texture(texture) {
-		this->mtlTexture = texture.mtlTexture;
+	MetalTexture::MetalTexture(PixelFormat format, buffer<uint8> data, uint16& width, uint16& height) : Texture(format, data, width, height) {
 	}
 
 	MetalTexture::~MetalTexture() {
