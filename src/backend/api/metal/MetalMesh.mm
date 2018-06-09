@@ -50,10 +50,4 @@ namespace spruce {
 		[vertexBuffer release];
 		[indexBuffer release];
 	}
-
-	void MetalMesh::bind() {
-	}
-
-	void MetalMesh::unbind() {
-	}
 }

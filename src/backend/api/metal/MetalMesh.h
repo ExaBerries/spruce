@@ -17,7 +17,5 @@ namespace spruce {
 
 			void toVRAM(Shader* shader);
 			void freeVRAM();
-			void bind();
-			void unbind();
 	};
 }
