@@ -8,6 +8,8 @@ namespace spruce {
 	}
 
 	Mesh::~Mesh() {
+		vertices.free();
+		indices.free();
 	}
 
 	void Mesh::bind() {

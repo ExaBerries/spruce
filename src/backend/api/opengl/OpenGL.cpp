@@ -2,7 +2,6 @@
 #include <backend/api/opengl/platform.h>
 #include <backend/api/opengl/OpenGLMesh.h>
 #include <backend/api/opengl/OpenGLShader.h>
-#include <backend/api/opengl/OpenGLShapeRenderer.h>
 #include <backend/api/opengl/OpenGLTexture.h>
 #include <backend/api/opengl/OpenGLRenderTarget.h>
 #include <io/image.h>
@@ -10,10 +9,16 @@
 namespace spruce {
 	OpenGL::OpenGL(Window* window) : RenderAPI(window, vec3f(2, 2, 2)) {
 		fontVert =
-				#include "font.vert"
+			#include "font.vert"
 		;
 		fontFrag =
-				#include "font.frag"
+			#include "font.frag"
+		;
+		shapeVert =
+			#include "shape.vert"
+		;
+		shapeFrag =
+			#include "shape.frag"
 		;
 	}
 
@@ -33,6 +38,13 @@ namespace spruce {
 		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
 		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
 		fontMesh = createMesh(nullptr, nullptr);
+		shapeAttributes = buffer<VertexAttribute>(2);
+		shapeAttributes[0] = VertexAttribute("a_pos", 3);
+		shapeAttributes[1] = VertexAttribute("a_color", 4);
+		shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
+		shapeShader->compile(nullptr);
+		shapeShader->registerUniform("camera", Shader::VERTEX, 1);
+		shapeMesh = createMesh(nullptr, nullptr);
 	}
 
 	void OpenGL::renderStart() {
@@ -60,10 +72,6 @@ namespace spruce {
 		return new OpenGLShader(vertSource, fragSource, attributes);
 	}
 
-	ShapeRenderer* OpenGL::createShapeRenderer() {
-		return new OpenGLShapeRenderer();
-	}
-
 	Texture* OpenGL::createTexture(const FileHandle& path) {
 		uint16 width = 0;
 		uint16 height = 0;
@@ -80,16 +88,34 @@ namespace spruce {
 		return new OpenGLRenderTarget(format, width, height);
 	}
 
-	void OpenGL::render(Mesh* mesh, Shader* shader) {
+	void OpenGL::render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) {
+		GLuint glPrimitive;
+		switch (primitive) {
+			case graphics::TRIANGLE:
+				glPrimitive = GL_TRIANGLES;
+				break;
+			case graphics::TRIANGLE_STRIP:
+				glPrimitive = GL_TRIANGLE_STRIP;
+				break;
+			case graphics::LINE:
+				glPrimitive = GL_LINES;
+				break;
+			case graphics::LINE_STRIP:
+				glPrimitive = GL_LINE_STRIP;
+				break;
+			default:
+				glPrimitive = GL_TRIANGLES;
+				break;
+		}
 		setDepth(true);
 		bind(mesh);
 		for (int i = 0; i < shader->attributes.size; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 		if (mesh->indices.size > 0) {
-			glDrawElements(GL_TRIANGLES, mesh->indices.size, GL_UNSIGNED_SHORT, 0);
+			glDrawElements(glPrimitive, mesh->indices.size, GL_UNSIGNED_SHORT, 0);
 		} else {
-			glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.size);
+			glDrawArrays(glPrimitive, 0, mesh->vertices.size);
 		}
 		for (int i = 0; i < shader->attributes.size; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));

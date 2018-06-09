@@ -3,13 +3,13 @@
 #include <backend/Window.h>
 #include <graphics/Mesh.h>
 #include <graphics/Shader.h>
-#include <graphics/ShapeRenderer.h>
 #include <graphics/Texture.h>
 #include <graphics/RenderPass.h>
 #include <graphics/RenderTarget.h>
 #include <graphics/Font.h>
 #include <graphics/CommandBuffer.h>
 #include <graphics/VertexAttribute.h>
+#include <graphics/Primitive.h>
 #include <input/input.h>
 #include <io/FileHandle.h>
 
@@ -23,6 +23,11 @@ namespace spruce {
 			buffer<VertexAttribute> fontAttributes;
 			Shader* fontShader;
 			Mesh* fontMesh;
+			string shapeVert;
+			string shapeFrag;
+			buffer<VertexAttribute> shapeAttributes;
+			Shader* shapeShader;
+			Mesh* shapeMesh;
 
 			struct FontVertex {
 				vec3f position;
@@ -38,9 +43,11 @@ namespace spruce {
 
 			virtual string getError() = 0;
 
-			virtual void render(Mesh* mesh, Shader* shader) = 0;
+			virtual void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) = 0;
 			virtual void renderStart(graphics::RenderPass* renderPass) = 0;
 			void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, mat4f camera);
+			void renderLine(vec3f a, vec3f b, color colora, color colorb);
+			void renderRect(vec2f pos, vec2f size, color color);
 			virtual void bind(Mesh* mesh) = 0;
 			virtual void bind(Texture* texture) = 0;
 			virtual void unbind(Texture* texture) = 0;
@@ -59,7 +66,6 @@ namespace spruce {
 			virtual Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) = 0;
 			virtual Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) = 0;
 			virtual Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes) = 0;
-			virtual ShapeRenderer* createShapeRenderer() = 0;
 			virtual Texture* createTexture(const FileHandle& file) = 0;
 			virtual Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) = 0;
 			virtual RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) = 0;

@@ -8,6 +8,8 @@
 #include <graphics/command/RenderMeshCommand.h>
 #include <graphics/command/RenderPassCommand.h>
 #include <graphics/command/RenderFontCommand.h>
+#include <graphics/command/RenderLineCommand.h>
+#include <graphics/Command/RenderRectCommand.h>
 
 namespace spruce {
 	namespace graphics {
@@ -98,10 +100,6 @@ namespace spruce {
 			return app::api->createShader(vertSource, fragSource, attributes);
 		}
 
-		ShapeRenderer* createShapeRenderer() {
-			return app::api->createShapeRenderer();
-		}
-
 		PerspectiveCamera* createPerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir) {
 			return new PerspectiveCamera(viewportWidth, viewportHeight, fieldOfView, near, far, up, dir);
 		}
@@ -122,8 +120,8 @@ namespace spruce {
 			return app::api->createRenderTarget(format, width, height);
 		}
 
-		void render(Mesh* mesh, Shader* shader) {
-			getCommandBuffer().add(new RenderMeshCommand(mesh, shader));
+		void render(Mesh* mesh, Shader* shader, Primitive primitive) {
+			getCommandBuffer().add(new RenderMeshCommand(mesh, shader, primitive));
 		}
 
 		void render(RenderPass* renderPass) {
@@ -138,6 +136,14 @@ namespace spruce {
 				cameraTrans = camera->combined;
 			}
 			getCommandBuffer().add(new RenderFontCommand(str, font, color, position, rotation, size, cameraTrans));
+		}
+
+		void renderLine(vec3f a, vec3f b, color colora, color colorb) {
+			getCommandBuffer().add(new RenderLineCommand(a, b, colora, colorb));
+		}
+
+		void renderRect(vec2f pos, vec2f size, color color) {
+			getCommandBuffer().add(new RenderRectCommand(pos, size, color));
 		}
 
 		void setBlend(bool value) {

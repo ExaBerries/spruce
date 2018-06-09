@@ -2,7 +2,6 @@
 #include <backend/api/metal/MetalContext.h>
 #include <backend/api/metal/MetalMesh.h>
 #include <backend/api/metal/MetalShader.h>
-#include <backend/api/metal/MetalShapeRenderer.h>
 #include <backend/api/metal/MetalTexture.h>
 #include <backend/api/metal/MetalRenderTarget.h>
 #include <io/image.h>
@@ -13,9 +12,13 @@
 namespace spruce {
 	Metal::Metal(Window* window) : RenderAPI(window, vec3f(2, 2, 1)) {
 		fontVert =
-				#include <backend/api/metal/font.metal>
+			#include "font.metal"
 		;
 		fontFrag = "";
+		shapeVert =
+			#include "shape.metal"
+		;
+		shapeFrag = "";
 	}
 
 	Metal::~Metal() {
@@ -39,6 +42,13 @@ namespace spruce {
 		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
 		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
 		fontMesh = createMesh(nullptr, nullptr);
+		shapeAttributes = buffer<VertexAttribute>(2);
+		shapeAttributes[0] = VertexAttribute("position", 3);
+		shapeAttributes[1] = VertexAttribute("color", 4);
+		shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
+		shapeShader->compile(nullptr);
+		shapeShader->registerUniform("camera", Shader::VERTEX, 1);
+		shapeMesh = createMesh(nullptr, nullptr);
 	}
 
 	void Metal::renderStart() {
@@ -83,10 +93,6 @@ namespace spruce {
 		return new MetalShader(vert, frag, attributes);
 	}
 
-	ShapeRenderer* Metal::createShapeRenderer() {
-		return new MetalShapeRenderer();
-	}
-
 	Texture* Metal::createTexture(const FileHandle& path) {
 		uint16 width = 0;
 		uint16 height = 0;
@@ -103,12 +109,30 @@ namespace spruce {
 		return new MetalRenderTarget(format, width, height);
 	}
 
-	void Metal::render(Mesh* mesh, Shader* shader) {
+	void Metal::render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) {
+		MTLPrimitiveType mtlPrimitive;
+		switch (primitive) {
+			case graphics::TRIANGLE:
+				mtlPrimitive = MTLPrimitiveTypeTriangle;
+				break;
+			case graphics::TRIANGLE_STRIP:
+				mtlPrimitive = MTLPrimitiveTypeTriangleStrip;
+				break;
+			case graphics::LINE:
+				mtlPrimitive = MTLPrimitiveTypeLine;
+				break;
+			case graphics::LINE_STRIP:
+				mtlPrimitive = MTLPrimitiveTypeLineStrip;
+				break;
+			default:
+				mtlPrimitive = MTLPrimitiveTypeTriangle;
+				break;
+		}
 		[renderEncoder setVertexBuffer:((MetalMesh*)mesh)->vertexBuffer offset:0 atIndex:0];
 		if (mesh->indices.size > 0) {
-			[renderEncoder drawIndexedPrimitives:MTLPrimitiveTypeTriangle indexCount:((MetalMesh*)mesh)->indices.size indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
+			[renderEncoder drawIndexedPrimitives:mtlPrimitive indexCount:((MetalMesh*)mesh)->indices.size indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
 		} else {
-			[renderEncoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:mesh->vertices.size];
+			[renderEncoder drawPrimitives:mtlPrimitive vertexStart:0 vertexCount:mesh->vertices.size];
 		}
 	}
 
