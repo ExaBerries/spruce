@@ -12,6 +12,9 @@ namespace spruce {
 	}
 
 	void CommandBuffer::reset() {
+		for (Command* cmd : commands) {
+			delete cmd;
+		}
 		commands.clear();
 	}
 }
