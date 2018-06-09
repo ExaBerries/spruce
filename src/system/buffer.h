@@ -75,7 +75,7 @@ namespace spruce {
 			return buff;
 		}
 
-		operator TYPE*() const {
+		operator TYPE*() {
 			return data;
 		}
 
