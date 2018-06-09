@@ -9,7 +9,7 @@
 #include <graphics/command/RenderPassCommand.h>
 #include <graphics/command/RenderFontCommand.h>
 #include <graphics/command/RenderLineCommand.h>
-#include <graphics/Command/RenderRectCommand.h>
+#include <graphics/command/RenderRectCommand.h>
 
 namespace spruce {
 	namespace graphics {
@@ -138,12 +138,20 @@ namespace spruce {
 			getCommandBuffer().add(new RenderFontCommand(str, font, color, position, rotation, size, cameraTrans));
 		}
 
-		void renderLine(vec3f a, vec3f b, color colora, color colorb) {
-			getCommandBuffer().add(new RenderLineCommand(a, b, colora, colorb));
+		void renderLine(vec3f a, vec3f b, color colora, color colorb, Camera* camera) {
+			mat4f cameraTrans;
+			if (camera != nullptr) {
+				cameraTrans = camera->combined;
+			}
+			getCommandBuffer().add(new RenderLineCommand(a, b, colora, colorb, cameraTrans));
 		}
 
-		void renderRect(vec2f pos, vec2f size, color color) {
-			getCommandBuffer().add(new RenderRectCommand(pos, size, color));
+		void renderRect(vec3f pos, vec2f size, color color, quaternion rotation, Camera* camera) {
+			mat4f cameraTrans;
+			if (camera != nullptr) {
+				cameraTrans = camera->combined;
+			}
+			getCommandBuffer().add(new RenderRectCommand(pos, size, color, rotation, cameraTrans));
 		}
 
 		void setBlend(bool value) {

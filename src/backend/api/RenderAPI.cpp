@@ -96,7 +96,7 @@ namespace spruce {
 		render(fontMesh, fontShader, graphics::TRIANGLE);
 	}
 
-	void RenderAPI::renderLine(vec3f a, vec3f b, color colora, color colorb) {
+	void RenderAPI::renderLine(vec3f a, vec3f b, color colora, color colorb, mat4f camera) {
 		if (shapeShader == nullptr || shapeMesh == nullptr) {
 			return;
 		}
@@ -126,60 +126,42 @@ namespace spruce {
 		shapeMesh->indices = indices;
 		shapeMesh->toVRAM(shapeShader);
 		bind(shapeShader);
-		setUniform(shapeShader, "camera", mat4f());
+		setUniform(shapeShader, "camera", camera);
 		render(shapeMesh, shapeShader, graphics::LINE);
 	}
 
-	void RenderAPI::renderRect(vec2f pos, vec2f size, color color) {
+	void RenderAPI::renderRect(vec3f pos, vec2f size, color color, quaternion rotation, mat4f camera) {
 		if (shapeShader == nullptr || shapeMesh == nullptr) {
 			return;
 		}
 		shapeMesh->vertices.free();
 		shapeMesh->indices.free();
-		buffer<float> vertices(28);
+		struct ShapeVertex {
+			vec3f position;
+			spruce::color color;
+		};
+		buffer<ShapeVertex> vertices(4);
 		buffer<uint16> indices(6);
-		vec2f halfSize = size / 2;
-		uint16 filledVertexCount = 0;
-		uint16 filledIndexCount = 0;
-		vertices[filledVertexCount++] = pos.x - halfSize.x;
-		vertices[filledVertexCount++] = pos.y - halfSize.y;
-		vertices[filledVertexCount++] = 0;
-		vertices[filledVertexCount++] = color.r;
-		vertices[filledVertexCount++] = color.g;
-		vertices[filledVertexCount++] = color.b;
-		vertices[filledVertexCount++] = color.a;
-		vertices[filledVertexCount++] = pos.x + halfSize.x;
-		vertices[filledVertexCount++] = pos.y - halfSize.y;
-		vertices[filledVertexCount++] = 0;
-		vertices[filledVertexCount++] = color.r;
-		vertices[filledVertexCount++] = color.g;
-		vertices[filledVertexCount++] = color.b;
-		vertices[filledVertexCount++] = color.a;
-		vertices[filledVertexCount++] = pos.x - halfSize.x;
-		vertices[filledVertexCount++] = pos.y + halfSize.y;
-		vertices[filledVertexCount++] = 0;
-		vertices[filledVertexCount++] = color.r;
-		vertices[filledVertexCount++] = color.g;
-		vertices[filledVertexCount++] = color.b;
-		vertices[filledVertexCount++] = color.a;
-		vertices[filledVertexCount++] = pos.x + halfSize.x;
-		vertices[filledVertexCount++] = pos.y + halfSize.y;
-		vertices[filledVertexCount++] = 0;
-		vertices[filledVertexCount++] = color.r;
-		vertices[filledVertexCount++] = color.g;
-		vertices[filledVertexCount++] = color.b;
-		vertices[filledVertexCount++] = color.a;
-		indices[filledIndexCount++] = 0;
-		indices[filledIndexCount++] = 1;
-		indices[filledIndexCount++] = 2;
-		indices[filledIndexCount++] = 2;
-		indices[filledIndexCount++] = 1;
-		indices[filledIndexCount++] = 3;
-		shapeMesh->vertices = vertices;
+		vec3f halfSize = vec3f(size, 0) / 2;
+		vertices[0].position = pos - (halfSize * rotation);
+		vertices[0].color = color;
+		vertices[1].position = pos + (vec3f(halfSize.x, -halfSize.y, 0) * rotation);
+		vertices[1].color = color;
+		vertices[2].position = pos + (vec3f(-halfSize.x, halfSize.y, 0) * rotation);
+		vertices[2].color = color;
+		vertices[3].position = pos + (halfSize * rotation);
+		vertices[3].color = color;
+		indices[0] = 0;
+		indices[1] = 1;
+		indices[2] = 2;
+		indices[3] = 2;
+		indices[4] = 1;
+		indices[5] = 3;
+		shapeMesh->vertices = (buffer<float>) vertices;
 		shapeMesh->indices = indices;
 		shapeMesh->toVRAM(shapeShader);
 		bind(shapeShader);
-		setUniform(shapeShader, "camera", mat4f());
+		setUniform(shapeShader, "camera", camera);
 		render(shapeMesh, shapeShader, graphics::TRIANGLE);
 	}
 }

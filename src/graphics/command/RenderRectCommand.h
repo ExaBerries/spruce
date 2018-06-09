@@ -7,11 +7,13 @@
 namespace spruce {
 	class RenderRectCommand : public Command {
 		public:
-			vec2f pos;
+			vec3f pos;
 			vec2f size;
 			spruce::color color;
+			quaternion rotation;
+			mat4f camera;
 
-			RenderRectCommand(vec2f pos, vec2f size, spruce::color color);
+			RenderRectCommand(vec3f pos, vec2f size, spruce::color color, quaternion rotation, mat4f camera);
 			virtual ~RenderRectCommand();
 
 			void execute();

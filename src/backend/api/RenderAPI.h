@@ -46,8 +46,8 @@ namespace spruce {
 			virtual void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) = 0;
 			virtual void renderStart(graphics::RenderPass* renderPass) = 0;
 			void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, mat4f camera);
-			void renderLine(vec3f a, vec3f b, color colora, color colorb);
-			void renderRect(vec2f pos, vec2f size, color color);
+			void renderLine(vec3f a, vec3f b, color colora, color colorb, mat4f camera);
+			void renderRect(vec3f pos, vec2f size, color color, quaternion rotation, mat4f camera);
 			virtual void bind(Mesh* mesh) = 0;
 			virtual void bind(Texture* texture) = 0;
 			virtual void unbind(Texture* texture) = 0;

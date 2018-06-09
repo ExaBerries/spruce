@@ -11,8 +11,9 @@ namespace spruce {
 			vec3f b;
 			color cola;
 			color colb;
+			mat4f camera;
 
-			RenderLineCommand(vec3f a, vec3f b, color cola, color colb);
+			RenderLineCommand(vec3f a, vec3f b, color cola, color colb, mat4f camera);
 			virtual ~RenderLineCommand();
 
 			void execute();
