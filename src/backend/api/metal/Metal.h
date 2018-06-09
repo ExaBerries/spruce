@@ -33,16 +33,16 @@ namespace spruce {
 			void bind(Texture* texture);
 			void unbind(Texture* texture);
 			void bind(Shader* shader);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const int32& value);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2i& vector);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const float& value);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2f& vector);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec3f& vector);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const mat4f& matrix);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const quaternion& quaternion);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const color& color);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* texture);
-			void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* renderPass);
+			void setUniform(Shader* shader, string name, const int32& value);
+			void setUniform(Shader* shader, string name, const vec2i& vector);
+			void setUniform(Shader* shader, string name, const float& value);
+			void setUniform(Shader* shader, string name, const vec2f& vector);
+			void setUniform(Shader* shader, string name, const vec3f& vector);
+			void setUniform(Shader* shader, string name, const mat4f& matrix);
+			void setUniform(Shader* shader, string name, const quaternion& quaternion);
+			void setUniform(Shader* shader, string name, const color& color);
+			void setUniform(Shader* shader, string name, const Texture* texture);
+			void setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass);
 
 			void setBlend(bool value);
 			void setDepth(bool value);

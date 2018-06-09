@@ -13,7 +13,7 @@ namespace spruce {
 		attributes[1] = VertexAttribute("a_color", 4);
 		shader = new OpenGLShader(vert, frag, attributes);
 		shader->compile(nullptr);
-		shader->registerUniform("camera", 1);
+		shader->registerUniform("camera", Shader::VERTEX, 1);
 		lineVertexCount = 0;
 		lineIndexCount = 0;
 		filledVertexCount = 0;
@@ -93,7 +93,7 @@ namespace spruce {
 
 	void OpenGLShapeRenderer::end() {
 		shader->bind();
-		shader->setUniform("camera", Shader::FRAGMENT, *camera);
+		shader->setUniform("camera", *camera);
 		glBindVertexArray(lineVao);
 		glBindBuffer(GL_ARRAY_BUFFER, lineVbo);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, MAX_VERTICES * sizeof(float), lineVertices);

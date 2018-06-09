@@ -95,13 +95,4 @@ namespace spruce {
 		}
 		[desc release];
 	}
-
-	uint16 MetalShader::getAttributeLocation(string name) {
-		return 0;
-	}
-
-	uint16 MetalShader::registerUniform(string name, uint16 index) {
-		uniformLocations[name] = index;
-		return index;
-	}
 }

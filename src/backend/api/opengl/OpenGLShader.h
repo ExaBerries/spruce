@@ -9,7 +9,6 @@ namespace spruce {
 			GLuint vert;
 			GLuint frag;
 			GLuint program;
-			std::map<string, uint16> uniformLocations;
 
 			OpenGLShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
 			OpenGLShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes);
@@ -21,6 +20,6 @@ namespace spruce {
 			void compile(graphics::RenderPass* renderPass);
 
 			uint16 getAttributeLocation(string name);
-			uint16 registerUniform(string name, uint16 index);
+			void registerUniform(std::string name, ShaderUniformLocation location, uint16 index);
 	};
 }

@@ -73,10 +73,10 @@ namespace spruce {
 			n++;
 		}
 		bind(fontShader);
-		setUniform(fontShader, "camera", Shader::VERTEX, camera);
-		setUniform(fontShader, "color", Shader::FRAGMENT, color);
+		setUniform(fontShader, "camera", camera);
+		setUniform(fontShader, "color",  color);
 		bind(font.texture);
-		setUniform(fontShader, "tex", Shader::FRAGMENT, font.texture);
+		setUniform(fontShader, "tex", font.texture);
 		fontMesh->vertices = (buffer<float>) coords;
 		fontMesh->toVRAM(fontShader);
 		render(fontMesh, fontShader);

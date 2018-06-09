@@ -21,7 +21,6 @@ namespace spruce {
 			Type type;
 			Shader* shader;
 			string name;
-			Shader::ShaderUniformLocation location;
 			union {
 				int32 i;
 				float f;
@@ -35,16 +34,16 @@ namespace spruce {
 				const graphics::RenderPass* pass;
 			};
 
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, int32 i);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, float f);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, vec2i v2i);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, vec2f v2f);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, vec3f v3f);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, mat4f mat);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, quaternion quat);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, color col);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* tex);
-			ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* pass);
+			ShaderUniformCommand(Shader* shader, string name, int32 i);
+			ShaderUniformCommand(Shader* shader, string name, float f);
+			ShaderUniformCommand(Shader* shader, string name, vec2i v2i);
+			ShaderUniformCommand(Shader* shader, string name, vec2f v2f);
+			ShaderUniformCommand(Shader* shader, string name, vec3f v3f);
+			ShaderUniformCommand(Shader* shader, string name, mat4f mat);
+			ShaderUniformCommand(Shader* shader, string name, quaternion quat);
+			ShaderUniformCommand(Shader* shader, string name, color col);
+			ShaderUniformCommand(Shader* shader, string name, const Texture* tex);
+			ShaderUniformCommand(Shader* shader, string name, const graphics::RenderPass* pass);
 			virtual ~ShaderUniformCommand();
 
 			void execute();

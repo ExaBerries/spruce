@@ -29,9 +29,9 @@ namespace spruce {
 		fontAttributes[1] = VertexAttribute("texCoord", 2);
 		fontShader = createShader(fontVert, fontFrag, fontAttributes);
 		fontShader->compile(nullptr);
-		fontShader->registerUniform("camera", 1);
-		fontShader->registerUniform("tex", 2);
-		fontShader->registerUniform("color", 3);
+		fontShader->registerUniform("camera", Shader::VERTEX, 1);
+		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
+		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
 		fontMesh = createMesh(nullptr, nullptr);
 	}
 
@@ -137,46 +137,46 @@ namespace spruce {
 		glUseProgram(((OpenGLShader*)shader)->program);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const int32& value) {
-		glUniform1i(((OpenGLShader*)shader)->uniformLocations[name], value);
+	void OpenGL::setUniform(Shader* shader, string name, const int32& value) {
+		glUniform1i(shader->uniformLocations[name].index, value);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2i& vector) {
-		glUniform2i(((OpenGLShader*)shader)->uniformLocations[name], vector.x, vector.y);
+	void OpenGL::setUniform(Shader* shader, string name, const vec2i& vector) {
+		glUniform2i(shader->uniformLocations[name].index, vector.x, vector.y);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const float& value) {
-		glUniform1f(((OpenGLShader*)shader)->uniformLocations[name], value);
+	void OpenGL::setUniform(Shader* shader, string name, const float& value) {
+		glUniform1f(shader->uniformLocations[name].index, value);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2f& vector) {
-		glUniform2f(((OpenGLShader*)shader)->uniformLocations[name], vector.x, vector.y);
+	void OpenGL::setUniform(Shader* shader, string name, const vec2f& vector) {
+		glUniform2f(shader->uniformLocations[name].index, vector.x, vector.y);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec3f& vector) {
-		glUniform3f(((OpenGLShader*)shader)->uniformLocations[name], vector.x, vector.y, vector.z);
+	void OpenGL::setUniform(Shader* shader, string name, const vec3f& vector) {
+		glUniform3f(shader->uniformLocations[name].index, vector.x, vector.y, vector.z);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const mat4f& matrix) {
-		glUniformMatrix4fv(((OpenGLShader*)shader)->uniformLocations[name], 1, GL_TRUE, matrix.values);
+	void OpenGL::setUniform(Shader* shader, string name, const mat4f& matrix) {
+		glUniformMatrix4fv(shader->uniformLocations[name].index, 1, GL_TRUE, matrix.values);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const quaternion& quaternion) {
-		glUniform4f(((OpenGLShader*)shader)->uniformLocations[name], quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+	void OpenGL::setUniform(Shader* shader, string name, const quaternion& quaternion) {
+		glUniform4f(shader->uniformLocations[name].index, quaternion.x, quaternion.y, quaternion.z, quaternion.w);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const color& color) {
-		glUniform4f(((OpenGLShader*)shader)->uniformLocations[name], color.r, color.g, color.b, color.a);
+	void OpenGL::setUniform(Shader* shader, string name, const color& color) {
+		glUniform4f(shader->uniformLocations[name].index, color.r, color.g, color.b, color.a);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* texture) {
+	void OpenGL::setUniform(Shader* shader, string name, const Texture* texture) {
 		((Texture*)texture)->bind();
-		glUniform1i(((OpenGLShader*)shader)->uniformLocations[name], ((OpenGLTexture*)texture)->unit);
+		glUniform1i(shader->uniformLocations[name].index, ((OpenGLTexture*)texture)->unit);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* renderPass) {
+	void OpenGL::setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) {
 		((OpenGLRenderTarget*)renderPass->target)->texture->bind();
-		glUniform1i(((OpenGLShader*)shader)->uniformLocations[name], ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
+		glUniform1i(shader->uniformLocations[name].index, ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
 	}
 
 	void OpenGL::setBlend(bool value) {

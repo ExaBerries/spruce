@@ -3,82 +3,72 @@
 #include <backend/api/RenderAPI.h>
 
 namespace spruce {
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, int32 i) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, int32 i) {
 		this->type = INT32;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->i = i;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, float f) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, float f) {
 		this->type = FLOAT;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->f = f;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, vec2i v2i) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, vec2i v2i) {
 		this->type = VEC2I;
 		this->shader = shader;
-		this->location = location;
 		this->v2i = v2i;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, vec2f v2f) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, vec2f v2f) {
 		this->type = VEC2F;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->v2f = v2f;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, vec3f v3f) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, vec3f v3f) {
 		this->type = VEC3F;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->v3f = v3f;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, mat4f mat) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, mat4f mat) {
 		this->type = MAT4F;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->mat = mat;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, quaternion quat) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, quaternion quat) {
 		this->type = QUATERNION;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->quat = quat;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, color col) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, color col) {
 		this->type = COLOR;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->col = col;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* tex) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, const Texture* tex) {
 		this->type = TEXTURE;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->tex = tex;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* pass) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, const graphics::RenderPass* pass) {
 		this->type = RENDERPASS;
 		this->shader = shader;
 		this->name = name;
-		this->location = location;
 		this->pass = pass;
 	}
 
@@ -88,34 +78,34 @@ namespace spruce {
 	void ShaderUniformCommand::execute() {
 		switch (type) {
 			case INT32:
-				app::api->setUniform(shader, name, location, i);
+				app::api->setUniform(shader, name, i);
 				break;
 			case FLOAT:
-				app::api->setUniform(shader, name, location, f);
+				app::api->setUniform(shader, name, f);
 				break;
 			case VEC2I:
-				app::api->setUniform(shader, name, location, v2i);
+				app::api->setUniform(shader, name, v2i);
 				break;
 			case VEC2F:
-				app::api->setUniform(shader, name, location, v2f);
+				app::api->setUniform(shader, name, v2f);
 				 break;
 			case VEC3F:
-				app::api->setUniform(shader, name, location, v3f);
+				app::api->setUniform(shader, name, v3f);
 				break;
 			case MAT4F:
-				app::api->setUniform(shader, name, location, mat);
+				app::api->setUniform(shader, name, mat);
 				break;
 			case QUATERNION:
-				app::api->setUniform(shader, name, location, quat);
+				app::api->setUniform(shader, name, quat);
 				break;
 			case COLOR:
-				app::api->setUniform(shader, name, location, col);
+				app::api->setUniform(shader, name, col);
 				break;
 			case TEXTURE:
-				app::api->setUniform(shader, name, location, tex);
+				app::api->setUniform(shader, name, tex);
 				break;
 			case RENDERPASS:
-				app::api->setUniform(shader, name, location, pass);
+				app::api->setUniform(shader, name, pass);
 				break;
 			default:
 				break;

@@ -35,9 +35,9 @@ namespace spruce {
 		fontAttributes[1] = VertexAttribute("texCoord", 2);
 		fontShader = createShader(fontVert, fontFrag, fontAttributes);
 		fontShader->compile(nullptr);
-		fontShader->registerUniform("camera", 1);
-		fontShader->registerUniform("tex", 2);
-		fontShader->registerUniform("color", 3);
+		fontShader->registerUniform("camera", Shader::VERTEX, 1);
+		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
+		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
 		fontMesh = createMesh(nullptr, nullptr);
 	}
 
@@ -141,99 +141,109 @@ namespace spruce {
 		[renderEncoder setRenderPipelineState:((MetalShader*)shader)->pipelineState];
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const int32& value) {
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+	void Metal::setUniform(Shader* shader, string name, const int32& value) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2i& vector) {
+	void Metal::setUniform(Shader* shader, string name, const vec2i& vector) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_int2 vec = {vector.x, vector.y};
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const float& value) {
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+	void Metal::setUniform(Shader* shader, string name, const float& value) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2f& vector) {
+	void Metal::setUniform(Shader* shader, string name, const vec2f& vector) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float2 vec = {vector.x, vector.y};
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec3f& vector) {
+	void Metal::setUniform(Shader* shader, string name, const vec3f& vector) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float3 vec = {vector.x, vector.y, vector.z};
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const mat4f& matrix) {
+	void Metal::setUniform(Shader* shader, string name, const mat4f& matrix) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float4 r0 = {matrix.values[0],matrix.values[1],matrix.values[2],matrix.values[3]};
 		vector_float4 r1 = {matrix.values[4],matrix.values[5],matrix.values[6],matrix.values[7]};
 		vector_float4 r2 = {matrix.values[8],matrix.values[9],matrix.values[10],matrix.values[11]};
 		vector_float4 r3 = {matrix.values[12],matrix.values[13],matrix.values[14],matrix.values[15]};
 		matrix_float4x4 mat = matrix_from_rows(r0,r1,r2,r3);
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&mat length:sizeof(mat) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&mat length:sizeof(mat) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&mat length:sizeof(mat) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&mat length:sizeof(mat) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const quaternion& quaternion) {
+	void Metal::setUniform(Shader* shader, string name, const quaternion& quaternion) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float4 quat = {quaternion.x, quaternion.y, quaternion.z, quaternion.w};
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&quat length:sizeof(quat) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&quat length:sizeof(quat) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&quat length:sizeof(quat) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&quat length:sizeof(quat) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const color& color) {
+	void Metal::setUniform(Shader* shader, string name, const color& color) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float4 col = {color.r, color.g, color.b, color.a};
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&col length:sizeof(col) atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&col length:sizeof(col) atIndex:((MetalShader*)shader)->uniformLocations[name]];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexBytes:&col length:sizeof(col) atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentBytes:&col length:sizeof(col) atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* texture) {
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexTexture:((MetalTexture*)texture)->mtlTexture atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentTexture:((MetalTexture*)texture)->mtlTexture atIndex:((MetalShader*)shader)->uniformLocations[name]];
+	void Metal::setUniform(Shader* shader, string name, const Texture* texture) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformData.index];
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* renderPass) {
+	void Metal::setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) {
+		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		id<MTLTexture> texture;
 		if (((MetalRenderTarget*)renderPass->target)->color != nullptr) {
 			texture = ((MetalRenderTarget*)renderPass->target)->color->mtlTexture;
 		} else {
 			texture = ((MetalRenderTarget*)renderPass->target)->depth->mtlTexture;
 		}
-		if (location == Shader::VERTEX) {
-			[renderEncoder setVertexTexture:texture atIndex:((MetalShader*)shader)->uniformLocations[name]];
-		} else if (location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentTexture:texture atIndex:((MetalShader*)shader)->uniformLocations[name]];
+		if (uniformData.location == Shader::VERTEX) {
+			[renderEncoder setVertexTexture:texture atIndex:uniformData.index];
+		} else if (uniformData.location == Shader::FRAGMENT) {
+			[renderEncoder setFragmentTexture:texture atIndex:uniformData.index];
 		}
 	}
 

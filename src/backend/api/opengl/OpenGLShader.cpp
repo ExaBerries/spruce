@@ -9,14 +9,12 @@ namespace spruce {
 		vert = 0;
 		frag = 0;
 		program = 0;
-		this->uniformLocations = std::map<string, uint16>();
 	}
 
 	OpenGLShader::OpenGLShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes) : Shader(vertSource, fragSource, attributes) {
 		vert = 0;
 		frag = 0;
 		program = 0;
-		this->uniformLocations = std::map<string, uint16>();
 	}
 
 	OpenGLShader::~OpenGLShader() {
@@ -145,9 +143,8 @@ namespace spruce {
 		return glGetAttribLocation(program, name.c_str());
 	}
 
-	uint16 OpenGLShader::registerUniform(std::string name, uint16 index) {
-		uint16 location = glGetUniformLocation(program, name.c_str());
-		uniformLocations[name] = location;
-		return location;
+	void OpenGLShader::registerUniform(std::string name, ShaderUniformLocation location, uint16 index) {
+		uniformLocations[name].location = location;
+		uniformLocations[name].index = glGetUniformLocation(program, name.c_str());
 	}
 }

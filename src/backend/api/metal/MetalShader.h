@@ -10,7 +10,6 @@ namespace spruce {
 			id<MTLLibrary> library;
 			id<MTLFunction> vertexFunction;
 			id<MTLFunction> fragmentFunction;
-			std::map<string, uint16> uniformLocations;
 
 			MetalShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
 			MetalShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes);
@@ -20,8 +19,5 @@ namespace spruce {
 			void compileData();
 			void compileSource();
 			void compile(graphics::RenderPass* renderPass);
-
-			uint16 getAttributeLocation(string name);
-			uint16 registerUniform(string name, uint16 index);
 	};
 }

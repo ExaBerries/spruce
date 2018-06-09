@@ -45,16 +45,16 @@ namespace spruce {
 			virtual void bind(Texture* texture) = 0;
 			virtual void unbind(Texture* texture) = 0;
 			virtual void bind(Shader* shader) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const int32& value) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2i& vector) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const float& value) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec2f& vector) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const vec3f& vector) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const mat4f& matrix) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const quaternion& quaternion) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const color& color) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const Texture* texture) = 0;
-			virtual void setUniform(Shader* shader, string name, Shader::ShaderUniformLocation location, const graphics::RenderPass* renderPass) = 0;
+			virtual void setUniform(Shader* shader, string name, const int32& value) = 0;
+			virtual void setUniform(Shader* shader, string name, const vec2i& vector) = 0;
+			virtual void setUniform(Shader* shader, string name, const float& value) = 0;
+			virtual void setUniform(Shader* shader, string name, const vec2f& vector) = 0;
+			virtual void setUniform(Shader* shader, string name, const vec3f& vector) = 0;
+			virtual void setUniform(Shader* shader, string name, const mat4f& matrix) = 0;
+			virtual void setUniform(Shader* shader, string name, const quaternion& quaternion) = 0;
+			virtual void setUniform(Shader* shader, string name, const color& color) = 0;
+			virtual void setUniform(Shader* shader, string name, const Texture* texture) = 0;
+			virtual void setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) = 0;
 
 			virtual Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) = 0;
 			virtual Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) = 0;
