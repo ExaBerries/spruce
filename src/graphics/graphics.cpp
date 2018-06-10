@@ -43,8 +43,8 @@ namespace spruce {
 				memcpy(&glFragSize, data + i, sizeof(uint32));
 				i += sizeof(uint32);
 				if (app::apiType == app::OPENGL) {
-					string vertSource = string((const buffer<char>) data + i);
-					string fragSource = string((const buffer<char>) data + i + glVertSourceSize);
+					string vertSource = string((char*)(buffer<char>) data + i);
+					string fragSource = string((char*)(buffer<char>) data + i + glVertSourceSize);
 					i += glVertSourceSize + glFragSourceSize;
 					buffer<uint8> vertexData(glVertSize / sizeof(uint8));
 					memcpy(vertexData, data + i, glVertSize);
