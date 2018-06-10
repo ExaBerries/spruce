@@ -84,6 +84,22 @@ namespace spruce {
 			data = nullptr;
 			return *this;
 		}
+
+		TYPE* begin() {
+			return data;
+		}
+
+		const TYPE* begin() const {
+			return data;
+		}
+
+		TYPE* end() {
+			return data + size;
+		}
+
+		const TYPE* end() const {
+			return data + size;
+		}
 	};
 
 	template <typename TYPE>
