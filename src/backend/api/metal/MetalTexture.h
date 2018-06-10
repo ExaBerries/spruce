@@ -12,8 +12,6 @@ namespace spruce {
 			MetalTexture(const MetalTexture& texture) = delete;
 			~MetalTexture();
 
-			void bind();
-			void unbind();
 			void toVRAM();
 			void freeVRAM();
 	};

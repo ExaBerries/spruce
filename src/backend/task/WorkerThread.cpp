@@ -1,5 +1,6 @@
 #include <backend/task/WorkerThread.h>
 #include <backend/task/taskmanager.h>
+#include <graphics/graphics.h>
 
 namespace spruce {
 	namespace task {

@@ -6,6 +6,7 @@
 #include <system/system.h>
 #include <task/async.h>
 #include <graphics/graphics.h>
+#include <backend/task/taskmanager.h>
 #ifdef DEBUG
 #ifdef TASK_PROFILE
 #include <util/task/taskprofile.h>
@@ -57,6 +58,13 @@ namespace spruce {
 					#endif
 				}
 				waitForMainTasks();
+				std::vector<CommandBuffer*> commandBuffers = task::getCommandBuffers();
+				for (CommandBuffer* cmdBuffer : commandBuffers) {
+					for (Command* command : cmdBuffer->commands) {
+						command->execute();
+					}
+					cmdBuffer->reset();
+				}
 				api->renderEnd();
 				os::updateEnd();
 				mem::update();
@@ -106,7 +114,6 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			app::api->init();
-			graphics::initFontRendering();
 		}
 
 		void setScreen(graphics::Screen* newScreen) {

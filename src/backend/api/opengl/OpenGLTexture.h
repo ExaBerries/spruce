@@ -2,6 +2,7 @@
 #include <common.h>
 #include <backend/api/opengl/platform.h>
 #include <graphics/Texture.h>
+#include <backend/api/opengl/OpenGL.h>
 
 namespace spruce {
 	class OpenGLTexture: public Texture {
@@ -13,12 +14,13 @@ namespace spruce {
 			OpenGLTexture(const OpenGLTexture& texture) = delete;
 			~OpenGLTexture();
 
-			void bind();
-			void unbind();
 			void toVRAM();
 			void freeVRAM();
 		protected:
 			static buffer<bool> units;
 			static uint16 getFreeUnit();
+
+			friend void OpenGL::bind(Texture* texture);
+			friend void OpenGL::unbind(Texture* texture);
 	};
 }

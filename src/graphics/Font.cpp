@@ -43,8 +43,8 @@ namespace spruce {
 			height = std::max((uint32) height, g->bitmap.rows);
 		}
 		uint32 xoff = 0;
-		uint8* data = new uint8[width * height * sizeof(float)];
-		float* fdata = (float*)data;
+		buffer<uint8> data(width * height * sizeof(float));
+		buffer<float> fdata = (buffer<float>) data;
 		for (uint32 i = 0; i < width * height; i++) {
 			fdata[i] = 0.5f;
 		}

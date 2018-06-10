@@ -9,12 +9,6 @@ namespace spruce {
 		freeVRAM();
 	}
 
-	void MetalTexture::bind() {
-	}
-
-	void MetalTexture::unbind() {
-	}
-
 	void MetalTexture::toVRAM() {
 		MTLPixelFormat format = MTLPixelFormatInvalid;
 		switch (this->format) {

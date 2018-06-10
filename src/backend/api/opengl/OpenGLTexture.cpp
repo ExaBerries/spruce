@@ -11,25 +11,10 @@ namespace spruce {
 
 	OpenGLTexture::~OpenGLTexture() {
 		freeVRAM();
-		unbind();
-	}
-
-	void OpenGLTexture::bind() {
-		if (!unit) {
-			unit = getFreeUnit();
-			units[unit] = true;
-		}
-		glActiveTexture(GL_TEXTURE0 + unit);
-		glBindTexture(GL_TEXTURE_2D, texture);
-	}
-
-	void OpenGLTexture::unbind() {
 		if (units != nullptr) {
 			units[unit] = false;
 			unit = 0;
 		}
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	void OpenGLTexture::toVRAM() {

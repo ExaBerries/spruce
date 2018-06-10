@@ -19,8 +19,10 @@ namespace spruce {
 			bufferVertexCount = vertices.size;
 		} else {
 			if (vertices.size == 0) {
+				[vertexBuffer release];
+				bufferVertexCount = 0;
 			} else if (bufferVertexCount != vertices.size) {
-				//[vertexBuffer release];
+				[vertexBuffer release];
 				vertexBuffer = [device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
 				bufferVertexCount = vertices.size;
 			}
@@ -34,8 +36,10 @@ namespace spruce {
 			bufferIndexCount = indices.size;
 		} else {
 			if (indices.size == 0) {
+				[indexBuffer release];
+				bufferIndexCount = 0;
 			} else if (bufferIndexCount != indices.size) {
-				//[indexBuffer release];
+				[indexBuffer release];
 				indexBuffer = [device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
 				bufferIndexCount = indices.size;
 			}
@@ -49,11 +53,5 @@ namespace spruce {
 	void MetalMesh::freeVRAM() {
 		[vertexBuffer release];
 		[indexBuffer release];
-	}
-
-	void MetalMesh::bind() {
-	}
-
-	void MetalMesh::unbind() {
 	}
 }

@@ -10,7 +10,5 @@ namespace spruce {
 			RenderTarget(uint16 width, uint16 height);
 			RenderTarget(const RenderTarget& renderTarget) = delete;
 			virtual ~RenderTarget();
-
-			virtual void bind() = 0;
 	};
 }
