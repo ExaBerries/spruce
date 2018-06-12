@@ -5,7 +5,7 @@ namespace spruce {
 		while (task::executeMainTask());
 	}
 
-	void waitForGraphicsTasks() {
-		while (task::executeGraphicsTask());
+	void waitForGraphicsTasks(bool concurrent) {
+		while (task::executeGraphicsTask(concurrent));
 	}
 }

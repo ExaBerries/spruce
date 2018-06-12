@@ -8,9 +8,12 @@ namespace spruce {
 			std::vector<Command*> commands;
 
 			CommandBuffer();
+			CommandBuffer(const CommandBuffer& cmdBuffer);
 			virtual ~CommandBuffer();
 
 			void add(Command* command);
 			void reset();
+
+			CommandBuffer& operator=(CommandBuffer cmdBuffer);
 	};
 }

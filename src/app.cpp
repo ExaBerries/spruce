@@ -20,6 +20,8 @@ namespace spruce {
 		RenderAPI* api;
 		graphics::Screen* screen;
 		bool debug;
+		Frame* encode;
+		Frame* execute;
 
 		void init() {
 			os::init();
@@ -35,6 +37,22 @@ namespace spruce {
 			});
 			#endif
 			#endif
+			encode = new Frame();
+			execute = new Frame();
+		}
+
+		void encodeRender(float delta) {
+			screen->update(delta);
+			screen->render(delta);
+			waitForGraphicsTasks(true);
+			#ifdef DEBUG
+			#ifdef TASK_PROFILE
+			util::task::dataMutex.lock();
+			uint64 time = sys::timeNano();
+			util::task::data.frameTimes.push_back(time);
+			util::task::dataMutex.unlock();
+			#endif
+			#endif
 		}
 
 		void run() {
@@ -44,27 +62,20 @@ namespace spruce {
 				api->renderStart();
 				float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
+				delete execute;
+				execute = encode;
+				encode = new Frame();
 				if (screen != nullptr) {
-					screen->update(delta);
-					screen->render(delta);
-					waitForGraphicsTasks();
-					#ifdef DEBUG
-					#ifdef TASK_PROFILE
-					util::task::dataMutex.lock();
-					uint64 time = sys::timeNano();
-					util::task::data.frameTimes.push_back(time);
-					util::task::dataMutex.unlock();
-					#endif
-					#endif
+					Task<void(float)> task = createTask(std::function<void(float)>(encodeRender), task::ENGINE, true, delta);
 				}
-				waitForMainTasks();
-				std::vector<CommandBuffer*> commandBuffers = task::getCommandBuffers();
+				buffer<CommandBuffer*> commandBuffers = execute->getCommandBuffers();
 				for (CommandBuffer* cmdBuffer : commandBuffers) {
 					for (Command* command : cmdBuffer->commands) {
 						command->execute();
 					}
-					cmdBuffer->reset();
 				}
+				commandBuffers.free();
+				waitForMainTasks();
 				api->renderEnd();
 				os::updateEnd();
 				mem::update();
@@ -83,6 +94,7 @@ namespace spruce {
 		}
 
 		void setRenderAPI(API api) {
+			waitForMainTasks();
 			if (app::api != nullptr) {
 				delete app::api;
 			}
@@ -114,6 +126,8 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			app::api->init();
+			encode->mainCommandBuffer.reset();
+			execute->mainCommandBuffer.reset();
 		}
 
 		void setScreen(graphics::Screen* newScreen) {

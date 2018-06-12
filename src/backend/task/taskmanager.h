@@ -12,10 +12,8 @@ namespace spruce {
 		TaskBackend* getNextTask(bool main);
 		extern uint64 taskId;
 		bool executeMainTask();
-		bool executeGraphicsTask();
+		bool executeGraphicsTask(bool concurrent);
 		void incrementRef(uint64 id);
 		void deincrementRef(uint64 id);
-		CommandBuffer& getCommandBuffer();
-		std::vector<CommandBuffer*> getCommandBuffers();
 	}
 }

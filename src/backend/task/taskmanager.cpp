@@ -14,7 +14,6 @@ namespace spruce {
 		std::mutex taskMutex;
 		std::mutex dataMutex;
 		std::mutex refMutex;
-		CommandBuffer mainCommandBuffer;
 
 		void init() {
 			threads = std::vector<WorkerThread>(sys::getCPUThreadCount() - 1);
@@ -106,22 +105,24 @@ namespace spruce {
 			return nextTask;
 		}
 
-		TaskBackend* getGraphicsTask() {
+		TaskBackend* getGraphicsTask(bool concurrent) {
 			std::lock_guard<std::mutex> taskGuard(taskMutex);
-			if (mainTasks.size() > 0) {
-				TaskBackend* task = mainTasks[0];
-				uint32 eraseIndex = 0;
-				for (uint32 i = 1; i < mainTasks.size(); i++) {
-					if (mainTasks[i] != nullptr) {
-						if (mainTasks[i]->priority == GRAPHICS) {
-							task = mainTasks[i];
-							eraseIndex = i;
-							break;
+			if (!concurrent) {
+				if (mainTasks.size() > 0) {
+					TaskBackend* task = mainTasks[0];
+					uint32 eraseIndex = 0;
+					for (uint32 i = 1; i < mainTasks.size(); i++) {
+						if (mainTasks[i] != nullptr) {
+							if (mainTasks[i]->priority == GRAPHICS) {
+								task = mainTasks[i];
+								eraseIndex = i;
+								break;
+							}
 						}
 					}
+					mainTasks.erase(mainTasks.begin() + eraseIndex);
+					return task;
 				}
-				mainTasks.erase(mainTasks.begin() + eraseIndex);
-				return task;
 			}
 			if (concurrentTasks.size() > 0) {
 				TaskBackend* task = concurrentTasks[0];
@@ -159,8 +160,8 @@ namespace spruce {
 			return executeTask(task::getNextTask(true));
 		}
 
-		bool executeGraphicsTask() {
-			return executeTask(task::getGraphicsTask());
+		bool executeGraphicsTask(bool concurrent) {
+			return executeTask(task::getGraphicsTask(concurrent));
 		}
 
 		void incrementRef(uint64 taskId) {
@@ -179,30 +180,11 @@ namespace spruce {
 			}
 		}
 
-		CommandBuffer& getCommandBuffer() {
-			for (WorkerThread& thread : threads) {
-				if (thread.thread.get_id() == std::this_thread::get_id()) {
-					return thread.commandBuffer;
-				}
-			}
-			return mainCommandBuffer;
-		}
-
-		std::vector<CommandBuffer*> getCommandBuffers() {
-			std::vector<CommandBuffer*> cmdBuffers;
-			cmdBuffers.push_back(&mainCommandBuffer);
-			for (WorkerThread& thread : threads) {
-				cmdBuffers.push_back(&thread.commandBuffer);
-			}
-			return cmdBuffers;
-		}
-
 		#ifdef DEBUG
 		#ifdef TASK_PROFILE
 		uint8 convert(std::thread::id id) {
 			for (uint16 i = 0; i < threads.size(); i++) {
 				if (threads[i].thread.get_id() == id) {
-					slog(i + 1);
 					return i + 1;
 				}
 			}

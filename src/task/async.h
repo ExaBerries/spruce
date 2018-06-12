@@ -24,5 +24,5 @@ namespace spruce {
 	}
 
 	void waitForMainTasks();
-	void waitForGraphicsTasks();
+	void waitForGraphicsTasks(bool concurrent);
 }
