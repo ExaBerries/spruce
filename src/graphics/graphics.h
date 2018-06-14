@@ -16,6 +16,8 @@
 
 namespace spruce {
 	namespace graphics {
+		extern float delta;
+
 		CommandBuffer& getCommandBuffer();
 		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
 		Shader* createShader(const FileHandle& file, buffer<VertexAttribute> attributes);

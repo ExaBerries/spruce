@@ -60,13 +60,13 @@ namespace spruce {
 			while (window->open) {
 				os::updateStart();
 				api->renderStart();
-				float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
+				graphics::delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
 				delete execute;
 				execute = encode;
 				encode = new Frame();
 				if (screen != nullptr) {
-					Task<void(float)> task = createTask(std::function<void(float)>(encodeRender), task::ENGINE, true, delta);
+					Task<void(float)> task = createTask(std::function<void(float)>(encodeRender), task::ENGINE, true, graphics::delta);
 				}
 				buffer<CommandBuffer*> commandBuffers = execute->getCommandBuffers();
 				for (CommandBuffer* cmdBuffer : commandBuffers) {

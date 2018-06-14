@@ -13,6 +13,8 @@
 
 namespace spruce {
 	namespace graphics {
+		float delta;
+
 		CommandBuffer& getCommandBuffer() {
 			return app::encode->getCommandBuffer();
 		}
