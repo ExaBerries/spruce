@@ -42,11 +42,11 @@ namespace spruce {
 			while (window->open) {
 				os::updateStart();
 				api->renderStart();
-				float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
+				graphics::delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
 				if (screen != nullptr) {
-					screen->update(delta);
-					screen->render(delta);
+					screen->update(graphics::delta);
+					screen->render(graphics::delta);
 					waitForGraphicsTasks();
 					#ifdef DEBUG
 					#ifdef TASK_PROFILE

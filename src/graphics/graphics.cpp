@@ -13,6 +13,7 @@
 
 namespace spruce {
 	namespace graphics {
+		float delta;
 
 		CommandBuffer& getCommandBuffer() {
 			return task::getCommandBuffer();
