@@ -66,7 +66,11 @@ namespace spruce {
 				execute = encode;
 				encode = new Frame();
 				if (screen != nullptr) {
+					#ifndef PIPELINE_OFF
 					Task<void(float)> task = createTask(std::function<void(float)>(encodeRender), task::ENGINE, true, graphics::delta);
+					#else
+					encodeRender();
+					#endif
 				}
 				buffer<CommandBuffer*> commandBuffers = execute->getCommandBuffers();
 				for (CommandBuffer* cmdBuffer : commandBuffers) {
