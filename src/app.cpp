@@ -126,12 +126,16 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			app::api->init();
-			encode->mainCommandBuffer.reset();
-			execute->mainCommandBuffer.reset();
+			clearCommands();
 		}
 
 		void setScreen(graphics::Screen* newScreen) {
 			screen = newScreen;
+		}
+
+		void clearCommands() {
+			encode->mainCommandBuffer.reset();
+			execute->mainCommandBuffer.reset();
 		}
 	}
 }
