@@ -54,7 +54,7 @@ namespace spruce {
 			#ifdef DEBUG
 			#ifdef BUFFER_BOUNDS_CHECK
 			if (idx >= size) {
-				slog(idx, " ", size, " ", idx >= size);
+				slog("buffer[] bounds check fail index=", idx, " size=", size);
 			}
 			#endif
 			#endif
