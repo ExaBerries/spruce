@@ -198,7 +198,7 @@ namespace spruce {
 		}
 
 		#ifdef DEBUG
-		#ifdef TASK_PROFILE
+		#ifdef PROFILE
 		uint8 convert(std::thread::id id) {
 			for (uint16 i = 0; i < threads.size(); i++) {
 				if (threads[i].thread.get_id() == id) {

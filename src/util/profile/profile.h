@@ -1,13 +1,14 @@
 #pragma once
+
 #ifdef DEBUG
-#ifdef TASK_PROFILE
+#ifdef PROFILE
 #include <common.h>
 #include <io/FileHandle.h>
-#include <util/task/ProfileData.h>
+#include <util/profile/ProfileData.h>
 
 namespace spruce {
 	namespace util {
-		namespace task {
+		namespace profile {
 			extern ProfileData data;
 			extern std::mutex dataMutex;
 			extern FileHandle saveFile;
@@ -18,10 +19,10 @@ namespace spruce {
 	}
 }
 #else
-#warning included __FILE__ when TASK_PROFILE is undefined
+#warning included __FILE__ when PROFILE is undefined
 #endif
 #else
-#ifdef TASK_PROFILE
-#warning TASK_PROFILE is defined but DEBUG is not, define DEBUG to use task profiling
+#ifdef PROFILE
+#warning PROFILE is defined but DEBUG is not, define DEBUG to use profiling
 #endif
 #endif

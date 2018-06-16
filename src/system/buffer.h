@@ -104,7 +104,7 @@ namespace spruce {
 
 	template <typename TYPE>
 	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer) {
-		stream << "buffer(" << buffer.size << ", " << buffer.data << ")";
+		stream << "buffer(" << buffer.size << ", " << (void*)buffer.data << ")";
 		return stream;
 	}
 }

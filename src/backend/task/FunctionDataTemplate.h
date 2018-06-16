@@ -5,16 +5,16 @@
 #include <tuple>
 #include <thread>
 #ifdef DEBUG
-#ifdef TASK_PROFILE
+#ifdef PROFILE
 #include <system/system.h>
-#include <util/task/taskprofile.h>
+#include <util/profile/profile.h>
 #endif
 #endif
 
 namespace spruce {
 	namespace task {
 		#ifdef DEBUG
-		#ifdef TASK_PROFILE
+		#ifdef PROFILE
 		uint8 convert(std::thread::id id);
 		#endif
 		#endif
@@ -38,20 +38,23 @@ namespace spruce {
 
 				void execute() {
 					#ifdef DEBUG
-					#ifdef TASK_PROFILE
-					util::task::TaskProfileData data;
+					#ifdef PROFILE
+					#ifdef PROFILE_TASK
+					util::profile::TaskProfileData data;
 					data.startTime = sys::timeNano();
 					data.thread = convert(std::this_thread::get_id());
-					data.taskId = taskId;
 					#endif
 					#endif
-					(*output) = util::execute(function, args);
+					#endif
+					util::execute(function, args);
 					#ifdef DEBUG
-					#ifdef TASK_PROFILE
-					util::task::dataMutex.lock();
+					#ifdef PROFILE
+					#ifdef PROFILE_TASK
+					util::profile::dataMutex.lock();
 					data.endTime = sys::timeNano();
-					util::task::data.profiles.push_back(data);
-					util::task::dataMutex.unlock();
+					util::profile::data.taskProfiles.push_back(data);
+					util::profile::dataMutex.unlock();
+					#endif
 					#endif
 					#endif
 				}
@@ -76,19 +79,23 @@ namespace spruce {
 
 				void execute() {
 					#ifdef DEBUG
-					#ifdef TASK_PROFILE
-					util::task::TaskProfileData data;
+					#ifdef PROFILE
+					#ifdef PROFILE_TASK
+					util::profile::TaskProfileData data;
 					data.startTime = sys::timeNano();
 					data.thread = convert(std::this_thread::get_id());
 					#endif
 					#endif
+					#endif
 					util::execute(function, args);
 					#ifdef DEBUG
-					#ifdef TASK_PROFILE
-					util::task::dataMutex.lock();
+					#ifdef PROFILE
+					#ifdef PROFILE_TASK
+					util::profile::dataMutex.lock();
 					data.endTime = sys::timeNano();
-					util::task::data.profiles.push_back(data);
-					util::task::dataMutex.unlock();
+					util::profile::data.taskProfiles.push_back(data);
+					util::profile::dataMutex.unlock();
+					#endif
 					#endif
 					#endif
 				}

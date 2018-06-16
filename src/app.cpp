@@ -8,8 +8,9 @@
 #include <graphics/graphics.h>
 #include <backend/task/taskmanager.h>
 #ifdef DEBUG
-#ifdef TASK_PROFILE
-#include <util/task/taskprofile.h>
+#ifdef PROFILE
+#include <util/profile/profile.h>
+#include <util/profile/FrameProfileData.h>
 #endif
 #endif
 
@@ -27,33 +28,39 @@ namespace spruce {
 			api = nullptr;
 			window = os::createWindow();
 			debug = false;
-			#ifdef DEBUG
-			#ifdef TASK_PROFILE
-			std::atexit([] {
-				slog("saving task profile data to ", util::task::saveFile);
-				util::task::saveProfileData(util::task::data, util::task::saveFile);
-			});
-			#endif
-			#endif
 		}
 
 		void run() {
 			uint64 lastTime = sys::timeNano();
+			#ifdef DEBUG
+			#ifdef PROFILE
+			util::profile::data.startTime = lastTime;
+			#endif
+			#endif
 			while (window->open) {
 				os::updateStart();
 				api->renderStart();
 				graphics::delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
 				if (screen != nullptr) {
+					#ifdef DEBUG
+					#ifdef PROFILE
+					uint64 startTime = sys::timeNano();
+					#endif
+					#endif
 					screen->update(graphics::delta);
 					screen->render(graphics::delta);
 					waitForGraphicsTasks();
 					#ifdef DEBUG
-					#ifdef TASK_PROFILE
-					util::task::dataMutex.lock();
-					uint64 time = sys::timeNano();
-					util::task::data.frameTimes.push_back(time);
-					util::task::dataMutex.unlock();
+					#ifdef PROFILE
+					uint64 endTime = sys::timeNano();
+					util::profile::dataMutex.lock();
+					util::profile::FrameProfileData frameData;
+					frameData.startTime = startTime;
+					frameData.endTime = endTime;
+					frameData.delta = graphics::delta;
+					util::profile::data.frameProfiles.push_back(frameData);
+					util::profile::dataMutex.unlock();
 					#endif
 					#endif
 				}
@@ -80,6 +87,14 @@ namespace spruce {
 			delete api;
 			task::free();
 			os::free();
+			#ifdef DEBUG
+			#ifdef PROFILE
+			slog("saving task profile data to ", util::profile::saveFile);
+			util::profile::dataMutex.lock();
+			util::profile::saveProfileData(util::profile::data, util::profile::saveFile);
+			util::profile::dataMutex.unlock();
+			#endif
+			#endif
 		}
 
 		void setRenderAPI(API api) {
