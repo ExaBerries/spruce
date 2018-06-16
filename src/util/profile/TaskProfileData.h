@@ -1,11 +1,11 @@
 #pragma once
 #ifdef DEBUG
-#ifdef TASK_PROFILE
+#ifdef PROFILE
 #include <common.h>
 
 namespace spruce {
 	namespace util {
-		namespace task {
+		namespace profile {
 			class TaskProfileData {
 				public:
 					string name;

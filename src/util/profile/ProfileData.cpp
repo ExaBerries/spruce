@@ -1,11 +1,13 @@
+
 #ifdef DEBUG
-#ifdef TASK_PROFILE
-#include <util/task/ProfileData.h>
+#ifdef PROFILE
+#include <util/profile/ProfileData.h>
 
 namespace spruce {
 	namespace util {
-		namespace task {
+		namespace profile {
 			ProfileData::ProfileData() {
+				startTime = 0;
 			}
 
 			ProfileData::~ProfileData() {

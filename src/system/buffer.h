@@ -54,7 +54,7 @@ namespace spruce {
 			#ifdef DEBUG
 			#ifdef BUFFER_BOUNDS_CHECK
 			if (idx >= size) {
-				slog(idx, " ", size, " ", idx >= size);
+				slog("buffer[] bounds check fail index=", idx, " size=", size);
 			}
 			#endif
 			#endif
@@ -104,7 +104,7 @@ namespace spruce {
 
 	template <typename TYPE>
 	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer) {
-		stream << "buffer(" << buffer.size << ", " << buffer.data << ")";
+		stream << "buffer(" << buffer.size << ", " << (void*)buffer.data << ")";
 		return stream;
 	}
 }
