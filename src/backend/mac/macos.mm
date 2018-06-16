@@ -43,7 +43,7 @@ namespace spruce {
 		AppDelegate* delegate;
 
 		void init() {
-			keyCodes = buffer<uint16>(79);
+			keyCodes = buffer<uint16>(80);
 			keyCodes[input::A] = 0x00;
 			keyCodes[input::B] = 0x0B;
 			keyCodes[input::C] = 0x08;
