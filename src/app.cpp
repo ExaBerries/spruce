@@ -10,7 +10,6 @@
 #ifdef DEBUG
 #ifdef PROFILE
 #include <util/profile/profile.h>
-#include <util/profile/FrameProfileData.h>
 #endif
 #endif
 
@@ -46,13 +45,9 @@ namespace spruce {
 			#ifdef DEBUG
 			#ifdef PROFILE
 			uint64 endTime = sys::timeNano();
-			util::profile::dataMutex.lock();
-			util::profile::FrameProfileData frameData;
-			frameData.startTime = startTime;
-			frameData.endTime = endTime;
-			frameData.delta = graphics::delta;
-			util::profile::data.frameProfiles.push_back(frameData);
-			util::profile::dataMutex.unlock();
+			encode->encodeStartTime = startTime;
+			encode->encodeEndTime = endTime;
+			encode->delta = delta;
 			#endif
 			#endif
 		}
@@ -79,12 +74,24 @@ namespace spruce {
 					encodeRender();
 					#endif
 				}
+				#ifdef DEBUG
+				#ifdef PROFILE
+				uint64 startTime = sys::timeNano();
+				#endif
+				#endif
 				buffer<CommandBuffer*> commandBuffers = execute->getCommandBuffers();
 				for (CommandBuffer* cmdBuffer : commandBuffers) {
 					for (Command* command : cmdBuffer->commands) {
 						command->execute();
 					}
 				}
+				#ifdef DEBUG
+				#ifdef PROFILE
+				uint64 endTime = sys::timeNano();
+				execute->executeStartTime = startTime;
+				execute->executeEndTime = endTime;
+				#endif
+				#endif
 				commandBuffers.free();
 				waitForMainTasks();
 				api->renderEnd();
@@ -104,7 +111,7 @@ namespace spruce {
 			os::free();
 			#ifdef DEBUG
 			#ifdef PROFILE
-			slog("saving task profile data to ", util::profile::saveFile);
+			slog("saving profile data to ", util::profile::saveFile);
 			util::profile::dataMutex.lock();
 			util::profile::saveProfileData(util::profile::data, util::profile::saveFile);
 			util::profile::dataMutex.unlock();
