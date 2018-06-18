@@ -10,7 +10,6 @@
 #ifdef DEBUG
 #ifdef PROFILE
 #include <util/profile/profile.h>
-#include <util/profile/FrameProfileData.h>
 #endif
 #endif
 
@@ -21,6 +20,8 @@ namespace spruce {
 		RenderAPI* api;
 		graphics::Screen* screen;
 		bool debug;
+		Frame* encode;
+		Frame* execute;
 
 		void init() {
 			os::init();
@@ -28,6 +29,27 @@ namespace spruce {
 			api = nullptr;
 			window = os::createWindow();
 			debug = false;
+			encode = new Frame();
+			execute = new Frame();
+		}
+
+		void encodeRender(float delta) {
+			#ifdef DEBUG
+			#ifdef PROFILE
+			uint64 startTime = sys::timeNano();
+			#endif
+			#endif
+			screen->update(graphics::delta);
+			screen->render(graphics::delta);
+			waitForGraphicsTasks(true);
+			#ifdef DEBUG
+			#ifdef PROFILE
+			uint64 endTime = sys::timeNano();
+			encode->encodeStartTime = startTime;
+			encode->encodeEndTime = endTime;
+			encode->delta = delta;
+			#endif
+			#endif
 		}
 
 		void run() {
@@ -42,36 +64,36 @@ namespace spruce {
 				api->renderStart();
 				graphics::delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
+				delete execute;
+				execute = encode;
+				encode = new Frame();
 				if (screen != nullptr) {
-					#ifdef DEBUG
-					#ifdef PROFILE
-					uint64 startTime = sys::timeNano();
-					#endif
-					#endif
-					screen->update(graphics::delta);
-					screen->render(graphics::delta);
-					waitForGraphicsTasks();
-					#ifdef DEBUG
-					#ifdef PROFILE
-					uint64 endTime = sys::timeNano();
-					util::profile::dataMutex.lock();
-					util::profile::FrameProfileData frameData;
-					frameData.startTime = startTime;
-					frameData.endTime = endTime;
-					frameData.delta = graphics::delta;
-					util::profile::data.frameProfiles.push_back(frameData);
-					util::profile::dataMutex.unlock();
-					#endif
+					#ifndef PIPELINE_OFF
+					Task<void(float)> task = createTask(std::function<void(float)>(encodeRender), task::ENGINE, true, graphics::delta);
+					#else
+					encodeRender();
 					#endif
 				}
-				waitForMainTasks();
-				std::vector<CommandBuffer*> commandBuffers = task::getCommandBuffers();
+				#ifdef DEBUG
+				#ifdef PROFILE
+				uint64 startTime = sys::timeNano();
+				#endif
+				#endif
+				buffer<CommandBuffer*> commandBuffers = execute->getCommandBuffers();
 				for (CommandBuffer* cmdBuffer : commandBuffers) {
 					for (Command* command : cmdBuffer->commands) {
 						command->execute();
 					}
-					cmdBuffer->reset();
 				}
+				#ifdef DEBUG
+				#ifdef PROFILE
+				uint64 endTime = sys::timeNano();
+				execute->executeStartTime = startTime;
+				execute->executeEndTime = endTime;
+				#endif
+				#endif
+				commandBuffers.free();
+				waitForMainTasks();
 				api->renderEnd();
 				os::updateEnd();
 				mem::update();
@@ -89,7 +111,7 @@ namespace spruce {
 			os::free();
 			#ifdef DEBUG
 			#ifdef PROFILE
-			slog("saving task profile data to ", util::profile::saveFile);
+			slog("saving profile data to ", util::profile::saveFile);
 			util::profile::dataMutex.lock();
 			util::profile::saveProfileData(util::profile::data, util::profile::saveFile);
 			util::profile::dataMutex.unlock();
@@ -98,6 +120,7 @@ namespace spruce {
 		}
 
 		void setRenderAPI(API api) {
+			waitForMainTasks();
 			if (app::api != nullptr) {
 				delete app::api;
 			}
@@ -129,10 +152,16 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			app::api->init();
+			clearCommands();
 		}
 
 		void setScreen(graphics::Screen* newScreen) {
 			screen = newScreen;
+		}
+
+		void clearCommands() {
+			encode->mainCommandBuffer.reset();
+			execute->mainCommandBuffer.reset();
 		}
 	}
 }

@@ -3,6 +3,7 @@
 #include <API.h>
 #include <backend/Window.h>
 #include <graphics/Screen.h>
+#include <Frame.h>
 
 namespace spruce {
 	class RenderAPI;
@@ -13,6 +14,8 @@ namespace spruce {
 		extern RenderAPI* api;
 		extern graphics::Screen* screen;
 		extern bool debug;
+		extern Frame* encode;
+		extern Frame* execute;
 
 		void init();
 		void run();
@@ -20,5 +23,6 @@ namespace spruce {
 
 		void setRenderAPI(API api);
 		void setScreen(graphics::Screen* newScreen);
+		void clearCommands();
 	}
 }

@@ -4,6 +4,10 @@ namespace spruce {
 	CommandBuffer::CommandBuffer() {
 	}
 
+	CommandBuffer::CommandBuffer(const CommandBuffer& cmdBuffer) {
+		this->commands = cmdBuffer.commands;
+	}
+
 	CommandBuffer::~CommandBuffer() {
 	}
 
@@ -16,5 +20,10 @@ namespace spruce {
 			delete cmd;
 		}
 		commands.clear();
+	}
+
+	CommandBuffer& CommandBuffer::operator=(CommandBuffer cmdBuffer) {
+		this->commands = cmdBuffer.commands;
+		return *this;
 	}
 }

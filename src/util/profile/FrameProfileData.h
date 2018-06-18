@@ -6,8 +6,10 @@ namespace spruce {
 		namespace profile {
 			class FrameProfileData {
 				public:
-					uint64 startTime;
-					uint64 endTime;
+					uint64 encodeStartTime;
+					uint64 encodeEndTime;
+					uint64 executeStartTime;
+					uint64 executeEndTime;
 					float delta;
 
 					FrameProfileData();

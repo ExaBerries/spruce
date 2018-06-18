@@ -16,7 +16,7 @@ namespace spruce {
 		float delta;
 
 		CommandBuffer& getCommandBuffer() {
-			return task::getCommandBuffer();
+			return app::encode->getCommandBuffer();
 		}
 
 		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) {
@@ -127,7 +127,7 @@ namespace spruce {
 
 		void render(RenderPass* renderPass) {
 			getCommandBuffer().add(new RenderPassCommand(renderPass));
-			waitForGraphicsTasks();
+			waitForGraphicsTasks(true);
 			renderPass->render();
 		}
 

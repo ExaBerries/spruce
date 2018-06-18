@@ -10,7 +10,6 @@ namespace spruce {
 				std::thread thread;
 				TaskBackend* taskBackend;
 				bool running;
-				CommandBuffer commandBuffer;
 
 				WorkerThread();
 				WorkerThread(const WorkerThread& thread) = delete;
