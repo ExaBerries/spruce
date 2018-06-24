@@ -33,14 +33,14 @@ namespace spruce {
 			execute = new Frame();
 		}
 
-		void encodeRender(float delta) {
+		void encodeFrame(float delta) {
 			#ifdef DEBUG
 			#ifdef PROFILE
 			uint64 startTime = sys::timeNano();
 			#endif
 			#endif
-			screen->update(graphics::delta);
-			screen->render(graphics::delta);
+			screen->update(delta);
+			screen->render(delta);
 			waitForGraphicsTasks(true);
 			#ifdef DEBUG
 			#ifdef PROFILE
@@ -69,9 +69,9 @@ namespace spruce {
 				encode = new Frame();
 				if (screen != nullptr) {
 					#ifndef PIPELINE_OFF
-					Task<void(float)> task = createTask(std::function<void(float)>(encodeRender), task::ENGINE, true, graphics::delta);
+					Task<void(float)> task = createTask(std::function<void(float)>(encodeFrame), task::ENGINE, true, graphics::delta);
 					#else
-					encodeRender();
+					encodeFrame(graphics::delta);
 					#endif
 				}
 				#ifdef DEBUG
