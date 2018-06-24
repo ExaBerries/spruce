@@ -271,12 +271,6 @@ namespace spruce {
 		}
 	}
 
-	void Metal::setBlend(bool value) {
-	}
-
-	void Metal::setDepth(bool value) {
-	}
-
 	string Metal::getGPUVendor() {
 		return "";
 	}

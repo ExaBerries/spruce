@@ -155,14 +155,6 @@ namespace spruce {
 			getCommandBuffer().add(new RenderRectCommand(pos, size, color, rotation, cameraTrans));
 		}
 
-		void setBlend(bool value) {
-			app::api->setBlend(value);
-		}
-
-		void setDepth(bool value) {
-			app::api->setDepth(value);
-		}
-
 		uint16 getWidth() {
 			return app::window->width;
 		}

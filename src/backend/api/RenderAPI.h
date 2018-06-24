@@ -70,9 +70,6 @@ namespace spruce {
 			virtual Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) = 0;
 			virtual RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) = 0;
 
-			virtual void setBlend(bool value) = 0;
-			virtual void setDepth(bool value) = 0;
-
 			virtual string getGPUVendor() = 0;
 			virtual uint16 getAPIVersionMajor() = 0;
 			virtual uint16 getAPIVersionMinor() = 0;

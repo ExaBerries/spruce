@@ -107,7 +107,6 @@ namespace spruce {
 				glPrimitive = GL_TRIANGLES;
 				break;
 		}
-		setDepth(true);
 		bind(mesh);
 		for (int i = 0; i < shader->attributes.size; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
@@ -161,6 +160,9 @@ namespace spruce {
 
 	void OpenGL::bind(Shader* shader) {
 		glUseProgram(((OpenGLShader*)shader)->program);
+		glEnable(GL_BLEND);
+		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void OpenGL::setUniform(Shader* shader, string name, const int32& value) {
@@ -203,23 +205,6 @@ namespace spruce {
 	void OpenGL::setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) {
 		bind(((OpenGLRenderTarget*)renderPass->target)->texture);
 		glUniform1i(shader->uniformLocations[name].index, ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
-	}
-
-	void OpenGL::setBlend(bool value) {
-		if (value) {
-			glEnable(GL_BLEND);
-			glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
-		} else {
-			glDisable(GL_BLEND);
-		}
-	}
-
-	void OpenGL::setDepth(bool value) {
-		if (value) {
-			glEnable(GL_DEPTH_TEST);
-		} else {
-			glDisable(GL_DEPTH_TEST);
-		}
 	}
 
 	string OpenGL::getGPUVendor() {

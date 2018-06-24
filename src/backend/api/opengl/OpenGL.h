@@ -45,9 +45,6 @@ namespace spruce {
 			void setUniform(Shader* shader, string name, const Texture* texture);
 			void setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass);
 
-			void setBlend(bool value);
-			void setDepth(bool value);
-
 			string getGPUVendor();
 			uint16 getAPIVersionMajor();
 			uint16 getAPIVersionMinor();

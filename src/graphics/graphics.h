@@ -34,9 +34,6 @@ namespace spruce {
 		void renderLine(vec3f a, vec3f b, color colora, color colorb, Camera* camera);
 		void renderRect(vec3f pos, vec2f size, color color, quaternion rotation, Camera* camera);
 
-		void setBlend(bool value);
-		void setDepth(bool value);
-
 		uint16 getWidth();
 		uint16 getHeight();
 		vec3f getNDCSize();

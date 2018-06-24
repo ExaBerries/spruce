@@ -22,7 +22,7 @@ namespace spruce {
 			delete fontMesh;
 		}
 		if (shapeAttributes != nullptr) {
-			fontAttributes.free();
+			shapeAttributes.free();
 		}
 		if (shapeShader != nullptr) {
 			delete shapeShader;
@@ -39,7 +39,6 @@ namespace spruce {
 		if (fontShader == nullptr || fontMesh == nullptr) {
 			return;
 		}
-		setBlend(true);
 		if (fontMesh->vertices != nullptr) {
 			fontMesh->vertices.free();
 			fontMesh->vertices = nullptr;
