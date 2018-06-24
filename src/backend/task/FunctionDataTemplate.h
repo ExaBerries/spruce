@@ -46,7 +46,7 @@ namespace spruce {
 					#endif
 					#endif
 					#endif
-					util::execute(function, args);
+					(*output) = util::execute(function, args);
 					#ifdef DEBUG
 					#ifdef PROFILE
 					#ifdef PROFILE_TASK
