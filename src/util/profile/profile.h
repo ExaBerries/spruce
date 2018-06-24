@@ -19,7 +19,7 @@ namespace spruce {
 	}
 }
 #else
-#warning included __FILE__ when PROFILE is undefined
+#warning included util/profile/profile.h when PROFILE is undefined
 #endif
 #else
 #ifdef PROFILE
