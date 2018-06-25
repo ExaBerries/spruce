@@ -29,6 +29,7 @@ namespace spruce {
 			RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 			void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
+			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
 			void renderStart(graphics::RenderPass* renderPass);
 			void bind(Mesh* mesh);
 			void bind(Texture* texture);

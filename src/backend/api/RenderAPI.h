@@ -22,7 +22,8 @@ namespace spruce {
 			string fontFrag;
 			buffer<VertexAttribute> fontAttributes;
 			Shader* fontShader;
-			Mesh* fontMesh;
+			buffer<float> fontVertices;
+			buffer<uint16> fontIndices;
 			string shapeVert;
 			string shapeFrag;
 			buffer<VertexAttribute> shapeAttributes;
@@ -44,6 +45,7 @@ namespace spruce {
 			virtual string getError() = 0;
 
 			virtual void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) = 0;
+			virtual void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) = 0;
 			virtual void renderStart(graphics::RenderPass* renderPass) = 0;
 			void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, mat4f camera);
 			void renderLine(vec3f a, vec3f b, color colora, color colorb, mat4f camera);

@@ -20,6 +20,7 @@ namespace spruce {
 			string getError();
 
 			Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
+			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
 			Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
 			Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes);
 			Texture* createTexture(const FileHandle& path);

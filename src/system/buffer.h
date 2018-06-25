@@ -34,7 +34,7 @@ namespace spruce {
 		}
 
 		void realloc(uint64 newSize) {
-			this->~buffer();
+			free();
 			this->size = newSize;
 			this->data = (TYPE*) mem::allocBuffer(newSize * sizeof(TYPE));
 		}

@@ -29,8 +29,9 @@ namespace spruce {
 		RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 		void render(Mesh* mesh, Shader* shader, Primitive primitive);
+		void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
 		void render(RenderPass* renderPass);
-		void render(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, Camera* camera);
+		void render(string str, Font& font, color color, vec3f position, quaternion rotation, vec2f size, Camera* camera);
 		void renderLine(vec3f a, vec3f b, color colora, color colorb, Camera* camera);
 		void renderRect(vec3f pos, vec2f size, color color, quaternion rotation, Camera* camera);
 

@@ -6,6 +6,7 @@
 #include <task/async.h>
 #include <backend/task/taskmanager.h>
 #include <graphics/command/RenderMeshCommand.h>
+#include <graphics/command/RenderBufferCommand.h>
 #include <graphics/command/RenderPassCommand.h>
 #include <graphics/command/RenderFontCommand.h>
 #include <graphics/command/RenderLineCommand.h>
@@ -123,6 +124,10 @@ namespace spruce {
 
 		void render(Mesh* mesh, Shader* shader, Primitive primitive) {
 			getCommandBuffer().add(new RenderMeshCommand(mesh, shader, primitive));
+		}
+
+		void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
+			getCommandBuffer().add(new RenderBufferCommand(vertices, indices, shader, primitive));
 		}
 
 		void render(RenderPass* renderPass) {

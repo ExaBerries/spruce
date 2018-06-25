@@ -37,7 +37,6 @@ namespace spruce {
 		fontShader->registerUniform("camera", Shader::VERTEX, 1);
 		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
 		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
-		fontMesh = createMesh(nullptr, nullptr);
 		shapeAttributes = buffer<VertexAttribute>(2);
 		shapeAttributes[0] = VertexAttribute("a_pos", 3);
 		shapeAttributes[1] = VertexAttribute("a_color", 4);
@@ -119,6 +118,80 @@ namespace spruce {
 		for (int i = 0; i < shader->attributes.size; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
+	}
+
+	void OpenGL::render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
+		GLuint vao = 0;
+		GLuint vbo = 0;
+		GLuint ibo = 0;
+		if (vao == 0) {
+			glGenVertexArrays(1, &vao);
+		}
+		glBindVertexArray(vao);
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size * sizeof(float), vertices.data, GL_DYNAMIC_DRAW);
+		uint16 stride = 0;
+		for (int i = 0; i < shader->attributes.size; i++) {
+			stride += shader->attributes[i].size;
+		}
+		stride *= sizeof(float);
+		uint8* offset = 0;
+		for (int j = 0; j < shader->attributes.size; j++) {
+			glVertexAttribPointer(shader->getAttributeLocation(shader->attributes[j].name), shader->attributes[j].size, GL_FLOAT, GL_FALSE, stride, offset);
+			offset += shader->attributes[j].size * sizeof(float);
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+
+		if (indices.size > 0) {
+			glGenBuffers(1, &ibo);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size * sizeof(uint16), indices.data, GL_DYNAMIC_DRAW);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
+
+		GLuint glPrimitive;
+		switch (primitive) {
+			case graphics::TRIANGLE:
+				glPrimitive = GL_TRIANGLES;
+				break;
+			case graphics::TRIANGLE_STRIP:
+				glPrimitive = GL_TRIANGLE_STRIP;
+				break;
+			case graphics::LINE:
+				glPrimitive = GL_LINES;
+				break;
+			case graphics::LINE_STRIP:
+				glPrimitive = GL_LINE_STRIP;
+				break;
+			default:
+				glPrimitive = GL_TRIANGLES;
+				break;
+		}
+		glBindVertexArray(vao);
+		if (ibo > 0) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		}
+		for (int i = 0; i < shader->attributes.size; i++) {
+			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
+		}
+		if (indices.size > 0) {
+			glDrawElements(glPrimitive, indices.size, GL_UNSIGNED_SHORT, 0);
+		} else {
+			glDrawArrays(glPrimitive, 0, vertices.size);
+		}
+		for (int i = 0; i < shader->attributes.size; i++) {
+			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDeleteBuffers(1, &vbo);
+		if (ibo > 0) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glDeleteBuffers(1, &ibo);
+		}
+		glDeleteVertexArrays(1, &vao);
 	}
 
 	void OpenGL::renderStart(graphics::RenderPass* renderPass) {

@@ -41,7 +41,6 @@ namespace spruce {
 		fontShader->registerUniform("camera", Shader::VERTEX, 1);
 		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
 		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
-		fontMesh = createMesh(nullptr, nullptr);
 		shapeAttributes = buffer<VertexAttribute>(2);
 		shapeAttributes[0] = VertexAttribute("position", 3);
 		shapeAttributes[1] = VertexAttribute("color", 4);
@@ -133,6 +132,56 @@ namespace spruce {
 			[renderEncoder drawIndexedPrimitives:mtlPrimitive indexCount:((MetalMesh*)mesh)->indices.size indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
 		} else {
 			[renderEncoder drawPrimitives:mtlPrimitive vertexStart:0 vertexCount:mesh->vertices.size];
+		}
+	}
+
+	void Metal::render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
+		id<MTLBuffer> vertexBuffer;
+		id<MTLBuffer> indexBuffer;
+
+		if (vertices.size > 0) {
+			vertexBuffer = [device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
+			memcpy(vertexBuffer.contents, vertices.data, vertices.size * sizeof(float));
+			[vertexBuffer didModifyRange:NSMakeRange(0, vertices.size * sizeof(float))];
+		} else {
+			return;
+		}
+		if (indices.size > 0) {
+			indexBuffer = [device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
+			memcpy(indexBuffer.contents, indices.data, indices.size * sizeof(uint16));
+			[indexBuffer didModifyRange:NSMakeRange(0, indices.size * sizeof(uint16))];
+		}
+
+		MTLPrimitiveType mtlPrimitive;
+		switch (primitive) {
+			case graphics::TRIANGLE:
+				mtlPrimitive = MTLPrimitiveTypeTriangle;
+				break;
+			case graphics::TRIANGLE_STRIP:
+				mtlPrimitive = MTLPrimitiveTypeTriangleStrip;
+				break;
+			case graphics::LINE:
+				mtlPrimitive = MTLPrimitiveTypeLine;
+				break;
+			case graphics::LINE_STRIP:
+				mtlPrimitive = MTLPrimitiveTypeLineStrip;
+				break;
+			default:
+				mtlPrimitive = MTLPrimitiveTypeTriangle;
+				break;
+		}
+		[renderEncoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
+		if (indices.size > 0) {
+			[renderEncoder drawIndexedPrimitives:mtlPrimitive indexCount:indices.size indexType:MTLIndexTypeUInt16 indexBuffer:indexBuffer indexBufferOffset:0];
+		} else {
+			[renderEncoder drawPrimitives:mtlPrimitive vertexStart:0 vertexCount:vertices.size];
+		}
+
+		if (vertices.size > 0) {
+			[vertexBuffer release];
+		}
+		if (indices.size > 0) {
+			[indexBuffer release];
 		}
 	}
 

@@ -2,11 +2,10 @@
 #include <common.h>
 
 namespace spruce {
-	RenderAPI::RenderAPI(Window* window, vec3f ndcSize) : fontAttributes(nullptr), shapeAttributes(nullptr) {
+	RenderAPI::RenderAPI(Window* window, vec3f ndcSize) : fontAttributes(nullptr), fontVertices(nullptr), fontIndices(nullptr), shapeAttributes(nullptr) {
 		this->window = window;
 		this->ndcSize = ndcSize;
 		this->fontShader = nullptr;
-		this->fontMesh = nullptr;
 		this->shapeShader = nullptr;
 		this->shapeMesh = nullptr;
 	}
@@ -18,8 +17,11 @@ namespace spruce {
 		if (fontShader != nullptr) {
 			delete fontShader;
 		}
-		if (fontMesh != nullptr) {
-			delete fontMesh;
+		if (fontVertices != nullptr) {
+			fontVertices.free();
+		}
+		if (fontIndices != nullptr) {
+			fontIndices.free();
 		}
 		if (shapeAttributes != nullptr) {
 			shapeAttributes.free();
@@ -36,12 +38,8 @@ namespace spruce {
 		if (font.texture == nullptr || font.texture->width == 0 || font.texture->height == 0) {
 			return;
 		}
-		if (fontShader == nullptr || fontMesh == nullptr) {
+		if (fontShader == nullptr) {
 			return;
-		}
-		if (fontMesh->vertices != nullptr) {
-			fontMesh->vertices.free();
-			fontMesh->vertices = nullptr;
 		}
 		float x = 0;
 		float y = 0;
@@ -90,9 +88,8 @@ namespace spruce {
 		setUniform(fontShader, "color",  color);
 		bind(font.texture);
 		setUniform(fontShader, "tex", font.texture);
-		fontMesh->vertices = (buffer<float>) coords;
-		fontMesh->toVRAM(fontShader);
-		render(fontMesh, fontShader, graphics::TRIANGLE);
+		fontVertices = (buffer<float>) coords;
+		render(fontVertices, fontIndices, fontShader, graphics::TRIANGLE);
 	}
 
 	void RenderAPI::renderLine(vec3f a, vec3f b, color colora, color colorb, mat4f camera) {
