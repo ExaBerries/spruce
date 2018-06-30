@@ -17,6 +17,8 @@
 namespace spruce {
 	namespace graphics {
 		extern float delta;
+		extern uint16 width;
+		extern uint16 height;
 
 		CommandBuffer& getCommandBuffer();
 		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
@@ -35,8 +37,8 @@ namespace spruce {
 		void renderLine(vec3f a, vec3f b, color colora, color colorb, Camera* camera);
 		void renderRect(vec3f pos, vec2f size, color color, quaternion rotation, Camera* camera);
 
-		uint16 getWidth();
-		uint16 getHeight();
+		uint16 getWindowWidth();
+		uint16 getWindowHeight();
 		vec3f getNDCSize();
 
 		string getGPUVendor();

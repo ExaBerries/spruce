@@ -15,6 +15,8 @@
 namespace spruce {
 	namespace graphics {
 		float delta;
+		uint16 width;
+		uint16 height;
 
 		CommandBuffer& getCommandBuffer() {
 			return app::encode->getCommandBuffer();
@@ -160,11 +162,11 @@ namespace spruce {
 			getCommandBuffer().add(new RenderRectCommand(pos, size, color, rotation, cameraTrans));
 		}
 
-		uint16 getWidth() {
+		uint16 getWindowWidth() {
 			return app::window->width;
 		}
 
-		uint16 getHeight() {
+		uint16 getWindowHeight() {
 			return app::window->height;
 		}
 
