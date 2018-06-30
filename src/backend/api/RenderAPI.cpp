@@ -50,17 +50,17 @@ namespace spruce {
 			if (p < 0) {
 				continue;
 			}
-			float x2 = x + font.chars[p].bl * size.x;
-			float y2 = -y - font.chars[p].bt * size.y;
-			float w = font.chars[p].bw * size.x;
-			float h = font.chars[p].bh * size.y;
+			float x2 = x + font.chars[p].bl * size.x / font.size;
+			float y2 = -y - font.chars[p].bt * size.y / font.size;
+			float w = font.chars[p].bw * size.x / font.size;
+			float h = font.chars[p].bh * size.y / font.size;
 			if (p == '\n') {
 				y -= h + 0.02;
 				x = 0;
 				continue;
 			}
-			x += font.chars[p].ax * size.x;
-			y += font.chars[p].ay * size.y;
+			x += font.chars[p].ax * size.x / font.size;
+			y += font.chars[p].ay * size.y / font.size;
 			if (w == 0 || h == 0) {
 				continue;
 			}

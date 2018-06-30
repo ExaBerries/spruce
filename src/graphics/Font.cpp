@@ -5,8 +5,9 @@
 #include FT_FREETYPE_H
 
 namespace spruce {
-	Font::Font(FileHandle fileHandle) : fileHandle(fileHandle) {
+	Font::Font(FileHandle fileHandle, uint16 size) : fileHandle(fileHandle) {
 		texture = nullptr;
+		this->size = size;
 	}
 
 	Font::~Font() {
@@ -26,7 +27,7 @@ namespace spruce {
 			serr("could not open font file");
 			return;
 		}
-		FT_Set_Pixel_Sizes(face, 0, 48);
+		FT_Set_Pixel_Sizes(face, 0, size);
 		if (FT_Load_Char(face, 'X', FT_LOAD_RENDER)) {
 			serr("Could not load character 'X'");
 			return;

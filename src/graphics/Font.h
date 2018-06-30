@@ -17,8 +17,9 @@ namespace spruce {
 			} chars[128];
 			FileHandle fileHandle;
 			Texture* texture;
+			uint16 size;
 
-			Font(FileHandle fileHandle);
+			Font(FileHandle fileHandle, uint16 size);
 			Font(const Font& font) = delete;
 			virtual ~Font();
 
