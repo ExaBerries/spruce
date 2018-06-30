@@ -121,6 +121,10 @@ namespace spruce {
 	}
 
 	void OpenGL::render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
+		if (vertices.size == 0) {
+			serr("no vertices to render");
+			return;
+		}
 		GLuint vao = 0;
 		GLuint vbo = 0;
 		GLuint ibo = 0;

@@ -60,12 +60,11 @@ namespace spruce {
 			#endif
 			#endif
 			while (window->open) {
-				os::updateStart();
-				api->renderStart();
 				graphics::delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
-				delete execute;
+				#ifndef PIPELINE_OFF
 				execute = encode;
+				#endif
 				encode = new Frame();
 				if (screen != nullptr) {
 					#ifndef PIPELINE_OFF
@@ -79,6 +78,11 @@ namespace spruce {
 				uint64 startTime = sys::timeNano();
 				#endif
 				#endif
+				#ifdef PIPELINE_OFF
+				execute = encode;
+				#endif
+				os::updateStart();
+				api->renderStart();
 				buffer<CommandBuffer*> commandBuffers = execute->getCommandBuffers();
 				for (CommandBuffer* cmdBuffer : commandBuffers) {
 					for (Command* command : cmdBuffer->commands) {
@@ -93,6 +97,8 @@ namespace spruce {
 				#endif
 				#endif
 				commandBuffers.free();
+				delete execute;
+				execute = nullptr;
 				waitForMainTasks();
 				api->renderEnd();
 				os::updateEnd();
@@ -133,7 +139,7 @@ namespace spruce {
 			if (api == OPENGL) {
 				app::api = new OpenGL(window);
 			} else if (api == VULKAN) {
-				slog("unsupported API ", api);
+				serr("unsupported API ", api);
 				exit(EXIT_FAILURE);
 			} else if (api == METAL) {
 				app::api = new Metal(window);
@@ -160,8 +166,16 @@ namespace spruce {
 		}
 
 		void clearCommands() {
-			encode->mainCommandBuffer.reset();
-			execute->mainCommandBuffer.reset();
+			if (encode != nullptr) {
+				for (auto& entry : encode->commandBuffers) {
+					entry.second.reset();
+				}
+			}
+			if (execute != nullptr) {
+				for (auto& entry : execute->commandBuffers) {
+					entry.second.reset();
+				}
+			}
 		}
 	}
 }

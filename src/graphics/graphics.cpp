@@ -45,14 +45,14 @@ namespace spruce {
 				memcpy(&glFragSize, data + i, sizeof(uint32));
 				i += sizeof(uint32);
 				if (app::apiType == app::OPENGL) {
-					string vertSource = string((char*)(buffer<char>) data + i);
-					string fragSource = string((char*)(buffer<char>) data + i + glVertSourceSize);
+					string vertSource = string((char*) data + i);
+					string fragSource = string((char*) data + i + glVertSourceSize);
 					i += glVertSourceSize + glFragSourceSize;
 					buffer<uint8> vertexData(glVertSize / sizeof(uint8));
 					memcpy(vertexData, data + i, glVertSize);
 					buffer<uint8> fragmentData(glFragSize / sizeof(uint8));
 					memcpy(fragmentData, data + i + glVertSize, glFragSize);
-					delete[] data;
+					data.free();
 					if (os::supportsPrecompiledShader(app::OPENGL)) {
 						return app::api->createShader(vertexData, fragmentData, attributes);
 					} else {
@@ -72,29 +72,29 @@ namespace spruce {
 					}
 					buffer<uint8> metalData(metalSize / sizeof(uint8));
 					memcpy(metalData, data + i, metalSize);
-					delete[] data;
+					data.free();
 					return app::api->createShader(metalData, buffer<uint8>(nullptr), attributes);
 				}
 				i += metalSize;
 				if (app::apiType == app::VULKAN) {
 					serr("unsupported api");
-					delete[] data;
+					data.free();
 					return nullptr; // TODO create Vulkan shader from SPIR-V data
 				}
 				if (app::apiType == app::DX11) {
 					serr("unsupported api");
-					delete[] data;
+					data.free();
 					return nullptr; // TODO support dx11 HLSL
 				}
 				if (app::apiType == app::DX12) {
 					serr("unsupported api");
-					delete[] data;
+					data.free();
 					return nullptr; // TODO support dx12 HLSL
 				}
 			} else {
 				serr("invalid version of spruce-shader");
 			}
-			delete[] data;
+			data.free();
 			return nullptr;
 		}
 

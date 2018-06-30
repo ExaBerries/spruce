@@ -6,7 +6,6 @@
 namespace spruce {
 	class Frame {
 		public:
-			CommandBuffer mainCommandBuffer;
 			std::map<std::thread::id, CommandBuffer> commandBuffers;
 			#ifdef DEBUG
 			#ifdef PROFILE

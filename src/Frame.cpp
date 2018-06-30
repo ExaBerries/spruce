@@ -1,4 +1,4 @@
-#include <Frame.h>
+ #include <Frame.h>
 #include <backend/task/taskmanager.h>
 #ifdef DEBUG
 #ifdef PROFILE
@@ -21,7 +21,6 @@ namespace spruce {
 	}
 
 	Frame::Frame(const Frame& frame) {
-		this->mainCommandBuffer = frame.mainCommandBuffer;
 		this->commandBuffers = frame.commandBuffers;
 		#ifdef DEBUG
 		#ifdef PROFILE
@@ -35,7 +34,6 @@ namespace spruce {
 	}
 
 	Frame::~Frame() {
-		mainCommandBuffer.reset();
 		for (auto& cmdBuffer : commandBuffers) {
 			cmdBuffer.second.reset();
 		}
@@ -55,18 +53,12 @@ namespace spruce {
 	}
 
 	CommandBuffer& Frame::getCommandBuffer() {
-		for (auto& cmdBuffer : commandBuffers) {
-			if (cmdBuffer.first == std::this_thread::get_id()) {
-				return cmdBuffer.second;
-			}
-		}
-		return mainCommandBuffer;
+		return commandBuffers[std::this_thread::get_id()];
 	}
 
 	buffer<CommandBuffer*> Frame::getCommandBuffers() {
-		buffer<CommandBuffer*> cmdBuffers(commandBuffers.size() + 1);
+		buffer<CommandBuffer*> cmdBuffers(commandBuffers.size());
 		uint16 i = 0;
-		cmdBuffers[i++] = &mainCommandBuffer;
 		for (auto& cmdBuffer : commandBuffers) {
 			cmdBuffers[i++] = &cmdBuffer.second;
 		}
@@ -74,7 +66,6 @@ namespace spruce {
 	}
 
 	Frame& Frame::operator=(Frame frame) {
-		this->mainCommandBuffer = frame.mainCommandBuffer;
 		this->commandBuffers = frame.commandBuffers;
 		#ifdef DEBUG
 		#ifdef PROFILE

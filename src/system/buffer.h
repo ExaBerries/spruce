@@ -79,6 +79,11 @@ namespace spruce {
 			return data;
 		}
 
+		template <typename OTHERTYPE>
+		explicit operator OTHERTYPE*() const {
+			return (OTHERTYPE*) data;
+		}
+
 		buffer<TYPE>& operator=(std::nullptr_t) {
 			size = 0;
 			data = nullptr;

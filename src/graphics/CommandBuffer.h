@@ -6,6 +6,7 @@ namespace spruce {
 	class CommandBuffer {
 		public:
 			std::vector<Command*> commands;
+			bool locked;
 
 			CommandBuffer();
 			CommandBuffer(const CommandBuffer& cmdBuffer);

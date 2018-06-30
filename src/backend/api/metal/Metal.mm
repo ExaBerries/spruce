@@ -69,7 +69,12 @@ namespace spruce {
 			return;
 		}
 		[renderEncoder endEncoding];
-		[commandBuffer presentDrawable:[view getDrawable]];
+		id<CAMetalDrawable> drawable = [view getDrawable];
+		if (drawable != nil) {
+			[commandBuffer presentDrawable:[view getDrawable]];
+		} else {
+			serr("drawable is nil");
+		}
 		[commandBuffer commit];
 		[view releaseDrawable];
 		[commandBuffer release];
@@ -144,6 +149,7 @@ namespace spruce {
 			memcpy(vertexBuffer.contents, vertices.data, vertices.size * sizeof(float));
 			[vertexBuffer didModifyRange:NSMakeRange(0, vertices.size * sizeof(float))];
 		} else {
+			serr("no vertices to render");
 			return;
 		}
 		if (indices.size > 0) {

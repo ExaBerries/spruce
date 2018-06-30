@@ -61,7 +61,7 @@ namespace spruce {
 			}
 			x += font.chars[p].ax * size.x;
 			y += font.chars[p].ay * size.y;
-			if (!w || !h) {
+			if (w == 0 || h == 0) {
 				continue;
 			}
 			coords[n].position = position + vec3f(x2, -y2, 0) * rotation;
@@ -83,13 +83,20 @@ namespace spruce {
 			coords[n].coord = vec2f(font.chars[p].tx + font.chars[p].bw / font.texture->width, font.chars[p].bh / font.texture->height);
 			n++;
 		}
+		for (uint32 i = n; i < coords.size; i++) {
+			coords[i].position = vec3f(0, 0, 0);
+			coords[i].coord = vec2f(0, 0);
+		}
 		bind(fontShader);
 		setUniform(fontShader, "camera", camera);
 		setUniform(fontShader, "color",  color);
 		bind(font.texture);
 		setUniform(fontShader, "tex", font.texture);
 		fontVertices = (buffer<float>) coords;
+		fontIndices = nullptr;
 		render(fontVertices, fontIndices, fontShader, graphics::TRIANGLE);
+		coords.free();
+		fontVertices = nullptr;
 	}
 
 	void RenderAPI::renderLine(vec3f a, vec3f b, color colora, color colorb, mat4f camera) {

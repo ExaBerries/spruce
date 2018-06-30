@@ -272,7 +272,7 @@ namespace spruce {
 		uint64 getL1CacheSize() {
 			uint64 l1CacheSize = 0;
 			size_t size = sizeof(l1CacheSize);
-			sysctlbyname("hw.l1icachesize", &l1CacheSize, &size, NULL, 0);
+			sysctlbyname("hw.l1dcachesize", &l1CacheSize, &size, NULL, 0);
 			return l1CacheSize;
 		}
 
