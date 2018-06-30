@@ -31,6 +31,8 @@ namespace spruce {
 			debug = false;
 			encode = new Frame();
 			execute = new Frame();
+			graphics::width = graphics::getWindowWidth();
+			graphics::height = graphics::getWindowHeight();
 		}
 
 		void encodeFrame(float delta) {
