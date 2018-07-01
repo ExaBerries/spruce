@@ -9,7 +9,7 @@ namespace spruce {
 		}
 
 		bool rbool(seed& seed) {
-			std::uniform_real_distribution<bool> intDis = std::uniform_real_distribution<bool>(0, 1);
+			std::uniform_int_distribution<bool> intDis = std::uniform_int_distribution<bool>(false, true);
 			return intDis(seed.mt);
 		}
 
