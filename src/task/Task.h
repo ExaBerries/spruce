@@ -33,6 +33,12 @@ namespace spruce {
 			~Task() {
 				task::deincrementRef(id);
 			}
+
+			Task& operator=(const Task& task) {
+				this->id = task.id;
+				task::incrementRef(id);
+				return *this;
+			}
 	};
 
 	template < typename ... TYPES>
@@ -56,6 +62,12 @@ namespace spruce {
 
 			~Task() {
 				task::deincrementRef(id);
+			}
+
+			Task& operator=(const Task& task) {
+				this->id = task.id;
+				task::incrementRef(id);
+				return *this;
 			}
 	};
 

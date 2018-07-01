@@ -15,6 +15,9 @@ namespace spruce {
 			TaskGroup() {
 			}
 
+			TaskGroup(const TaskGroup& group) : tasks(group.tasks) {
+			}
+
 			~TaskGroup() {
 			}
 
