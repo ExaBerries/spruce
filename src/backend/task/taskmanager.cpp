@@ -59,10 +59,10 @@ namespace spruce {
 			if (concurrentTasks.size() > 0) {
 				TaskBackend* task = concurrentTasks[0];
 				uint32 eraseIndex = 0;
-				for (uint32 i = 1; i < mainTasks.size(); i++) {
+				for (uint32 i = 1; i < concurrentTasks.size(); i++) {
 					if (concurrentTasks[i] != nullptr) {
 						if (compareTasks(task, concurrentTasks[i])) {
-							task = mainTasks[i];
+							task = concurrentTasks[i];
 							eraseIndex = i;
 						}
 					}
