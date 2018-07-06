@@ -3,7 +3,9 @@
 #include <API.h>
 #include <backend/Window.h>
 #include <graphics/Screen.h>
-#include <Frame.h>
+#include <pipeline/Pipeline.h>
+#include <pipeline/SimplePipeline.h>
+#include <pipeline/EncodeExecutePipeline.h>
 
 namespace spruce {
 	class RenderAPI;
@@ -14,13 +16,13 @@ namespace spruce {
 		extern RenderAPI* api;
 		extern graphics::Screen* screen;
 		extern bool debug;
-		extern Frame* encode;
-		extern Frame* execute;
+		extern Pipeline* pipeline;
 
 		void init();
 		void run();
 		void free();
 
+		void setPipeline(Pipeline* pipeline);
 		void setRenderAPI(API api);
 		void setScreen(graphics::Screen* newScreen);
 		void clearCommands();
