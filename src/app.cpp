@@ -1,12 +1,11 @@
 #include <app.h>
+#include <backend/api/RenderAPI.h>
 #include <backend/api/opengl/OpenGL.h>
 #include <backend/api/metal/Metal.h>
-#include <backend/api/RenderAPI.h>
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
 #include <graphics/graphics.h>
-#include <backend/task/taskmanager.h>
 #ifdef DEBUG
 #ifdef PROFILE
 #include <util/profile/profile.h>
@@ -20,8 +19,7 @@ namespace spruce {
 		RenderAPI* api;
 		graphics::Screen* screen;
 		bool debug;
-		Frame* encode;
-		Frame* execute;
+		Pipeline* pipeline;
 
 		void init() {
 			os::init();
@@ -30,29 +28,9 @@ namespace spruce {
 			window = os::createWindow();
 			screen = nullptr;
 			debug = false;
-			encode = new Frame();
-			execute = nullptr;
+			pipeline = nullptr;
 			graphics::width = graphics::getWindowWidth();
 			graphics::height = graphics::getWindowHeight();
-		}
-
-		void encodeFrame(float delta) {
-			#ifdef DEBUG
-			#ifdef PROFILE
-			uint64 startTime = sys::timeNano();
-			#endif
-			#endif
-			screen->update(delta);
-			screen->render(delta);
-			waitForGraphicsTasks(true);
-			#ifdef DEBUG
-			#ifdef PROFILE
-			uint64 endTime = sys::timeNano();
-			encode->encodeStartTime = startTime;
-			encode->encodeEndTime = endTime;
-			encode->delta = delta;
-			#endif
-			#endif
 		}
 
 		void run() {
@@ -65,46 +43,7 @@ namespace spruce {
 			while (window->open) {
 				graphics::delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
-				#ifndef PIPELINE_OFF
-				execute = encode;
-				#endif
-				encode = new Frame();
-				if (screen != nullptr) {
-					#ifndef PIPELINE_OFF
-					Task<void(float)> task = createTask(std::function<void(float)>(encodeFrame), task::ENGINE, true, graphics::delta);
-					#else
-					encodeFrame(graphics::delta);
-					#endif
-				}
-				#ifdef DEBUG
-				#ifdef PROFILE
-				uint64 startTime = sys::timeNano();
-				#endif
-				#endif
-				#ifdef PIPELINE_OFF
-				execute = encode;
-				#endif
-				os::updateStart();
-				api->renderStart();
-				buffer<CommandBuffer*> commandBuffers = execute->getCommandBuffers();
-				for (CommandBuffer* cmdBuffer : commandBuffers) {
-					for (Command* command : cmdBuffer->commands) {
-						command->execute();
-					}
-				}
-				#ifdef DEBUG
-				#ifdef PROFILE
-				uint64 endTime = sys::timeNano();
-				execute->executeStartTime = startTime;
-				execute->executeEndTime = endTime;
-				#endif
-				#endif
-				commandBuffers.free();
-				delete execute;
-				execute = nullptr;
-				waitForMainTasks();
-				api->renderEnd();
-				os::updateEnd();
+				pipeline->execute();
 				mem::update();
 			}
 		}
@@ -126,6 +65,13 @@ namespace spruce {
 			util::profile::dataMutex.unlock();
 			#endif
 			#endif
+		}
+
+		void setPipeline(Pipeline* pipeline) {
+			if (app::pipeline != nullptr) {
+				delete app::pipeline;
+			}
+			app::pipeline = pipeline;
 		}
 
 		void setRenderAPI(API api) {
@@ -173,16 +119,7 @@ namespace spruce {
 		}
 
 		void clearCommands() {
-			if (encode != nullptr) {
-				for (auto& entry : encode->commandBuffers) {
-					entry.second.reset();
-				}
-			}
-			if (execute != nullptr) {
-				for (auto& entry : execute->commandBuffers) {
-					entry.second.reset();
-				}
-			}
+			pipeline->clearCommands();
 		}
 	}
 }

@@ -19,7 +19,7 @@ namespace spruce {
 		uint16 height;
 
 		CommandBuffer& getCommandBuffer() {
-			return app::encode->getCommandBuffer();
+			return app::pipeline->getCommandBuffer();
 		}
 
 		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) {
