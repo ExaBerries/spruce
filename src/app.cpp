@@ -30,7 +30,7 @@ namespace spruce {
 			window = os::createWindow();
 			debug = false;
 			encode = new Frame();
-			execute = new Frame();
+			execute = nullptr;
 			graphics::width = graphics::getWindowWidth();
 			graphics::height = graphics::getWindowHeight();
 		}
