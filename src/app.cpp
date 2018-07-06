@@ -28,6 +28,7 @@ namespace spruce {
 			task::init();
 			api = nullptr;
 			window = os::createWindow();
+			screen = nullptr;
 			debug = false;
 			encode = new Frame();
 			execute = nullptr;
@@ -164,7 +165,11 @@ namespace spruce {
 		}
 
 		void setScreen(graphics::Screen* newScreen) {
+			if (screen != nullptr) {
+				delete screen;
+			}
 			screen = newScreen;
+			clearCommands();
 		}
 
 		void clearCommands() {
