@@ -28,7 +28,8 @@ namespace spruce {
 			string shapeFrag;
 			buffer<VertexAttribute> shapeAttributes;
 			Shader* shapeShader;
-			Mesh* shapeMesh;
+			buffer<float> shapeVertices;
+			buffer<uint16> shapeIndices;
 
 			struct FontVertex {
 				vec3f position;

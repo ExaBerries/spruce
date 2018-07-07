@@ -9,6 +9,11 @@ namespace spruce {
 		uint64 size;
 		TYPE* data;
 
+		buffer() {
+			size = 0;
+			data = nullptr;
+		}
+
 		buffer(uint64 size) {
 			this->size = size;
 			this->data = (TYPE*) mem::allocBuffer(size * sizeof(TYPE));

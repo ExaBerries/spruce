@@ -2,12 +2,11 @@
 #include <common.h>
 
 namespace spruce {
-	RenderAPI::RenderAPI(Window* window, vec3f ndcSize) : fontAttributes(nullptr), fontVertices(nullptr), fontIndices(nullptr), shapeAttributes(nullptr) {
+	RenderAPI::RenderAPI(Window* window, vec3f ndcSize) {
 		this->window = window;
 		this->ndcSize = ndcSize;
 		this->fontShader = nullptr;
 		this->shapeShader = nullptr;
-		this->shapeMesh = nullptr;
 	}
 
 	RenderAPI::~RenderAPI() {
@@ -29,8 +28,11 @@ namespace spruce {
 		if (shapeShader != nullptr) {
 			delete shapeShader;
 		}
-		if (shapeMesh != nullptr) {
-			delete shapeMesh;
+		if (shapeVertices != nullptr) {
+			shapeVertices.free();
+		}
+		if (shapeIndices != nullptr) {
+			shapeIndices.free();
 		}
 	}
 
@@ -100,50 +102,47 @@ namespace spruce {
 	}
 
 	void RenderAPI::renderLine(vec3f a, vec3f b, color colora, color colorb, mat4f camera) {
-		if (shapeShader == nullptr || shapeMesh == nullptr) {
+		if (shapeShader == nullptr) {
 			return;
 		}
-		shapeMesh->vertices.free();
-		shapeMesh->indices.free();
-		buffer<float> vertices(14);
-		buffer<uint16> indices(2);
+		shapeVertices = buffer<float>(14);
+		shapeIndices = buffer<uint16>(2);
 		uint16 i = 0;
 		uint16 lineVertexCount = 0;
-		vertices[lineVertexCount++] = a.x;
-		vertices[lineVertexCount++] = a.y;
-		vertices[lineVertexCount++] = a.z;
-		vertices[lineVertexCount++] = colora.r;
-		vertices[lineVertexCount++] = colora.g;
-		vertices[lineVertexCount++] = colora.b;
-		vertices[lineVertexCount++] = colora.a;
-		indices[i++] = 0;
-		vertices[lineVertexCount++] = b.x;
-		vertices[lineVertexCount++] = b.y;
-		vertices[lineVertexCount++] = b.z;
-		vertices[lineVertexCount++] = colorb.r;
-		vertices[lineVertexCount++] = colorb.g;
-		vertices[lineVertexCount++] = colorb.b;
-		vertices[lineVertexCount++] = colorb.a;
-		indices[i++] = 1;
-		shapeMesh->vertices = vertices;
-		shapeMesh->indices = indices;
-		shapeMesh->toVRAM(shapeShader);
+		shapeVertices[lineVertexCount++] = a.x;
+		shapeVertices[lineVertexCount++] = a.y;
+		shapeVertices[lineVertexCount++] = a.z;
+		shapeVertices[lineVertexCount++] = colora.r;
+		shapeVertices[lineVertexCount++] = colora.g;
+		shapeVertices[lineVertexCount++] = colora.b;
+		shapeVertices[lineVertexCount++] = colora.a;
+		shapeIndices[i++] = 0;
+		shapeVertices[lineVertexCount++] = b.x;
+		shapeVertices[lineVertexCount++] = b.y;
+		shapeVertices[lineVertexCount++] = b.z;
+		shapeVertices[lineVertexCount++] = colorb.r;
+		shapeVertices[lineVertexCount++] = colorb.g;
+		shapeVertices[lineVertexCount++] = colorb.b;
+		shapeVertices[lineVertexCount++] = colorb.a;
+		shapeIndices[i++] = 1;
 		bind(shapeShader);
 		setUniform(shapeShader, "camera", camera);
-		render(shapeMesh, shapeShader, graphics::LINE);
+		render(shapeVertices, shapeIndices, shapeShader, graphics::LINE);
+		shapeVertices.free();
+		shapeIndices.free();
 	}
 
 	void RenderAPI::renderRect(vec3f pos, vec2f size, color color, quaternion rotation, mat4f camera) {
-		if (shapeShader == nullptr || shapeMesh == nullptr) {
+		if (shapeShader == nullptr) {
 			return;
 		}
-		shapeMesh->vertices.free();
-		shapeMesh->indices.free();
 		struct ShapeVertex {
 			vec3f position;
 			spruce::color color;
 		};
-		buffer<ShapeVertex> vertices(4);
+		shapeVertices = buffer<float>(4 * sizeof(ShapeVertex) / sizeof(float));
+		shapeIndices = buffer<uint16>(6);
+		buffer<ShapeVertex> vertices = (buffer<ShapeVertex>) shapeVertices;
 		buffer<uint16> indices(6);
 		vec3f halfSize = vec3f(size, 0) / 2;
 		vertices[0].position = pos - (halfSize * rotation);
@@ -154,17 +153,16 @@ namespace spruce {
 		vertices[2].color = color;
 		vertices[3].position = pos + (halfSize * rotation);
 		vertices[3].color = color;
-		indices[0] = 0;
-		indices[1] = 1;
-		indices[2] = 2;
-		indices[3] = 2;
-		indices[4] = 1;
-		indices[5] = 3;
-		shapeMesh->vertices = (buffer<float>) vertices;
-		shapeMesh->indices = indices;
-		shapeMesh->toVRAM(shapeShader);
+		shapeIndices[0] = 0;
+		shapeIndices[1] = 1;
+		shapeIndices[2] = 2;
+		shapeIndices[3] = 2;
+		shapeIndices[4] = 1;
+		shapeIndices[5] = 3;
 		bind(shapeShader);
 		setUniform(shapeShader, "camera", camera);
-		render(shapeMesh, shapeShader, graphics::TRIANGLE);
+		render(shapeVertices, shapeIndices, shapeShader, graphics::TRIANGLE);
+		shapeVertices.free();
+		shapeIndices.free();
 	}
 }

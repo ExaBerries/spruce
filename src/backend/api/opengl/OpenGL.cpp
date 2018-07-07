@@ -43,7 +43,6 @@ namespace spruce {
 		shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
 		shapeShader->compile(nullptr);
 		shapeShader->registerUniform("camera", Shader::VERTEX, 1);
-		shapeMesh = createMesh(nullptr, nullptr);
 	}
 
 	void OpenGL::renderStart() {
