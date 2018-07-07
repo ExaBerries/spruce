@@ -5,6 +5,7 @@
 #include <backend/api/opengl/OpenGLTexture.h>
 #include <backend/api/opengl/OpenGLRenderTarget.h>
 #include <io/image.h>
+#include <graphics/graphics.h>
 
 namespace spruce {
 	OpenGL::OpenGL(Window* window) : RenderAPI(window, vec3f(2, 2, 2)) {
@@ -27,7 +28,6 @@ namespace spruce {
 
 	void OpenGL::init() {
 		makeContextCurrent(window);
-		swapInterval(window, 1);
 		window->setVisible(true);
 		fontAttributes = buffer<VertexAttribute>(2);
 		fontAttributes[0] = VertexAttribute("position", 3);
@@ -47,6 +47,8 @@ namespace spruce {
 	}
 
 	void OpenGL::renderStart() {
+		makeContextCurrent(window);
+		swapInterval(window, spruce::graphics::vsync);
 		glViewport(0, 0, window->width, window->height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}

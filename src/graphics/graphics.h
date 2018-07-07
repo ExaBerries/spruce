@@ -19,6 +19,7 @@ namespace spruce {
 		extern float delta;
 		extern uint16 width;
 		extern uint16 height;
+		extern bool vsync;
 
 		CommandBuffer& getCommandBuffer();
 		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);

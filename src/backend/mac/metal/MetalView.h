@@ -6,6 +6,7 @@
 #import <Metal/MTLDrawable.h>
 
 @interface MetalView : SpruceView {
+	CAMetalLayer* mlayer;
 	id<MTLTexture> depthTexture;
 	id<CAMetalDrawable> drawable;
 	MTLRenderPassDescriptor* renderPassDescriptor;

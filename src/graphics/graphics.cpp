@@ -17,6 +17,7 @@ namespace spruce {
 		float delta;
 		uint16 width;
 		uint16 height;
+		bool vsync;
 
 		CommandBuffer& getCommandBuffer() {
 			return app::pipeline->getCommandBuffer();

@@ -1,6 +1,7 @@
 #include <backend/mac/metal/MetalView.h>
 #include <backend/api/metal/MetalContext.h>
 #include <log.h>
+#include <graphics/graphics.h>
 
 @implementation MetalView
 - (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)_window {
@@ -10,23 +11,26 @@
 }
 
 - (CALayer*) makeBackingLayer {
-	uint16 width = self.frame.size.width;
-	uint16 height = self.frame.size.height;
-	CAMetalLayer* layer = [[CAMetalLayer alloc] init];
-	layer.device = spruce::device;
-	layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
-	layer.colorspace = CGColorSpaceCreateDeviceRGB();
-	layer.wantsExtendedDynamicRangeContent = YES;
-	layer.displaySyncEnabled = YES;
-	layer.framebufferOnly = YES;
-	layer.drawableSize = CGSizeMake(width, height);
-	self.layer = layer;
-	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:width height:height mipmapped:NO];
+	mlayer = [[CAMetalLayer alloc] init];
+	mlayer.device = spruce::device;
+	mlayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+	mlayer.colorspace = CGColorSpaceCreateDeviceRGB();
+	mlayer.wantsExtendedDynamicRangeContent = YES;
+	if (spruce::graphics::vsync) {
+		mlayer.displaySyncEnabled = YES;
+	} else {
+		mlayer.displaySyncEnabled = NO;
+	}
+	mlayer.framebufferOnly = YES;
+	mlayer.drawableSize = CGSizeMake(spruce::graphics::width, spruce::graphics::height);
+	mlayer.magnificationFilter = kCAFilterNearest;
+	self.layer = mlayer;
+	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:spruce::graphics::width height:spruce::graphics::height mipmapped:NO];
 	desc.resourceOptions = MTLResourceStorageModePrivate;
 	desc.storageMode = MTLStorageModePrivate;
 	desc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
 	depthTexture = [spruce::device newTextureWithDescriptor:desc];
-	return layer;
+	return mlayer;
 }
 
 - (void) dealloc {
@@ -42,7 +46,18 @@
 }
 
 - (void) update {
-	drawable = [((CAMetalLayer*)self.layer) nextDrawable];
+	mlayer.drawableSize = CGSizeMake(spruce::graphics::width, spruce::graphics::height);
+	if (spruce::graphics::vsync) {
+		mlayer.displaySyncEnabled = YES;
+	} else {
+		mlayer.displaySyncEnabled = NO;
+	}
+	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:spruce::graphics::width height:spruce::graphics::height mipmapped:NO];
+	desc.resourceOptions = MTLResourceStorageModePrivate;
+	desc.storageMode = MTLStorageModePrivate;
+	desc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
+	depthTexture = [spruce::device newTextureWithDescriptor:desc];
+	drawable = [mlayer nextDrawable];
 	[renderPassDescriptor release];
 	renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
 	renderPassDescriptor.colorAttachments[0].texture = drawable.texture;

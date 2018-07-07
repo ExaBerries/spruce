@@ -31,6 +31,7 @@ namespace spruce {
 			pipeline = nullptr;
 			graphics::width = graphics::getWindowWidth();
 			graphics::height = graphics::getWindowHeight();
+			graphics::vsync = true;
 		}
 
 		void run() {
