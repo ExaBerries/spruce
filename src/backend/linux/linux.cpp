@@ -1,0 +1,212 @@
+﻿#include <backend/os.h>
+#include <system/system.h>
+#include <input/input.h>
+#include <app.h>
+#include <backend/linux/X11Window.h>
+#include <X11/X.h>
+#include <X11/Xlib.h>
+
+namespace spruce {
+	namespace os {
+		buffer<uint16> keyCodes(nullptr);
+		Display* display;
+
+		void init() {
+			keyCodes = buffer<uint16>(80);
+			keyCodes[input::A] = 0x00;
+			keyCodes[input::B] = 0x0B;
+			keyCodes[input::C] = 0x08;
+			keyCodes[input::D] = 0x02;
+			keyCodes[input::E] = 0x0E;
+			keyCodes[input::F] = 0x03;
+			keyCodes[input::G] = 0x05;
+			keyCodes[input::H] = 0x04;
+			keyCodes[input::I] = 0x22;
+			keyCodes[input::J] = 0x26;
+			keyCodes[input::K] = 0x28;
+			keyCodes[input::L] = 0x25;
+			keyCodes[input::M] = 0x2E;
+			keyCodes[input::N] = 0x2D;
+			keyCodes[input::O] = 0x1F;
+			keyCodes[input::P] = 0x23;
+			keyCodes[input::Q] = 0x0C;
+			keyCodes[input::R] = 0x0F;
+			keyCodes[input::S] = 0x01;
+			keyCodes[input::T] = 0x11;
+			keyCodes[input::U] = 0x20;
+			keyCodes[input::V] = 0x09;
+			keyCodes[input::W] = 0x0D;
+			keyCodes[input::X] = 0x07;
+			keyCodes[input::Y] = 0x10;
+			keyCodes[input::Z] = 0x06;
+			keyCodes[input::ZERO] = 0x1D;
+			keyCodes[input::ONE] = 0x12;
+			keyCodes[input::TWO] = 0x13;
+			keyCodes[input::THREE] = 0x14;
+			keyCodes[input::FOUR] = 0x15;
+			keyCodes[input::FIVE] = 0x17;
+			keyCodes[input::SIX] = 0x18;
+			keyCodes[input::SEVEN] = 0x1A;
+			keyCodes[input::EIGHT] = 0x1C;
+			keyCodes[input::NINE] = 0x19;
+			keyCodes[input::ENTER] = 0x24;
+			keyCodes[input::ESCAPE] = 0x35;
+			keyCodes[input::DELETE] = 0x75;
+			keyCodes[input::HOME] = 0x73;
+			keyCodes[input::INSERT] = 0x72;
+			keyCodes[input::END] = 0x77;
+			keyCodes[input::PAGE_UP] = 0x74;
+			keyCodes[input::PAGE_DOWN] = 0x79;
+			keyCodes[input::TAB] = 0x30;
+			keyCodes[input::SPACE] = 0x31;
+			keyCodes[input::SEMICOLON] = 0x29;
+			keyCodes[input::APOSTROPHE] = 0x27;
+			keyCodes[input::SLASH] = 0x2C;
+			keyCodes[input::BACKSLASH] = 0x2A;
+			keyCodes[input::PERIOD] = 0x2F;
+			keyCodes[input::COMMA] = 0x2B;
+			keyCodes[input::EQUAL] = 0x18;
+			keyCodes[input::MINUS] = 0x1B;
+			keyCodes[input::LEFT_BRACKET] = 0x21;
+			keyCodes[input::RIGHT_BRACKET] = 0x1E;
+			keyCodes[input::ARROW_LEFT] = 0x7B;
+			keyCodes[input::ARROW_RIGHT] = 0x7C;
+			keyCodes[input::ARROW_UP] = 0x7E;
+			keyCodes[input::ARROW_DOWN] = 0x7D;
+			keyCodes[input::SHIFT_LEFT] = 0x38;
+			keyCodes[input::SHIFT_RIGHT] = 0x3C;
+			keyCodes[input::CONTROL_LEFT] = 0x3B;
+			keyCodes[input::CONTROL_RIGHT] = 0x3E;
+			keyCodes[input::ALT_LEFT] = 0x3A;
+			keyCodes[input::ALT_RIGHT] = 0x3D;
+			keyCodes[input::SUPER_LEFT] = 0x37;
+			keyCodes[input::SUPER_RIGHT] = 0x36;
+			keyCodes[input::F1] = 0x7A;
+			keyCodes[input::F2] = 0x7B;
+			keyCodes[input::F3] = 0x63;
+			keyCodes[input::F4] = 0x76;
+			keyCodes[input::F5] = 0x60;
+			keyCodes[input::F6] = 0x61;
+			keyCodes[input::F7] = 0x62;
+			keyCodes[input::F8] = 0x64;
+			keyCodes[input::F9] = 0x65;
+			keyCodes[input::F10] = 0x6D;
+			keyCodes[input::F11] = 0x67;
+			keyCodes[input::F12] = 0x6F;
+			display = XOpenDisplay(NULL);
+			if (display == nullptr) {
+				serr("x-server error could not get display");
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		void free() {
+			XOpenDisplay(NULL);
+			XCloseDisplay(display);
+		}
+
+		Window* createWindow() {
+			return new X11Window(display);
+		}
+
+		bool supportsAPI(app::API api) {
+			if (api == app::OPENGL) {
+				return true;
+			} else if (api == app::VULKAN) {
+				return true;
+			}
+			return false;
+		}
+
+		bool supportsPrecompiledShader(app::API api) {
+			return false;
+		}
+
+		void updateStart() {
+			XEvent event;
+			/*XNextEvent(display, &event);
+			if (event.type == Expose) {
+				// VSYNC?
+				slog("ex");
+			} else if (event.type == KeyPress) {
+				// TODO key input
+				slog("kp");
+			} else {
+				slog("mc");
+			}
+			*/
+		}
+
+		void updateEnd() {
+		}
+
+		uint16 codeFor(input::Key key) {
+			return keyCodes[key];
+		}
+
+		string getHomePath() {
+			return getenv("HOME");
+		}
+
+		string getBasePathInternal() {
+			if (app::debug) {
+				return "assets/";
+			} else {
+				return "";
+			}
+		}
+
+		string getBasePathExternal() {
+			return string();
+		}
+
+		bool isDir(string path) {
+			return false;
+		}
+
+		bool exists(string path) {
+			return false;
+		}
+
+		void createDir(string path) {
+		}
+	}
+
+	namespace sys {
+		string getCPUName() {
+			return "";
+		}
+
+		uint16 getCPUCoreCount() {
+			return 0;
+		}
+
+		uint64 getCPUFrequency() {
+			return 0;
+		}
+
+		uint64 getCacheLineSize() {
+			return 0;
+		}
+
+		uint64 getL1CacheSize() {
+			return 0; 
+		}
+
+		uint64 getL2CacheSize() {
+			return 0;
+		}
+
+		uint64 getL3CacheSize() {
+			return 0;
+		}
+
+		uint64 getRAMSize() {
+			return 0;
+		}
+
+		uint64 getSwapUsed() {
+			return 0;
+		}
+	}
+}

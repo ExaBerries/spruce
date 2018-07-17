@@ -9,8 +9,8 @@ namespace spruce {
 		}
 
 		bool rbool(seed& seed) {
-			std::uniform_int_distribution<bool> intDis = std::uniform_int_distribution<bool>(false, true);
-			return intDis(seed.mt);
+			std::uniform_int_distribution<int8> intDis = std::uniform_int_distribution<int8>(0, 1);
+			return (intDis(seed.mt) == 1) ? true : false;
 		}
 
 		int32 randSign(seed& seed) {

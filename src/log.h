@@ -1,6 +1,8 @@
 #pragma once
 #include <types.h>
 #include <iostream>
+#include <mutex>
+#include <vector>
 #define FOREACH_VARIADIC(EXPR, ARGS) (int[]){((void)(EXPR(std::forward<TYPES>(ARGS))),0)...,0}
 
 namespace spruce {

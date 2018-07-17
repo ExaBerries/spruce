@@ -67,7 +67,7 @@ namespace spruce {
 	void OpenGLShader::compileSource() {
 		const char* vertCStr = vertSource.c_str();
 		vert = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vert, 1, &vertCStr, NULL);
+		glShaderSource(vert, 1, &vertCStr, nullptr);
 		glCompileShader(vert);
 		GLint vertSuccess = 0;
 		glGetShaderiv(vert, GL_COMPILE_STATUS, &vertSuccess);
@@ -87,7 +87,7 @@ namespace spruce {
 
 		const char* fragCStr = fragSource.c_str();
 		frag = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(frag, 1, &fragCStr, NULL);
+		glShaderSource(frag, 1, &fragCStr, nullptr);
 		glCompileShader(frag);
 		GLint fragSuccess = 0;
 		glGetShaderiv(frag, GL_COMPILE_STATUS, &fragSuccess);
@@ -115,7 +115,7 @@ namespace spruce {
 		program = glCreateProgram();
 		glAttachShader(program, vert);
 		glAttachShader(program, frag);
-		for (int i = 0; i < attributes.size; i++) {
+		for (uint32 i = 0; i < attributes.size; i++) {
 			glBindAttribLocation(program, i, attributes[i].name.c_str());
 		}
 		glLinkProgram(program);

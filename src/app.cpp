@@ -1,7 +1,9 @@
 #include <app.h>
 #include <backend/api/RenderAPI.h>
 #include <backend/api/opengl/OpenGL.h>
+#ifdef __APPLE__
 #include <backend/api/metal/Metal.h>
+#endif
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
@@ -92,7 +94,12 @@ namespace spruce {
 				serr("unsupported API ", api);
 				exit(EXIT_FAILURE);
 			} else if (api == METAL) {
-				app::api = new Metal(window);
+				#ifdef __APPLE__
+					app::api = new Metal(window);
+				#else
+					serr("unsupported API", api);
+					exit(EXIT_FAILURE);
+				#endif
 			} else if (api == METAL2) {
 				serr("unsupported API ", api);
 				exit(EXIT_FAILURE);

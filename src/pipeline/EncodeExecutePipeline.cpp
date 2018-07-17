@@ -27,7 +27,7 @@ namespace spruce {
 		#endif
 		encodeFrame = new Frame();
 		if (app::screen != nullptr) {
-			Task<void(float)> task = createTask(std::function<void(float)>(spruce::encodeFrame), task::ENGINE, true, graphics::delta);
+			Task<void(float)> task = createTask<float>(std::function<void(float)>(spruce::encodeFrame), task::ENGINE, true, graphics::delta);
 		}
 		#ifdef DEBUG
 		#ifdef PROFILE

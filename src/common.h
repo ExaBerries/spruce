@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <stdio.h>
+#include <cstring>
 
 #ifdef __cplusplus
 #include <string>
