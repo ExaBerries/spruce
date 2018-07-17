@@ -1,4 +1,5 @@
-﻿#include <backend/linux/opengl/OpenGLHook.h>
+﻿#ifdef __LINUX__
+#include <backend/linux/opengl/OpenGLHook.h>
 #include <backend/linux/X11Window.h>
 #include <graphics/graphics.h>
 
@@ -65,3 +66,4 @@ namespace spruce {
 	void X11Window::setCursorMode(input::CursorMode mode) {
 	}
 }
+#endif

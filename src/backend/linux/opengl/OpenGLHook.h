@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __LINUX__
 #include <common.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -22,3 +23,4 @@ namespace spruce {
 			void windowCreated(XWindow window);
 	};
 }
+#endif

@@ -1,4 +1,5 @@
 #include <backend/linux/opengl/OpenGLHook.h>
+#ifdef __LINUX__
 #define GLX_CONTEXT_MAJOR_VERSION_ARB       0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB       0x2092
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
@@ -44,7 +45,7 @@ namespace spruce {
 		XFree(fbc);
 		context = 0;
 		window = 0;
-	}
+	}∫
 
 	OpenGLHook::~OpenGLHook() {
 		XFree(visualInfo);
@@ -75,3 +76,4 @@ namespace spruce {
 		glewInit();
 	}
 }
+#endif

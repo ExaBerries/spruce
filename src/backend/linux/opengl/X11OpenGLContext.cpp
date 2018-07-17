@@ -1,4 +1,5 @@
 #include <backend/api/opengl/OpenGLContext.h>
+#ifdef __LINUX__
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <backend/api/opengl/platform.h>
@@ -18,3 +19,4 @@ namespace spruce {
 	void swapInterval(Window* window, uint8 interval) {
 	}
 }
+#endif
