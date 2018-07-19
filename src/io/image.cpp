@@ -3,6 +3,12 @@
 
 namespace spruce {
 	namespace io {
+		ImageData loadImage(const FileHandle& file) {
+			ImageData data;
+			data.data = loadImage(file, data.width, data.height, data.bitsPerPixel);
+			return data;
+		}
+
 		buffer<uint8> loadImage(const FileHandle& file, uint16& width, uint16& height, uint16& bitsPerPixel) {
 			const char* pathCStr = file.absolutePath.c_str();
 			FREE_IMAGE_FORMAT format = FIF_UNKNOWN;
