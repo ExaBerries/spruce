@@ -1,4 +1,5 @@
-﻿#include <backend/os.h>
+﻿#ifdef __linux__
+#include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
 #include <app.h>
@@ -232,7 +233,7 @@ namespace spruce {
 		}
 
 		uint64 getL1CacheSize() {
-			return 0; 
+			return 0;
 		}
 
 		uint64 getL2CacheSize() {
@@ -252,3 +253,4 @@ namespace spruce {
 		}
 	}
 }
+#endif

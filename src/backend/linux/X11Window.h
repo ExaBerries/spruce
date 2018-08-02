@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __linux__
 #include <backend/linux/APIHook.h>
 #include <common.h>
 #include <backend/Window.h>
@@ -31,3 +32,4 @@ namespace spruce {
 			void setCursorMode(input::CursorMode mode);
 	};
 }
+#endif
