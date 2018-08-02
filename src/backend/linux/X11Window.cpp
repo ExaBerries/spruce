@@ -23,7 +23,7 @@ namespace spruce {
 		colormap = XCreateColormap(display, root, visual, AllocNone);
 		setAttributes.colormap = colormap;
 		setAttributes.background_pixmap = None;
-		setAttributes.event_mask = ExposureMask | KeyPressMask;
+		setAttributes.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | ButtonMotionMask | PointerMotionMask | FocusChangeMask | StructureNotifyMask | ExposureMask;
 		this->width = graphics::width;
 		if (width == 0) {
 			width = 1280;
