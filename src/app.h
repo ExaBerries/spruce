@@ -23,6 +23,7 @@ namespace spruce {
 		void free();
 
 		void setPipeline(Pipeline* pipeline);
+		bool supportsAPI(API api);
 		void setRenderAPI(API api);
 		void setScreen(graphics::Screen* newScreen);
 		void clearCommands();
