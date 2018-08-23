@@ -8,6 +8,7 @@
 #include <array>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <stack>
 #include <log.h>
 #include <system/time.h>
