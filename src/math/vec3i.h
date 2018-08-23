@@ -38,6 +38,9 @@ namespace spruce {
 		friend vec3i operator*(const vec3i left, int32 value);
 		friend vec3i operator/(const vec3i left, int32 value);
 
+		bool operator==(const vec3i& vector) const;
+		bool operator!=(const vec3i& vector) const;
+
 		vec3i& operator+=(const vec3i& vector);
 		vec3i& operator-=(const vec3i& vector);
 
