@@ -1,4 +1,4 @@
-﻿#ifdef __LINUX__
+﻿#ifdef __linux__
 #include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
@@ -14,86 +14,86 @@ namespace spruce {
 
 		void init() {
 			keyCodes = buffer<uint16>(80);
-			keyCodes[input::A] = 0x00;
-			keyCodes[input::B] = 0x0B;
-			keyCodes[input::C] = 0x08;
-			keyCodes[input::D] = 0x02;
-			keyCodes[input::E] = 0x0E;
-			keyCodes[input::F] = 0x03;
-			keyCodes[input::G] = 0x05;
-			keyCodes[input::H] = 0x04;
-			keyCodes[input::I] = 0x22;
-			keyCodes[input::J] = 0x26;
-			keyCodes[input::K] = 0x28;
-			keyCodes[input::L] = 0x25;
-			keyCodes[input::M] = 0x2E;
-			keyCodes[input::N] = 0x2D;
-			keyCodes[input::O] = 0x1F;
-			keyCodes[input::P] = 0x23;
-			keyCodes[input::Q] = 0x0C;
-			keyCodes[input::R] = 0x0F;
-			keyCodes[input::S] = 0x01;
-			keyCodes[input::T] = 0x11;
-			keyCodes[input::U] = 0x20;
-			keyCodes[input::V] = 0x09;
-			keyCodes[input::W] = 0x0D;
-			keyCodes[input::X] = 0x07;
-			keyCodes[input::Y] = 0x10;
-			keyCodes[input::Z] = 0x06;
-			keyCodes[input::ZERO] = 0x1D;
-			keyCodes[input::ONE] = 0x12;
-			keyCodes[input::TWO] = 0x13;
-			keyCodes[input::THREE] = 0x14;
-			keyCodes[input::FOUR] = 0x15;
-			keyCodes[input::FIVE] = 0x17;
-			keyCodes[input::SIX] = 0x18;
-			keyCodes[input::SEVEN] = 0x1A;
-			keyCodes[input::EIGHT] = 0x1C;
-			keyCodes[input::NINE] = 0x19;
-			keyCodes[input::ENTER] = 0x24;
-			keyCodes[input::ESCAPE] = 0x35;
-			keyCodes[input::DELETE] = 0x75;
-			keyCodes[input::HOME] = 0x73;
-			keyCodes[input::INSERT] = 0x72;
-			keyCodes[input::END] = 0x77;
-			keyCodes[input::PAGE_UP] = 0x74;
-			keyCodes[input::PAGE_DOWN] = 0x79;
-			keyCodes[input::TAB] = 0x30;
-			keyCodes[input::SPACE] = 0x31;
-			keyCodes[input::SEMICOLON] = 0x29;
-			keyCodes[input::APOSTROPHE] = 0x27;
-			keyCodes[input::SLASH] = 0x2C;
-			keyCodes[input::BACKSLASH] = 0x2A;
-			keyCodes[input::PERIOD] = 0x2F;
-			keyCodes[input::COMMA] = 0x2B;
-			keyCodes[input::EQUAL] = 0x18;
-			keyCodes[input::MINUS] = 0x1B;
-			keyCodes[input::LEFT_BRACKET] = 0x21;
-			keyCodes[input::RIGHT_BRACKET] = 0x1E;
-			keyCodes[input::ARROW_LEFT] = 0x7B;
-			keyCodes[input::ARROW_RIGHT] = 0x7C;
-			keyCodes[input::ARROW_UP] = 0x7E;
-			keyCodes[input::ARROW_DOWN] = 0x7D;
-			keyCodes[input::SHIFT_LEFT] = 0x38;
-			keyCodes[input::SHIFT_RIGHT] = 0x3C;
-			keyCodes[input::CONTROL_LEFT] = 0x3B;
-			keyCodes[input::CONTROL_RIGHT] = 0x3E;
-			keyCodes[input::ALT_LEFT] = 0x3A;
-			keyCodes[input::ALT_RIGHT] = 0x3D;
-			keyCodes[input::SUPER_LEFT] = 0x37;
-			keyCodes[input::SUPER_RIGHT] = 0x36;
-			keyCodes[input::F1] = 0x7A;
-			keyCodes[input::F2] = 0x7B;
-			keyCodes[input::F3] = 0x63;
-			keyCodes[input::F4] = 0x76;
-			keyCodes[input::F5] = 0x60;
-			keyCodes[input::F6] = 0x61;
-			keyCodes[input::F7] = 0x62;
-			keyCodes[input::F8] = 0x64;
-			keyCodes[input::F9] = 0x65;
-			keyCodes[input::F10] = 0x6D;
-			keyCodes[input::F11] = 0x67;
-			keyCodes[input::F12] = 0x6F;
+			keyCodes[input::A] = 38;
+			keyCodes[input::B] = 56;
+			keyCodes[input::C] = 54;
+			keyCodes[input::D] = 40;
+			keyCodes[input::E] = 26;
+			keyCodes[input::F] = 41;
+			keyCodes[input::G] = 42;
+			keyCodes[input::H] = 43;
+			keyCodes[input::I] = 31;
+			keyCodes[input::J] = 44;
+			keyCodes[input::K] = 45;
+			keyCodes[input::L] = 46;
+			keyCodes[input::M] = 58;
+			keyCodes[input::N] = 57;
+			keyCodes[input::O] = 32;
+			keyCodes[input::P] = 33;
+			keyCodes[input::Q] = 24;
+			keyCodes[input::R] = 27;
+			keyCodes[input::S] = 39;
+			keyCodes[input::T] = 28;
+			keyCodes[input::U] = 30;
+			keyCodes[input::V] = 55;
+			keyCodes[input::W] = 25;
+			keyCodes[input::X] = 53;
+			keyCodes[input::Y] = 29;
+			keyCodes[input::Z] = 52;
+			keyCodes[input::ZERO] = 19;
+			keyCodes[input::ONE] = 10;
+			keyCodes[input::TWO] = 11;
+			keyCodes[input::THREE] = 12;
+			keyCodes[input::FOUR] = 13;
+			keyCodes[input::FIVE] = 14;
+			keyCodes[input::SIX] = 15;
+			keyCodes[input::SEVEN] = 16;
+			keyCodes[input::EIGHT] = 17;
+			keyCodes[input::NINE] = 18;
+			keyCodes[input::ENTER] = 36;
+			keyCodes[input::ESCAPE] = 9;
+			keyCodes[input::DELETE] = 51;
+			keyCodes[input::HOME] = 0; // TODO get keycode
+			keyCodes[input::INSERT] = 0; // TODO get keycode
+			keyCodes[input::END] = 0; // TODO get keycode
+			keyCodes[input::PAGE_UP] = 0; // TODO get keycode
+			keyCodes[input::PAGE_DOWN] = 0; // TODO get keycode
+			keyCodes[input::TAB] = 23;
+			keyCodes[input::SPACE] = 64;
+			keyCodes[input::SEMICOLON] = 47;
+			keyCodes[input::APOSTROPHE] = 49;
+			keyCodes[input::SLASH] = 61;
+			keyCodes[input::BACKSLASH] = 51;
+			keyCodes[input::PERIOD] = 60;
+			keyCodes[input::COMMA] = 59;
+			keyCodes[input::EQUAL] = 21;
+			keyCodes[input::MINUS] = 20;
+			keyCodes[input::LEFT_BRACKET] = 34;
+			keyCodes[input::RIGHT_BRACKET] = 35;
+			keyCodes[input::ARROW_LEFT] = 113;
+			keyCodes[input::ARROW_RIGHT] = 114;
+			keyCodes[input::ARROW_UP] = 111;
+			keyCodes[input::ARROW_DOWN] = 116;
+			keyCodes[input::SHIFT_LEFT] = 50;
+			keyCodes[input::SHIFT_RIGHT] = 62;
+			keyCodes[input::CONTROL_LEFT] = 37;
+			keyCodes[input::CONTROL_RIGHT] = 0; // TODO get keycode
+			keyCodes[input::ALT_LEFT] = 64;
+			keyCodes[input::ALT_RIGHT] = 108;
+			keyCodes[input::SUPER_LEFT] = 133;
+			keyCodes[input::SUPER_RIGHT] = 134;
+			keyCodes[input::F1] = 67;
+			keyCodes[input::F2] = 68;
+			keyCodes[input::F3] = 69;
+			keyCodes[input::F4] = 70;
+			keyCodes[input::F5] = 71;
+			keyCodes[input::F6] = 72;
+			keyCodes[input::F7] = 73;
+			keyCodes[input::F8] = 74;
+			keyCodes[input::F9] = 75;
+			keyCodes[input::F10] = 76;
+			keyCodes[input::F11] = 95;
+			keyCodes[input::F12] = 96;
 			display = XOpenDisplay(NULL);
 			if (display == nullptr) {
 				serr("x-server error could not get display");
@@ -125,17 +125,59 @@ namespace spruce {
 
 		void updateStart() {
 			XEvent event;
-			/*XNextEvent(display, &event);
-			if (event.type == Expose) {
-				// VSYNC?
-				slog("ex");
-			} else if (event.type == KeyPress) {
-				// TODO key input
-				slog("kp");
-			} else {
-				slog("mc");
+			while (XPending(display)) {
+				XNextEvent(display, &event);
+				if (event.type == KeyPress) {
+					XKeyEvent kevent = event.xkey;
+					for (uint16 i = 0; i < input::processors.size(); i++) {
+						input::processors[i]->keyDown(kevent.keycode);
+					}
+				} else if (event.type == KeyRelease) {
+					XKeyEvent kevent = event.xkey;
+					for (uint16 i = 0; i < input::processors.size(); i++) {
+						input::processors[i]->keyUp(kevent.keycode);
+					}
+				} else if (event.type == ButtonPress) {
+					XButtonEvent bevent = event.xbutton;
+					input::MouseButton btn;
+					if (bevent.button == 1) {
+						btn = input::LEFT;
+					} else if (bevent.button == 2) {
+						btn = input::CENTER;
+					} else if (bevent.button == 3) {
+						btn = input::RIGHT;
+					}
+					for (uint16 i = 0; i < input::processors.size(); i++) {
+						input::processors[i]->mouseDown(btn);
+					}
+				} else if (event.type == ButtonRelease) {
+					XButtonEvent bevent = event.xbutton;
+					input::MouseButton btn;
+					if (bevent.button == 1) {
+						btn = input::LEFT;
+					} else if (bevent.button == 2) {
+						btn = input::CENTER;
+					} else if (bevent.button == 3) {
+						btn = input::RIGHT;
+					}
+					for (uint16 i = 0; i < input::processors.size(); i++) {
+						input::processors[i]->mouseUp(btn);
+					}
+				} else if (event.type == MotionNotify) {
+					XButtonEvent bevent = event.xbutton;
+					vec2f newPos = vec2f(bevent.x, bevent.y);
+					newPos.x /= app::window->width;
+					newPos.y /= app::window->height;
+					newPos -= vec2f(0.5);
+					for (uint16 i = 0; i < input::processors.size(); i++) {
+						input::processors[i]->mouseMove(newPos);
+					}
+				} else  if (event.type == ConfigureNotify) {
+					XConfigureEvent xcevent = event.xconfigure;
+					app::window->width = xcevent.width;
+					app::window->height = xcevent.height;
+				}
 			}
-			*/
 		}
 
 		void updateEnd() {

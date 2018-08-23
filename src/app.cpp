@@ -77,6 +77,10 @@ namespace spruce {
 			app::pipeline = pipeline;
 		}
 
+		bool supportsAPI(API api) {
+			return os::supportsAPI(api);
+		}
+
 		void setRenderAPI(API api) {
 			waitForMainTasks();
 			if (app::api != nullptr) {

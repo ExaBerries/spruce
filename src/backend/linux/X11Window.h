@@ -1,5 +1,5 @@
 #pragma once
-#ifdef __LINUX__
+#ifdef __linux__
 #include <backend/linux/APIHook.h>
 #include <common.h>
 #include <backend/Window.h>
