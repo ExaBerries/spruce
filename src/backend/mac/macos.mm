@@ -7,6 +7,7 @@
 #include <sys/sysctl.h>
 #include <sys/stat.h>
 #include <system/system.h>
+#include <dirent.h>
 
 @interface CocoaApp : NSApplication {
 }
@@ -237,6 +238,23 @@ namespace spruce {
 
 		void createDir(string path) {
 			mkdir(path.c_str(), S_IWUSR);
+		}
+
+		std::vector<string> listSubFiles(string path) {
+			std::vector<string> subFiles;
+			DIR* dir;
+			struct dirent* entry;
+			if ((dir  = opendir(path.c_str())) == NULL) {
+				serr("error calling opendir on ", path);
+			}
+			while ((entry = readdir(dir)) != NULL) {
+				string name(entry->d_name);
+				if (name != string(".") && name != string("..")) {
+					subFiles.push_back(name);
+				}
+			}
+			closedir(dir);
+			return subFiles;
 		}
 	}
 

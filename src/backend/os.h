@@ -24,5 +24,6 @@ namespace spruce {
 		bool isDir(string path);
 		bool exists(string path);
 		void createDir(string path);
+		std::vector<string> listSubFiles(string path);
 	}
 }
