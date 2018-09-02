@@ -40,3 +40,16 @@ namespace spruce {
 		friend std::ostream& operator<<(std::ostream& stream, const mat4f& matrix);
 	};
 }
+
+namespace std {
+	template <>
+	struct hash<spruce::mat4f> {
+		size_t operator()(const spruce::mat4f& m) const {
+			size_t hash = 0;
+			for (uint16 i = 0; i < 16; i++) {
+				hash ^= std::hash<float>()(m.values[i]) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+			}
+			return hash;
+		}
+	};
+}

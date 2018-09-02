@@ -52,3 +52,12 @@ namespace spruce {
 		friend std::ostream& operator<<(std::ostream& stream, const vec2i& vector);
     };
 }
+
+namespace std {
+	template <>
+	struct hash<spruce::vec2i> {
+		size_t operator()(const spruce::vec2i& v) const {
+			return std::hash<int32>()(v.x) ^ (std::hash<int32>()(v.y) << 1);
+		}
+	};
+}

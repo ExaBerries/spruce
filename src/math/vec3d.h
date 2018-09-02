@@ -60,3 +60,12 @@ namespace spruce {
 		static vec3d lerp(const vec3d& a, const vec3d& b, double alpha);
 	};
 }
+
+namespace std {
+	template <>
+	struct hash<spruce::vec3d> {
+		size_t operator()(const spruce::vec3d& v) const {
+			return std::hash<double>()(v.x) ^ (std::hash<double>()(v.y) << 1) ^ (std::hash<double>()(v.z) << 2);
+		}
+	};
+}

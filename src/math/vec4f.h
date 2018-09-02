@@ -61,3 +61,12 @@ namespace spruce {
 			static vec4f lerp(const vec4f& a, const vec4f& b, float alpha);
 	};
 }
+
+namespace std {
+	template <>
+	struct hash<spruce::vec4f> {
+		size_t operator()(const spruce::vec4f& v) const {
+			return std::hash<float>()(v.x) ^ (std::hash<float>()(v.y) << 1) ^ (std::hash<float>()(v.z) << 2) ^ (std::hash<float>()(v.w) << 3);
+		}
+	};
+}

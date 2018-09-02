@@ -53,3 +53,12 @@ namespace spruce {
 		static vec2f lerp(const vec2f& a, const vec2f& b, float alpha);
 	};
 }
+
+namespace std {
+	template <>
+	struct hash<spruce::vec2f> {
+		size_t operator()(const spruce::vec2f& v) const {
+			return std::hash<float>()(v.x) ^ (std::hash<float>()(v.y) << 1);
+		}
+	};
+}
