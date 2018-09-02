@@ -11,6 +11,7 @@ namespace spruce {
 	class RenderAPI;
 
 	namespace app {
+		extern std::vector<std::function<void()>> freeCallbacks;
 		extern Window* window;
 		extern API apiType;
 		extern RenderAPI* api;
