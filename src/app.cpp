@@ -126,9 +126,6 @@ namespace spruce {
 		}
 
 		void setScreen(graphics::Screen* newScreen) {
-			if (screen != nullptr) {
-				delete screen;
-			}
 			screen = newScreen;
 			clearCommands();
 		}
