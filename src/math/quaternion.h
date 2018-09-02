@@ -48,3 +48,13 @@ namespace spruce {
 		static quaternion lerp(const quaternion& a, const quaternion& b, float alpha);
 	};
 }
+
+namespace std {
+	template <>
+	struct hash<spruce::quaternion> {
+		size_t operator()(const spruce::quaternion& q) const {
+			return std::hash<float>()(q.x) ^ (std::hash<float>()(q.y) << 1) ^ (std::hash<float>()(q.z) << 2) ^ (std::hash<float>()(q.w) << 3);
+		}
+	};
+}
+
