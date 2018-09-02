@@ -61,7 +61,6 @@ namespace spruce {
 				window->close();
 			}
 			delete window;
-			delete screen;
 			delete api;
 			task::free();
 			os::free();
