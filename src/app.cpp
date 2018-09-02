@@ -17,6 +17,7 @@
 
 namespace spruce {
 	namespace app {
+		std::vector<std::function<void()>> freeCallbacks;
 		Window* window;
 		API apiType;
 		RenderAPI* api;
@@ -53,6 +54,9 @@ namespace spruce {
 		}
 
 		void free() {
+			for (std::function<void()>& callback : freeCallbacks) {
+				callback();
+			}
 			if (window->open) {
 				window->close();
 			}
