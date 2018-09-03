@@ -301,7 +301,7 @@ namespace spruce {
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, const Texture* texture) {
+	void Metal::setUniform(Shader* shader, string name, Texture* texture) {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		if (uniformData.location == Shader::VERTEX) {
 			[renderEncoder setVertexTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformData.index];
@@ -310,7 +310,7 @@ namespace spruce {
 		}
 	}
 
-	void Metal::setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) {
+	void Metal::setUniform(Shader* shader, string name, graphics::RenderPass* renderPass) {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		id<MTLTexture> texture;
 		if (((MetalRenderTarget*)renderPass->target)->color != nullptr) {
