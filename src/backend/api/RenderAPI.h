@@ -64,8 +64,8 @@ namespace spruce {
 			virtual void setUniform(Shader* shader, string name, const mat4f& matrix) = 0;
 			virtual void setUniform(Shader* shader, string name, const quaternion& quaternion) = 0;
 			virtual void setUniform(Shader* shader, string name, const color& color) = 0;
-			virtual void setUniform(Shader* shader, string name, const Texture* texture) = 0;
-			virtual void setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) = 0;
+			virtual void setUniform(Shader* shader, string name, Texture* texture) = 0;
+			virtual void setUniform(Shader* shader, string name, graphics::RenderPass* renderPass) = 0;
 
 			virtual Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) = 0;
 			virtual Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) = 0;
