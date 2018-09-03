@@ -43,7 +43,7 @@ namespace spruce {
 			void setUniform(string name, const mat4f& matrix);
 			void setUniform(string name, const quaternion& quaternion);
 			void setUniform(string name, const color& color);
-			void setUniform(string name, const Texture* texture);
-			void setUniform(string name, const graphics::RenderPass* renderPass);
+			void setUniform(string name, Texture* texture);
+			void setUniform(string name, graphics::RenderPass* renderPass);
 	};
 }
