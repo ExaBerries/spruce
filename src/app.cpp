@@ -133,5 +133,9 @@ namespace spruce {
 		void clearCommands() {
 			pipeline->clearCommands();
 		}
+
+		void addFreeCallback(std::function<void()> function) {
+			freeCallbacks.push_back(function);
+		}
 	}
 }

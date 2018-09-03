@@ -15,6 +15,6 @@ namespace spruce {
 			virtual ~RenderMeshCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

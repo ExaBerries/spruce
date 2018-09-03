@@ -17,6 +17,6 @@ namespace spruce {
 			virtual ~RenderRectCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

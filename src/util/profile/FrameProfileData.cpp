@@ -1,4 +1,6 @@
 #include <util/profile/FrameProfileData.h>
+#ifdef DEBUG
+#ifdef PROFILE
 
 namespace spruce {
 	namespace util {
@@ -14,11 +16,11 @@ namespace spruce {
 			FrameProfileData::~FrameProfileData() {
 			}
 
-			uint32 FrameProfileData::size() {
+			uint32 FrameProfileData::size() const {
 				return sizeof(uint64) + sizeof(uint64) + sizeof(uint64) + sizeof(uint64) + sizeof(float);
 			}
 
-			void FrameProfileData::serialize(uint8* data, uint32& i, uint32 size) {
+			void FrameProfileData::serialize(uint8* data, uint32& i, uint32 size) const {
 				memcpy(data + i, &encodeStartTime, sizeof(uint64));
 				i += sizeof(uint64);
 				memcpy(data + i, &encodeEndTime, sizeof(uint64));
@@ -48,3 +50,5 @@ namespace spruce {
 		}
 	}
 }
+#endif
+#endif

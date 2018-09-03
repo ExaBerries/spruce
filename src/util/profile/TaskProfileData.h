@@ -18,8 +18,8 @@ namespace spruce {
 					TaskProfileData(const TaskProfileData& data);
 					virtual ~TaskProfileData();
 
-					uint32 size();
-					void serialize(uint8* data, uint32& i, uint32 size);
+					uint32 size() const;
+					void serialize(uint8* data, uint32& i, uint32 size) const;
 					TaskProfileData deserialize(uint8* data, uint32& i, uint32 size);
 			};
 		}

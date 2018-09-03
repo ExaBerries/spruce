@@ -12,6 +12,6 @@ namespace spruce {
 			virtual ~ShaderBindCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

@@ -21,6 +21,6 @@ namespace spruce {
 			virtual ~RenderFontCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

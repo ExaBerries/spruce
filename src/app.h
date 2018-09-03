@@ -28,5 +28,6 @@ namespace spruce {
 		void setRenderAPI(API api);
 		void setScreen(graphics::Screen* newScreen);
 		void clearCommands();
+		void addFreeCallback(std::function<void()> function);
 	}
 }
