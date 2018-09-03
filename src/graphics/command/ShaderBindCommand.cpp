@@ -14,7 +14,7 @@ namespace spruce {
 		app::api->bind(shader);
 	}
 
-	string ShaderBindCommand::getName() {
+	string ShaderBindCommand::getName() const {
 		return "ShaderBind";
 	}
 }

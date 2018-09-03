@@ -12,6 +12,6 @@ namespace spruce {
 			virtual ~RenderPassCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

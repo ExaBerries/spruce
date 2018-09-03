@@ -21,7 +21,7 @@ namespace spruce {
 		}
 	}
 
-	string RenderBufferCommand::getName() {
+	string RenderBufferCommand::getName() const {
 		return "RenderBuffer";
 	}
 }

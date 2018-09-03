@@ -10,6 +10,6 @@ namespace spruce {
 			Rectangle(vec2f size);
 			virtual ~Rectangle();
 
-			static bool overlap(Rectangle a, vec2f apos, Rectangle b, vec2f bpos);
+			static bool overlap(const Rectangle& a, const vec2f& apos, const Rectangle& b, const vec2f& bpos);
 	};
 }
