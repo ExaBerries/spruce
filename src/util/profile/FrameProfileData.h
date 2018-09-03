@@ -1,4 +1,6 @@
 #pragma once
+#ifdef DEBUG
+#ifdef PROFILE
 #include <common.h>
 
 namespace spruce {
@@ -15,10 +17,12 @@ namespace spruce {
 					FrameProfileData();
 					virtual ~FrameProfileData();
 
-					uint32 size();
-					void serialize(uint8* data, uint32& i, uint32 size);
+					uint32 size() const;
+					void serialize(uint8* data, uint32& i, uint32 size) const;
 					FrameProfileData deserialize(uint8* data, uint32& i, uint32 size);
 			};
 		}
 	}
 }
+#endif
+#endif

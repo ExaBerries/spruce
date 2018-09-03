@@ -13,7 +13,7 @@ namespace spruce {
 		app::api->renderRect(pos, size, color, rotation, camera);
 	}
 
-	string RenderRectCommand::getName() {
+	string RenderRectCommand::getName() const {
 		return "RenderRect";
 	}
 }

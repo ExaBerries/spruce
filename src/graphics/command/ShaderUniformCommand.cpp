@@ -112,7 +112,7 @@ namespace spruce {
 		}
 	}
 
-	string ShaderUniformCommand::getName() {
+	string ShaderUniformCommand::getName() const {
 		return "ShaderUniform";
 	}
 }

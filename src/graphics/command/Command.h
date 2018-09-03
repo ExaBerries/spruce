@@ -8,6 +8,6 @@ namespace spruce {
 			virtual ~Command();
 
 			virtual void execute() = 0;
-			virtual string getName() = 0;
+			virtual string getName() const = 0;
 	};
 }

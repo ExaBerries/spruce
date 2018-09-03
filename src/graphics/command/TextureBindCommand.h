@@ -12,6 +12,6 @@ namespace spruce {
 			virtual ~TextureBindCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

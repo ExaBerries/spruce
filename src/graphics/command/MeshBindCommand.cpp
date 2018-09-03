@@ -14,7 +14,7 @@ namespace spruce {
 		app::api->bind(mesh);
 	}
 
-	string MeshBindCommand::getName() {
+	string MeshBindCommand::getName() const {
 		return "MeshBind";
 	}
 }

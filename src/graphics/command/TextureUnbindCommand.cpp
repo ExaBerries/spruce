@@ -14,7 +14,7 @@ namespace spruce {
 		app::api->unbind(texture);
 	}
 
-	string TextureUnbindCommand::getName() {
+	string TextureUnbindCommand::getName() const {
 		return "TextureUnbind";
 	}
 }

@@ -21,7 +21,7 @@ namespace spruce {
 			FileHandle(FileHandleType type, string path);
 			virtual ~FileHandle();
 
-			buffer<FileHandle> list();
+			buffer<FileHandle> list() const;
 
 			friend std::ostream& operator<<(std::ostream& stream, const FileHandle& file);
 	};

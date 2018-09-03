@@ -14,7 +14,7 @@ namespace spruce {
 		app::api->renderStart(renderPass);
 	}
 
-	string RenderPassCommand::getName() {
+	string RenderPassCommand::getName() const {
 		return "RenderPass";
 	}
 }

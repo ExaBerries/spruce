@@ -11,6 +11,6 @@ namespace spruce {
 			virtual ~TextureUnbindCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

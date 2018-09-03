@@ -25,11 +25,7 @@ namespace spruce {
 				tasks.push_back(createTask(config));
 			}
 
-			void createTasks() {
-
-			}
-
-			bool complete() {
+			bool complete() const {
 				bool complete = true;
 				for (Task<OUTPUT(TYPES...)> task : tasks) {
 					if (!task.complete) {

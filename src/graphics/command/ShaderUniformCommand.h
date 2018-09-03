@@ -47,6 +47,6 @@ namespace spruce {
 			virtual ~ShaderUniformCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }
