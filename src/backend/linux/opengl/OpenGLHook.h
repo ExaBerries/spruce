@@ -21,6 +21,7 @@ namespace spruce {
 			Visual* getVisual();
 			uint32 getDepth();
 			void windowCreated(XWindow window);
+			void apiInitalized(XWindow window);
 	};
 }
 #endif

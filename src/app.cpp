@@ -4,6 +4,7 @@
 #ifdef __APPLE__
 #include <backend/api/metal/Metal.h>
 #endif
+#include <backend/api/vulkan/Vulkan.h>
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
@@ -95,8 +96,7 @@ namespace spruce {
 			if (api == OPENGL) {
 				app::api = new OpenGL(window);
 			} else if (api == VULKAN) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
+				app::api = new Vulkan(window);
 			} else if (api == METAL) {
 				#ifdef __APPLE__
 					app::api = new Metal(window);
@@ -118,7 +118,9 @@ namespace spruce {
 				serr("could not instantiate api ", api);
 				exit(EXIT_FAILURE);
 			}
-			app::api->init();
+			app::api->createContext();
+			window->apiInitalized();
+			app::api->surfaceCreated();
 			clearCommands();
 		}
 

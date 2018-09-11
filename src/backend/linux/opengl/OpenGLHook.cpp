@@ -61,7 +61,7 @@ namespace spruce {
 
 	void OpenGLHook::windowCreated(XWindow window) {
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
-		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc) glXGetProcAddressARB( (const GLubyte*) "glXCreateContextAttribsARB" );
+		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc) glXGetProcAddressARB((const GLubyte*) "glXCreateContextAttribsARB");
 		GLint catt[] {
 			GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
 			GLX_CONTEXT_MINOR_VERSION_ARB, 2,
@@ -74,6 +74,9 @@ namespace spruce {
 		this->window = window;
 		glXMakeCurrent(display, window, context);
 		glewInit();
+	}
+
+	void OpenGLHook::apiInitalized(XWindow window) {
 	}
 }
 #endif

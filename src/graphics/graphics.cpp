@@ -33,20 +33,20 @@ namespace spruce {
 				serr("could not read shader file: ", file);
 				return nullptr;
 			}
-			if (data[0] == 1) {
+			if (data[0] == 2) {
 				uint32 i = sizeof(uint8);
-				uint32 glVertSourceSize = 0;
-				memcpy(&glVertSourceSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
-				uint32 glFragSourceSize = 0;
-				memcpy(&glFragSourceSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
-				uint32 glVertSize = 0;
-				memcpy(&glVertSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
-				uint32 glFragSize = 0;
-				memcpy(&glFragSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
+				uint64 glVertSourceSize = 0;
+				memcpy(&glVertSourceSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 glFragSourceSize = 0;
+				memcpy(&glFragSourceSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 glVertSize = 0;
+				memcpy(&glVertSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 glFragSize = 0;
+				memcpy(&glFragSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
 				if (app::apiType == app::OPENGL) {
 					string vertSource = string((char*) data + i);
 					string fragSource = string((char*) data + i + glVertSourceSize);
@@ -56,7 +56,7 @@ namespace spruce {
 					buffer<uint8> fragmentData(glFragSize / sizeof(uint8));
 					memcpy(fragmentData, data + i + glVertSize, glFragSize);
 					data.free();
-					if (os::supportsPrecompiledShader(app::OPENGL)) {
+					if (os::supportsPrecompiledShader(app::OPENGL) && vertexData.size > 0) {
 						return app::api->createShader(vertexData, fragmentData, attributes);
 					} else {
 						return app::api->createShader(vertSource, fragSource, attributes);
@@ -65,9 +65,9 @@ namespace spruce {
 					i += glVertSourceSize + glFragSourceSize;
 				}
 				i += glVertSize + glFragSize;
-				uint32 metalSize = 0;
-				memcpy(&metalSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
+				uint64 metalSize = 0;
+				memcpy(&metalSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
 				if (app::apiType == app::METAL) {
 					if (metalSize == 0) {
 						serr("no metal shader data");
@@ -79,10 +79,26 @@ namespace spruce {
 					return app::api->createShader(metalData, buffer<uint8>(nullptr), attributes);
 				}
 				i += metalSize;
+				uint64 vkVertSize = 0;
+				memcpy(&vkVertSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 vkFragSize = 0;
+				memcpy(&vkFragSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
 				if (app::apiType == app::VULKAN) {
-					serr("unsupported api");
+					if (vkVertSize == 0) {
+						serr("no vulkan shader data");
+						return nullptr;
+					}
+					buffer<uint8> vertData(vkVertSize / sizeof(uint8));
+					memcpy(vertData, data + i, vkVertSize);
+					i += vkVertSize;
+					buffer<uint8> fragData(vkFragSize / sizeof(uint8));
+					memcpy(fragData, data + i, vkFragSize);
+					i += vkFragSize;
+					slog(vertData.size, " ", fragData.size);
 					data.free();
-					return nullptr; // TODO create Vulkan shader from SPIR-V data
+					return app::api->createShader(vertData, fragData, attributes);
 				}
 				if (app::apiType == app::DX11) {
 					serr("unsupported api");

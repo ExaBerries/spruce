@@ -1,5 +1,6 @@
 ﻿#ifdef __linux__
 #include <backend/linux/opengl/OpenGLHook.h>
+#include <backend/linux/vulkan/VulkanHook.h>
 #include <backend/linux/X11Window.h>
 #include <graphics/graphics.h>
 
@@ -41,13 +42,23 @@ namespace spruce {
 	}
 
 	void X11Window::initForAPI(app::API api) {
+		if (layer != nullptr) {
+			delete layer;
+			layer = nullptr;
+			XFreeColormap(display, colormap);
+			XDestroyWindow(display, window);
+		}
 		if (api == app::OPENGL) {
 			layer = new OpenGLHook(display);
 		} else if (api == app::VULKAN) {
-
+			layer = new VulkanHook(display);
 		}
 		createXWindow(layer->getVisual(), layer->getDepth());
 		layer->windowCreated(window);
+	}
+
+	void X11Window::apiInitalized() {
+		layer->apiInitalized(window);
 	}
 
 	void X11Window::setTitle(string title) {
@@ -61,6 +72,7 @@ namespace spruce {
 	}
 
 	void X11Window::close() {
+		open = false;
 	}
 
 	void X11Window::setCursorMode(input::CursorMode mode) {

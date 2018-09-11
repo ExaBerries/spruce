@@ -9,7 +9,7 @@
 namespace spruce {
 	extern MetalView* view;
 	extern std::vector<id<MTLDevice>> devices;
-	extern id<MTLDevice> device;
+	extern id<MTLDevice> physicalDevice;
 	extern id<MTLCommandQueue> commandQueue;
 	extern id<MTLCommandBuffer> commandBuffer;
 	extern id<MTLDepthStencilState> depthStencilState;

@@ -15,7 +15,8 @@ namespace spruce {
 			Vulkan(Window* window);
 			virtual ~Vulkan();
 
-			void init();
+			void createContext();
+			void surfaceCreated();
 			void renderStart();
 			void renderEnd();
 

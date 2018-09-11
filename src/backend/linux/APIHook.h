@@ -15,6 +15,7 @@ namespace spruce {
 			virtual Visual* getVisual() = 0;
 			virtual uint32 getDepth() = 0;
 			virtual void windowCreated(XWindow window) = 0;
+			virtual void apiInitalized(XWindow window) = 0;
 	};
 }
 #endif

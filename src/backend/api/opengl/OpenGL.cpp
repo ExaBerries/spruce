@@ -26,7 +26,10 @@ namespace spruce {
 	OpenGL::~OpenGL() {
 	}
 
-	void OpenGL::init() {
+	void OpenGL::createContext() {
+	}
+
+	void OpenGL::surfaceCreated() {
 		makeContextCurrent(window);
 		window->setVisible(true);
 		fontAttributes = buffer<VertexAttribute>(2);

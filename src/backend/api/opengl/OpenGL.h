@@ -15,7 +15,8 @@ namespace spruce {
 			OpenGL(Window* window);
 			~OpenGL();
 
-			void init();
+			void createContext();
+			void surfaceCreated();
 			void renderStart();
 			void renderEnd();
 
