@@ -13,7 +13,7 @@ namespace spruce {
 		app::api->renderLine(a, b, cola, colb, camera);
 	}
 
-	string RenderLineCommand::getName() {
+	string RenderLineCommand::getName() const {
 		return "RenderLine";
 	}
 }

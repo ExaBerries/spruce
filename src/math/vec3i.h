@@ -38,6 +38,9 @@ namespace spruce {
 		friend vec3i operator*(const vec3i left, int32 value);
 		friend vec3i operator/(const vec3i left, int32 value);
 
+		bool operator==(const vec3i& vector) const;
+		bool operator!=(const vec3i& vector) const;
+
 		vec3i& operator+=(const vec3i& vector);
 		vec3i& operator-=(const vec3i& vector);
 
@@ -48,5 +51,14 @@ namespace spruce {
 		vec3i& operator/=(int32 value);
 
 		friend std::ostream& operator<<(std::ostream& stream, const vec3i& vector);
+	};
+}
+
+namespace std {
+	template <>
+	struct hash<spruce::vec3i> {
+		size_t operator()(const spruce::vec3i& v) const {
+			return std::hash<int32>()(v.x) ^ (std::hash<int32>()(v.y) << 1) ^ (std::hash<int32>()(v.z) << 2);
+		}
 	};
 }

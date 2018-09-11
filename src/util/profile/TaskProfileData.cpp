@@ -24,11 +24,11 @@ namespace spruce {
 			TaskProfileData::~TaskProfileData() {
 			}
 
-			uint32 TaskProfileData::size() {
+			uint32 TaskProfileData::size() const {
 				return sizeof(uint32) + name.size() + 1 + sizeof(uint64) + sizeof(uint64) + sizeof(uint8) + sizeof(uint64);
 			}
 
-			void TaskProfileData::serialize(uint8* data, uint32& i, uint32 size) {
+			void TaskProfileData::serialize(uint8* data, uint32& i, uint32 size) const {
 				uint32 stringSize = name.size() + 1;
 				memcpy(data + i, &stringSize, sizeof(uint32));
 				i += sizeof(uint32);

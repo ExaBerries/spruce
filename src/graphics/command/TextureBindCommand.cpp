@@ -14,7 +14,7 @@ namespace spruce {
 		app::api->bind(texture);
 	}
 
-	string TextureBindCommand::getName() {
+	string TextureBindCommand::getName() const {
 		return "TextureBind";
 	}
 }

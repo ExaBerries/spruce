@@ -15,10 +15,13 @@ namespace spruce {
 			bool exists;
 			bool directory;
 
+			FileHandle();
 			FileHandle(FileHandleType type, const unsigned char* path);
 			FileHandle(FileHandleType type, const char* path);
 			FileHandle(FileHandleType type, string path);
 			virtual ~FileHandle();
+
+			buffer<FileHandle> list() const;
 
 			friend std::ostream& operator<<(std::ostream& stream, const FileHandle& file);
 	};

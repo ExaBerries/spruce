@@ -17,6 +17,7 @@
 
 namespace spruce {
 	namespace app {
+		std::vector<std::function<void()>> freeCallbacks;
 		Window* window;
 		API apiType;
 		RenderAPI* api;
@@ -53,11 +54,13 @@ namespace spruce {
 		}
 
 		void free() {
+			for (std::function<void()>& callback : freeCallbacks) {
+				callback();
+			}
 			if (window->open) {
 				window->close();
 			}
 			delete window;
-			delete screen;
 			delete api;
 			task::free();
 			os::free();
@@ -125,15 +128,16 @@ namespace spruce {
 		}
 
 		void setScreen(graphics::Screen* newScreen) {
-			if (screen != nullptr) {
-				delete screen;
-			}
 			screen = newScreen;
 			clearCommands();
 		}
 
 		void clearCommands() {
 			pipeline->clearCommands();
+		}
+
+		void addFreeCallback(std::function<void()> function) {
+			freeCallbacks.push_back(function);
 		}
 	}
 }

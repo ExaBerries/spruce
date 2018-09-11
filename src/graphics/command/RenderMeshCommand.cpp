@@ -16,7 +16,7 @@ namespace spruce {
 		app::api->render(mesh, shader, primitive);
 	}
 
-	string RenderMeshCommand::getName() {
+	string RenderMeshCommand::getName() const {
 		return "RenderMesh";
 	}
 }

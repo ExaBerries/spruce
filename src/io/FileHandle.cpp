@@ -3,6 +3,9 @@
 #include <sys/stat.h>
 
 namespace spruce {
+	FileHandle::FileHandle() : FileHandle(FileHandle::INTERNAL, "") {
+	}
+
 	FileHandle::FileHandle(FileHandleType type, const unsigned char* path) : FileHandle(type, string(reinterpret_cast<const char*>(path))) {
 	}
 
@@ -18,7 +21,7 @@ namespace spruce {
 		} else if (type == ABSOLUTE) {
 			absolutePath = path;
 		}
-		if (path.size() == 0) {
+		if (absolutePath.size() == 0) {
 			serr("no path specified");
 			name = "";
 			extension = "";
@@ -69,6 +72,18 @@ namespace spruce {
 	}
 
 	FileHandle::~FileHandle() {
+	}
+
+	buffer<FileHandle> FileHandle::list() const {
+		if (!directory) {
+			return nullptr;
+		}
+		std::vector<string> subFiles = os::listSubFiles(absolutePath);
+		buffer<FileHandle> subPaths(subFiles.size());
+		for (uint32 i = 0; i < subFiles.size(); i++) {
+			subPaths[i] = FileHandle(FileHandle::ABSOLUTE, absolutePath + ((absolutePath.c_str()[absolutePath.size() - 1] != '/') ? "/" : "") + subFiles[i]);
+		}
+		return subPaths;
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const FileHandle& file) {

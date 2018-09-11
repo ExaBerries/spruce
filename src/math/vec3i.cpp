@@ -127,6 +127,14 @@ namespace spruce {
 		return vec3i(x, y, z);
 	}
 
+	bool vec3i::operator==(const vec3i& vector) const {
+		return (x == vector.x && y == vector.y && z == vector.z);
+	}
+
+	bool vec3i::operator!=(const vec3i& vector) const {
+		return (x != vector.x || y != vector.y || z != vector.z);
+	}
+
 	vec3i& vec3i::operator+=(const vec3i& vector) {
 		x += vector.x;
 		y += vector.y;

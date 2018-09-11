@@ -398,10 +398,10 @@ namespace spruce {
 	void Vulkan::setUniform(Shader* shader, string name, const color& color) {
 	}
 
-	void Vulkan::setUniform(Shader* shader, string name, const Texture* texture) {
+	void Vulkan::setUniform(Shader* shader, string name, Texture* texture) {
 	}
 
-	void Vulkan::setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) {
+	void Vulkan::setUniform(Shader* shader, string name, graphics::RenderPass* renderPass) {
 	}
 
 	string Vulkan::getGPUVendor() {

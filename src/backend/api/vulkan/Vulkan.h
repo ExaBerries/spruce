@@ -44,8 +44,8 @@ namespace spruce {
 			void setUniform(Shader* shader, string name, const mat4f& matrix);
 			void setUniform(Shader* shader, string name, const quaternion& quaternion);
 			void setUniform(Shader* shader, string name, const color& color);
-			void setUniform(Shader* shader, string name, const Texture* texture);
-			void setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass);
+			void setUniform(Shader* shader, string name, Texture* texture);
+			void setUniform(Shader* shader, string name, graphics::RenderPass* renderPass);
 
 			string getGPUVendor();
 			uint16 getAPIVersionMajor();

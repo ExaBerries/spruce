@@ -58,14 +58,14 @@ namespace spruce {
 		this->col = col;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, const Texture* tex) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, Texture* tex) {
 		this->type = TEXTURE;
 		this->shader = shader;
 		this->name = name;
 		this->tex = tex;
 	}
 
-	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, const graphics::RenderPass* pass) {
+	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, graphics::RenderPass* pass) {
 		this->type = RENDERPASS;
 		this->shader = shader;
 		this->name = name;
@@ -112,7 +112,7 @@ namespace spruce {
 		}
 	}
 
-	string ShaderUniformCommand::getName() {
+	string ShaderUniformCommand::getName() const {
 		return "ShaderUniform";
 	}
 }

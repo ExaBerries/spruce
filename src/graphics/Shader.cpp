@@ -68,11 +68,11 @@ namespace spruce {
 		graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, color));
 	}
 
-	void Shader::setUniform(string name, const Texture* texture) {
+	void Shader::setUniform(string name, Texture* texture) {
 		graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, texture));
 	}
 
-	void Shader::setUniform(string name, const graphics::RenderPass* renderPass) {
+	void Shader::setUniform(string name, graphics::RenderPass* renderPass) {
 		graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, renderPass));
 	}
 }

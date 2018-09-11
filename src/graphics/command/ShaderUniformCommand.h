@@ -30,8 +30,8 @@ namespace spruce {
 				mat4f mat;
 				quaternion quat;
 				color col;
-				const Texture* tex;
-				const graphics::RenderPass* pass;
+				Texture* tex;
+				graphics::RenderPass* pass;
 			};
 
 			ShaderUniformCommand(Shader* shader, string name, int32 i);
@@ -42,11 +42,11 @@ namespace spruce {
 			ShaderUniformCommand(Shader* shader, string name, mat4f mat);
 			ShaderUniformCommand(Shader* shader, string name, quaternion quat);
 			ShaderUniformCommand(Shader* shader, string name, color col);
-			ShaderUniformCommand(Shader* shader, string name, const Texture* tex);
-			ShaderUniformCommand(Shader* shader, string name, const graphics::RenderPass* pass);
+			ShaderUniformCommand(Shader* shader, string name, Texture* tex);
+			ShaderUniformCommand(Shader* shader, string name, graphics::RenderPass* pass);
 			virtual ~ShaderUniformCommand();
 
 			void execute();
-			string getName();
+			string getName() const;
 	};
 }

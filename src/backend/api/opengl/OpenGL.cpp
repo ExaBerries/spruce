@@ -279,13 +279,13 @@ namespace spruce {
 		glUniform4f(shader->uniformLocations[name].index, color.r, color.g, color.b, color.a);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, const Texture* texture) {
+	void OpenGL::setUniform(Shader* shader, string name, Texture* texture) {
 		bind((Texture*)texture);
 		glUniform1i(shader->uniformLocations[name].index, ((OpenGLTexture*)texture)->unit);
 	}
 
-	void OpenGL::setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass) {
-		bind(((OpenGLRenderTarget*)renderPass->target)->texture);
+	void OpenGL::setUniform(Shader* shader, string name, graphics::RenderPass* renderPass) {
+		bind(((const OpenGLRenderTarget*)renderPass->target)->texture);
 		glUniform1i(shader->uniformLocations[name].index, ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
 	}
 

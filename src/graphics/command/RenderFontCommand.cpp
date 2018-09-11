@@ -19,7 +19,7 @@ namespace spruce {
 		app::api->render(str, font, color, position, rotation, size, camera);
 	}
 
-	string RenderFontCommand::getName() {
+	string RenderFontCommand::getName() const {
 		return "RenderFont";
 	}
 }
