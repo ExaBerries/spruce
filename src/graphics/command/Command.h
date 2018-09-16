@@ -2,12 +2,18 @@
 #include <common.h>
 
 namespace spruce {
-	class Command {
-		public:
-			Command();
-			virtual ~Command();
+	namespace graphics {
+		namespace cmd {
+			class Command {
+				public:
+					Command();
+					virtual ~Command();
 
-			virtual void execute() = 0;
-			virtual string getName() const = 0;
-	};
+					virtual void execute() = 0;
+					virtual string getName() const = 0;
+			};
+		}
+	}
+
+	namespace cmd = graphics::cmd;
 }

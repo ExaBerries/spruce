@@ -213,6 +213,10 @@ namespace spruce {
 
 		void createDir(string path) {
 		}
+
+		std::vector<string> listSubFiles(string path) {
+			return std::vector<string>();
+		}
 	}
 
 	namespace sys {
