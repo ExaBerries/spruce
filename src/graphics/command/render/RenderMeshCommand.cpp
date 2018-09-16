@@ -1,6 +1,6 @@
-#include <graphics/command/RenderMeshCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/render/RenderMeshCommand.h>
 
 namespace spruce {
 	RenderMeshCommand::RenderMeshCommand(Mesh* mesh, Shader* shader, graphics::Primitive primitive) {

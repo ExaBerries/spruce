@@ -1,6 +1,6 @@
-#include <graphics/command/RenderLineCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/render/RenderLineCommand.h>
 
 namespace spruce {
 	RenderLineCommand::RenderLineCommand(vec3f a, vec3f b, color cola, color colb, mat4f camera) : a(a), b(b), cola(cola), colb(colb), camera(camera) {

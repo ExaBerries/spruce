@@ -5,12 +5,12 @@
 #include <app.h>
 #include <task/async.h>
 #include <backend/task/taskmanager.h>
-#include <graphics/command/RenderMeshCommand.h>
-#include <graphics/command/RenderBufferCommand.h>
-#include <graphics/command/RenderPassCommand.h>
-#include <graphics/command/RenderFontCommand.h>
-#include <graphics/command/RenderLineCommand.h>
-#include <graphics/command/RenderRectCommand.h>
+#include <graphics/command/render/RenderBufferCommand.h>
+#include <graphics/command/render/RenderFontCommand.h>
+#include <graphics/command/render/RenderLineCommand.h>
+#include <graphics/command/render/RenderMeshCommand.h>
+#include <graphics/command/render/RenderPassCommand.h>
+#include <graphics/command/render/RenderRectCommand.h>
 
 namespace spruce {
 	namespace graphics {
@@ -34,7 +34,7 @@ namespace spruce {
 				return nullptr;
 			}
 			if (data[0] == 2) {
-				uint32 i = sizeof(uint8);
+				uint64 i = sizeof(uint8);
 				uint64 glVertSourceSize = 0;
 				memcpy(&glVertSourceSize, data + i, sizeof(uint64));
 				i += sizeof(uint64);
@@ -111,7 +111,7 @@ namespace spruce {
 					return nullptr; // TODO support dx12 HLSL
 				}
 			} else {
-				serr("invalid version of spruce-shader");
+				serr("invalid version of spruce-shader ", file);
 			}
 			data.free();
 			return nullptr;

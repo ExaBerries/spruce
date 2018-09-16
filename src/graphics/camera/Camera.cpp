@@ -1,4 +1,4 @@
-#include <graphics/Camera.h>
+#include <graphics/camera/Camera.h>
 #include <graphics/graphics.h>
 
 namespace spruce {

@@ -1,6 +1,6 @@
 #include <graphics/Texture.h>
-#include <graphics/command/TextureBindCommand.h>
-#include <graphics/command/TextureUnbindCommand.h>
+#include <graphics/command/texture/TextureBindCommand.h>
+#include <graphics/command/texture/TextureUnbindCommand.h>
 #include <graphics/graphics.h>
 
 namespace spruce {
