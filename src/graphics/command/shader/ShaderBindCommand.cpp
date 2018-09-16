@@ -3,18 +3,22 @@
 #include <graphics/command/shader/ShaderBindCommand.h>
 
 namespace spruce {
-	ShaderBindCommand::ShaderBindCommand(Shader* shader) {
-		this->shader = shader;
-	}
+	namespace graphics {
+		namespace cmd {
+			ShaderBindCommand::ShaderBindCommand(Shader* shader) {
+				this->shader = shader;
+			}
 
-	ShaderBindCommand::~ShaderBindCommand() {
-	}
+			ShaderBindCommand::~ShaderBindCommand() {
+			}
 
-	void ShaderBindCommand::execute() {
-		app::api->bind(shader);
-	}
+			void ShaderBindCommand::execute() {
+				app::api->bind(shader);
+			}
 
-	string ShaderBindCommand::getName() const {
-		return "ShaderBind";
+			string ShaderBindCommand::getName() const {
+				return "ShaderBind";
+			}
+		}
 	}
 }

@@ -4,14 +4,18 @@
 #include <graphics/Mesh.h>
 
 namespace spruce {
-	class MeshBindCommand : public Command {
-		public:
-			Mesh* mesh;
+	namespace graphics {
+		namespace cmd {
+			class MeshBindCommand : public Command {
+				public:
+					Mesh* mesh;
 
-			MeshBindCommand(Mesh* mesh);
-			virtual ~MeshBindCommand();
+					MeshBindCommand(Mesh* mesh);
+					virtual ~MeshBindCommand();
 
-			void execute();
-			string getName() const;
-	};
+					void execute();
+					string getName() const;
+			};
+		}
+	}
 }

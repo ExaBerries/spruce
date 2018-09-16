@@ -1,4 +1,5 @@
-#include <math/mat4f.h>
+#include <math/mat/mat4f.h>
+#include <cstring>
 
 namespace spruce {
 	mat4f::mat4f() {

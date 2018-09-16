@@ -1,7 +1,7 @@
 #pragma once
-#include <common.h>
-#include <iostream>
+#include <types.h>
 #include <math.h>
+#include <iostream>
 
 namespace spruce {
 	struct vec2f {

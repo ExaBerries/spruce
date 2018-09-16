@@ -1,6 +1,6 @@
 #pragma once
-#include <common.h>
-#include <iostream>
+#include <types.h>
+#include <log.h>
 #include <math.h>
 
 namespace spruce {

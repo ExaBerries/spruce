@@ -3,18 +3,22 @@
 #include <graphics/command/render/RenderPassCommand.h>
 
 namespace spruce {
-	RenderPassCommand::RenderPassCommand(graphics::RenderPass* renderPass) {
-		this->renderPass = renderPass;
-	}
+	namespace graphics {
+		namespace cmd {
+			RenderPassCommand::RenderPassCommand(graphics::RenderPass* renderPass) {
+				this->renderPass = renderPass;
+			}
 
-	RenderPassCommand::~RenderPassCommand() {
-	}
+			RenderPassCommand::~RenderPassCommand() {
+			}
 
-	void RenderPassCommand::execute() {
-		app::api->renderStart(renderPass);
-	}
+			void RenderPassCommand::execute() {
+				app::api->renderStart(renderPass);
+			}
 
-	string RenderPassCommand::getName() const {
-		return "RenderPass";
+			string RenderPassCommand::getName() const {
+				return "RenderPass";
+			}
+		}
 	}
 }

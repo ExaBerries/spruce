@@ -1,6 +1,5 @@
 #pragma once
 #include <backend/mac/CocoaWindow.h>
-#include <math/vec2f.h>
 #import <Cocoa/Cocoa.h>
 
 @interface SpruceView : NSView {

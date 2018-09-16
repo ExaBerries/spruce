@@ -4,14 +4,18 @@
 #include <graphics/Shader.h>
 
 namespace spruce {
-	class ShaderBindCommand: public Command {
-		public:
-			Shader* shader;
+	namespace graphics {
+		namespace cmd {
+			class ShaderBindCommand: public Command {
+				public:
+					Shader* shader;
 
-			ShaderBindCommand(Shader* shader);
-			virtual ~ShaderBindCommand();
+					ShaderBindCommand(Shader* shader);
+					virtual ~ShaderBindCommand();
 
-			void execute();
-			string getName() const;
-	};
+					void execute();
+					string getName() const;
+			};
+		}
+	}
 }
