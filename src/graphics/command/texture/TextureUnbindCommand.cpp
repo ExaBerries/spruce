@@ -1,6 +1,6 @@
-#include <graphics/command/TextureUnbindCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/texture/TextureUnbindCommand.h>
 
 namespace spruce {
 	TextureUnbindCommand::TextureUnbindCommand(Texture* texture) {

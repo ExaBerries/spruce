@@ -5,12 +5,12 @@
 #include <app.h>
 #include <task/async.h>
 #include <backend/task/taskmanager.h>
-#include <graphics/command/RenderMeshCommand.h>
-#include <graphics/command/RenderBufferCommand.h>
-#include <graphics/command/RenderPassCommand.h>
-#include <graphics/command/RenderFontCommand.h>
-#include <graphics/command/RenderLineCommand.h>
-#include <graphics/command/RenderRectCommand.h>
+#include <graphics/command/render/RenderBufferCommand.h>
+#include <graphics/command/render/RenderFontCommand.h>
+#include <graphics/command/render/RenderLineCommand.h>
+#include <graphics/command/render/RenderMeshCommand.h>
+#include <graphics/command/render/RenderPassCommand.h>
+#include <graphics/command/render/RenderRectCommand.h>
 
 namespace spruce {
 	namespace graphics {
@@ -33,20 +33,20 @@ namespace spruce {
 				serr("could not read shader file: ", file);
 				return nullptr;
 			}
-			if (data[0] == 1) {
-				uint32 i = sizeof(uint8);
-				uint32 glVertSourceSize = 0;
-				memcpy(&glVertSourceSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
-				uint32 glFragSourceSize = 0;
-				memcpy(&glFragSourceSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
-				uint32 glVertSize = 0;
-				memcpy(&glVertSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
-				uint32 glFragSize = 0;
-				memcpy(&glFragSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
+			if (data[0] == 2) {
+				uint64 i = sizeof(uint8);
+				uint64 glVertSourceSize = 0;
+				memcpy(&glVertSourceSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 glFragSourceSize = 0;
+				memcpy(&glFragSourceSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 glVertSize = 0;
+				memcpy(&glVertSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 glFragSize = 0;
+				memcpy(&glFragSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
 				if (app::apiType == app::OPENGL) {
 					string vertSource = string((char*) data + i);
 					string fragSource = string((char*) data + i + glVertSourceSize);
@@ -56,7 +56,7 @@ namespace spruce {
 					buffer<uint8> fragmentData(glFragSize / sizeof(uint8));
 					memcpy(fragmentData, data + i + glVertSize, glFragSize);
 					data.free();
-					if (os::supportsPrecompiledShader(app::OPENGL)) {
+					if (os::supportsPrecompiledShader(app::OPENGL) && vertexData.size > 0) {
 						return app::api->createShader(vertexData, fragmentData, attributes);
 					} else {
 						return app::api->createShader(vertSource, fragSource, attributes);
@@ -65,9 +65,9 @@ namespace spruce {
 					i += glVertSourceSize + glFragSourceSize;
 				}
 				i += glVertSize + glFragSize;
-				uint32 metalSize = 0;
-				memcpy(&metalSize, data + i, sizeof(uint32));
-				i += sizeof(uint32);
+				uint64 metalSize = 0;
+				memcpy(&metalSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
 				if (app::apiType == app::METAL) {
 					if (metalSize == 0) {
 						serr("no metal shader data");
@@ -95,7 +95,7 @@ namespace spruce {
 					return nullptr; // TODO support dx12 HLSL
 				}
 			} else {
-				serr("invalid version of spruce-shader");
+				serr("invalid version of spruce-shader ", file);
 			}
 			data.free();
 			return nullptr;

@@ -1,6 +1,6 @@
-#include <graphics/OrthographicCamera.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/camera/OrthographicCamera.h>
 
 namespace spruce {
 	OrthographicCamera::OrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up, vec3f& dir) : Camera(viewportWidth, viewportHeight) {

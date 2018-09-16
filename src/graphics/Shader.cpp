@@ -1,7 +1,7 @@
+#include <graphics/command/shader/ShaderBindCommand.h>
+#include <graphics/command/shader/ShaderUniformCommand.h>
 #include <graphics/Shader.h>
 #include <graphics/graphics.h>
-#include <graphics/command/ShaderUniformCommand.h>
-#include <graphics/command/ShaderBindCommand.h>
 
 namespace spruce {
 	Shader::Shader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) : vertData(vertData), fragData(fragData), attributes(attributes) {

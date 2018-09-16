@@ -1,6 +1,6 @@
-#include <graphics/command/TextureBindCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/texture/TextureBindCommand.h>
 
 namespace spruce {
 	TextureBindCommand::TextureBindCommand(Texture* texture) {

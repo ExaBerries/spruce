@@ -1,6 +1,6 @@
+#include <graphics/command/mesh/MeshBindCommand.h>
 #include <graphics/Mesh.h>
 #include <graphics/Shader.h>
-#include <graphics/command/MeshBindCommand.h>
 #include <graphics/graphics.h>
 
 namespace spruce {

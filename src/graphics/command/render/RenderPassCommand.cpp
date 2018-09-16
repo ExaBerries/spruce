@@ -1,6 +1,6 @@
-#include <graphics/command/RenderPassCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/render/RenderPassCommand.h>
 
 namespace spruce {
 	RenderPassCommand::RenderPassCommand(graphics::RenderPass* renderPass) {

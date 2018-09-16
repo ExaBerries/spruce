@@ -2,7 +2,7 @@
 #include <common.h>
 #include <math.h>
 #include <graphics/VertexAttribute.h>
-#include <graphics/Camera.h>
+#include <graphics/camera/Camera.h>
 #include <graphics/color.h>
 #include <graphics/Texture.h>
 #include <graphics/RenderPass.h>

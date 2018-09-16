@@ -1,6 +1,6 @@
-#include <graphics/command/ShaderBindCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/shader/ShaderBindCommand.h>
 
 namespace spruce {
 	ShaderBindCommand::ShaderBindCommand(Shader* shader) {

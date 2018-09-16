@@ -1,6 +1,6 @@
-#include <graphics/command/RenderFontCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/render/RenderFontCommand.h>
 
 namespace spruce {
 	RenderFontCommand::RenderFontCommand(string str, Font& font, spruce::color color, vec3f position, quaternion rotation, vec2f size, mat4f camera) : font(font) {
