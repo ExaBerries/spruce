@@ -1,6 +1,6 @@
-#include <graphics/PerspectiveCamera.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/camera/PerspectiveCamera.h>
 
 namespace spruce {
 	PerspectiveCamera::PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir) : Camera(viewportWidth, viewportHeight) {
