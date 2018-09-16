@@ -26,8 +26,8 @@ namespace spruce {
 			if (cfile != NULL) {
 				fseek(cfile, 0, SEEK_END);
 				uint64 length = ftell(cfile);
-				buffer<uint8> data(length + 1);
-				memset(data, 0, length + 1);
+				buffer<uint8> data(length);
+				memset(data, 0, length);
 				fseek(cfile, 0, SEEK_SET);
 				fread(data, sizeof(uint8), length, cfile);
 				fclose(cfile);
