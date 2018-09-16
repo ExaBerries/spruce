@@ -31,7 +31,7 @@ namespace spruce {
 		app::api->renderStart();
 		buffer<CommandBuffer*> commandBuffers = frame->getCommandBuffers();
 		for (CommandBuffer* cmdBuffer : commandBuffers) {
-			for (Command* command : cmdBuffer->commands) {
+			for (cmd::Command* command : cmdBuffer->commands) {
 				command->execute();
 			}
 		}

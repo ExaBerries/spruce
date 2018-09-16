@@ -1,9 +1,13 @@
 #include <graphics/command/Command.h>
 
 namespace spruce {
-	Command::Command() {
-	}
+	namespace graphics {
+		namespace cmd {
+			Command::Command() {
+			}
 
-	Command::~Command() {
+			Command::~Command() {
+			}
+		}
 	}
 }

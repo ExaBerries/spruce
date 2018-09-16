@@ -3,18 +3,22 @@
 #include <graphics/command/texture/TextureUnbindCommand.h>
 
 namespace spruce {
-	TextureUnbindCommand::TextureUnbindCommand(Texture* texture) {
-		this->texture = texture;
-	}
+	namespace graphics {
+		namespace cmd {
+			TextureUnbindCommand::TextureUnbindCommand(Texture* texture) {
+				this->texture = texture;
+			}
 
-	TextureUnbindCommand::~TextureUnbindCommand() {
-	}
+			TextureUnbindCommand::~TextureUnbindCommand() {
+			}
 
-	void TextureUnbindCommand::execute() {
-		app::api->unbind(texture);
-	}
+			void TextureUnbindCommand::execute() {
+				app::api->unbind(texture);
+			}
 
-	string TextureUnbindCommand::getName() const {
-		return "TextureUnbind";
+			string TextureUnbindCommand::getName() const {
+				return "TextureUnbind";
+			}
+		}
 	}
 }

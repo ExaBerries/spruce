@@ -5,16 +5,20 @@
 #include <graphics/Primitive.h>
 
 namespace spruce {
-	class RenderMeshCommand: public Command {
-		public:
-			Mesh* mesh;
-			Shader* shader;
-			graphics::Primitive primitive;
+	namespace graphics {
+		namespace cmd {
+			class RenderMeshCommand: public Command {
+				public:
+					Mesh* mesh;
+					Shader* shader;
+					graphics::Primitive primitive;
 
-			RenderMeshCommand(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
-			virtual ~RenderMeshCommand();
+					RenderMeshCommand(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
+					virtual ~RenderMeshCommand();
 
-			void execute();
-			string getName() const;
-	};
+					void execute();
+					string getName() const;
+			};
+		}
+	}
 }

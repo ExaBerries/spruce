@@ -4,14 +4,18 @@
 #include <graphics/Texture.h>
 
 namespace spruce {
-	class TextureBindCommand : public Command {
-		public:
-			Texture* texture;
+	namespace graphics {
+		namespace cmd {
+			class TextureBindCommand : public Command {
+				public:
+					Texture* texture;
 
-			TextureBindCommand(Texture* texture);
-			virtual ~TextureBindCommand();
+					TextureBindCommand(Texture* texture);
+					virtual ~TextureBindCommand();
 
-			void execute();
-			string getName() const;
-	};
+					void execute();
+					string getName() const;
+			};
+		}
+	}
 }
