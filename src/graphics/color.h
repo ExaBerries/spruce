@@ -15,6 +15,8 @@ namespace spruce {
 		~color();
 
 		bool operator==(const color& color) const;
+		bool operator!=(const color& color) const;
+
 		friend std::ostream& operator<<(std::ostream& stream, const color& color);
 	};
 }
