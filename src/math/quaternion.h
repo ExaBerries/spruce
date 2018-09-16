@@ -1,7 +1,7 @@
 #pragma once
-#include <common.h>
+#include <types.h>
 #include <iostream>
-#include <math/vec3f.h>
+#include <math/vec/vec3f.h>
 
 namespace spruce {
 	struct quaternion {

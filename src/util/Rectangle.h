@@ -1,6 +1,5 @@
 #pragma once
 #include <common.h>
-#include <math/vec2f.h>
 
 namespace spruce {
 	class Rectangle {

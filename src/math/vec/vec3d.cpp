@@ -1,4 +1,4 @@
-#include <math/vec3d.h>
+#include <math/vec/vec3d.h>
 
 namespace spruce {
 	vec3d::vec3d() : x(0), y(0), z(0) {

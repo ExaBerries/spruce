@@ -1,9 +1,10 @@
 #pragma once
-#include <common.h>
-#include <math/vec3f.h>
-#include <math/vec4f.h>
+#include <types.h>
+#include <math/vec/vec3f.h>
+#include <math/vec/vec4f.h>
 #include <math/quaternion.h>
 #include <math.h>
+#include <iostream>
 
 namespace spruce {
 	struct mat4f {

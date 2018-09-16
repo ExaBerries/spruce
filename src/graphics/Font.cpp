@@ -1,5 +1,4 @@
 #include <graphics/Font.h>
-#include <math/math.h>
 #include <graphics/graphics.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H

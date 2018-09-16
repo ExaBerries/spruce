@@ -1,6 +1,5 @@
 #pragma once
 #include <common.h>
-#include <math/math.h>
 
 namespace spruce {
 	namespace graphics {
