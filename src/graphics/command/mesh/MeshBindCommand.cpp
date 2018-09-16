@@ -3,18 +3,22 @@
 #include <graphics/command/mesh/MeshBindCommand.h>
 
 namespace spruce {
-	MeshBindCommand::MeshBindCommand(Mesh* mesh) {
-		this->mesh = mesh;
-	}
+	namespace graphics {
+		namespace cmd {
+			MeshBindCommand::MeshBindCommand(Mesh* mesh) {
+				this->mesh = mesh;
+			}
 
-	MeshBindCommand::~MeshBindCommand() {
-	}
+			MeshBindCommand::~MeshBindCommand() {
+			}
 
-	void MeshBindCommand::execute() {
-		app::api->bind(mesh);
-	}
+			void MeshBindCommand::execute() {
+				app::api->bind(mesh);
+			}
 
-	string MeshBindCommand::getName() const {
-		return "MeshBind";
+			string MeshBindCommand::getName() const {
+				return "MeshBind";
+			}
+		}
 	}
 }

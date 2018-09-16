@@ -5,18 +5,22 @@
 #include <graphics/color.h>
 
 namespace spruce {
-	class RenderLineCommand : public Command {
-		public:
-			vec3f a;
-			vec3f b;
-			color cola;
-			color colb;
-			mat4f camera;
+	namespace graphics {
+		namespace cmd {
+			class RenderLineCommand : public Command {
+				public:
+					vec3f a;
+					vec3f b;
+					color cola;
+					color colb;
+					mat4f camera;
 
-			RenderLineCommand(vec3f a, vec3f b, color cola, color colb, mat4f camera);
-			virtual ~RenderLineCommand();
+					RenderLineCommand(vec3f a, vec3f b, color cola, color colb, mat4f camera);
+					virtual ~RenderLineCommand();
 
-			void execute();
-			string getName() const;
-	};
+					void execute();
+					string getName() const;
+			};
+		}
+	}
 }

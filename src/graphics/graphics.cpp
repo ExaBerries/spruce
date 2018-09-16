@@ -126,15 +126,15 @@ namespace spruce {
 		}
 
 		void render(Mesh* mesh, Shader* shader, Primitive primitive) {
-			getCommandBuffer().add(new RenderMeshCommand(mesh, shader, primitive));
+			getCommandBuffer().add(new cmd::RenderMeshCommand(mesh, shader, primitive));
 		}
 
 		void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
-			getCommandBuffer().add(new RenderBufferCommand(vertices, indices, shader, primitive));
+			getCommandBuffer().add(new cmd::RenderBufferCommand(vertices, indices, shader, primitive));
 		}
 
 		void render(RenderPass* renderPass) {
-			getCommandBuffer().add(new RenderPassCommand(renderPass));
+			getCommandBuffer().add(new cmd::RenderPassCommand(renderPass));
 			waitForGraphicsTasks(true);
 			renderPass->render();
 		}
@@ -144,7 +144,7 @@ namespace spruce {
 			if (camera != nullptr) {
 				cameraTrans = camera->combined;
 			}
-			getCommandBuffer().add(new RenderFontCommand(str, font, color, position, rotation, size, cameraTrans));
+			getCommandBuffer().add(new cmd::RenderFontCommand(str, font, color, position, rotation, size, cameraTrans));
 		}
 
 		void renderLine(vec3f a, vec3f b, color colora, color colorb, Camera* camera) {
@@ -152,7 +152,7 @@ namespace spruce {
 			if (camera != nullptr) {
 				cameraTrans = camera->combined;
 			}
-			getCommandBuffer().add(new RenderLineCommand(a, b, colora, colorb, cameraTrans));
+			getCommandBuffer().add(new cmd::RenderLineCommand(a, b, colora, colorb, cameraTrans));
 		}
 
 		void renderRect(vec3f pos, vec2f size, color color, quaternion rotation, Camera* camera) {
@@ -160,7 +160,7 @@ namespace spruce {
 			if (camera != nullptr) {
 				cameraTrans = camera->combined;
 			}
-			getCommandBuffer().add(new RenderRectCommand(pos, size, color, rotation, cameraTrans));
+			getCommandBuffer().add(new cmd::RenderRectCommand(pos, size, color, rotation, cameraTrans));
 		}
 
 		uint16 getWindowWidth() {

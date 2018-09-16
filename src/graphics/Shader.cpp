@@ -25,7 +25,7 @@ namespace spruce {
 		}
 
 		void Shader::bind() {
-			graphics::getCommandBuffer().add(new ShaderBindCommand(this));
+			graphics::getCommandBuffer().add(new cmd::ShaderBindCommand(this));
 		}
 
 		uint16 Shader::getAttributeLocation(string name) {
@@ -38,43 +38,43 @@ namespace spruce {
 		}
 
 		void Shader::setUniform(string name, const int32& value) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, value));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, value));
 		}
 
 		void Shader::setUniform(string name, const vec2i& vector) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, vector));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, vector));
 		}
 
 		void Shader::setUniform(string name, const float& value) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, value));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, value));
 		}
 
 		void Shader::setUniform(string name, const vec2f& vector) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, vector));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, vector));
 		}
 
 		void Shader::setUniform(string name, const vec3f& vector) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, vector));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, vector));
 		}
 
 		void Shader::setUniform(string name, const mat4f& matrix) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, matrix));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, matrix));
 		}
 
 		void Shader::setUniform(string name, const quaternion& quaternion) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, quaternion));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, quaternion));
 		}
 
 		void Shader::setUniform(string name, const color& color) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, color));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, color));
 		}
 
 		void Shader::setUniform(string name, Texture* texture) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, texture));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, texture));
 		}
 
 		void Shader::setUniform(string name, graphics::RenderPass* renderPass) {
-			graphics::getCommandBuffer().add(new ShaderUniformCommand(this, name, renderPass));
+			graphics::getCommandBuffer().add(new cmd::ShaderUniformCommand(this, name, renderPass));
 		}
 	}
 }

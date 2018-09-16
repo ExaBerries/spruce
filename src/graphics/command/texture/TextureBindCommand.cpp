@@ -3,18 +3,22 @@
 #include <graphics/command/texture/TextureBindCommand.h>
 
 namespace spruce {
-	TextureBindCommand::TextureBindCommand(Texture* texture) {
-		this->texture = texture;
-	}
+	namespace graphics {
+		namespace cmd {
+			TextureBindCommand::TextureBindCommand(Texture* texture) {
+				this->texture = texture;
+			}
 
-	TextureBindCommand::~TextureBindCommand() {
-	}
+			TextureBindCommand::~TextureBindCommand() {
+			}
 
-	void TextureBindCommand::execute() {
-		app::api->bind(texture);
-	}
+			void TextureBindCommand::execute() {
+				app::api->bind(texture);
+			}
 
-	string TextureBindCommand::getName() const {
-		return "TextureBind";
+			string TextureBindCommand::getName() const {
+				return "TextureBind";
+			}
+		}
 	}
 }

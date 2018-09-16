@@ -14,7 +14,7 @@ namespace spruce {
 		}
 
 		void Mesh::bind() {
-			graphics::getCommandBuffer().add(new MeshBindCommand(this));
+			graphics::getCommandBuffer().add(new cmd::MeshBindCommand(this));
 		}
 	}
 }

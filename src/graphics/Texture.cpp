@@ -16,11 +16,11 @@ namespace spruce {
 		}
 
 		void Texture::bind() {
-			graphics::getCommandBuffer().add(new TextureBindCommand(this));
+			graphics::getCommandBuffer().add(new cmd::TextureBindCommand(this));
 		}
 
 		void Texture::unbind() {
-			graphics::getCommandBuffer().add(new TextureUnbindCommand(this));
+			graphics::getCommandBuffer().add(new cmd::TextureUnbindCommand(this));
 		}
 	}
 }
