@@ -1,6 +1,5 @@
 #pragma once
 #include <common.h>
-#include <math/vec2f.h>
 #include <input/MouseButton.h>
 #include <input/CursorMode.h>
 #include <input/Key.h>

@@ -1,4 +1,4 @@
-#include <math/vec4f.h>
+#include <math/vec/vec4f.h>
 
 namespace spruce {
 	vec4f::vec4f() : x(0), y(0), z(0), w(0) {

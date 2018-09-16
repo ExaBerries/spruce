@@ -1,7 +1,7 @@
 #pragma once
+#include <common.h>
 #include <input/Key.h>
 #include <input/MouseButton.h>
-#include <math/vec2f.h>
 
 namespace spruce {
 	namespace input {

@@ -2,7 +2,6 @@
 #include <common.h>
 #include <graphics/command/Command.h>
 #include <graphics/color.h>
-#include <math/math.h>
 #include <graphics/camera/Camera.h>
 #include <graphics/Font.h>
 

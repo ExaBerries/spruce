@@ -1,4 +1,4 @@
-#include <math/vec2d.h>
+#include <math/vec/vec2d.h>
 
 namespace spruce {
 	vec2d::vec2d() : x(0), y(0) {
