@@ -1,6 +1,6 @@
-#include <graphics/command/MeshBindCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/mesh/MeshBindCommand.h>
 
 namespace spruce {
 	MeshBindCommand::MeshBindCommand(Mesh* mesh) {

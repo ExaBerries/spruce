@@ -5,12 +5,12 @@
 #include <app.h>
 #include <task/async.h>
 #include <backend/task/taskmanager.h>
-#include <graphics/command/RenderMeshCommand.h>
-#include <graphics/command/RenderBufferCommand.h>
-#include <graphics/command/RenderPassCommand.h>
-#include <graphics/command/RenderFontCommand.h>
-#include <graphics/command/RenderLineCommand.h>
-#include <graphics/command/RenderRectCommand.h>
+#include <graphics/command/render/RenderBufferCommand.h>
+#include <graphics/command/render/RenderFontCommand.h>
+#include <graphics/command/render/RenderLineCommand.h>
+#include <graphics/command/render/RenderMeshCommand.h>
+#include <graphics/command/render/RenderPassCommand.h>
+#include <graphics/command/render/RenderRectCommand.h>
 
 namespace spruce {
 	namespace graphics {

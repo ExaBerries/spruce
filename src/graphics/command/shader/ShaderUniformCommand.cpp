@@ -1,6 +1,6 @@
-#include <graphics/command/ShaderUniformCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/shader/ShaderUniformCommand.h>
 
 namespace spruce {
 	ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, int32 i) {

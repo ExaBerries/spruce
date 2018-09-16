@@ -1,6 +1,6 @@
-#include <graphics/command/RenderBufferCommand.h>
 #include <app.h>
 #include <backend/api/RenderAPI.h>
+#include <graphics/command/render/RenderBufferCommand.h>
 
 namespace spruce {
 	RenderBufferCommand::RenderBufferCommand(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) : vertices(vertices), indices(indices) {
