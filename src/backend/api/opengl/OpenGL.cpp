@@ -59,10 +59,6 @@ namespace spruce {
 		swapBuffers(window);
 	}
 
-	string OpenGL::getError() {
-		return std::to_string(glGetError());
-	}
-
 	Mesh* OpenGL::createMesh(buffer<float> vertices, buffer<uint16> indices) {
 		return new OpenGLMesh(vertices, indices);
 	}

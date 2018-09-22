@@ -31,8 +31,6 @@ namespace spruce {
 			virtual void renderStart() = 0;
 			virtual void renderEnd() = 0;
 
-			virtual string getError() = 0;
-
 			virtual void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) = 0;
 			virtual void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) = 0;
 			virtual void renderStart(graphics::RenderPass* renderPass) = 0;

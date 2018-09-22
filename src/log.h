@@ -35,9 +35,6 @@ namespace spruce {
 			FOREACH_VARIADIC(print, args);
 			std::cout << std::endl;
 		}
-
-		void logAPIError();
-		void logAPIError(std::string name);
 	}
 
 	#define slog(...) spruce::log::log(__FILE__, __LINE__, __VA_ARGS__)
