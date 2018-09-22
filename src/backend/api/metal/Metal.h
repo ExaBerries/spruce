@@ -4,10 +4,6 @@
 #include <objc/objc.h>
 
 namespace spruce {
-	namespace app {
-		extern graphics::Screen* screen;
-	}
-
 	class Metal : public RenderAPI {
 		public:
 			Metal(Window* window);
@@ -16,8 +12,6 @@ namespace spruce {
 			void init();
 			void renderStart();
 			void renderEnd();
-
-			string getError();
 
 			Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
 			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);

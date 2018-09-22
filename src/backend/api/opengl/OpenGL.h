@@ -6,10 +6,6 @@
 #include <math/mat/mat4f.h>
 
 namespace spruce {
-	namespace app {
-		extern graphics::Screen* screen;
-	}
-
 	class OpenGL : public RenderAPI {
 		public:
 			OpenGL(Window* window);
@@ -18,8 +14,6 @@ namespace spruce {
 			void init();
 			void renderStart();
 			void renderEnd();
-
-			string getError();
 
 			Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
 			Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);

@@ -38,6 +38,9 @@ namespace spruce {
 		mat4f& operator-=(const mat4f& matrix);
 		mat4f& operator*=(const mat4f& matrix);
 
+		bool operator==(const mat4f& matrix) const;
+		bool operator!=(const mat4f& matrix) const;
+
 		friend std::ostream& operator<<(std::ostream& stream, const mat4f& matrix);
 	};
 }

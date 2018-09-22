@@ -9,18 +9,6 @@
 
 namespace spruce {
 	OpenGL::OpenGL(Window* window) : RenderAPI(window, vec3f(2, 2, 2)) {
-		fontVert =
-			#include "font.vert"
-		;
-		fontFrag =
-			#include "font.frag"
-		;
-		shapeVert =
-			#include "shape.vert"
-		;
-		shapeFrag =
-			#include "shape.frag"
-		;
 	}
 
 	OpenGL::~OpenGL() {
@@ -29,20 +17,34 @@ namespace spruce {
 	void OpenGL::init() {
 		makeContextCurrent(window);
 		window->setVisible(true);
-		fontAttributes = buffer<VertexAttribute>(2);
+		string fontVert =
+			#include "font.vert"
+		;
+		string fontFrag =
+			#include "font.frag"
+		;
+		string shapeVert =
+			#include "shape.vert"
+		;
+		string shapeFrag =
+			#include "shape.frag"
+		;
+		buffer<VertexAttribute> fontAttributes(2);
 		fontAttributes[0] = VertexAttribute("position", 3);
 		fontAttributes[1] = VertexAttribute("texCoord", 2);
-		fontShader = createShader(fontVert, fontFrag, fontAttributes);
+		Shader* fontShader = createShader(fontVert, fontFrag, fontAttributes);
 		fontShader->compile(nullptr);
 		fontShader->registerUniform("camera", Shader::VERTEX, 1);
 		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
 		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
-		shapeAttributes = buffer<VertexAttribute>(2);
+		fontBatcher = new FontBatcher(fontAttributes, fontShader);
+		buffer<VertexAttribute> shapeAttributes(2);
 		shapeAttributes[0] = VertexAttribute("a_pos", 3);
 		shapeAttributes[1] = VertexAttribute("a_color", 4);
-		shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
+		Shader* shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
 		shapeShader->compile(nullptr);
 		shapeShader->registerUniform("camera", Shader::VERTEX, 1);
+		shapeBatcher = new ShapeBatcher(shapeAttributes, shapeShader);
 	}
 
 	void OpenGL::renderStart() {
@@ -55,10 +57,6 @@ namespace spruce {
 
 	void OpenGL::renderEnd() {
 		swapBuffers(window);
-	}
-
-	string OpenGL::getError() {
-		return std::to_string(glGetError());
 	}
 
 	Mesh* OpenGL::createMesh(buffer<float> vertices, buffer<uint16> indices) {

@@ -12,29 +12,17 @@
 #include <graphics/Primitive.h>
 #include <input/input.h>
 #include <io/FileHandle.h>
+#include <backend/api/batcher/Batcher.h>
+#include <backend/api/batcher/FontBatcher.h>
+#include <backend/api/batcher/ShapeBatcher.h>
 
 namespace spruce {
 	class RenderAPI {
 		public:
 			Window* window;
 			vec3f ndcSize;
-			string fontVert;
-			string fontFrag;
-			buffer<VertexAttribute> fontAttributes;
-			Shader* fontShader;
-			buffer<float> fontVertices;
-			buffer<uint16> fontIndices;
-			string shapeVert;
-			string shapeFrag;
-			buffer<VertexAttribute> shapeAttributes;
-			Shader* shapeShader;
-			buffer<float> shapeVertices;
-			buffer<uint16> shapeIndices;
-
-			struct FontVertex {
-				vec3f position;
-				vec2f coord;
-			};
+			FontBatcher* fontBatcher;
+			ShapeBatcher* shapeBatcher;
 
 			RenderAPI(Window* window, vec3f ndcSize);
 			virtual ~RenderAPI();
@@ -42,8 +30,6 @@ namespace spruce {
 			virtual void init() = 0;
 			virtual void renderStart() = 0;
 			virtual void renderEnd() = 0;
-
-			virtual string getError() = 0;
 
 			virtual void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) = 0;
 			virtual void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) = 0;
