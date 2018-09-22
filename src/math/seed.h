@@ -1,6 +1,7 @@
 #pragma once
-#include <common.h>
+#include <types.h>
 #include <random>
+#include <iostream>
 
 namespace spruce {
 	namespace rand {

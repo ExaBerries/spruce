@@ -5,12 +5,12 @@
 #include <app.h>
 #include <task/async.h>
 #include <backend/task/taskmanager.h>
-#include <graphics/command/RenderMeshCommand.h>
-#include <graphics/command/RenderBufferCommand.h>
-#include <graphics/command/RenderPassCommand.h>
-#include <graphics/command/RenderFontCommand.h>
-#include <graphics/command/RenderLineCommand.h>
-#include <graphics/command/RenderRectCommand.h>
+#include <graphics/command/render/RenderBufferCommand.h>
+#include <graphics/command/render/RenderFontCommand.h>
+#include <graphics/command/render/RenderLineCommand.h>
+#include <graphics/command/render/RenderMeshCommand.h>
+#include <graphics/command/render/RenderPassCommand.h>
+#include <graphics/command/render/RenderRectCommand.h>
 
 namespace spruce {
 	namespace graphics {
@@ -34,7 +34,7 @@ namespace spruce {
 				return nullptr;
 			}
 			if (data[0] == 2) {
-				uint32 i = sizeof(uint8);
+				uint64 i = sizeof(uint8);
 				uint64 glVertSourceSize = 0;
 				memcpy(&glVertSourceSize, data + i, sizeof(uint64));
 				i += sizeof(uint64);
@@ -111,7 +111,7 @@ namespace spruce {
 					return nullptr; // TODO support dx12 HLSL
 				}
 			} else {
-				serr("invalid version of spruce-shader");
+				serr("invalid version of spruce-shader ", file);
 			}
 			data.free();
 			return nullptr;
@@ -142,15 +142,15 @@ namespace spruce {
 		}
 
 		void render(Mesh* mesh, Shader* shader, Primitive primitive) {
-			getCommandBuffer().add(new RenderMeshCommand(mesh, shader, primitive));
+			getCommandBuffer().add(new cmd::RenderMeshCommand(mesh, shader, primitive));
 		}
 
 		void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
-			getCommandBuffer().add(new RenderBufferCommand(vertices, indices, shader, primitive));
+			getCommandBuffer().add(new cmd::RenderBufferCommand(vertices, indices, shader, primitive));
 		}
 
 		void render(RenderPass* renderPass) {
-			getCommandBuffer().add(new RenderPassCommand(renderPass));
+			getCommandBuffer().add(new cmd::RenderPassCommand(renderPass));
 			waitForGraphicsTasks(true);
 			renderPass->render();
 		}
@@ -160,7 +160,7 @@ namespace spruce {
 			if (camera != nullptr) {
 				cameraTrans = camera->combined;
 			}
-			getCommandBuffer().add(new RenderFontCommand(str, font, color, position, rotation, size, cameraTrans));
+			getCommandBuffer().add(new cmd::RenderFontCommand(str, font, color, position, rotation, size, cameraTrans));
 		}
 
 		void renderLine(vec3f a, vec3f b, color colora, color colorb, Camera* camera) {
@@ -168,7 +168,7 @@ namespace spruce {
 			if (camera != nullptr) {
 				cameraTrans = camera->combined;
 			}
-			getCommandBuffer().add(new RenderLineCommand(a, b, colora, colorb, cameraTrans));
+			getCommandBuffer().add(new cmd::RenderLineCommand(a, b, colora, colorb, cameraTrans));
 		}
 
 		void renderRect(vec3f pos, vec2f size, color color, quaternion rotation, Camera* camera) {
@@ -176,7 +176,7 @@ namespace spruce {
 			if (camera != nullptr) {
 				cameraTrans = camera->combined;
 			}
-			getCommandBuffer().add(new RenderRectCommand(pos, size, color, rotation, cameraTrans));
+			getCommandBuffer().add(new cmd::RenderRectCommand(pos, size, color, rotation, cameraTrans));
 		}
 
 		uint16 getWindowWidth() {

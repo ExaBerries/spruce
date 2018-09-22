@@ -13,14 +13,14 @@ namespace spruce {
 	CommandBuffer::~CommandBuffer() {
 	}
 
-	void CommandBuffer::add(Command* command) {
+	void CommandBuffer::add(cmd::Command* command) {
 		while (locked);
 		commands.push_back(command);
 	}
 
 	void CommandBuffer::reset() {
 		locked = true;
-		for (Command* cmd : commands) {
+		for (cmd::Command* cmd : commands) {
 			delete cmd;
 		}
 		commands.clear();

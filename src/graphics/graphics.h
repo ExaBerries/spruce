@@ -3,9 +3,9 @@
 #include <graphics/Screen.h>
 #include <graphics/Mesh.h>
 #include <graphics/Shader.h>
-#include <graphics/Camera.h>
-#include <graphics/PerspectiveCamera.h>
-#include <graphics/OrthographicCamera.h>
+#include <graphics/camera/Camera.h>
+#include <graphics/camera/OrthographicCamera.h>
+#include <graphics/camera/PerspectiveCamera.h>
 #include <graphics/Texture.h>
 #include <graphics/RenderPass.h>
 #include <graphics/color.h>
