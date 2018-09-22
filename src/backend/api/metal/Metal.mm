@@ -82,10 +82,6 @@ namespace spruce {
 		[renderEncoder release];
 	}
 
-	string Metal::getError() {
-		return "";
-	}
-
 	Mesh* Metal::createMesh(buffer<float> vertices, buffer<uint16> indices) {
 		return new MetalMesh(vertices, indices);
 	}
