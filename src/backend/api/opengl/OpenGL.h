@@ -6,10 +6,6 @@
 #include <math/mat/mat4f.h>
 
 namespace spruce {
-	namespace app {
-		extern graphics::Screen* screen;
-	}
-
 	class OpenGL : public RenderAPI {
 		public:
 			OpenGL(Window* window);
