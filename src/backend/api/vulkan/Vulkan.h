@@ -4,10 +4,6 @@
 #include <math/mat/mat4f.h>
 
 namespace spruce {
-	namespace app {
-		extern graphics::Screen* screen;
-	}
-
 	class Vulkan : public RenderAPI {
 		public:
 			Vulkan(Window* window);
