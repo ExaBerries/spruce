@@ -1,6 +1,5 @@
 #include <backend/api/batcher/ShapeBatcher.h>
 #include <app.h>
-#include <backend/api/RenderAPI.h>
 
 namespace spruce {
 	ShapeBatcher::ShapeBatcher(buffer<VertexAttribute> shaderAttributes, Shader* shader) : Batcher(shaderAttributes, shader, 240, 120) {

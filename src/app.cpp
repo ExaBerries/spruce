@@ -1,5 +1,4 @@
 #include <app.h>
-#include <backend/api/RenderAPI.h>
 #include <backend/api/opengl/OpenGL.h>
 #ifdef __APPLE__
 #include <backend/api/metal/Metal.h>
@@ -94,7 +93,7 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			apiType = api;
-			window->initForAPI(api);
+			window->initSurface(api);
 			if (api == OPENGL) {
 				app::api = new OpenGL(window);
 			} else if (api == VULKAN) {

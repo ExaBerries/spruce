@@ -1,4 +1,3 @@
-#include <backend/api/opengl/OpenGLContext.h>
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/opengl/OpenGLView.h>
 

@@ -1,7 +1,5 @@
 #pragma once
 #include <backend/api/RenderAPI.h>
-#include <backend/api/RenderAPI.h>
-#include <backend/api/opengl/OpenGLContext.h>
 #include <graphics/Screen.h>
 #include <math/mat/mat4f.h>
 

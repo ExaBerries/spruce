@@ -116,7 +116,6 @@ namespace spruce {
 		};
 		buffer<ShapeVertex> shapeVertices(4);
 		buffer<uint16> shapeIndices(6);
-		buffer<uint16> indices(6);
 		vec3f halfSize = vec3f(size, 0) / 2;
 		shapeVertices[0].position = pos - (halfSize * rotation);
 		shapeVertices[0].color = color;

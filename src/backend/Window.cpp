@@ -7,8 +7,12 @@ namespace spruce {
 		visible = false;
 		open = true;
 		cursorMode = input::CursorMode::NORMAL;
+		surface = nullptr;
 	}
 
 	Window::~Window() {
+		if (surface != nullptr) {
+			delete surface;
+		}
 	}
 }

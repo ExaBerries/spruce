@@ -1,6 +1,13 @@
 #include <backend/api/metal/MetalRenderTarget.h>
+#include <graphics/graphics.h>
 
 namespace spruce {
+	MetalRenderTarget::MetalRenderTarget() : RenderTarget(graphics::width, graphics::height) {
+		this->color = nullptr;
+		this->depth = nullptr;
+		renderPassDescriptor = nil;
+	}
+
 	MetalRenderTarget::MetalRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) : RenderTarget(width, height) {
 		renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
 		if (format != Texture::DEPTH) {
@@ -28,6 +35,5 @@ namespace spruce {
 		if (depth != nullptr) {
 			delete depth;
 		}
-		[renderPassDescriptor release];
 	}
 }
