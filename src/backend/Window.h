@@ -1,5 +1,6 @@
 #pragma once
 #include <common.h>
+#include <backend/RenderSurface.h>
 #include <input/input.h>
 #include <API.h>
 
@@ -11,11 +12,12 @@ namespace spruce {
 			uint16 height;
 			bool visible;
 			input::CursorMode cursorMode;
+			RenderSurface* surface;
 
 			Window();
 			virtual ~Window();
 
-			virtual void initForAPI(app::API api) = 0;
+			virtual void initSurface(app::API api) = 0;
 			virtual void apiInitalized() = 0;
 			virtual void setTitle(string title) = 0;
 			virtual void setVisible(bool visible) = 0;

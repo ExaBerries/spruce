@@ -4,18 +4,12 @@
 #import <Metal/Metal.h>
 #import <QuartzCore/QuartzCore.h>
 #import <Metal/MTLDrawable.h>
+#include <task/semaphore.h>
 
 @interface MetalView : SpruceView {
 	CAMetalLayer* mlayer;
-	id<MTLTexture> depthTexture;
-	id<CAMetalDrawable> drawable;
-	MTLRenderPassDescriptor* renderPassDescriptor;
 }
 - (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)window;
 - (void) update;
 - (id<CAMetalDrawable>) getDrawable;
-- (MTLRenderPassDescriptor*) getRenderPassDescriptor;
-- (void) releaseDrawable;
-- (MTLPixelFormat) getDepthPixelFormat;
-- (CGSize) getDrawableSize;
 @end

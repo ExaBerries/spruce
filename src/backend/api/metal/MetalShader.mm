@@ -4,6 +4,7 @@
 #include <backend/api/metal/MetalRenderTarget.h>
 #include <backend/mac/objcpp.h>
 #include <io/file.h>
+#include <app.h>
 
 namespace spruce {
 	MetalShader::MetalShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) : Shader(vertData, fragData, attributes) {
@@ -21,11 +22,12 @@ namespace spruce {
 
 	void MetalShader::compileData() {
 		NSError* compileError = NULL;
-		dispatch_data_t data = dispatch_data_create(vertData, vertData.size, dispatch_get_main_queue(), DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+		dispatch_data_t data = dispatch_data_create(vertData, vertData.size, nil, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
 		library = [device newLibraryWithData:data error:&compileError];
 		if (!library) {
 			NSLog(@"%@", compileError);
 		}
+		dispatch_release(data);
 	}
 
 	void MetalShader::compileSource() {
@@ -43,6 +45,12 @@ namespace spruce {
 			compileSource();
 		} else {
 			compileData();
+		}
+		MetalRenderTarget* target = nullptr;
+		if (renderPass != nullptr && renderPass->target != nullptr && ((MetalRenderTarget*)renderPass->target)->renderPassDescriptor != nullptr) {
+			target = (MetalRenderTarget*) renderPass->target;
+		} else {
+			target = (MetalRenderTarget*) app::window->surface->target;
 		}
 		vertexFunction = [library newFunctionWithName:@"vertexShader"];
 		fragmentFunction = [library newFunctionWithName:@"fragmentShader"];
@@ -70,24 +78,18 @@ namespace spruce {
 		desc.label = @"Spruce Render Pipeline";
 		desc.vertexFunction = vertexFunction;
 		desc.fragmentFunction = fragmentFunction;
-		if (renderPass != nullptr && ((MetalRenderTarget*)renderPass->target)->color != nullptr) {
-			desc.colorAttachments[0].pixelFormat = ((MetalRenderTarget*)renderPass->target)->color->mtlTexture.pixelFormat;
-		} else {
-			desc.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm_sRGB;
+		desc.colorAttachments[0].pixelFormat = target->renderPassDescriptor.colorAttachments[0].texture.pixelFormat;
+		if (desc.colorAttachments[0].pixelFormat != MTLPixelFormatInvalid) {
+			desc.colorAttachments[0].blendingEnabled = YES;
+			desc.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;
+			desc.colorAttachments[0].alphaBlendOperation = MTLBlendOperationAdd;
+			desc.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+			desc.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+			desc.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+			desc.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
 		}
-		desc.colorAttachments[0].blendingEnabled = YES;
-		desc.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;
-		desc.colorAttachments[0].alphaBlendOperation = MTLBlendOperationAdd;
-		desc.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-		desc.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
-		desc.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-		desc.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
 		desc.vertexDescriptor = vertexDescriptor;
-		if (renderPass != nullptr) {
-			desc.depthAttachmentPixelFormat = ((MetalRenderTarget*)renderPass->target)->depth->mtlTexture.pixelFormat;
-		} else {
-			desc.depthAttachmentPixelFormat = [view getDepthPixelFormat];
-		}
+		desc.depthAttachmentPixelFormat = target->renderPassDescriptor.depthAttachment.texture.pixelFormat;
 		NSError* error = NULL;
 		pipelineState = [device newRenderPipelineStateWithDescriptor:desc error:&error];
 		if (!pipelineState) {

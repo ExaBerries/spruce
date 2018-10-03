@@ -1,7 +1,9 @@
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/SpruceView.h>
 #include <backend/mac/opengl/OpenGLView.h>
+#include <backend/mac/opengl/CocoaOpenGLSurface.h>
 #include <backend/api/metal/MetalContext.h>
+#include <backend/mac/metal/MetalSurface.h>
 #include <backend/mac/metal/MetalView.h>
 #include <backend/mac/objcpp.h>
 #include <log.h>
@@ -67,14 +69,18 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	void CocoaWindow::initForAPI(app::API api) {
+	void CocoaWindow::initSurface(app::API api) {
+		if (surface != nullptr) {
+			delete surface;
+		}
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
 		if (api == app::OPENGL) {
 			this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];
+			this->surface = new CocoaOpenGLSurface(this->view);
 		} else if (api == app::METAL) {
 			spruce::initDevice();
 			this->view = [[MetalView alloc] initWithFrame:viewRect window:this];
-			spruce::view = (MetalView*) view;
+			this->surface = new MetalSurface(this->view);
 		} else if (api == app::METAL2) {
 		}
 		NSView* oldView = window.contentView;
@@ -83,6 +89,7 @@ namespace spruce {
 		[oldView release];
 		if (api == app::OPENGL) {
 			[(OpenGLView*)view initContext];
+			[[(OpenGLView*)view getContext] makeCurrentContext];
 		}
 		[window update];
 		[window.contentView update];

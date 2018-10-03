@@ -9,18 +9,6 @@
 
 namespace spruce {
 	OpenGL::OpenGL(Window* window) : RenderAPI(window, vec3f(2, 2, 2)) {
-		fontVert =
-			#include "font.vert"
-		;
-		fontFrag =
-			#include "font.frag"
-		;
-		shapeVert =
-			#include "shape.vert"
-		;
-		shapeFrag =
-			#include "shape.frag"
-		;
 	}
 
 	OpenGL::~OpenGL() {
@@ -30,38 +18,44 @@ namespace spruce {
 	}
 
 	void OpenGL::surfaceCreated() {
-		makeContextCurrent(window);
 		window->setVisible(true);
-		fontAttributes = buffer<VertexAttribute>(2);
+		string fontVert =
+			#include "font.vert"
+		;
+		string fontFrag =
+			#include "font.frag"
+		;
+		string shapeVert =
+			#include "shape.vert"
+		;
+		string shapeFrag =
+			#include "shape.frag"
+		;
+		buffer<VertexAttribute> fontAttributes(2);
 		fontAttributes[0] = VertexAttribute("position", 3);
 		fontAttributes[1] = VertexAttribute("texCoord", 2);
-		fontShader = createShader(fontVert, fontFrag, fontAttributes);
+		Shader* fontShader = createShader(fontVert, fontFrag, fontAttributes);
 		fontShader->compile(nullptr);
 		fontShader->registerUniform("camera", Shader::VERTEX, 1);
 		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
 		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
-		shapeAttributes = buffer<VertexAttribute>(2);
+		fontBatcher = new FontBatcher(fontAttributes, fontShader);
+		buffer<VertexAttribute> shapeAttributes(2);
 		shapeAttributes[0] = VertexAttribute("a_pos", 3);
 		shapeAttributes[1] = VertexAttribute("a_color", 4);
-		shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
+		Shader* shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
 		shapeShader->compile(nullptr);
 		shapeShader->registerUniform("camera", Shader::VERTEX, 1);
+		shapeBatcher = new ShapeBatcher(shapeAttributes, shapeShader);
 	}
 
 	void OpenGL::renderStart() {
-		makeContextCurrent(window);
-		swapInterval(window, spruce::graphics::vsync);
 		glViewport(0, 0, window->width, window->height);
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGL::renderEnd() {
-		swapBuffers(window);
-	}
-
-	string OpenGL::getError() {
-		return std::to_string(glGetError());
 	}
 
 	Mesh* OpenGL::createMesh(buffer<float> vertices, buffer<uint16> indices) {
@@ -203,15 +197,12 @@ namespace spruce {
 		glDeleteVertexArrays(1, &vao);
 	}
 
-	void OpenGL::renderStart(graphics::RenderPass* renderPass) {
-		if (renderPass->target != nullptr) {
-			bind(((OpenGLRenderTarget*)renderPass->target)->texture);
-			glBindFramebuffer(GL_FRAMEBUFFER, ((OpenGLRenderTarget*)renderPass->target)->framebuffer);
-			glViewport(0, 0, renderPass->target->width, renderPass->target->height);
-		} else {
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			glViewport(0, 0, window->width, window->height);
+	void OpenGL::changeTarget(RenderTarget* target) {
+		if (((OpenGLRenderTarget*)target)->texture != nullptr) {
+			bind(((OpenGLRenderTarget*)target)->texture);
 		}
+		glBindFramebuffer(GL_FRAMEBUFFER, ((OpenGLRenderTarget*)target)->framebuffer);
+		glViewport(0, 0, target->width, target->height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 

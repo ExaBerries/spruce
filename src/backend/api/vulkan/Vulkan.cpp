@@ -359,7 +359,7 @@ namespace spruce {
 	void Vulkan::render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
 	}
 
-	void Vulkan::renderStart(graphics::RenderPass* renderPass) {
+	void Vulkan::changeTarget(RenderTarget* target) {
 	}
 
 	void Vulkan::bind(Mesh* mesh) {

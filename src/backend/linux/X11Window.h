@@ -24,7 +24,7 @@ namespace spruce {
 
 			void createXWindow(Visual* visual, float depth);
 
-			void initForAPI(app::API api);
+			void initSurface(app::API api);
 			void apiInitalized();
 			void setTitle(string title);
 			void setVisible(bool visible);

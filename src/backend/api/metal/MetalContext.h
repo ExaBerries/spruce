@@ -3,11 +3,8 @@
 #include <objc/objc.h>
 #include <Metal/Metal.h>
 #include <MetalKit/MetalKit.h>
-#include <backend/mac/metal/MetalView.h>
-#include <backend/api/metal/MetalRenderTarget.h>
 
 namespace spruce {
-	extern MetalView* view;
 	extern std::vector<id<MTLDevice>> devices;
 	extern id<MTLDevice> physicalDevice;
 	extern id<MTLCommandQueue> commandQueue;

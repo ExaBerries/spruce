@@ -41,7 +41,7 @@ namespace spruce {
 		XMapWindow(display, window);
 	}
 
-	void X11Window::initForAPI(app::API api) {
+	void X11Window::initSurface(app::API api) {
 		if (layer != nullptr) {
 			delete layer;
 			layer = nullptr;

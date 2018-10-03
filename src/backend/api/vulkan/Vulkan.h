@@ -1,15 +1,9 @@
 #pragma once
 #include <backend/api/RenderAPI.h>
-#include <backend/api/RenderAPI.h>
-#include <backend/api/opengl/OpenGLContext.h>
 #include <graphics/Screen.h>
 #include <math/mat/mat4f.h>
 
 namespace spruce {
-	namespace app {
-		extern graphics::Screen* screen;
-	}
-
 	class Vulkan : public RenderAPI {
 		public:
 			Vulkan(Window* window);
@@ -31,7 +25,7 @@ namespace spruce {
 
 			void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
 			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
-			void renderStart(graphics::RenderPass* renderPass);
+			void changeTarget(RenderTarget* target);
 			void bind(Mesh* mesh);
 			void bind(Texture* texture);
 			void unbind(Texture* texture);

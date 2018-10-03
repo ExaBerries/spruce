@@ -38,6 +38,7 @@ namespace spruce {
 						thread->taskBackend = nullptr;
 					}
 				}
+				std::this_thread::sleep_for(std::chrono::nanoseconds(1000));
 			}
 		}
 	}

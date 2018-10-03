@@ -5,7 +5,7 @@
 #include <backend/api/opengl/OpenGL.h>
 
 namespace spruce {
-	class OpenGLTexture: public Texture {
+	class OpenGLTexture : public Texture {
 		public:
 			GLuint texture;
 			uint16 unit;

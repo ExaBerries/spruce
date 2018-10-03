@@ -1,15 +1,10 @@
 #pragma once
 #include <common.h>
 #include <backend/api/RenderAPI.h>
-#include <backend/api/opengl/OpenGLContext.h>
 #include <graphics/Screen.h>
 #include <math/mat/mat4f.h>
 
 namespace spruce {
-	namespace app {
-		extern graphics::Screen* screen;
-	}
-
 	class OpenGL : public RenderAPI {
 		public:
 			OpenGL(Window* window);
@@ -20,8 +15,6 @@ namespace spruce {
 			void renderStart();
 			void renderEnd();
 
-			string getError();
-
 			Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
 			Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
 			Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes);
@@ -31,7 +24,7 @@ namespace spruce {
 
 			void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
 			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
-			void renderStart(graphics::RenderPass* renderPass);
+			void changeTarget(RenderTarget* target);
 			void bind(Mesh* mesh);
 			void bind(Texture* texture);
 			void unbind(Texture* texture);

@@ -14,6 +14,7 @@
 #include <log.h>
 #include <system/time.h>
 #include <system/memory.h>
+#include <task/semaphore.h>
 #include <math/math.h>
 #endif
 

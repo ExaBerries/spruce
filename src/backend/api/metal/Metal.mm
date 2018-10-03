@@ -11,14 +11,6 @@
 
 namespace spruce {
 	Metal::Metal(Window* window) : RenderAPI(window, vec3f(2, 2, 1)) {
-		fontVert =
-			#include "font.metal"
-		;
-		fontFrag = "";
-		shapeVert =
-			#include "shape.metal"
-		;
-		shapeFrag = "";
 	}
 
 	Metal::~Metal() {
@@ -33,55 +25,36 @@ namespace spruce {
 		depthStencilDescriptor.depthWriteEnabled = YES;
 		depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
 		[depthStencilDescriptor release];
-		fontAttributes = buffer<VertexAttribute>(2);
+		string fontVert =
+			#include "font.metal"
+		;
+		string fontFrag = "";
+		string shapeVert =
+			#include "shape.metal"
+		;
+		string shapeFrag = "";
+		buffer<VertexAttribute> fontAttributes(2);
 		fontAttributes[0] = VertexAttribute("position", 3);
 		fontAttributes[1] = VertexAttribute("texCoord", 2);
-		fontShader = createShader(fontVert, fontFrag, fontAttributes);
+		Shader* fontShader = createShader(fontVert, fontFrag, fontAttributes);
 		fontShader->compile(nullptr);
 		fontShader->registerUniform("camera", Shader::VERTEX, 1);
 		fontShader->registerUniform("tex", Shader::FRAGMENT, 2);
 		fontShader->registerUniform("color", Shader::FRAGMENT, 3);
-		shapeAttributes = buffer<VertexAttribute>(2);
+		fontBatcher = new FontBatcher(fontAttributes, fontShader);
+		buffer<VertexAttribute> shapeAttributes(2);
 		shapeAttributes[0] = VertexAttribute("position", 3);
 		shapeAttributes[1] = VertexAttribute("color", 4);
-		shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
+		Shader* shapeShader = createShader(shapeVert, shapeFrag, shapeAttributes);
 		shapeShader->compile(nullptr);
 		shapeShader->registerUniform("camera", Shader::VERTEX, 1);
+		shapeBatcher = new ShapeBatcher(shapeAttributes, shapeShader);
 	}
 
 	void Metal::renderStart() {
-		commandBuffer = [commandQueue commandBuffer];
-		[commandBuffer enqueue];
-		[view update];
-		MTLRenderPassDescriptor* desc = [view getRenderPassDescriptor];
-		if (desc == nullptr) {
-			return;
-		}
-		renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:desc];
-		renderEncoder.label = @"SpruceRenderEncoder";
-		[renderEncoder setViewport:(MTLViewport){0.0, 0.0, [view getDrawableSize].width, [view getDrawableSize].height, 0.0, 1.0}];
-		[renderEncoder setDepthStencilState:depthStencilState];
 	}
 
 	void Metal::renderEnd() {
-		if ([view getRenderPassDescriptor] == nullptr) {
-			return;
-		}
-		[renderEncoder endEncoding];
-		id<CAMetalDrawable> drawable = [view getDrawable];
-		if (drawable != nil) {
-			[commandBuffer presentDrawable:[view getDrawable]];
-		} else {
-			serr("drawable is nil");
-		}
-		[commandBuffer commit];
-		[view releaseDrawable];
-		[commandBuffer release];
-		[renderEncoder release];
-	}
-
-	string Metal::getError() {
-		return "";
 	}
 
 	Mesh* Metal::createMesh(buffer<float> vertices, buffer<uint16> indices) {
@@ -190,19 +163,14 @@ namespace spruce {
 		}
 	}
 
-	void Metal::renderStart(graphics::RenderPass* renderPass) {
+	void Metal::changeTarget(RenderTarget* target) {
 		if (renderEncoder != nil) {
 			[renderEncoder endEncoding];
 			[renderEncoder release];
 		}
-		if (renderPass->target != nullptr) {
-			renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:((MetalRenderTarget*)renderPass->target)->renderPassDescriptor];
-			renderEncoder.label = @"SpruceRenderEncoder";
-			[renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double) renderPass->target->width, (double) renderPass->target->height, 0.0, 1.0}];
-		} else {
-			renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:[view getRenderPassDescriptor]];
-			[renderEncoder setViewport:(MTLViewport){0.0, 0.0, [view getDrawableSize].width, [view getDrawableSize].height, 0.0, 1.0}];
-		}
+		renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:((MetalRenderTarget*)target)->renderPassDescriptor];
+		renderEncoder.label = @"SpruceRenderEncoder";
+		[renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double) target->width, (double) target->height, 0.0, 1.0}];
 		[renderEncoder setDepthStencilState:depthStencilState];
 	}
 

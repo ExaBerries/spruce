@@ -1,10 +1,9 @@
+#include <pipeline/EncodeExecutePipeline.h>
 #include <app.h>
 #include <graphics/graphics.h>
 #include <task/async.h>
 #include <backend/os.h>
-#include <backend/api/RenderAPI.h>
 #include <pipeline/encode.h>
-#include <pipeline/EncodeExecutePipeline.h>
 
 namespace spruce {
 	EncodeExecutePipeline::EncodeExecutePipeline() {
@@ -35,6 +34,7 @@ namespace spruce {
 		#endif
 		#endif
 		os::updateStart();
+		app::window->surface->renderStart();
 		app::api->renderStart();
 		buffer<CommandBuffer*> commandBuffers = executeFrame->getCommandBuffers();
 		for (CommandBuffer* cmdBuffer : commandBuffers) {
@@ -54,6 +54,7 @@ namespace spruce {
 		executeFrame = nullptr;
 		waitForMainTasks();
 		app::api->renderEnd();
+		app::window->surface->renderEnd();
 		os::updateEnd();
 	}
 

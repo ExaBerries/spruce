@@ -385,6 +385,26 @@ namespace spruce {
 		return *this;
 	}
 
+	bool mat4f::operator==(const mat4f& matrix) const {
+		for (uint8 i = 0; i < 16; i++) {
+			if (values[i] != matrix.values[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	bool mat4f::operator!=(const mat4f& matrix) const {
+		for (uint8 i = 0; i < 16; i++) {
+			if (values[i] != matrix.values[i]) {
+				if (values[i] != matrix.values[i]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	std::ostream& operator<<(std::ostream& stream, const mat4f& matrix) {
 		stream << "mat4f(";
 		for (int i = 0; i < 15; i++) {
