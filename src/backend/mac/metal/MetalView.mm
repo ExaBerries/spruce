@@ -25,16 +25,10 @@
 	mlayer.drawableSize = CGSizeMake(spruce::graphics::width, spruce::graphics::height);
 	mlayer.magnificationFilter = kCAFilterNearest;
 	self.layer = mlayer;
-	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:spruce::graphics::width height:spruce::graphics::height mipmapped:NO];
-	desc.resourceOptions = MTLResourceStorageModePrivate;
-	desc.storageMode = MTLStorageModePrivate;
-	desc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
-	depthTexture = [spruce::device newTextureWithDescriptor:desc];
 	return mlayer;
 }
 
 - (void) dealloc {
-	[depthTexture release];
 }
 
 - (BOOL) wantsLayer {
@@ -52,41 +46,9 @@
 	} else {
 		mlayer.displaySyncEnabled = NO;
 	}
-	MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:spruce::graphics::width height:spruce::graphics::height mipmapped:NO];
-	desc.resourceOptions = MTLResourceStorageModePrivate;
-	desc.storageMode = MTLStorageModePrivate;
-	desc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
-	depthTexture = [spruce::device newTextureWithDescriptor:desc];
-	drawable = [mlayer nextDrawable];
-	[renderPassDescriptor release];
-	renderPassDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
-	renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
-	renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-	renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-	renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0);
-	renderPassDescriptor.depthAttachment.texture = depthTexture;
-	renderPassDescriptor.depthAttachment.loadAction = MTLLoadActionClear;
-	renderPassDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
-	renderPassDescriptor.depthAttachment.clearDepth = 1.0;
 }
 
 - (id<CAMetalDrawable>) getDrawable {
-	return drawable;
-}
-
-- (MTLRenderPassDescriptor*) getRenderPassDescriptor {
-	return renderPassDescriptor;
-}
-
-- (void) releaseDrawable {
-	[drawable release];
-}
-
-- (MTLPixelFormat) getDepthPixelFormat {
-	return depthTexture.pixelFormat;
-}
-
-- (CGSize) getDrawableSize {
-	return ((CAMetalLayer*)self.layer).drawableSize;
+	return [mlayer nextDrawable];
 }
 @end

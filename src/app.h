@@ -2,14 +2,13 @@
 #include <common.h>
 #include <API.h>
 #include <backend/Window.h>
+#include <backend/api/RenderAPI.h>
 #include <graphics/Screen.h>
 #include <pipeline/Pipeline.h>
 #include <pipeline/SimplePipeline.h>
 #include <pipeline/EncodeExecutePipeline.h>
 
 namespace spruce {
-	class RenderAPI;
-
 	namespace app {
 		extern std::vector<std::function<void()>> freeCallbacks;
 		extern Window* window;

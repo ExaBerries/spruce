@@ -5,6 +5,12 @@
 #include <backend/api/opengl/OpenGL.h>
 
 namespace spruce {
+	OpenGLRenderTarget::OpenGLRenderTarget() : RenderTarget(graphics::width, graphics::height) {
+		framebuffer = 0;
+		texture = nullptr;
+		depthBuffer = 0;
+	}
+
 	OpenGLRenderTarget::OpenGLRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) : RenderTarget(width, height) {
 		glGenFramebuffers(1, &framebuffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -32,8 +38,14 @@ namespace spruce {
 	}
 
 	OpenGLRenderTarget::~OpenGLRenderTarget() {
-		delete texture;
-		glDeleteRenderbuffers(1, &depthBuffer);
-		glDeleteFramebuffers(1, &framebuffer);
+		if (texture != nullptr) {
+			delete texture;
+		}
+		if (depthBuffer != 0) {
+			glDeleteRenderbuffers(1, &depthBuffer);
+		}
+		if (framebuffer != 0) {
+			glDeleteFramebuffers(1, &framebuffer);
+		}
 	}
 }

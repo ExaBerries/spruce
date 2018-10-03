@@ -1,7 +1,6 @@
 #include <backend/api/metal/MetalContext.h>
 
 namespace spruce {
-	MetalView* view;
 	std::vector<id<MTLDevice>> devices;
 	id<MTLDevice> device;
 	id<MTLCommandQueue> commandQueue;
