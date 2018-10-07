@@ -1,6 +1,5 @@
-#include <app.h>
-#include <backend/api/RenderAPI.h>
 #include <graphics/camera/PerspectiveCamera.h>
+#include <app.h>
 
 namespace spruce {
 	namespace graphics {

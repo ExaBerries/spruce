@@ -1,4 +1,4 @@
-#include <backend/api/opengl/OpenGLContext.h>
+//#include <backend/api/opengl/OpenGLContext.h>
 #ifdef __linux__
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -17,6 +17,9 @@ namespace spruce {
 	}
 
 	void swapInterval(Window* window, uint8 interval) {
+		void (*glXSwapInterval)(uint8) = 0;
+		glXSwapInterval = (void (*)(uint8)) glXGetProcAddressARB((const GLubyte*) "glXSwapInvervalEXT");
+		glXSwapInterval(interval);
 	}
 }
 #endif

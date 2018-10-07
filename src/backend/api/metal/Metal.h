@@ -1,5 +1,6 @@
-#include <backend/api/RenderAPI.h>
+#pragma once
 #include <common.h>
+#include <backend/api/RenderAPI.h>
 #include <graphics/Screen.h>
 #include <objc/objc.h>
 
@@ -22,7 +23,7 @@ namespace spruce {
 			RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 			void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
-			void renderStart(graphics::RenderPass* renderPass);
+			void changeTarget(RenderTarget* renderTarget);
 			void bind(Mesh* mesh);
 			void bind(Texture* texture);
 			void unbind(Texture* texture);

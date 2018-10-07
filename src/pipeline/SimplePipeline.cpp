@@ -1,10 +1,9 @@
+#include <pipeline/SimplePipeline.h>
 #include <app.h>
 #include <backend/os.h>
 #include <graphics/graphics.h>
-#include <backend/api/RenderAPI.h>
 #include <task/async.h>
 #include <pipeline/encode.h>
-#include <pipeline/SimplePipeline.h>
 
 namespace spruce {
 	SimplePipeline::SimplePipeline() {
@@ -28,6 +27,7 @@ namespace spruce {
 		#endif
 		#endif
 		os::updateStart();
+		app::window->surface->renderStart();
 		app::api->renderStart();
 		buffer<CommandBuffer*> commandBuffers = frame->getCommandBuffers();
 		for (CommandBuffer* cmdBuffer : commandBuffers) {
@@ -47,6 +47,7 @@ namespace spruce {
 		frame = nullptr;
 		waitForMainTasks();
 		app::api->renderEnd();
+		app::window->surface->renderEnd();
 		os::updateEnd();
 	}
 

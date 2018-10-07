@@ -52,34 +52,9 @@ namespace spruce {
 	}
 
 	void Metal::renderStart() {
-		commandBuffer = [commandQueue commandBuffer];
-		[commandBuffer enqueue];
-		[view update];
-		MTLRenderPassDescriptor* desc = [view getRenderPassDescriptor];
-		if (desc == nullptr) {
-			return;
-		}
-		renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:desc];
-		renderEncoder.label = @"SpruceRenderEncoder";
-		[renderEncoder setViewport:(MTLViewport){0.0, 0.0, [view getDrawableSize].width, [view getDrawableSize].height, 0.0, 1.0}];
-		[renderEncoder setDepthStencilState:depthStencilState];
 	}
 
 	void Metal::renderEnd() {
-		if ([view getRenderPassDescriptor] == nullptr) {
-			return;
-		}
-		[renderEncoder endEncoding];
-		id<CAMetalDrawable> drawable = [view getDrawable];
-		if (drawable != nil) {
-			[commandBuffer presentDrawable:[view getDrawable]];
-		} else {
-			serr("drawable is nil");
-		}
-		[commandBuffer commit];
-		[view releaseDrawable];
-		[commandBuffer release];
-		[renderEncoder release];
 	}
 
 	Mesh* Metal::createMesh(buffer<float> vertices, buffer<uint16> indices) {
@@ -188,19 +163,14 @@ namespace spruce {
 		}
 	}
 
-	void Metal::renderStart(graphics::RenderPass* renderPass) {
+	void Metal::changeTarget(RenderTarget* target) {
 		if (renderEncoder != nil) {
 			[renderEncoder endEncoding];
 			[renderEncoder release];
 		}
-		if (renderPass->target != nullptr) {
-			renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:((MetalRenderTarget*)renderPass->target)->renderPassDescriptor];
-			renderEncoder.label = @"SpruceRenderEncoder";
-			[renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double) renderPass->target->width, (double) renderPass->target->height, 0.0, 1.0}];
-		} else {
-			renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:[view getRenderPassDescriptor]];
-			[renderEncoder setViewport:(MTLViewport){0.0, 0.0, [view getDrawableSize].width, [view getDrawableSize].height, 0.0, 1.0}];
-		}
+		renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:((MetalRenderTarget*)target)->renderPassDescriptor];
+		renderEncoder.label = @"SpruceRenderEncoder";
+		[renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double) target->width, (double) target->height, 0.0, 1.0}];
 		[renderEncoder setDepthStencilState:depthStencilState];
 	}
 

@@ -1,6 +1,5 @@
-#include <app.h>
-#include <backend/api/RenderAPI.h>
 #include <graphics/command/render/RenderPassCommand.h>
+#include <app.h>
 
 namespace spruce {
 	namespace graphics {
@@ -13,7 +12,7 @@ namespace spruce {
 			}
 
 			void RenderPassCommand::execute() {
-				app::api->renderStart(renderPass);
+				app::api->changeTarget(renderPass->target);
 			}
 
 			string RenderPassCommand::getName() const {

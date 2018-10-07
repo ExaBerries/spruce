@@ -1,5 +1,4 @@
 #include <graphics/graphics.h>
-#include <backend/api/RenderAPI.h>
 #include <backend/os.h>
 #include <io/file.h>
 #include <app.h>
@@ -134,6 +133,10 @@ namespace spruce {
 		}
 
 		void render(RenderPass* renderPass) {
+			if (renderPass->target == nullptr) {
+				serr("render target is nullptr");
+				return;
+			}
 			getCommandBuffer().add(new cmd::RenderPassCommand(renderPass));
 			waitForGraphicsTasks(true);
 			renderPass->render();

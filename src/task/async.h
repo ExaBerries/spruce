@@ -4,6 +4,7 @@
 #include <task/TaskConfig.h>
 #include <task/TaskGroup.h>
 #include <backend/task/taskmanager.h>
+#include <task/semaphore.h>
 #include <mutex>
 #include <atomic>
 #include <thread>

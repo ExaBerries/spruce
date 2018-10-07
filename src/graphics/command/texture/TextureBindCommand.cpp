@@ -1,6 +1,5 @@
-#include <app.h>
-#include <backend/api/RenderAPI.h>
 #include <graphics/command/texture/TextureBindCommand.h>
+#include <app.h>
 
 namespace spruce {
 	namespace graphics {

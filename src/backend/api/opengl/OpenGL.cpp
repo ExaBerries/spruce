@@ -15,7 +15,6 @@ namespace spruce {
 	}
 
 	void OpenGL::init() {
-		makeContextCurrent(window);
 		window->setVisible(true);
 		string fontVert =
 			#include "font.vert"
@@ -48,15 +47,12 @@ namespace spruce {
 	}
 
 	void OpenGL::renderStart() {
-		makeContextCurrent(window);
-		swapInterval(window, spruce::graphics::vsync);
 		glViewport(0, 0, window->width, window->height);
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGL::renderEnd() {
-		swapBuffers(window);
 	}
 
 	Mesh* OpenGL::createMesh(buffer<float> vertices, buffer<uint16> indices) {
@@ -198,15 +194,13 @@ namespace spruce {
 		glDeleteVertexArrays(1, &vao);
 	}
 
-	void OpenGL::renderStart(graphics::RenderPass* renderPass) {
-		if (renderPass->target != nullptr) {
-			bind(((OpenGLRenderTarget*)renderPass->target)->texture);
-			glBindFramebuffer(GL_FRAMEBUFFER, ((OpenGLRenderTarget*)renderPass->target)->framebuffer);
-			glViewport(0, 0, renderPass->target->width, renderPass->target->height);
-		} else {
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			glViewport(0, 0, window->width, window->height);
+	void OpenGL::changeTarget(RenderTarget* target) {
+		OpenGLRenderTarget* t = (OpenGLRenderTarget*) target;
+		if (((OpenGLRenderTarget*)target)->texture != nullptr) {
+			bind(((OpenGLRenderTarget*)target)->texture);
 		}
+		glBindFramebuffer(GL_FRAMEBUFFER, ((OpenGLRenderTarget*)target)->framebuffer);
+		glViewport(0, 0, target->width, target->height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
@@ -280,8 +274,10 @@ namespace spruce {
 	}
 
 	void OpenGL::setUniform(Shader* shader, string name, graphics::RenderPass* renderPass) {
-		bind(((const OpenGLRenderTarget*)renderPass->target)->texture);
-		glUniform1i(shader->uniformLocations[name].index, ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
+		if (((const OpenGLRenderTarget*)renderPass->target)->texture != nullptr) {
+			bind(((const OpenGLRenderTarget*)renderPass->target)->texture);
+			glUniform1i(shader->uniformLocations[name].index, ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
+		}
 	}
 
 	string OpenGL::getGPUVendor() {
