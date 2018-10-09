@@ -5,13 +5,15 @@
 #include <MetalKit/MetalKit.h>
 
 namespace spruce {
-	extern std::vector<id<MTLDevice>> devices;
-	extern id<MTLDevice> device;
-	extern id<MTLCommandQueue> commandQueue;
-	extern id<MTLCommandBuffer> commandBuffer;
-	extern id<MTLDepthStencilState> depthStencilState;
-	extern id<MTLRenderCommandEncoder> renderEncoder;
+	class MetalContext {
+		public:
+			id<MTLDevice> device;
+			id<MTLCommandQueue> commandQueue;
+			id<MTLCommandBuffer> commandBuffer;
+			id<MTLDepthStencilState> depthStencilState;
+			id<MTLRenderCommandEncoder> renderEncoder;
 
-	void initDevice();
-	void refreshDeviceList();
+			MetalContext();
+			~MetalContext();
+	};
 }

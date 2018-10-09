@@ -69,28 +69,34 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	void CocoaWindow::initSurface(app::API api) {
+	void CocoaWindow::initOpenGL() {
 		if (surface != nullptr) {
 			delete surface;
 		}
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
-		if (api == app::OPENGL) {
-			this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];
-			this->surface = new CocoaOpenGLSurface(this->view);
-		} else if (api == app::METAL) {
-			spruce::initDevice();
-			this->view = [[MetalView alloc] initWithFrame:viewRect window:this];
-			this->surface = new MetalSurface(this->view);
-		} else if (api == app::METAL2) {
-		}
+		this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];
+		this->surface = new CocoaOpenGLSurface(this->view);
 		NSView* oldView = window.contentView;
 		[window setContentView:this->view];
 		[window makeFirstResponder:this->view];
 		[oldView release];
-		if (api == app::OPENGL) {
-			[(OpenGLView*)view initContext];
-			[[(OpenGLView*)view getContext] makeCurrentContext];
+		[(OpenGLView*)view initContext];
+		[[(OpenGLView*)view getContext] makeCurrentContext];
+		[window update];
+		[window.contentView update];
+	}
+
+	void CocoaWindow::initMetal(MetalContext* context) {
+		if (surface != nullptr) {
+			delete surface;
 		}
+		NSRect viewRect = NSMakeRect(0, 0, width, height);
+		this->view = [[MetalView alloc] initWithFrame:viewRect window:this context:context];
+		this->surface = new MetalSurface(this->view, context);
+		NSView* oldView = window.contentView;
+		[window setContentView:this->view];
+		[window makeFirstResponder:this->view];
+		[oldView release];
 		[window update];
 		[window.contentView update];
 	}

@@ -14,16 +14,13 @@ namespace spruce {
 	}
 
 	Metal::~Metal() {
-		[device release];
-		[commandQueue release];
-		[depthStencilState release];
 	}
 
 	void Metal::init() {
 		MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 		depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionLess;
 		depthStencilDescriptor.depthWriteEnabled = YES;
-		depthStencilState = [device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+		context.depthStencilState = [context.device newDepthStencilStateWithDescriptor:depthStencilDescriptor];
 		[depthStencilDescriptor release];
 		string fontVert =
 			#include "font.metal"
@@ -58,15 +55,15 @@ namespace spruce {
 	}
 
 	Mesh* Metal::createMesh(buffer<float> vertices, buffer<uint16> indices) {
-		return new MetalMesh(vertices, indices);
+		return new MetalMesh(vertices, indices, context);
 	}
 
 	Shader* Metal::createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) {
-		return new MetalShader(vertData, fragData, attributes);
+		return new MetalShader(vertData, fragData, attributes, context);
 	}
 
 	Shader* Metal::createShader(string& vert, string& frag, buffer<VertexAttribute> attributes) {
-		return new MetalShader(vert, frag, attributes);
+		return new MetalShader(vert, frag, attributes, context);
 	}
 
 	Texture* Metal::createTexture(const FileHandle& path) {
@@ -74,15 +71,15 @@ namespace spruce {
 		uint16 height = 0;
 		uint16 bitsPerPixel = 0;
 		buffer<uint8> data = io::loadImage(path, width, height, bitsPerPixel);
-		return new MetalTexture(Texture::RGBA, data, width, height);
+		return new MetalTexture(Texture::RGBA, data, width, height, context);
 	}
 
 	Texture* Metal::createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) {
-		return new MetalTexture(format, data, width, height);
+		return new MetalTexture(format, data, width, height, context);
 	}
 
 	RenderTarget* Metal::createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) {
-		return new MetalRenderTarget(format, width, height);
+		return new MetalRenderTarget(format, width, height, context);
 	}
 
 	void Metal::render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) {
@@ -104,11 +101,11 @@ namespace spruce {
 				mtlPrimitive = MTLPrimitiveTypeTriangle;
 				break;
 		}
-		[renderEncoder setVertexBuffer:((MetalMesh*)mesh)->vertexBuffer offset:0 atIndex:0];
+		[context.renderEncoder setVertexBuffer:((MetalMesh*)mesh)->vertexBuffer offset:0 atIndex:0];
 		if (mesh->indices.size > 0) {
-			[renderEncoder drawIndexedPrimitives:mtlPrimitive indexCount:((MetalMesh*)mesh)->indices.size indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
+			[context.renderEncoder drawIndexedPrimitives:mtlPrimitive indexCount:((MetalMesh*)mesh)->indices.size indexType:MTLIndexTypeUInt16 indexBuffer:((MetalMesh*)mesh)->indexBuffer indexBufferOffset:0];
 		} else {
-			[renderEncoder drawPrimitives:mtlPrimitive vertexStart:0 vertexCount:mesh->vertices.size];
+			[context.renderEncoder drawPrimitives:mtlPrimitive vertexStart:0 vertexCount:mesh->vertices.size];
 		}
 	}
 
@@ -117,7 +114,7 @@ namespace spruce {
 		id<MTLBuffer> indexBuffer;
 
 		if (vertices.size > 0) {
-			vertexBuffer = [device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
+			vertexBuffer = [context.device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
 			memcpy(vertexBuffer.contents, vertices.data, vertices.size * sizeof(float));
 			[vertexBuffer didModifyRange:NSMakeRange(0, vertices.size * sizeof(float))];
 		} else {
@@ -125,7 +122,7 @@ namespace spruce {
 			return;
 		}
 		if (indices.size > 0) {
-			indexBuffer = [device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
+			indexBuffer = [context.device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
 			memcpy(indexBuffer.contents, indices.data, indices.size * sizeof(uint16));
 			[indexBuffer didModifyRange:NSMakeRange(0, indices.size * sizeof(uint16))];
 		}
@@ -148,11 +145,11 @@ namespace spruce {
 				mtlPrimitive = MTLPrimitiveTypeTriangle;
 				break;
 		}
-		[renderEncoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
+		[context.renderEncoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
 		if (indices.size > 0) {
-			[renderEncoder drawIndexedPrimitives:mtlPrimitive indexCount:indices.size indexType:MTLIndexTypeUInt16 indexBuffer:indexBuffer indexBufferOffset:0];
+			[context.renderEncoder drawIndexedPrimitives:mtlPrimitive indexCount:indices.size indexType:MTLIndexTypeUInt16 indexBuffer:indexBuffer indexBufferOffset:0];
 		} else {
-			[renderEncoder drawPrimitives:mtlPrimitive vertexStart:0 vertexCount:vertices.size];
+			[context.renderEncoder drawPrimitives:mtlPrimitive vertexStart:0 vertexCount:vertices.size];
 		}
 
 		if (vertices.size > 0) {
@@ -164,14 +161,14 @@ namespace spruce {
 	}
 
 	void Metal::changeTarget(RenderTarget* target) {
-		if (renderEncoder != nil) {
-			[renderEncoder endEncoding];
-			[renderEncoder release];
+		if (context.renderEncoder != nil) {
+			[context.renderEncoder endEncoding];
+			[context.renderEncoder release];
 		}
-		renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:((MetalRenderTarget*)target)->renderPassDescriptor];
-		renderEncoder.label = @"SpruceRenderEncoder";
-		[renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double) target->width, (double) target->height, 0.0, 1.0}];
-		[renderEncoder setDepthStencilState:depthStencilState];
+		context.renderEncoder = [context.commandBuffer renderCommandEncoderWithDescriptor:((MetalRenderTarget*)target)->renderPassDescriptor];
+		context.renderEncoder.label = @"SpruceRenderEncoder";
+		[context.renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double) target->width, (double) target->height, 0.0, 1.0}];
+		[context.renderEncoder setDepthStencilState:context.depthStencilState];
 	}
 
 	void Metal::bind(Mesh* mesh) {
@@ -184,15 +181,15 @@ namespace spruce {
 	}
 
 	void Metal::bind(Shader* shader) {
-		[renderEncoder setRenderPipelineState:((MetalShader*)shader)->pipelineState];
+		[context.renderEncoder setRenderPipelineState:((MetalShader*)shader)->pipelineState];
 	}
 
 	void Metal::setUniform(Shader* shader, string name, const int32& value) {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:uniformData.index];
 		}
 	}
 
@@ -200,18 +197,18 @@ namespace spruce {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_int2 vec = {vector.x, vector.y};
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		}
 	}
 
 	void Metal::setUniform(Shader* shader, string name, const float& value) {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&value length:sizeof(value) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&value length:sizeof(value) atIndex:uniformData.index];
 		}
 	}
 
@@ -219,9 +216,9 @@ namespace spruce {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float2 vec = {vector.x, vector.y};
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		}
 	}
 
@@ -229,9 +226,9 @@ namespace spruce {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float3 vec = {vector.x, vector.y, vector.z};
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&vec length:sizeof(vec) atIndex:uniformData.index];
 		}
 	}
 
@@ -243,9 +240,9 @@ namespace spruce {
 		vector_float4 r3 = {matrix.values[12],matrix.values[13],matrix.values[14],matrix.values[15]};
 		matrix_float4x4 mat = matrix_from_rows(r0,r1,r2,r3);
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&mat length:sizeof(mat) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&mat length:sizeof(mat) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&mat length:sizeof(mat) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&mat length:sizeof(mat) atIndex:uniformData.index];
 		}
 	}
 
@@ -253,9 +250,9 @@ namespace spruce {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float4 quat = {quaternion.x, quaternion.y, quaternion.z, quaternion.w};
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&quat length:sizeof(quat) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&quat length:sizeof(quat) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&quat length:sizeof(quat) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&quat length:sizeof(quat) atIndex:uniformData.index];
 		}
 	}
 
@@ -263,18 +260,18 @@ namespace spruce {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		vector_float4 col = {color.r, color.g, color.b, color.a};
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexBytes:&col length:sizeof(col) atIndex:uniformData.index];
+			[context.renderEncoder setVertexBytes:&col length:sizeof(col) atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentBytes:&col length:sizeof(col) atIndex:uniformData.index];
+			[context.renderEncoder setFragmentBytes:&col length:sizeof(col) atIndex:uniformData.index];
 		}
 	}
 
 	void Metal::setUniform(Shader* shader, string name, Texture* texture) {
 		Shader::UniformData& uniformData = shader->uniformLocations[name];
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformData.index];
+			[context.renderEncoder setVertexTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformData.index];
+			[context.renderEncoder setFragmentTexture:((MetalTexture*)texture)->mtlTexture atIndex:uniformData.index];
 		}
 	}
 
@@ -287,9 +284,9 @@ namespace spruce {
 			texture = ((MetalRenderTarget*)renderPass->target)->depth->mtlTexture;
 		}
 		if (uniformData.location == Shader::VERTEX) {
-			[renderEncoder setVertexTexture:texture atIndex:uniformData.index];
+			[context.renderEncoder setVertexTexture:texture atIndex:uniformData.index];
 		} else if (uniformData.location == Shader::FRAGMENT) {
-			[renderEncoder setFragmentTexture:texture atIndex:uniformData.index];
+			[context.renderEncoder setFragmentTexture:texture atIndex:uniformData.index];
 		}
 	}
 
@@ -306,7 +303,7 @@ namespace spruce {
 	}
 
 	string Metal::getAPIRendererName() {
-		NSString* rendererName = [device name];
+		NSString* rendererName = [context.device name];
 		return convertStr(rendererName);
 	}
 

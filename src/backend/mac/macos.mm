@@ -169,9 +169,12 @@ namespace spruce {
 
 		RenderAPI* initAPI(Window* window, app::API api) {
 			if (api == app::OPENGL) {
+				((CocoaWindow*)window)->initOpenGL();
 				return new OpenGL(window);
 			} else if (api == app::METAL) {
-				return new Metal(window);
+				Metal* metal = new Metal(window);
+				((CocoaWindow*)window)->initMetal(&metal->context);
+				return metal;
 			} else {
 				return nullptr;
 			}
@@ -181,8 +184,6 @@ namespace spruce {
 			if (api == app::OPENGL) {
 				return true;
 			} else if (api == app::METAL) {
-				return true;
-			} else if (api == app::METAL2) {
 				return true;
 			}
 			return false;

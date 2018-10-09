@@ -89,7 +89,6 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			apiType = api;
-			window->initSurface(api);
 			app::api = os::initAPI(window, api);
 			if (app::api == nullptr) {
 				serr("could not instantiate api ", api);

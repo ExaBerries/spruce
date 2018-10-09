@@ -3,10 +3,13 @@
 #include <backend/api/RenderAPI.h>
 #include <graphics/Screen.h>
 #include <objc/objc.h>
+#include <backend/api/metal/MetalContext.h>
 
 namespace spruce {
 	class Metal : public RenderAPI {
 		public:
+			MetalContext context;
+
 			Metal(Window* window);
 			~Metal();
 

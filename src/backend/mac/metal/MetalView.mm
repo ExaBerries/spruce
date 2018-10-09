@@ -4,15 +4,16 @@
 #include <graphics/graphics.h>
 
 @implementation MetalView
-- (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)_window {
+- (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)_window context:(spruce::MetalContext*)_context {
 	self = [super initWithFrame:frame window:_window];
+	context = _context;
 	[self setWantsLayer:YES];
 	return self;
 }
 
 - (CALayer*) makeBackingLayer {
 	mlayer = [[CAMetalLayer alloc] init];
-	mlayer.device = spruce::device;
+	mlayer.device = context->device;
 	mlayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
 	mlayer.colorspace = CGColorSpaceCreateDeviceRGB();
 	mlayer.wantsExtendedDynamicRangeContent = YES;
