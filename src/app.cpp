@@ -1,8 +1,4 @@
 #include <app.h>
-#include <backend/api/opengl/OpenGL.h>
-#ifdef __APPLE__
-#include <backend/api/metal/Metal.h>
-#endif
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
@@ -94,28 +90,7 @@ namespace spruce {
 			}
 			apiType = api;
 			window->initSurface(api);
-			if (api == OPENGL) {
-				app::api = new OpenGL(window);
-			} else if (api == VULKAN) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
-			} else if (api == METAL) {
-				#ifdef __APPLE__
-					app::api = new Metal(window);
-				#else
-					serr("unsupported API", api);
-					exit(EXIT_FAILURE);
-				#endif
-			} else if (api == METAL2) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
-			} else if (api == DX11) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
-			} else if (api == DX12) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
-			}
+			app::api = os::initAPI(window, api);
 			if (app::api == nullptr) {
 				serr("could not instantiate api ", api);
 				exit(EXIT_FAILURE);
