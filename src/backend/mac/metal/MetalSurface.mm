@@ -4,15 +4,16 @@
 #include <graphics/graphics.h>
 
 namespace spruce {
-	MetalSurface::MetalSurface(MetalView* view) {
+	MetalSurface::MetalSurface(MetalView* view, MetalContext* context) {
 		this->view = view;
-		this->target = new MetalRenderTarget();
+		this->context = context;
+		this->target = new MetalRenderTarget(*context);
 		drawable = [view getDrawable];
 		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatDepth32Float width:spruce::graphics::width height:spruce::graphics::height mipmapped:NO];
 		desc.resourceOptions = MTLResourceStorageModePrivate;
 		desc.storageMode = MTLStorageModePrivate;
 		desc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
-		depthTexture = [spruce::device newTextureWithDescriptor:desc];
+		depthTexture = [context->device newTextureWithDescriptor:desc];
 		renderPassDesc = [MTLRenderPassDescriptor renderPassDescriptor];
 		renderPassDesc.colorAttachments[0].texture = drawable.texture;
 		renderPassDesc.colorAttachments[0].loadAction = MTLLoadActionClear;
@@ -31,8 +32,8 @@ namespace spruce {
 	}
 
 	void MetalSurface::renderStart() {
-		commandBuffer = [commandQueue commandBuffer];
-		[commandBuffer enqueue];
+		context->commandBuffer = [context->commandQueue commandBuffer];
+		[context->commandBuffer enqueue];
 		[view update];
 		drawable = [view getDrawable];
 		[depthTexture release];
@@ -40,7 +41,7 @@ namespace spruce {
 		desc.resourceOptions = MTLResourceStorageModePrivate;
 		desc.storageMode = MTLStorageModePrivate;
 		desc.usage = MTLTextureUsageRenderTarget | MTLTextureUsageShaderRead;
-		depthTexture = [spruce::device newTextureWithDescriptor:desc];
+		depthTexture = [context->device newTextureWithDescriptor:desc];
 		[desc release];
 		renderPassDesc.colorAttachments[0].texture = drawable.texture;
 		renderPassDesc.colorAttachments[0].loadAction = MTLLoadActionClear;
@@ -50,22 +51,25 @@ namespace spruce {
 		renderPassDesc.depthAttachment.loadAction = MTLLoadActionClear;
 		renderPassDesc.depthAttachment.storeAction = MTLStoreActionStore;
 		renderPassDesc.depthAttachment.clearDepth = 1.0;
-		renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDesc];
-		renderEncoder.label = @"SpruceRenderEncoder";
-		[renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double)drawable.texture.width, (double)drawable.texture.height, 0.0, 1.0}];
-		[renderEncoder setDepthStencilState:depthStencilState];
+		context->renderEncoder = [context->commandBuffer renderCommandEncoderWithDescriptor:renderPassDesc];
+		context->renderEncoder.label = @"SpruceRenderEncoder";
+		[context->renderEncoder setViewport:(MTLViewport){0.0, 0.0, (double)drawable.texture.width, (double)drawable.texture.height, 0.0, 1.0}];
+		[context->renderEncoder setDepthStencilState:context->depthStencilState];
 	}
 
 	void MetalSurface::renderEnd() {
-		[renderEncoder endEncoding];
+		if (context->renderEncoder == nullptr) {
+			return;
+		}
+		[context->renderEncoder endEncoding];
 		if (drawable != nil) {
-			[commandBuffer presentDrawable:drawable];
+			[context->commandBuffer presentDrawable:drawable];
 		} else {
 			serr("drawable is nil");
 		}
-		[commandBuffer commit];
+		[context->commandBuffer commit];
 		[drawable release];
-		[commandBuffer release];
-		[renderEncoder release];
+		[context->commandBuffer release];
+		[context->renderEncoder release];
 	}
 }

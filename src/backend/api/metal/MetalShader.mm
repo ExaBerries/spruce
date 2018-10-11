@@ -7,10 +7,10 @@
 #include <app.h>
 
 namespace spruce {
-	MetalShader::MetalShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) : Shader(vertData, fragData, attributes) {
+	MetalShader::MetalShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes, MetalContext& context) : Shader(vertData, fragData, attributes), context(context) {
 	}
 
-	MetalShader::MetalShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes) : Shader(vertSource, fragSource, attributes) {
+	MetalShader::MetalShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes, MetalContext& context) : Shader(vertSource, fragSource, attributes), context(context) {
 	}
 
 	MetalShader::~MetalShader() {
@@ -23,7 +23,7 @@ namespace spruce {
 	void MetalShader::compileData() {
 		NSError* compileError = NULL;
 		dispatch_data_t data = dispatch_data_create(vertData, vertData.size, nil, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-		library = [device newLibraryWithData:data error:&compileError];
+		library = [context.device newLibraryWithData:data error:&compileError];
 		if (!library) {
 			NSLog(@"%@", compileError);
 		}
@@ -34,7 +34,7 @@ namespace spruce {
 		string source = vertSource + "\n" + fragSource;
 		NSString* objcSource = convertStr(source);
 		NSError* compileError = NULL;
-		library = [device newLibraryWithSource:objcSource options:nil error:&compileError];
+		library = [context.device newLibraryWithSource:objcSource options:nil error:&compileError];
 		if (!library) {
 			NSLog(@"%@", compileError);
 		}
@@ -91,7 +91,7 @@ namespace spruce {
 		desc.vertexDescriptor = vertexDescriptor;
 		desc.depthAttachmentPixelFormat = target->renderPassDescriptor.depthAttachment.texture.pixelFormat;
 		NSError* error = NULL;
-		pipelineState = [device newRenderPipelineStateWithDescriptor:desc error:&error];
+		pipelineState = [context.device newRenderPipelineStateWithDescriptor:desc error:&error];
 		if (!pipelineState) {
 			NSLog(@"%@", error);
 		}

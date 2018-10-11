@@ -2,7 +2,7 @@
 #include <backend/api/metal/MetalContext.h>
 
 namespace spruce {
-	MetalMesh::MetalMesh(buffer<float> vertices, buffer<uint16> indices) : Mesh(vertices, indices) {
+	MetalMesh::MetalMesh(buffer<float> vertices, buffer<uint16> indices, MetalContext& context) : Mesh(vertices, indices), context(context) {
 		bufferVertexCount = 0;
 		bufferIndexCount = 0;
 		vertexBuffer = nil;
@@ -15,7 +15,7 @@ namespace spruce {
 
 	void MetalMesh::toVRAM(Shader* shader) {
 		if (vertexBuffer == nil && vertices.size != 0) {
-			vertexBuffer = [device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
+			vertexBuffer = [context.device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
 			bufferVertexCount = vertices.size;
 		} else {
 			if (vertices.size == 0) {
@@ -23,7 +23,7 @@ namespace spruce {
 				bufferVertexCount = 0;
 			} else if (bufferVertexCount != vertices.size) {
 				[vertexBuffer release];
-				vertexBuffer = [device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
+				vertexBuffer = [context.device newBufferWithLength:(vertices.size * sizeof(float)) options:MTLResourceStorageModeManaged];
 				bufferVertexCount = vertices.size;
 			}
 		}
@@ -32,7 +32,7 @@ namespace spruce {
 			[vertexBuffer didModifyRange:NSMakeRange(0, vertices.size * sizeof(float))];
 		}
 		if (indexBuffer == nil && indices.size != 0) {
-			indexBuffer = [device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
+			indexBuffer = [context.device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
 			bufferIndexCount = indices.size;
 		} else {
 			if (indices.size == 0) {
@@ -40,7 +40,7 @@ namespace spruce {
 				bufferIndexCount = 0;
 			} else if (bufferIndexCount != indices.size) {
 				[indexBuffer release];
-				indexBuffer = [device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
+				indexBuffer = [context.device newBufferWithLength:(indices.size * sizeof(uint16)) options:MTLResourceStorageModeManaged];
 				bufferIndexCount = indices.size;
 			}
 		}

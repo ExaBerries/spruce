@@ -94,35 +94,11 @@ namespace spruce {
 				exit(EXIT_FAILURE);
 			}
 			apiType = api;
-			window->initSurface(api);
-			if (api == OPENGL) {
-				app::api = new OpenGL(window);
-			} else if (api == VULKAN) {
-				app::api = new Vulkan(window);
-			} else if (api == METAL) {
-				#ifdef __APPLE__
-					app::api = new Metal(window);
-				#else
-					serr("unsupported API", api);
-					exit(EXIT_FAILURE);
-				#endif
-			} else if (api == METAL2) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
-			} else if (api == DX11) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
-			} else if (api == DX12) {
-				serr("unsupported API ", api);
-				exit(EXIT_FAILURE);
-			}
+			app::api = os::initAPI(window, api);
 			if (app::api == nullptr) {
 				serr("could not instantiate api ", api);
 				exit(EXIT_FAILURE);
 			}
-			app::api->createContext();
-			window->apiInitalized();
-			app::api->surfaceCreated();
 			clearCommands();
 		}
 

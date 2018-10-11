@@ -4,6 +4,8 @@
 #include <input/input.h>
 #include <app.h>
 #include <backend/linux/X11Window.h>
+#include <backend/api/opengl/OpenGL.h>
+#include <backend/api/vulkan/Vulkan.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -108,6 +110,24 @@ namespace spruce {
 
 		Window* createWindow() {
 			return new X11Window(display);
+		}
+
+		RenderAPI* initAPI(Window* window, app::API api) {
+			if (api == app::OPENGL) {
+				((X11Window*)window)->initOpenGL();
+				OpenGL* gl = new OpenGL(window);
+				gl->init();
+				((X11Window*)window)->apiInitalized();
+				return gl;
+			} else if (api == app::VULKAN) {
+				Vulkan* vulkan = new Vulkan(window);
+				vulkan->createContext();
+				((X11Window*)window)->initVulkan();
+				vulkan->surfaceCreated();
+				return vulkan;
+			} else {
+				return nullptr;
+			}
 		}
 
 		bool supportsAPI(app::API api) {

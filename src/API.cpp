@@ -14,9 +14,6 @@ namespace spruce {
 				case METAL:
 					stream << "Metal";
 					break;
-				case METAL2:
-					stream << "Metal2";
-					break;
 				case DX11:
 					stream << "DirectX 11";
 					break;

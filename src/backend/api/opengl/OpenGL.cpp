@@ -14,10 +14,7 @@ namespace spruce {
 	OpenGL::~OpenGL() {
 	}
 
-	void OpenGL::createContext() {
-	}
-
-	void OpenGL::surfaceCreated() {
+	void OpenGL::init() {
 		window->setVisible(true);
 		string fontVert =
 			#include "font.vert"

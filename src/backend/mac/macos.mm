@@ -4,6 +4,8 @@
 #include <app.h>
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/objcpp.h>
+#include <backend/api/opengl/OpenGL.h>
+#include <backend/api/metal/Metal.h>
 #include <sys/sysctl.h>
 #include <sys/stat.h>
 #include <system/system.h>
@@ -165,12 +167,23 @@ namespace spruce {
 			return new CocoaWindow();
 		}
 
+		RenderAPI* initAPI(Window* window, app::API api) {
+			if (api == app::OPENGL) {
+				((CocoaWindow*)window)->initOpenGL();
+				return new OpenGL(window);
+			} else if (api == app::METAL) {
+				Metal* metal = new Metal(window);
+				((CocoaWindow*)window)->initMetal(&metal->context);
+				return metal;
+			} else {
+				return nullptr;
+			}
+		}
+
 		bool supportsAPI(app::API api) {
 			if (api == app::OPENGL) {
 				return true;
 			} else if (api == app::METAL) {
-				return true;
-			} else if (api == app::METAL2) {
 				return true;
 			}
 			return false;

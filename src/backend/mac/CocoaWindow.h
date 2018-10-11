@@ -2,6 +2,7 @@
 #include <API.h>
 #include <backend/Window.h>
 #include <Cocoa/Cocoa.h>
+#include <backend/api/metal/MetalContext.h>
 
 @interface CocoaWindowObj : NSWindow {
 }
@@ -26,7 +27,8 @@ namespace spruce {
 			CocoaWindow();
 			virtual ~CocoaWindow();
 
-			void initSurface(app::API api);
+			void initOpenGL();
+			void initMetal(MetalContext* context);
 			void setTitle(string title);
 			void setVisible(bool visible);
 			void setFullscreen(bool fullscreen);

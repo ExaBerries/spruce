@@ -10,6 +10,7 @@ namespace spruce {
 		void free();
 
 		Window* createWindow();
+		RenderAPI* initAPI(Window* window, app::API api);
 		bool supportsAPI(app::API api);
 		bool supportsPrecompiledShader(app::API api);
 

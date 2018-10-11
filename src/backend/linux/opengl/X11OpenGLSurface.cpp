@@ -1,13 +1,13 @@
-#include <backend/linux/opengl/OpenGLHook.h>
+#include <backend/linux/opengl/X11OpenGLSurface.h>
 #ifdef __linux__
 #define GLX_CONTEXT_MAJOR_VERSION_ARB       0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB       0x2092
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
+#include <backend/api/opengl/OpenGLRenderTarget.h>
+#include <graphics/graphics.h>
 
 namespace spruce {
-	extern GLXContext* context;
-
-	OpenGLHook::OpenGLHook(Display* display) {
+	X11OpenGLSurface::X11OpenGLSurface(Display* display) {
 		this->display = display;
 		static GLint vatt[] = {
 			GLX_X_RENDERABLE, True,
@@ -26,7 +26,7 @@ namespace spruce {
 		GLXFBConfig* fbc = glXChooseFBConfig(display, DefaultScreen(display), vatt, &fbcount);
 		int best_fbc = -1, worst_fbc = -1, best_num_samp = -1, worst_num_samp = 999;
 		for (int32 i = 0; i < fbcount; i++) {
-			XVisualInfo *vi = glXGetVisualFromFBConfig(display, fbc[i]);
+			XVisualInfo* vi = glXGetVisualFromFBConfig(display, fbc[i]);
 			if (vi){
 				int samp_buf, samples;
 				glXGetFBConfigAttrib(display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf);
@@ -47,19 +47,19 @@ namespace spruce {
 		window = 0;
 	}
 
-	OpenGLHook::~OpenGLHook() {
+	X11OpenGLSurface::~X11OpenGLSurface() {
 		XFree(visualInfo);
 	}
 
-	Visual* OpenGLHook::getVisual() {
+	Visual* X11OpenGLSurface::getVisual() {
 		return visualInfo->visual;
 	}
 
-	uint32 OpenGLHook::getDepth() {
+	uint32 X11OpenGLSurface::getDepth() {
 		return visualInfo->depth;
 	}
 
-	void OpenGLHook::windowCreated(XWindow window) {
+	void X11OpenGLSurface::windowCreated(XWindow window) {
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
 		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc) glXGetProcAddressARB((const GLubyte*) "glXCreateContextAttribsARB");
 		GLint catt[] {
@@ -69,14 +69,28 @@ namespace spruce {
 			None
 		};
 		context = glXCreateContextAttribsARB(display, fbConfig, 0, True, catt);
-		spruce::context = &context;
 		XSync(display, False);
 		this->window = window;
 		glXMakeCurrent(display, window, context);
 		glewInit();
+		target = new OpenGLRenderTarget();
 	}
 
-	void OpenGLHook::apiInitalized(XWindow window) {
+	void X11OpenGLSurface::apiInitalized(XWindow window) {
+	}
+
+	void X11OpenGLSurface::renderStart() {
+		glXMakeCurrent(display, window, context);
+		uint8 interval = graphics::vsync;
+		void (*glXSwapInterval)(uint8) = 0;
+		glXSwapInterval = (void (*)(uint8)) glXGetProcAddressARB((const GLubyte*) "glXSwapInvervalEXT");
+		glXSwapInterval(interval);
+		target->width = graphics::width;
+		target->height = graphics::height;
+	}
+
+	void X11OpenGLSurface::renderEnd() {
+		glXSwapBuffers(display, window);
 	}
 }
 #endif

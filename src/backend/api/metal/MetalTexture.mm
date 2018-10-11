@@ -2,7 +2,7 @@
 #include <backend/api/metal/MetalContext.h>
 
 namespace spruce {
-	MetalTexture::MetalTexture(PixelFormat format, buffer<uint8> data, uint16& width, uint16& height) : Texture(format, data, width, height) {
+	MetalTexture::MetalTexture(PixelFormat format, buffer<uint8> data, uint16& width, uint16& height, MetalContext& context) : Texture(format, data, width, height), context(context) {
 	}
 
 	MetalTexture::~MetalTexture() {
@@ -36,7 +36,7 @@ namespace spruce {
 		} else {
 			desc.storageMode = MTLStorageModeManaged;
 		}
-		mtlTexture = [device newTextureWithDescriptor:desc];
+		mtlTexture = [context.device newTextureWithDescriptor:desc];
 		if (data != nullptr) {
 			uint16 bytesPerRow = 0;
 			bytesPerRow = width;

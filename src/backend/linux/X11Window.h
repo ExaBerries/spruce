@@ -1,6 +1,7 @@
 #pragma once
+
 #ifdef __linux__
-#include <backend/linux/APIHook.h>
+#include <backend/linux/X11RenderSurface.h>
 #include <common.h>
 #include <backend/Window.h>
 #include <X11/X.h>
@@ -13,7 +14,6 @@ namespace spruce {
 		public:
 			Display* display;
 			XWindow root;
-			APIHook* layer;
 			Colormap colormap;
 			XSetWindowAttributes setAttributes;
 			XWindow window;
@@ -24,7 +24,8 @@ namespace spruce {
 
 			void createXWindow(Visual* visual, float depth);
 
-			void initSurface(app::API api);
+			void initOpenGL();
+			void initVulkan();
 			void apiInitalized();
 			void setTitle(string title);
 			void setVisible(bool visible);
