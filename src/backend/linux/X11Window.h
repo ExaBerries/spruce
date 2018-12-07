@@ -1,8 +1,10 @@
 #pragma once
+
 #ifdef __linux__
-#include <backend/linux/APIHook.h>
 #include <common.h>
 #include <backend/Window.h>
+#include <backend/api/vulkan/VulkanContext.h>
+#include <backend/linux/X11RenderSurface.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -13,7 +15,6 @@ namespace spruce {
 		public:
 			Display* display;
 			XWindow root;
-			APIHook* layer;
 			Colormap colormap;
 			XSetWindowAttributes setAttributes;
 			XWindow window;
@@ -24,7 +25,8 @@ namespace spruce {
 
 			void createXWindow(Visual* visual, float depth);
 
-			void initForAPI(app::API api);
+			void initOpenGL();
+			void initVulkan(VulkanContext* context);
 			void setTitle(string title);
 			void setVisible(bool visible);
 			void setFullscreen(bool fullscreen);

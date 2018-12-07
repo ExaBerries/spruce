@@ -78,10 +78,26 @@ namespace spruce {
 					return app::api->createShader(metalData, buffer<uint8>(nullptr), attributes);
 				}
 				i += metalSize;
+				uint64 vkVertSize = 0;
+				memcpy(&vkVertSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
+				uint64 vkFragSize = 0;
+				memcpy(&vkFragSize, data + i, sizeof(uint64));
+				i += sizeof(uint64);
 				if (app::apiType == app::VULKAN) {
-					serr("unsupported api");
+					if (vkVertSize == 0) {
+						serr("no vulkan shader data");
+						return nullptr;
+					}
+					buffer<uint8> vertData(vkVertSize / sizeof(uint8));
+					memcpy(vertData, data + i, vkVertSize);
+					i += vkVertSize;
+					buffer<uint8> fragData(vkFragSize / sizeof(uint8));
+					memcpy(fragData, data + i, vkFragSize);
+					i += vkFragSize;
+					slog(vertData.size, " ", fragData.size);
 					data.free();
-					return nullptr; // TODO create Vulkan shader from SPIR-V data
+					return app::api->createShader(vertData, fragData, attributes);
 				}
 				if (app::apiType == app::DX11) {
 					serr("unsupported api");

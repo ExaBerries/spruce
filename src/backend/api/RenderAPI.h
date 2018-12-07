@@ -27,7 +27,6 @@ namespace spruce {
 			RenderAPI(Window* window, vec3f ndcSize);
 			virtual ~RenderAPI();
 
-			virtual void init() = 0;
 			virtual void renderStart() = 0;
 			virtual void renderEnd() = 0;
 

@@ -1,13 +1,14 @@
 #pragma once
+
 #ifdef __linux__
 #include <common.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <backend/api/opengl/platform.h>
-#include <backend/linux/APIHook.h>
+#include <backend/linux/X11RenderSurface.h>
 
 namespace spruce {
-	class OpenGLHook : public APIHook {
+	class X11OpenGLSurface : public X11RenderSurface {
 		public:
 			Display* display;
 			XWindow window;
@@ -15,12 +16,15 @@ namespace spruce {
 			GLXContext context;
 			XVisualInfo* visualInfo;
 
-			OpenGLHook(Display* display);
-			virtual ~OpenGLHook();
+			X11OpenGLSurface(Display* display);
+			virtual ~X11OpenGLSurface();
 
 			Visual* getVisual();
 			uint32 getDepth();
 			void windowCreated(XWindow window);
+			void apiInitalized(XWindow window);
+			void renderStart();
+			void renderEnd();
 	};
 }
 #endif

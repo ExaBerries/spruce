@@ -1,5 +1,8 @@
-﻿#ifdef __linux__
-#include <backend/linux/opengl/OpenGLHook.h>
+﻿
+
+#ifdef __linux__
+#include <backend/linux/opengl/X11OpenGLSurface.h>
+#include <backend/linux/vulkan/X11VulkanSurface.h>
 #include <backend/linux/X11Window.h>
 #include <graphics/graphics.h>
 
@@ -7,15 +10,11 @@ namespace spruce {
 	X11Window::X11Window(Display* display) {
 		this->display = display;
 		root = DefaultRootWindow(display);
-		layer = nullptr;
 		window = 0;
 		colormap = 0;
 	}
 
 	X11Window::~X11Window() {
-		if (layer != nullptr) {
-			delete layer;
-		}
 		XFreeColormap(display, colormap);
 		XDestroyWindow(display, window);
 	}
@@ -40,14 +39,28 @@ namespace spruce {
 		XMapWindow(display, window);
 	}
 
-	void X11Window::initForAPI(app::API api) {
-		if (api == app::OPENGL) {
-			layer = new OpenGLHook(display);
-		} else if (api == app::VULKAN) {
-
+	void X11Window::initOpenGL() {
+		if (surface != nullptr) {
+			delete surface;
+			surface = nullptr;
+			XFreeColormap(display, colormap);
+			XDestroyWindow(display, window);
 		}
-		createXWindow(layer->getVisual(), layer->getDepth());
-		layer->windowCreated(window);
+		surface = new X11OpenGLSurface(display);
+		createXWindow(((X11RenderSurface*)surface)->getVisual(), ((X11RenderSurface*)surface)->getDepth());
+		((X11RenderSurface*)surface)->windowCreated(window);
+	}
+
+	void X11Window::initVulkan(VulkanContext* context) {
+		if (surface != nullptr) {
+			delete surface;
+			surface = nullptr;
+			XFreeColormap(display, colormap);
+			XDestroyWindow(display, window);
+		}
+		surface = new X11VulkanSurface(display, context);
+		createXWindow(((X11RenderSurface*)surface)->getVisual(), ((X11RenderSurface*)surface)->getDepth());
+		((X11RenderSurface*)surface)->windowCreated(window);
 	}
 
 	void X11Window::setTitle(string title) {
@@ -61,6 +74,7 @@ namespace spruce {
 	}
 
 	void X11Window::close() {
+		open = false;
 	}
 
 	void X11Window::setCursorMode(input::CursorMode mode) {

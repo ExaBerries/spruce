@@ -13,7 +13,7 @@ namespace spruce {
 			Metal(Window* window);
 			~Metal();
 
-			void init();
+			void createContext();
 			void renderStart();
 			void renderEnd();
 

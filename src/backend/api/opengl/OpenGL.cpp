@@ -195,7 +195,6 @@ namespace spruce {
 	}
 
 	void OpenGL::changeTarget(RenderTarget* target) {
-		OpenGLRenderTarget* t = (OpenGLRenderTarget*) target;
 		if (((OpenGLRenderTarget*)target)->texture != nullptr) {
 			bind(((OpenGLRenderTarget*)target)->texture);
 		}
@@ -274,10 +273,8 @@ namespace spruce {
 	}
 
 	void OpenGL::setUniform(Shader* shader, string name, graphics::RenderPass* renderPass) {
-		if (((const OpenGLRenderTarget*)renderPass->target)->texture != nullptr) {
-			bind(((const OpenGLRenderTarget*)renderPass->target)->texture);
-			glUniform1i(shader->uniformLocations[name].index, ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
-		}
+		bind(((const OpenGLRenderTarget*)renderPass->target)->texture);
+		glUniform1i(shader->uniformLocations[name].index, ((OpenGLRenderTarget*)renderPass->target)->texture->unit);
 	}
 
 	string OpenGL::getGPUVendor() {

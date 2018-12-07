@@ -1,4 +1,9 @@
 #include <app.h>
+#include <backend/api/opengl/OpenGL.h>
+#ifdef __APPLE__
+#include <backend/api/metal/Metal.h>
+#endif
+#include <backend/api/vulkan/Vulkan.h>
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
@@ -94,7 +99,6 @@ namespace spruce {
 				serr("could not instantiate api ", api);
 				exit(EXIT_FAILURE);
 			}
-			app::api->init();
 			clearCommands();
 		}
 

@@ -1,15 +1,26 @@
 #pragma once
 #include <backend/api/RenderAPI.h>
 #include <graphics/Screen.h>
-#include <math/mat/mat4f.h>
+#include <backend/api/vulkan/VulkanContext.h>
 
 namespace spruce {
 	class Vulkan : public RenderAPI {
 		public:
+			VulkanContext context;
+
 			Vulkan(Window* window);
 			virtual ~Vulkan();
 
-			void init();
+			void addDefaultExtensions();
+			void createInstance();
+			void createPhysicalDevice();
+			void createVirtualDevice();
+			void createSwapChain();
+			void createImageViews();
+			void createPipeline();
+
+			void createContext();
+			void surfaceCreated();
 			void renderStart();
 			void renderEnd();
 
