@@ -24,7 +24,7 @@ namespace spruce {
 
 			void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
 			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
-			void renderStart(graphics::RenderPass* renderPass);
+			void changeTarget(RenderTarget* target);
 			void bind(Mesh* mesh);
 			void bind(Texture* texture);
 			void unbind(Texture* texture);
@@ -37,8 +37,8 @@ namespace spruce {
 			void setUniform(Shader* shader, string name, const mat4f& matrix);
 			void setUniform(Shader* shader, string name, const quaternion& quaternion);
 			void setUniform(Shader* shader, string name, const color& color);
-			void setUniform(Shader* shader, string name, const Texture* texture);
-			void setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass);
+			void setUniform(Shader* shader, string name, Texture* texture);
+			void setUniform(Shader* shader, string name, graphics::RenderPass* renderPass);
 
 			string getGPUVendor();
 			uint16 getAPIVersionMajor();

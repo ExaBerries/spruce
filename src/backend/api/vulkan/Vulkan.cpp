@@ -7,75 +7,113 @@ namespace spruce {
 	Vulkan::~Vulkan() {
 	}
 
-	void init() {
+	void Vulkan::init() {
 	}
 
-	void renderStart() {
+	void Vulkan::renderStart() {
 	}
 
-	void renderEnd() {
+	void Vulkan::renderEnd() {
 	}
 
-	string getError() {
+	string Vulkan::getError() {
+		return "";
 	}
 
-	Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) {
+	Mesh* Vulkan::createMesh(buffer<float> vertices, buffer<uint16> indices) {
+		return nullptr;
 	}
 
-	Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) {
+	Shader* Vulkan::createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) {
+		return nullptr;
 	}
 
-	Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes);
+	Shader* Vulkan::createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes) {
+		return nullptr;
+	}
 
-	Texture* createTexture(const FileHandle& path);
+	Texture* Vulkan::createTexture(const FileHandle& path) {
+		return nullptr;
+	}
 
-	Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height);
+	Texture* Vulkan::createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) {
+		return nullptr;
+	}
 
-	RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
+	RenderTarget* Vulkan::createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) {
+		return nullptr;
+	}
 
-	void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
+	void Vulkan::render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) {
+	}
 
-	void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
+	void Vulkan::render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive) {
+	}
 
-	void renderStart(graphics::RenderPass* renderPass);
+	void Vulkan::changeTarget(RenderTarget* target) {
+	}
 
-	void bind(Mesh* mesh);
+	void Vulkan::bind(Mesh* mesh) {
+	}
 
-	void bind(Texture* texture);
+	void Vulkan::bind(Texture* texture) {
+	}
 
-	void unbind(Texture* texture);
+	void Vulkan::unbind(Texture* texture) {
+	}
 
-	void bind(Shader* shader);
+	void Vulkan::bind(Shader* shader) {
+	}
 
-	void setUniform(Shader* shader, string name, const int32& value);
+	void Vulkan::setUniform(Shader* shader, string name, const int32& value) {
+	}
 
-	void setUniform(Shader* shader, string name, const vec2i& vector);
+	void Vulkan::setUniform(Shader* shader, string name, const vec2i& vector) {
+	}
 
-	void setUniform(Shader* shader, string name, const float& value);
+	void Vulkan::setUniform(Shader* shader, string name, const float& value) {
+	}
 
-	void setUniform(Shader* shader, string name, const vec2f& vector);
+	void Vulkan::setUniform(Shader* shader, string name, const vec2f& vector) {
+	}
 
-	void setUniform(Shader* shader, string name, const vec3f& vector);
+	void Vulkan::setUniform(Shader* shader, string name, const vec3f& vector) {
+	}
 
-	void setUniform(Shader* shader, string name, const mat4f& matrix);
+	void Vulkan::setUniform(Shader* shader, string name, const mat4f& matrix) {
+	}
 
-	void setUniform(Shader* shader, string name, const quaternion& quaternion);
+	void Vulkan::setUniform(Shader* shader, string name, const quaternion& quaternion) {
+	}
 
-	void setUniform(Shader* shader, string name, const color& color);
+	void Vulkan::setUniform(Shader* shader, string name, const color& color) {
+	}
 
-	void setUniform(Shader* shader, string name, const Texture* texture);
+	void Vulkan::setUniform(Shader* shader, string name, Texture* texture) {
+	}
 
-	void setUniform(Shader* shader, string name, const graphics::RenderPass* renderPass);
+	void Vulkan::setUniform(Shader* shader, string name, graphics::RenderPass* renderPass) {
+	}
 
-	string getGPUVendor();
+	string Vulkan::getGPUVendor() {
+		return "";
+	}
 
-	uint16 getAPIVersionMajor();
+	uint16 Vulkan::getAPIVersionMajor() {
+		return 0;
+	}
 
-	uint16 getAPIVersionMinor();
+	uint16 Vulkan::getAPIVersionMinor() {
+		return 0;
+	}
 
-	string getAPIRendererName();
+	string Vulkan::getAPIRendererName() {
+		return "";
+	}
 
-	void setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio);
+	void Vulkan::setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio) {
+	}
 
-	void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far);
+	void Vulkan::setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) {
+	}
 }
