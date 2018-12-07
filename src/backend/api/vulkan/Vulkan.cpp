@@ -1,3 +1,4 @@
+#if defined(__linux__) && defined(__WIN32__)
 #include <backend/api/vulkan/Vulkan.h>
 #include <backend/api/vulkan/VulkanContext.h>
 #include <backend/api/vulkan/VulkanShader.h>
@@ -453,3 +454,4 @@ namespace spruce {
 	void Vulkan::setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) {
 	}
 }
+#endif

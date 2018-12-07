@@ -1,3 +1,4 @@
+#if defined(__linux__) && defined(__WIN32__)
 #include <backend/api/vulkan/VulkanShader.h>
 
 namespace spruce {
@@ -149,3 +150,4 @@ namespace spruce {
 	void VulkanShader::registerUniform(std::string name, Shader::ShaderUniformLocation location, uint16 index) {
 	}
 }
+#endif

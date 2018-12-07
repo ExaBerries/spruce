@@ -1,4 +1,5 @@
 #pragma once
+#if defined(__linux__) && defined(__WIN32__)
 #include <common.h>
 #include <graphics/Shader.h>
 #include <backend/api/vulkan/VulkanContext.h>
@@ -24,3 +25,4 @@ namespace spruce {
 			void registerUniform(std::string name, ShaderUniformLocation location, uint16 index);
 	};
 }
+#endif

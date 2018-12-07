@@ -1,4 +1,5 @@
 #pragma once
+#if defined(__linux__) && defined(__WIN32__)
 #include <common.h>
 #include <graphics/Mesh.h>
 #include <backend/api/vulkan/VulkanContext.h>
@@ -20,3 +21,4 @@ namespace spruce {
 			void freeVRAM();
 	};
 }
+#endif

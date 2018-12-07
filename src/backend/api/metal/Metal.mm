@@ -16,7 +16,7 @@ namespace spruce {
 	Metal::~Metal() {
 	}
 
-	void Metal::init() {
+	void Metal::createContext() {
 		MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 		depthStencilDescriptor.depthCompareFunction = MTLCompareFunctionLess;
 		depthStencilDescriptor.depthWriteEnabled = YES;
