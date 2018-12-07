@@ -51,20 +51,16 @@ namespace spruce {
 		((X11RenderSurface*)surface)->windowCreated(window);
 	}
 
-	void X11Window::initVulkan() {
+	void X11Window::initVulkan(VulkanContext* context) {
 		if (surface != nullptr) {
 			delete surface;
 			surface = nullptr;
 			XFreeColormap(display, colormap);
 			XDestroyWindow(display, window);
 		}
-		surface = new X11VulkanSurface(display);
+		surface = new X11VulkanSurface(display, context);
 		createXWindow(((X11RenderSurface*)surface)->getVisual(), ((X11RenderSurface*)surface)->getDepth());
 		((X11RenderSurface*)surface)->windowCreated(window);
-	}
-
-	void X11Window::apiInitalized() {
-		((X11RenderSurface*)surface)->apiInitalized(window);
 	}
 
 	void X11Window::setTitle(string title) {

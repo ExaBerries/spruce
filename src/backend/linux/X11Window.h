@@ -1,9 +1,10 @@
 #pragma once
 
 #ifdef __linux__
-#include <backend/linux/X11RenderSurface.h>
 #include <common.h>
 #include <backend/Window.h>
+#include <backend/api/vulkan/VulkanContext.h>
+#include <backend/linux/X11RenderSurface.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -25,8 +26,7 @@ namespace spruce {
 			void createXWindow(Visual* visual, float depth);
 
 			void initOpenGL();
-			void initVulkan();
-			void apiInitalized();
+			void initVulkan(VulkanContext* context);
 			void setTitle(string title);
 			void setVisible(bool visible);
 			void setFullscreen(bool fullscreen);

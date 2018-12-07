@@ -6,12 +6,13 @@
 namespace spruce {
 	class VulkanMesh : public Mesh {
 		public:
+			VulkanContext& context;
 			VkBuffer vertexBuffer;
 			VkDeviceMemory vertexBufferMemory;
 			VkBuffer indexBuffer;
 			VkDeviceMemory indexBufferMemory;
 
-			VulkanMesh(buffer<float> vertices, buffer<uint16> indices);
+			VulkanMesh(buffer<float> vertices, buffer<uint16> indices, VulkanContext& context);
 			VulkanMesh(const VulkanMesh& mesh) = delete;
 			~VulkanMesh();
 

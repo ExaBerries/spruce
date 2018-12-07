@@ -1,15 +1,15 @@
 #include <backend/api/vulkan/VulkanShader.h>
 
 namespace spruce {
-	VulkanShader::VulkanShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) : Shader(vertData, fragData, attributes) {
+	VulkanShader::VulkanShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes, VulkanContext& context) : Shader(vertData, fragData, attributes), context(context) {
 	}
 
-	VulkanShader::VulkanShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes) : Shader(vertSource, fragSource, attributes) {
+	VulkanShader::VulkanShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes, VulkanContext& context) : Shader(vertSource, fragSource, attributes), context(context) {
 	}
 
 	VulkanShader::~VulkanShader() {
-		vkDestroyShaderModule(device, fragShaderModule, nullptr);
-		vkDestroyShaderModule(device, vertShaderModule, nullptr);
+		vkDestroyShaderModule(context.device, fragShaderModule, nullptr);
+		vkDestroyShaderModule(context.device, vertShaderModule, nullptr);
 	}
 
 	void VulkanShader::compile(graphics::RenderPass* renderPass) {
@@ -21,7 +21,7 @@ namespace spruce {
 		vertCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 		vertCreateInfo.codeSize = vertData.size;
 		vertCreateInfo.pCode = (const uint32*) vertData;
-		if (vkCreateShaderModule(device, &vertCreateInfo, nullptr, &vertShaderModule) != VK_SUCCESS) {
+		if (vkCreateShaderModule(context.device, &vertCreateInfo, nullptr, &vertShaderModule) != VK_SUCCESS) {
 		    serr("failed to create vert shader module");
 		}
 
@@ -29,7 +29,7 @@ namespace spruce {
 		fragCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 		fragCreateInfo.codeSize = fragData.size;
 		fragCreateInfo.pCode = (const uint32*) fragData;
-		if (vkCreateShaderModule(device, &fragCreateInfo, nullptr, &fragShaderModule) != VK_SUCCESS) {
+		if (vkCreateShaderModule(context.device, &fragCreateInfo, nullptr, &fragShaderModule) != VK_SUCCESS) {
 		    serr("failed to create frag shader module");
 		}
 
@@ -86,14 +86,14 @@ namespace spruce {
 		VkViewport viewport = {};
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
-		viewport.width = (float) swapChainExtent.width;
-		viewport.height = (float) swapChainExtent.height;
+		viewport.width = (float) context.swapChainExtent.width;
+		viewport.height = (float) context.swapChainExtent.height;
 		viewport.minDepth = 0.0f;
 		viewport.maxDepth = 1.0f;
 
 		VkRect2D scissor = {};
 		scissor.offset = {0, 0};
-		scissor.extent = swapChainExtent;
+		scissor.extent = context.swapChainExtent;
 
 		VkPipelineViewportStateCreateInfo viewportState = {};
 		viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -137,7 +137,7 @@ namespace spruce {
 		pipelineLayoutInfo.setLayoutCount = 0;
 		pipelineLayoutInfo.pushConstantRangeCount = 0;
 
-		if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+		if (vkCreatePipelineLayout(context.device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
 			serr("failed to create pipeline layout!");
 		}
 	}

@@ -6,6 +6,8 @@
 #include <backend/linux/X11Window.h>
 #include <backend/api/opengl/OpenGL.h>
 #include <backend/api/vulkan/Vulkan.h>
+#include <backend/linux/opengl/X11OpenGLSurface.h>
+#include <backend/linux/vulkan/X11VulkanSurface.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -113,16 +115,21 @@ namespace spruce {
 		}
 
 		RenderAPI* initAPI(Window* window, app::API api) {
+			X11Window* xwindow = (X11Window*) window;
 			if (api == app::OPENGL) {
-				((X11Window*)window)->initOpenGL();
+				xwindow->initOpenGL();
+				X11RenderSurface* xsurface = (X11RenderSurface*) window->surface;
 				OpenGL* gl = new OpenGL(window);
 				gl->init();
-				((X11Window*)window)->apiInitalized();
+				((X11OpenGLSurface*)xsurface)->apiInitalized(xwindow->window);
 				return gl;
 			} else if (api == app::VULKAN) {
 				Vulkan* vulkan = new Vulkan(window);
+				xwindow->initVulkan(&vulkan->context);
+				X11RenderSurface* xsurface = (X11RenderSurface*) window->surface;
+				((X11VulkanSurface*)xsurface)->addExtensions();
 				vulkan->createContext();
-				((X11Window*)window)->initVulkan();
+				((X11VulkanSurface*)xsurface)->contextCreated(xwindow->window);
 				vulkan->surfaceCreated();
 				return vulkan;
 			} else {
@@ -140,6 +147,11 @@ namespace spruce {
 		}
 
 		bool supportsPrecompiledShader(app::API api) {
+			if (api == app::OPENGL) {
+				return true;
+			} else if (api == app::VULKAN) {
+				return true;
+			}
 			return false;
 		}
 

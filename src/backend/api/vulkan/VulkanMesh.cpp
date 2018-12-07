@@ -1,7 +1,7 @@
 #include <backend/api/vulkan/VulkanMesh.h>
 
 namespace spruce {
-	VulkanMesh::VulkanMesh(buffer<float> vertices, buffer<uint16> indices) : Mesh(vertices, indices) {
+	VulkanMesh::VulkanMesh(buffer<float> vertices, buffer<uint16> indices, VulkanContext& context) : Mesh(vertices, indices), context(context) {
 		vertexBuffer = 0;
 		indexBuffer = 0;
 	}
@@ -17,16 +17,16 @@ namespace spruce {
 		vertexBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 		vertexBufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-		if (vkCreateBuffer(device, &vertexBufferInfo, nullptr, &vertexBuffer) != VK_SUCCESS) {
+		if (vkCreateBuffer(context.device, &vertexBufferInfo, nullptr, &vertexBuffer) != VK_SUCCESS) {
 			serr("failed to create vertex buffer!");
 		}
 
 		VkMemoryRequirements vertexMemRequirements;
-		vkGetBufferMemoryRequirements(device, vertexBuffer, &vertexMemRequirements);
+		vkGetBufferMemoryRequirements(context.device, vertexBuffer, &vertexMemRequirements);
 
-		vulkanAlloc(vertexBufferMemory, vertexMemRequirements);
+		vulkanAlloc(context, vertexBufferMemory, vertexMemRequirements);
 
-		vkBindBufferMemory(device, vertexBuffer, vertexBufferMemory, 0);
+		vkBindBufferMemory(context.device, vertexBuffer, vertexBufferMemory, 0);
 
 		VkBufferCreateInfo indexBufferInfo = {};
 		indexBufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -34,22 +34,22 @@ namespace spruce {
 		indexBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 		indexBufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-		if (vkCreateBuffer(device, &indexBufferInfo, nullptr, &indexBuffer) != VK_SUCCESS) {
+		if (vkCreateBuffer(context.device, &indexBufferInfo, nullptr, &indexBuffer) != VK_SUCCESS) {
 			serr("failed to create index buffer!");
 		}
 
 		VkMemoryRequirements indexMemRequirements;
-		vkGetBufferMemoryRequirements(device, indexBuffer, &indexMemRequirements);
+		vkGetBufferMemoryRequirements(context.device, indexBuffer, &indexMemRequirements);
 
-		vulkanAlloc(indexBufferMemory, indexMemRequirements);
+		vulkanAlloc(context, indexBufferMemory, indexMemRequirements);
 
-		vkBindBufferMemory(device, indexBuffer, indexBufferMemory, 0);
+		vkBindBufferMemory(context.device, indexBuffer, indexBufferMemory, 0);
 	}
 
 	void VulkanMesh::freeVRAM() {
-		vkDestroyBuffer(device, vertexBuffer, nullptr);
-		vkFreeMemory(device, vertexBufferMemory, nullptr);
-		vkDestroyBuffer(device, indexBuffer, nullptr);
-		vkFreeMemory(device, indexBufferMemory, nullptr);
+		vkDestroyBuffer(context.device, vertexBuffer, nullptr);
+		vkFreeMemory(context.device, vertexBufferMemory, nullptr);
+		vkDestroyBuffer(context.device, indexBuffer, nullptr);
+		vkFreeMemory(context.device, indexBufferMemory, nullptr);
 	}
 }

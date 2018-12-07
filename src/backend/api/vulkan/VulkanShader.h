@@ -6,14 +6,15 @@
 namespace spruce {
 	class VulkanShader : public Shader {
 		public:
+			VulkanContext& context;
 			VkShaderModule vertShaderModule;
 			VkShaderModule fragShaderModule;
 			VkPipelineLayout pipelineLayout;
 			VkVertexInputBindingDescription bindingDescription;
 			buffer<VkVertexInputAttributeDescription> attributeDescriptions;
 
-			VulkanShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
-			VulkanShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes);
+			VulkanShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes, VulkanContext& context);
+			VulkanShader(const string& vertSource, const string& fragSource, buffer<VertexAttribute> attributes, VulkanContext& context);
 			VulkanShader(const VulkanShader& shader) = delete;
 			~VulkanShader();
 

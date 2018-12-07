@@ -1,18 +1,22 @@
 #include <backend/api/vulkan/Vulkan.h>
 #include <backend/api/vulkan/VulkanContext.h>
 #include <backend/api/vulkan/VulkanShader.h>
+#include <backend/api/vulkan/VulkanMesh.h>
+#include <backend/api/vulkan/VulkanTexture.h>
+#include <backend/api/vulkan/VulkanRenderTarget.h>
 #include <graphics/graphics.h>
+#include <io/image.h>
 
 namespace spruce {
 	Vulkan::Vulkan(Window* window) : RenderAPI(window, vec3f(2, 2, 2)) {
 	}
 
 	Vulkan::~Vulkan() {
-		auto destroyCallbackFunc = (PFN_vkDestroyDebugReportCallbackEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
+		auto destroyCallbackFunc = (PFN_vkDestroyDebugReportCallbackEXT) vkGetInstanceProcAddr(context.instance, "vkDestroyDebugReportCallbackEXT");
 		if (destroyCallbackFunc != nullptr) {
-			destroyCallbackFunc(instance, callback, nullptr);
+			destroyCallbackFunc(context.instance, context.callback, nullptr);
 		}
-		vkDestroyInstance(instance, nullptr);
+		vkDestroyInstance(context.instance, nullptr);
 	}
 
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objType, uint64_t obj, size_t location, int32_t code, const char* layerPrefix, const char* msg, void* userData) {
@@ -20,30 +24,39 @@ namespace spruce {
 		return VK_FALSE;
 	};
 
-	void createInstance() {
+	void Vulkan::addDefaultExtensions() {
+		context.vulkanInstanceExtensions.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
+		context.vulkanInstanceExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+		context.vulkanDeviceExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+		context.vulkanValidationLayers.push_back("VK_LAYER_LUNARG_standard_validation");
+	}
+
+	void Vulkan::createInstance() {
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pApplicationName = "Hello Triangle";
+		appInfo.pApplicationName = "spruce";
 		appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-		appInfo.pEngineName = "No Engine";
+		appInfo.pEngineName = "spruce";
 		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 		appInfo.apiVersion = VK_API_VERSION_1_0;
 		VkInstanceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
-		const char* vulkanInstanceExtensionsArray[vulkanInstanceExtensions.size()];
-		for (uint16 i = 0; i < vulkanInstanceExtensions.size(); i++) {
-			vulkanInstanceExtensionsArray[i] = vulkanInstanceExtensions[i].c_str();
+		const char* vulkanInstanceExtensionsArray[context.vulkanInstanceExtensions.size()];
+		for (uint16 i = 0; i < context.vulkanInstanceExtensions.size(); i++) {
+			vulkanInstanceExtensionsArray[i] = context.vulkanInstanceExtensions[i].c_str();
+			slog(context.vulkanInstanceExtensions[i]);
 		}
-		createInfo.enabledExtensionCount = vulkanInstanceExtensions.size();
+		createInfo.enabledExtensionCount = context.vulkanInstanceExtensions.size();
 		createInfo.ppEnabledExtensionNames = vulkanInstanceExtensionsArray;
-		const char* vulkanValidationLayersArray[vulkanValidationLayers.size()];
-		for (uint16 i = 0; i < vulkanValidationLayers.size(); i++) {
-			vulkanValidationLayersArray[i] = vulkanValidationLayers[i];
+		const char* vulkanValidationLayersArray[context.vulkanValidationLayers.size()];
+		for (uint16 i = 0; i < context.vulkanValidationLayers.size(); i++) {
+			vulkanValidationLayersArray[i] = context.vulkanValidationLayers[i];
+			slog(context.vulkanValidationLayers[i]);
 		}
-		createInfo.enabledLayerCount = vulkanValidationLayers.size();
+		createInfo.enabledLayerCount = context.vulkanValidationLayers.size();
 		createInfo.ppEnabledLayerNames = vulkanValidationLayersArray;
-		VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
+		VkResult result = vkCreateInstance(&createInfo, nullptr, &context.instance);
 		if (result != VK_SUCCESS) {
 			if (result == VK_ERROR_LAYER_NOT_PRESENT) {
 				serr("layer not present");
@@ -58,22 +71,23 @@ namespace spruce {
 		callbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
 		callbackCreateInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
 		callbackCreateInfo.pfnCallback = debugCallback;
-		auto callbackCreateFunc = (PFN_vkCreateDebugReportCallbackEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT");
+		auto callbackCreateFunc = (PFN_vkCreateDebugReportCallbackEXT) vkGetInstanceProcAddr(context.instance, "vkCreateDebugReportCallbackEXT");
 		if (callbackCreateFunc != nullptr) {
-			callbackCreateFunc(instance, &callbackCreateInfo, nullptr, &callback);
+			callbackCreateFunc(context.instance, &callbackCreateInfo, nullptr, &context.callback);
 		} else {
 			serr("could not make debug callback");
 		}
 	}
 
-	void createPhysicalDevice() {
+	void Vulkan::createPhysicalDevice() {
 		uint32 deviceCount = 0;
-		vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+		vkEnumeratePhysicalDevices(context.instance, &deviceCount, nullptr);
 		if (deviceCount == 0) {
 			serr("no devices found");
 		}
 		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+		vkEnumeratePhysicalDevices(context.instance, &deviceCount, devices.data());
+		slog(deviceCount, " physical device(s)");
 		for (const auto& device : devices) {
 			VkPhysicalDeviceProperties deviceProperties;
 			vkGetPhysicalDeviceProperties(device, &deviceProperties);
@@ -101,29 +115,29 @@ namespace spruce {
 			vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
 			//if (isDeviceSuitable(device)) {
-				spruce::physicalDevice = device;
+				context.physicalDevice = device;//spruce::physicalDevice = device;
 				break;
 			//}
 		}
-		if (physicalDevice == VK_NULL_HANDLE) {
+		if (context.physicalDevice == VK_NULL_HANDLE) {
 			serr("failed to find a suitable GPU!");
 		}
 	}
 
-	void createVirtualDevice() {
+	void Vulkan::createVirtualDevice() {
 		int32 graphicsFamily = -1;
 		int32 presentFamily = -1;
 		uint32 queueFamilyCount = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
+		vkGetPhysicalDeviceQueueFamilyProperties(context.physicalDevice, &queueFamilyCount, nullptr);
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilies.data());
+		vkGetPhysicalDeviceQueueFamilyProperties(context.physicalDevice, &queueFamilyCount, queueFamilies.data());
 		int i = 0;
 		for (const auto& queueFamily : queueFamilies) {
 			if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
 				graphicsFamily = i;
 			}
 			VkBool32 presentSupport = false;
-			vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, surface, &presentSupport);
+			vkGetPhysicalDeviceSurfaceSupportKHR(context.physicalDevice, i, context.surface, &presentSupport);
 			if (queueFamily.queueCount > 0 && presentSupport) {
 				presentFamily = i;
 			}
@@ -161,52 +175,54 @@ namespace spruce {
 		deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
 		deviceCreateInfo.queueCreateInfoCount = queueCreateInfos.size();
 		deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
-		const char* vulkanDeviceExtensionsArray[vulkanDeviceExtensions.size()];
-		for (uint16 i = 0; i < vulkanDeviceExtensions.size(); i++) {
-			vulkanDeviceExtensionsArray[i] = vulkanDeviceExtensions[i].c_str();
+		const char* vulkanDeviceExtensionsArray[context.vulkanDeviceExtensions.size()];
+		for (uint16 i = 0; i < context.vulkanDeviceExtensions.size(); i++) {
+			vulkanDeviceExtensionsArray[i] = context.vulkanDeviceExtensions[i].c_str();
 		}
-		deviceCreateInfo.enabledExtensionCount = vulkanDeviceExtensions.size();
+		deviceCreateInfo.enabledExtensionCount = context.vulkanDeviceExtensions.size();
 		deviceCreateInfo.ppEnabledExtensionNames = vulkanDeviceExtensionsArray;
-		deviceCreateInfo.enabledLayerCount = vulkanValidationLayers.size();
-		const char* vulkanValidationLayersArray[vulkanValidationLayers.size()];
-		for (uint16 i = 0; i < vulkanValidationLayers.size(); i++) {
-			vulkanValidationLayersArray[i] = vulkanValidationLayers[i];
+		deviceCreateInfo.enabledLayerCount = context.vulkanValidationLayers.size();
+		const char* vulkanValidationLayersArray[context.vulkanValidationLayers.size()];
+		for (uint16 i = 0; i < context.vulkanValidationLayers.size(); i++) {
+			vulkanValidationLayersArray[i] = context.vulkanValidationLayers[i];
 		}
 		deviceCreateInfo.ppEnabledLayerNames = vulkanValidationLayersArray;
-		if (vkCreateDevice(physicalDevice, &deviceCreateInfo, nullptr, &device) != VK_SUCCESS) {
+		if (vkCreateDevice(context.physicalDevice, &deviceCreateInfo, nullptr, &context.device) != VK_SUCCESS) {
 			serr("failed to create logical device!");
 		}
-		vkGetDeviceQueue(device, graphicsFamily, 0, &graphicsQueue);
-		vkGetDeviceQueue(device, presentFamily, 0, &presentQueue);
+		vkGetDeviceQueue(context.device, graphicsFamily, 0, &context.graphicsQueue);
+		vkGetDeviceQueue(context.device, presentFamily, 0, &context.presentQueue);
 	}
 
-	void createSwapChain() {
+	void Vulkan::createSwapChain() {
 		VkSurfaceCapabilitiesKHR capabilities;
 		std::vector<VkSurfaceFormatKHR> formats;
 		std::vector<VkPresentModeKHR> presentModes;
-		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &capabilities);
+		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(context.physicalDevice, context.surface, &capabilities);
 		uint32_t formatCount;
-		vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, nullptr);
+		vkGetPhysicalDeviceSurfaceFormatsKHR(context.physicalDevice, context.surface, &formatCount, nullptr);
 		if (formatCount != 0) {
 			formats.resize(formatCount);
-			vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, formats.data());
+			vkGetPhysicalDeviceSurfaceFormatsKHR(context.physicalDevice, context.surface, &formatCount, formats.data());
 		}
 		uint32 presentModeCount;
-		vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, nullptr);
+		vkGetPhysicalDeviceSurfacePresentModesKHR(context.physicalDevice, context.surface, &presentModeCount, nullptr);
 		if (presentModeCount != 0) {
 			presentModes.resize(presentModeCount);
-			vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, presentModes.data());
+			vkGetPhysicalDeviceSurfacePresentModesKHR(context.physicalDevice, context.surface, &presentModeCount, presentModes.data());
 		}
 		VkSurfaceFormatKHR surfaceFormat = formats[0];
 		if (formats.size() == 1 && formats[0].format == VK_FORMAT_UNDEFINED) {
 			surfaceFormat = {VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR};
 		}
+		slog(formats.size(), " formats");
 		for (const auto& availableFormat : formats) {
 			if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
 				surfaceFormat = availableFormat;
 				break;
 			}
 		}
+		slog("format");
 		VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
 		for (const auto& availablePresentMode : presentModes) {
 			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
@@ -215,8 +231,9 @@ namespace spruce {
 				presentMode = availablePresentMode;
 			}
 		}
+		slog("present mode");
 		VkExtent2D extent;
-		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
+		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max() && false) {
 			extent = capabilities.currentExtent;
 		} else {
 			VkExtent2D actualExtent = {graphics::width, graphics::height};
@@ -230,7 +247,7 @@ namespace spruce {
 		}
 		VkSwapchainCreateInfoKHR swapChainCreateInfo = {};
 		swapChainCreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-		swapChainCreateInfo.surface = surface;
+		swapChainCreateInfo.surface = context.surface;
 		swapChainCreateInfo.minImageCount = imageCount;
 		swapChainCreateInfo.imageFormat = surfaceFormat.format;
 		swapChainCreateInfo.imageColorSpace = surfaceFormat.colorSpace;
@@ -240,16 +257,16 @@ namespace spruce {
 		int32 graphicsFamily = -1;
 		int32 presentFamily = -1;
 		uint32 queueFamilyCount = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
+		vkGetPhysicalDeviceQueueFamilyProperties(context.physicalDevice, &queueFamilyCount, nullptr);
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilies.data());
+		vkGetPhysicalDeviceQueueFamilyProperties(context.physicalDevice, &queueFamilyCount, queueFamilies.data());
 		int i = 0;
 		for (const auto& queueFamily : queueFamilies) {
 			if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
 				graphicsFamily = i;
 			}
 			VkBool32 presentSupport = false;
-			vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, surface, &presentSupport);
+			vkGetPhysicalDeviceSurfaceSupportKHR(context.physicalDevice, i, context.surface, &presentSupport);
 			if (queueFamily.queueCount > 0 && presentSupport) {
 				presentFamily = i;
 			}
@@ -271,24 +288,24 @@ namespace spruce {
 		swapChainCreateInfo.presentMode = presentMode;
 		swapChainCreateInfo.clipped = VK_TRUE;
 		swapChainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
-		if (vkCreateSwapchainKHR(device, &swapChainCreateInfo, nullptr, &swapChain) != VK_SUCCESS) {
+		if (vkCreateSwapchainKHR(context.device, &swapChainCreateInfo, nullptr, &context.swapChain) != VK_SUCCESS) {
 			serr("failed to create swap chain!");
 		}
-		vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
-		swapChainImages.resize(imageCount);
-		vkGetSwapchainImagesKHR(device, swapChain, &imageCount, swapChainImages.data());
-		swapChainImageFormat = surfaceFormat.format;
-		swapChainExtent = extent;
+		vkGetSwapchainImagesKHR(context.device, context.swapChain, &imageCount, nullptr);
+		context.swapChainImages.resize(imageCount);
+		vkGetSwapchainImagesKHR(context.device, context.swapChain, &imageCount, context.swapChainImages.data());
+		context.swapChainImageFormat = surfaceFormat.format;
+		context.swapChainExtent = extent;
 	}
 
-	void createImageViews() {
-		swapChainImageViews.resize(swapChainImages.size());
-		for (uint32 i = 0; i < swapChainImages.size(); i++) {
+	void Vulkan::createImageViews() {
+		context.swapChainImageViews.resize(context.swapChainImages.size());
+		for (uint32 i = 0; i < context.swapChainImages.size(); i++) {
 			VkImageViewCreateInfo imageViewCreateInfo = {};
 			imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-			imageViewCreateInfo.image = swapChainImages[i];
+			imageViewCreateInfo.image = context.swapChainImages[i];
 			imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			imageViewCreateInfo.format = swapChainImageFormat;
+			imageViewCreateInfo.format = context.swapChainImageFormat;
 			imageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
 			imageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 			imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -298,25 +315,31 @@ namespace spruce {
 			imageViewCreateInfo.subresourceRange.levelCount = 1;
 			imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
 			imageViewCreateInfo.subresourceRange.layerCount = 1;
-			if (vkCreateImageView(device, &imageViewCreateInfo, nullptr, &swapChainImageViews[i]) != VK_SUCCESS) {
+			if (vkCreateImageView(context.device, &imageViewCreateInfo, nullptr, &context.swapChainImageViews[i]) != VK_SUCCESS) {
 				serr("failed to create image views!");
 			}
 		}
 	}
 
-	void createPipeline() {
+	void Vulkan::createPipeline() {
 	}
 
 	void Vulkan::createContext() {
+		addDefaultExtensions();
 		createInstance();
 	}
 
 	void Vulkan::surfaceCreated() {
 		createPhysicalDevice();
+		slog("physical device created");
 		createVirtualDevice();
+		slog("virtual device created");
 		createSwapChain();
+		slog("swap chain created");
 		createImageViews();
+		slog("image views created");
 		createPipeline();
+		slog("pipeline created");
 	}
 
 	void Vulkan::renderStart() {
@@ -330,11 +353,11 @@ namespace spruce {
 	}
 
 	Mesh* Vulkan::createMesh(buffer<float> vertices, buffer<uint16> indices) {
-		return nullptr;
+		return new VulkanMesh(vertices, indices, context);
 	}
 
 	Shader* Vulkan::createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes) {
-		return new VulkanShader(vertData, fragData, attributes);
+		return new VulkanShader(vertData, fragData, attributes, context);
 	}
 
 	Shader* Vulkan::createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes) {
@@ -342,15 +365,19 @@ namespace spruce {
 	}
 
 	Texture* Vulkan::createTexture(const FileHandle& path) {
-		return nullptr;
+		uint16 width = 0;
+		uint16 height = 0;
+		uint16 bitsPerPixel = 0;
+		buffer<uint8> data = io::loadImage(path, width, height, bitsPerPixel);
+		return new VulkanTexture(Texture::RGBA, data, width, height);
 	}
 
 	Texture* Vulkan::createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) {
-		return nullptr;
+		return new VulkanTexture(format, nullptr, width, height);
 	}
 
 	RenderTarget* Vulkan::createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height) {
-		return nullptr;
+		return new VulkanRenderTarget(width, height);
 	}
 
 	void Vulkan::render(Mesh* mesh, Shader* shader, graphics::Primitive primitive) {

@@ -6,22 +6,28 @@
 #include <vulkan/vulkan.h>
 
 namespace spruce {
-	extern VkInstance instance;
-	extern VkDevice device;
-	extern VkPhysicalDevice physicalDevice;
-	extern VkQueue graphicsQueue;
-	extern VkQueue presentQueue;
-	extern VkSwapchainKHR swapChain;
-	extern std::vector<VkImage> swapChainImages;
-	extern VkFormat swapChainImageFormat;
-	extern VkExtent2D swapChainExtent;
-	extern std::vector<VkImageView> swapChainImageViews;
+	class VulkanContext {
+		public:
+			VkInstance instance;
+			VkDevice device;
+			VkPhysicalDevice physicalDevice;
+			VkQueue graphicsQueue;
+			VkQueue presentQueue;
+			VkSwapchainKHR swapChain;
+			std::vector<VkImage> swapChainImages;
+			VkFormat swapChainImageFormat;
+			VkExtent2D swapChainExtent;
+			std::vector<VkImageView> swapChainImageViews;
 
-	extern VkDebugReportCallbackEXT callback;
-	extern std::vector<string> vulkanInstanceExtensions;
-	extern std::vector<string> vulkanDeviceExtensions;
-	extern std::vector<const char*> vulkanValidationLayers;
-	extern VkSurfaceKHR surface;
+			VkDebugReportCallbackEXT callback;
+			std::vector<string> vulkanInstanceExtensions;
+			std::vector<string> vulkanDeviceExtensions;
+			std::vector<const char*> vulkanValidationLayers;
+			VkSurfaceKHR surface;
 
-	void vulkanAlloc(VkDeviceMemory& mem, VkMemoryRequirements memReq);
+			VulkanContext();
+			~VulkanContext();
+	};
+
+	void vulkanAlloc(VulkanContext& context, VkDeviceMemory& mem, VkMemoryRequirements memReq);
 }
