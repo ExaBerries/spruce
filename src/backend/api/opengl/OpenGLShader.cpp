@@ -33,7 +33,7 @@ namespace spruce {
 		if (vertSuccess == GL_FALSE) {
 			GLint length = 0;
 			glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &length);
-			std::vector<GLchar> errorLog(2048);
+			buffer<GLchar> errorLog(2048);
 			glGetShaderInfoLog(vert, length, &length, &errorLog[0]);
 			serr(errorLog);
 			glDeleteShader(vert);
@@ -52,7 +52,7 @@ namespace spruce {
 		if (fragSuccess == GL_FALSE) {
 			GLint length = 0;
 			glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &length);
-			std::vector<GLchar> errorLog(2048);
+			buffer<GLchar> errorLog(2048);
 			glGetShaderInfoLog(frag, length, &length, &errorLog[0]);
 			serr(errorLog);
 			glDeleteShader(frag);
@@ -74,7 +74,7 @@ namespace spruce {
 		if (vertSuccess == GL_FALSE) {
 			GLint length = 0;
 			glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &length);
-			std::vector<GLchar> errorLog(2048);
+			buffer<GLchar> errorLog(2048);
 			glGetShaderInfoLog(vert, length, &length, &errorLog[0]);
 			slog(errorLog);
 			glDeleteShader(vert);
@@ -94,7 +94,7 @@ namespace spruce {
 		if (fragSuccess == GL_FALSE) {
 			GLint length = 0;
 			glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &length);
-			std::vector<GLchar> errorLog(2048);
+			buffer<GLchar> errorLog(2048);
 			glGetShaderInfoLog(frag, length, &length, &errorLog[0]);
 			serr(errorLog);
 			glDeleteShader(frag);
@@ -124,7 +124,7 @@ namespace spruce {
 		if (linked == GL_FALSE) {
 			GLint length = 0;
 			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
-			std::vector<GLchar> errorLog(2048);
+			buffer<GLchar> errorLog(2048);
 			glGetProgramInfoLog(program, length, &length, &errorLog[0]);
 			serr(errorLog);
 			glDeleteProgram(program);

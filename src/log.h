@@ -14,13 +14,6 @@ namespace spruce {
 			std::cout << type;
 		}
 
-		template <typename TYPE>
-		void print(std::vector<TYPE> vector) {
-			for (TYPE type : vector) {
-				print(type);
-			}
-		}
-
 		template <typename ... TYPES>
 		void log(std::string file, uint32_t line, TYPES ... args) {
 			std::lock_guard<std::mutex> guard(logMutex);
