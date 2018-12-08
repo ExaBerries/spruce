@@ -3,7 +3,6 @@
 #include <iostream>
 #include <mutex>
 #include <vector>
-#define FOREACH_VARIADIC(EXPR, ARGS) (int[]){((void)(EXPR(std::forward<TYPES>(ARGS))),0)...,0}
 
 namespace spruce {
 	namespace log {
@@ -17,7 +16,8 @@ namespace spruce {
 		template <typename ... TYPES>
 		void log(std::string file, uint32_t line, TYPES ... args) {
 			std::lock_guard<std::mutex> guard(logMutex);
-			FOREACH_VARIADIC(print, args);
+			std::cout << file << ":" << line << "\t";
+			(print(args), ...);
 			std::cout << std::endl;
 		}
 
@@ -25,7 +25,7 @@ namespace spruce {
 		void err(std::string file, uint32_t line, TYPES ... args) {
 			std::lock_guard<std::mutex> guard(logMutex);
 			std::cout << file << ":" << line << "\t";
-			FOREACH_VARIADIC(print, args);
+			(print(args), ...);
 			std::cout << std::endl;
 		}
 	}
