@@ -1,9 +1,9 @@
 #pragma once
-#include <pipeline/Pipeline.h>
-#include <pipeline/Frame.h>
+#include <app/pipeline/Frame.h>
+#include <app/pipeline/FramePipeline.h>
 
 namespace spruce {
-	class EncodeExecutePipeline: public Pipeline {
+	class EncodeExecutePipeline: public FramePipeline {
 		public:
 			Frame* encodeFrame;
 			Frame* executeFrame;
@@ -11,7 +11,7 @@ namespace spruce {
 			EncodeExecutePipeline();
 			virtual ~EncodeExecutePipeline();
 
-			void execute();
+			void execute(Application& app);
 			void clearCommands();
 			CommandBuffer& getCommandBuffer();
 	};

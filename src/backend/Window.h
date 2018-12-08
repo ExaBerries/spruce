@@ -2,7 +2,7 @@
 #include <common.h>
 #include <backend/RenderSurface.h>
 #include <input/input.h>
-#include <API.h>
+#include <app/API.h>
 
 namespace spruce {
 	class Window {

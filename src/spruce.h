@@ -2,7 +2,7 @@
 
 #include <types.h>
 #include <common.h>
-#include <app.h>
+#include <app/app.h>
 #include <math/math.h>
 #include <graphics/graphics.h>
 #include <input/input.h>

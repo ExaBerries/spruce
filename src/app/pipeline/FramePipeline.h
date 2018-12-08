@@ -1,14 +1,15 @@
 #pragma once
 #include <common.h>
+#include <app/Application.h>
 #include <graphics/CommandBuffer.h>
 
 namespace spruce {
-	class Pipeline {
+	class FramePipeline {
 		public:
-			Pipeline();
-			virtual ~Pipeline();
+			FramePipeline();
+			virtual ~FramePipeline();
 
-			virtual void execute() = 0;
+			virtual void execute(Application& app) = 0;
 			virtual void clearCommands() = 0;
 			virtual CommandBuffer& getCommandBuffer() = 0;
 	};

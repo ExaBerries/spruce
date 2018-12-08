@@ -1,5 +1,5 @@
 #include <graphics/command/render/RenderFontCommand.h>
-#include <app.h>
+#include <app/app.h>
 
 namespace spruce {
 	namespace graphics {

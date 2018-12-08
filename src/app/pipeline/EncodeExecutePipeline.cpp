@@ -1,9 +1,9 @@
-#include <pipeline/EncodeExecutePipeline.h>
-#include <app.h>
+#include <app/pipeline/EncodeExecutePipeline.h>
+#include <app/app.h>
 #include <graphics/graphics.h>
 #include <task/async.h>
 #include <backend/os.h>
-#include <pipeline/encode.h>
+#include <app/pipeline/encode.h>
 
 namespace spruce {
 	EncodeExecutePipeline::EncodeExecutePipeline() {
@@ -20,14 +20,12 @@ namespace spruce {
 		}
 	}
 
-	void EncodeExecutePipeline::execute() {
+	void EncodeExecutePipeline::execute(Application& app) {
 		#ifndef PIPELINE_OFF
 		executeFrame = encodeFrame;
 		#endif
 		encodeFrame = new Frame();
-		if (app::screen != nullptr) {
-			Task<void(float)> task = createTask<float>(std::function<void(float)>(spruce::encodeFrame), task::ENGINE, true, graphics::delta);
-		}
+		Task<void(Application&,float)> task = createTask<Application&,float>(std::function<void(Application&,float)>(spruce::encodeFrame), task::ENGINE, true, app, graphics::delta);
 		#ifdef DEBUG
 		#ifdef PROFILE
 		uint64 startTime = sys::timeNano();

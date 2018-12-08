@@ -1,16 +1,16 @@
-#include <pipeline/encode.h>
-#include <app.h>
+#include <app/pipeline/encode.h>
+#include <app/app.h>
 #include <task/async.h>
 
 namespace spruce {
-	void encodeFrame(float delta) {
+	void encodeFrame(Application& app, float delta) {
 		#ifdef DEBUG
 		#ifdef PROFILE
 		uint64 startTime = sys::timeNano();
 		#endif
 		#endif
-		app::screen->update(delta);
-		app::screen->render(delta);
+		app.update(delta);
+		app.render(delta);
 		waitForGraphicsTasks(true);
 		#ifdef DEBUG
 		#ifdef PROFILE

@@ -1,6 +1,5 @@
 #pragma once
 #include <common.h>
-#include <graphics/Screen.h>
 #include <graphics/Mesh.h>
 #include <graphics/Shader.h>
 #include <graphics/camera/Camera.h>

@@ -1,9 +1,9 @@
-#include <pipeline/SimplePipeline.h>
-#include <app.h>
+#include <app/pipeline/SimplePipeline.h>
+#include <app/app.h>
 #include <backend/os.h>
 #include <graphics/graphics.h>
 #include <task/async.h>
-#include <pipeline/encode.h>
+#include <app/pipeline/encode.h>
 
 namespace spruce {
 	SimplePipeline::SimplePipeline() {
@@ -16,11 +16,9 @@ namespace spruce {
 		}
 	}
 
-	void SimplePipeline::execute() {
+	void SimplePipeline::execute(Application& app) {
 		frame = new Frame();
-		if (app::screen != nullptr) {
-			encodeFrame(graphics::delta);
-		}
+		encodeFrame(app, graphics::delta);
 		#ifdef DEBUG
 		#ifdef PROFILE
 		uint64 startTime = sys::timeNano();

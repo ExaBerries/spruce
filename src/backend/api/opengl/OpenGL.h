@@ -1,8 +1,6 @@
 #pragma once
 #include <common.h>
 #include <backend/api/RenderAPI.h>
-#include <graphics/Screen.h>
-#include <math/mat/mat4f.h>
 
 namespace spruce {
 	class OpenGL : public RenderAPI {

@@ -1,7 +1,7 @@
 #include <backend/task/taskmanager.h>
 #include <backend/task/WorkerThread.h>
 #include <system/system.h>
-#include <app.h>
+#include <app/app.h>
 
 namespace spruce {
 	namespace task {

@@ -1,9 +1,8 @@
-#include <API.h>
+#include <app/API.h>
 
 namespace spruce {
 	namespace app {
 		std::ostream& operator<<(std::ostream& stream, const API& api) {
-			#define CASE(X) case X:stream << #X;break;
 			switch (api) {
 				case OPENGL:
 					stream << "OpenGL";

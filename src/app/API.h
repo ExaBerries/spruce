@@ -4,7 +4,7 @@
 namespace spruce {
 	namespace app {
 		enum API {
-			OPENGL, VULKAN, METAL, DX11, DX12
+			NONE, OPENGL, VULKAN, METAL, DX11, DX12
 		};
 
 		std::ostream& operator<<(std::ostream& stream, const API& api);

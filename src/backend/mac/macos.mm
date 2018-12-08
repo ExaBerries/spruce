@@ -1,7 +1,7 @@
 #include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
-#include <app.h>
+#include <app/app.h>
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/objcpp.h>
 #include <backend/api/opengl/OpenGL.h>

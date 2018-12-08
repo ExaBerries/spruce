@@ -4,7 +4,7 @@
 #include <backend/api/metal/MetalRenderTarget.h>
 #include <backend/mac/objcpp.h>
 #include <io/file.h>
-#include <app.h>
+#include <app/app.h>
 
 namespace spruce {
 	MetalShader::MetalShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes, MetalContext& context) : Shader(vertData, fragData, attributes), context(context) {

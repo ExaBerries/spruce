@@ -1,5 +1,5 @@
  #include <backend/task/taskmanager.h>
-#include <pipeline/Frame.h>
+#include <app/pipeline/Frame.h>
 #ifdef DEBUG
 #ifdef PROFILE
 #include <util/profile/profile.h>

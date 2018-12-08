@@ -1,23 +1,17 @@
 #pragma once
 #include <common.h>
 #include <backend/api/RenderAPI.h>
-#include <objc/objc.h>
-#include <backend/api/metal/MetalContext.h>
 
 namespace spruce {
-	class Metal : public RenderAPI {
+	class None : public RenderAPI {
 		public:
-			MetalContext context;
+			None(Window* window);
+			virtual ~None();
 
-			Metal(Window* window);
-			~Metal();
-
-			void createContext();
 			void renderStart();
 			void renderEnd();
 
 			Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
-			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
 			Shader* createShader(buffer<uint8> vertData, buffer<uint8> fragData, buffer<VertexAttribute> attributes);
 			Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes);
 			Texture* createTexture(const FileHandle& path);
@@ -25,7 +19,8 @@ namespace spruce {
 			RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);
 
 			void render(Mesh* mesh, Shader* shader, graphics::Primitive primitive);
-			void changeTarget(RenderTarget* renderTarget);
+			void render(buffer<float> vertices, buffer<uint16> indices, Shader* shader, graphics::Primitive primitive);
+			void changeTarget(RenderTarget* target);
 			void bind(Mesh* mesh);
 			void bind(Texture* texture);
 			void unbind(Texture* texture);

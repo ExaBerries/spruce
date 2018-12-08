@@ -2,7 +2,7 @@
 #include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
-#include <app.h>
+#include <app/app.h>
 #include <backend/linux/X11Window.h>
 #include <backend/api/opengl/OpenGL.h>
 #include <backend/api/vulkan/Vulkan.h>

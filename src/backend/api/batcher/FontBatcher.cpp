@@ -1,5 +1,5 @@
 #include <backend/api/batcher/FontBatcher.h>
-#include <app.h>
+#include <app/app.h>
 
 namespace spruce {
 	FontBatcher::FontBatcher(buffer<VertexAttribute> shaderAttributes, Shader* shader) : Batcher(shaderAttributes, shader, 240, 0) {

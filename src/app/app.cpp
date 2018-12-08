@@ -1,4 +1,4 @@
-#include <app.h>
+#include <app/app.h>
 #include <backend/os.h>
 #include <system/system.h>
 #include <task/async.h>
@@ -15,24 +15,23 @@ namespace spruce {
 		Window* window;
 		API apiType;
 		RenderAPI* api;
-		graphics::Screen* screen;
 		bool debug;
-		Pipeline* pipeline;
+		FramePipeline* pipeline;
 
-		void init() {
+		void init(Application& app) {
 			os::init();
 			task::init();
 			api = nullptr;
 			window = os::createWindow();
-			screen = nullptr;
 			debug = false;
 			pipeline = nullptr;
 			graphics::width = graphics::getWindowWidth();
 			graphics::height = graphics::getWindowHeight();
 			graphics::vsync = true;
+			app.init();
 		}
 
-		void run() {
+		void run(Application& app) {
 			uint64 lastTime = sys::timeNano();
 			#ifdef DEBUG
 			#ifdef PROFILE
@@ -42,12 +41,13 @@ namespace spruce {
 			while (window->open) {
 				graphics::delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 				lastTime = sys::timeNano();
-				pipeline->execute();
+				pipeline->execute(app);
 				mem::update();
 			}
 		}
 
-		void free() {
+		void free(Application& app) {
+			app.free();
 			for (std::function<void()>& callback : freeCallbacks) {
 				callback();
 			}
@@ -56,6 +56,7 @@ namespace spruce {
 			}
 			delete window;
 			delete api;
+			delete pipeline;
 			task::free();
 			os::free();
 			#ifdef DEBUG
@@ -68,7 +69,7 @@ namespace spruce {
 			#endif
 		}
 
-		void setPipeline(Pipeline* pipeline) {
+		void setPipeline(FramePipeline* pipeline) {
 			if (app::pipeline != nullptr) {
 				delete app::pipeline;
 			}
@@ -94,11 +95,6 @@ namespace spruce {
 				serr("could not instantiate api ", api);
 				exit(EXIT_FAILURE);
 			}
-			clearCommands();
-		}
-
-		void setScreen(graphics::Screen* newScreen) {
-			screen = newScreen;
 			clearCommands();
 		}
 
