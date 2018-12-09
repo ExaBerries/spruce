@@ -19,7 +19,7 @@ namespace spruce {
 		XDestroyWindow(display, window);
 	}
 
-	void X11Window::createXWindow(Visual* visual, float depth) {
+	void X11Window::createXWindow(Visual* visual, uint32 depth) {
 		colormap = XCreateColormap(display, root, visual, AllocNone);
 		setAttributes.colormap = colormap;
 		setAttributes.background_pixmap = None;
@@ -37,6 +37,8 @@ namespace spruce {
 		window = XCreateWindow(display, root, 0, 0, width, height, 0, depth, InputOutput, visual, CWColormap | CWEventMask, &setAttributes);
 		XStoreName(display, window, "spruce");
 		XMapWindow(display, window);
+		Atom wmDeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
+		XSetWMProtocols(display, window, &wmDeleteMessage, 1);
 	}
 
 	void X11Window::initOpenGL() {
