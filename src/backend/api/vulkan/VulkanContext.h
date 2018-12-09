@@ -1,5 +1,5 @@
 #pragma once
-#if defined(__linux__) && defined(__WIN32__)
+#if defined(__linux__) || defined(__WIN32__)
 #include <common.h>
 #ifdef __linux__
 #define VK_USE_PLATFORM_XLIB_KHR

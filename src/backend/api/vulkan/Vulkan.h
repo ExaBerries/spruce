@@ -1,7 +1,6 @@
 #pragma once
-#if defined(__linux__) && defined(__WIN32__)
+#if defined(__linux__) || defined(__WIN32__)
 #include <backend/api/RenderAPI.h>
-#include <graphics/Screen.h>
 #include <backend/api/vulkan/VulkanContext.h>
 
 namespace spruce {
