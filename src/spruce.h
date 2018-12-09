@@ -10,3 +10,6 @@
 #include <system/time.h>
 #include <system/memory.h>
 #include <io/FileHandle.h>
+
+namespace spruce = 🌲;
+namespace spruce = sp;
