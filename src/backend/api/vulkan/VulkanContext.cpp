@@ -1,3 +1,4 @@
+#if defined(__linux__) && defined(__WIN32__)
 #include <backend/api/vulkan/VulkanContext.h>
 
 namespace spruce {
@@ -36,3 +37,4 @@ namespace spruce {
 		}
 	}
 }
+#endif

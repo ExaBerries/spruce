@@ -1,3 +1,4 @@
+#if defined(__linux__) && defined(__WIN32__)
 #include <backend/linux/vulkan/X11VulkanSurface.h>
 #include <backend/api/vulkan/VulkanContext.h>
 #include <backend/api/vulkan/VulkanRenderTarget.h>
@@ -49,3 +50,4 @@ namespace spruce {
 	void X11VulkanSurface::renderEnd() {
 	}
 }
+#endif
