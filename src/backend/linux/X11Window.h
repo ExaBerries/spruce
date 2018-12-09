@@ -23,7 +23,7 @@ namespace spruce {
 			X11Window(Display* display);
 			virtual ~X11Window();
 
-			void createXWindow(Visual* visual, float depth);
+			void createXWindow(Visual* visual, uint32 depth);
 
 			void initOpenGL();
 			void initVulkan(VulkanContext* context);
