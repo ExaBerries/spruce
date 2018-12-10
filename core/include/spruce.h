@@ -11,5 +11,8 @@
 #include <system/memory.h>
 #include <io/FileHandle.h>
 
-namespace spruce = 🌲;
-namespace spruce = sp;
+#ifdef TREE_ALIAS
+#define 🌲 spruce;
+#endif
+
+namespace sp = spruce;
