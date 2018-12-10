@@ -28,9 +28,9 @@ namespace spruce {
 			vec2f coord;
 		};
 		buffer<FontVertex> coords(6 * str.size());
-		int n = 0;
+		int32 n = 0;
 		for (uint32 i = 0; i < str.size(); i++) {
-			char p = str.c_str()[i];
+			int32 p = str.c_str()[i];
 			if (p < 0) {
 				continue;
 			}

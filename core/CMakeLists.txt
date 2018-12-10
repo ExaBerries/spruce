@@ -25,7 +25,7 @@ target_compile_features(spruce PRIVATE cxx_std_17)
 target_compile_options(spruce PRIVATE
 	-Wall
 	-Wextra
-	-Wshadow
+	-Wshadow=local
 	-pedantic
 )
 

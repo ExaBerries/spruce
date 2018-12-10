@@ -38,12 +38,12 @@ namespace spruce {
 			}
 		}
 		uint16 stride = 0;
-		for (int i = 0; i < shader->attributes.size; i++) {
+		for (uint32 i = 0; i < shader->attributes.size; i++) {
 			stride += shader->attributes[i].size;
 		}
 		stride *= sizeof(float);
-		uint16 offset = 0;
-		for (int j = 0; j < shader->attributes.size; j++) {
+		uint64 offset = 0;
+		for (uint32 j = 0; j < shader->attributes.size; j++) {
 			glVertexAttribPointer(shader->getAttributeLocation(shader->attributes[j].name), shader->attributes[j].size, GL_FLOAT, GL_FALSE, stride, (void*) offset);
 			offset += shader->attributes[j].size * sizeof(float);
 		}

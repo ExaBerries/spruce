@@ -103,7 +103,7 @@ namespace spruce {
 				break;
 		}
 		bind(mesh);
-		for (int i = 0; i < shader->attributes.size; i++) {
+		for (uint32 i = 0; i < shader->attributes.size; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 		if (mesh->indices.size > 0) {
@@ -111,7 +111,7 @@ namespace spruce {
 		} else {
 			glDrawArrays(glPrimitive, 0, mesh->vertices.size);
 		}
-		for (int i = 0; i < shader->attributes.size; i++) {
+		for (uint32 i = 0; i < shader->attributes.size; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 	}
@@ -132,12 +132,12 @@ namespace spruce {
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size * sizeof(float), vertices.data, GL_DYNAMIC_DRAW);
 		uint16 stride = 0;
-		for (int i = 0; i < shader->attributes.size; i++) {
+		for (uint32 i = 0; i < shader->attributes.size; i++) {
 			stride += shader->attributes[i].size;
 		}
 		stride *= sizeof(float);
 		uint8* offset = 0;
-		for (int j = 0; j < shader->attributes.size; j++) {
+		for (uint32 j = 0; j < shader->attributes.size; j++) {
 			glVertexAttribPointer(shader->getAttributeLocation(shader->attributes[j].name), shader->attributes[j].size, GL_FLOAT, GL_FALSE, stride, offset);
 			offset += shader->attributes[j].size * sizeof(float);
 		}
@@ -173,7 +173,7 @@ namespace spruce {
 		if (ibo > 0) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		}
-		for (int i = 0; i < shader->attributes.size; i++) {
+		for (uint32 i = 0; i < shader->attributes.size; i++) {
 			glEnableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 		if (indices.size > 0) {
@@ -181,7 +181,7 @@ namespace spruce {
 		} else {
 			glDrawArrays(glPrimitive, 0, vertices.size);
 		}
-		for (int i = 0; i < shader->attributes.size; i++) {
+		for (uint32 i = 0; i < shader->attributes.size; i++) {
 			glDisableVertexAttribArray(shader->getAttributeLocation(shader->attributes[i].name));
 		}
 

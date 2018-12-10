@@ -11,12 +11,14 @@ namespace spruce {
 	}
 
 	quaternion::quaternion(const float& pitch, const float& yaw, const float& roll) {
+		/*
 		float ys = sin(yaw /2);
 		float yc = cos(yaw / 2);
 		float ps = sin(pitch / 2);
 		float pc = cos(pitch / 2);
 		float rs = sin(roll / 2);
 		float rc = cos(roll / 2);
+		*/
 		x = cos(yaw/2) * sin(pitch/2) * cos(roll/2) + sin(yaw/2) * cos(pitch/2) * sin(roll/2);//yc * pc * rs - ys * ps * rc;
 		y = sin(yaw/2) * cos(pitch/2) * cos(roll/2) - cos(yaw/2) * sin(pitch/2) * sin(roll/2);//yc * ps * rc + ys * pc * rs;
 		z = cos(yaw/2) * cos(pitch/2) * sin(roll/2) - sin(yaw/2) * sin(pitch/2) * cos(roll/2);//ys * pc * rc - yc * ps * rs;

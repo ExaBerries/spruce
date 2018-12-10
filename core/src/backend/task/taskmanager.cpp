@@ -173,7 +173,6 @@ namespace spruce {
 			std::lock_guard<std::mutex> dataGuard(refMutex);
 			references[taskId]--;
 			if (references[taskId] <= 0) {
-				std::lock_guard<std::mutex> dataGuard(dataMutex);
 				delete data[taskId];
 				data.erase(taskId);
 				references.erase(taskId);

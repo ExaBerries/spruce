@@ -171,7 +171,7 @@ namespace spruce {
 					}
 				} else if (event.type == ButtonPress) {
 					XButtonEvent bevent = event.xbutton;
-					input::MouseButton btn;
+					input::MouseButton btn = input::LEFT;
 					if (bevent.button == 1) {
 						btn = input::LEFT;
 					} else if (bevent.button == 2) {
@@ -209,7 +209,7 @@ namespace spruce {
 					app::window->width = xcevent.width;
 					app::window->height = xcevent.height;
 				} else if (event.type == ClientMessage) {
-					if (event.xclient.data.l[0] == XInternAtom(display, "WM_DELETE_WINDOW", False)) {
+					if ((uint32)event.xclient.data.l[0] == XInternAtom(display, "WM_DELETE_WINDOW", False)) {
 						app::window->close();
 					}
 				}

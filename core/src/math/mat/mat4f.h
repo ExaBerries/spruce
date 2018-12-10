@@ -49,11 +49,11 @@ namespace std {
 	template <>
 	struct hash<spruce::mat4f> {
 		size_t operator()(const spruce::mat4f& m) const {
-			size_t hash = 0;
+			size_t hashValue = 0;
 			for (uint16 i = 0; i < 16; i++) {
-				hash ^= std::hash<float>()(m.values[i]) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+				hashValue ^= std::hash<float>()(m.values[i]) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
 			}
-			return hash;
+			return hashValue;
 		}
 	};
 }
