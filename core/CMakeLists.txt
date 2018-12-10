@@ -5,11 +5,28 @@ find_package(Freetype REQUIRED)
 file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_library(spruce STATIC ${SOURCE_FILES})
+
 set_target_properties(spruce PROPERTIES
 	VERSION ${PROJECT_VERSION}
 	OUTPUT_NAME ${PROJECT_NAME}
 	LINKER_LANGUAGE CXX
 )
+
+target_link_libraries(spruce PRIVATE
+	freetype
+	freeimage
+)
+
+if(UNIX AND NOT APPLE) # linux
+target_link_libraries(spruce PRIVATE
+	X11
+	vulkan
+	GL
+	GLEW
+	GLX
+	pthread
+)
+endif()
 
 target_include_directories(spruce
 	PUBLIC
@@ -32,3 +49,5 @@ target_compile_options(spruce PRIVATE
 target_compile_definitions(spruce PRIVATE
 	DEBUG
 )
+
+add_subdirectory(test)

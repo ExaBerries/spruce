@@ -1,4 +1,4 @@
-#if defined(__linux__) && defined(__WIN32__)
+#if defined(__linux__) || defined(__WIN32__)
 #include <backend/api/vulkan/VulkanMesh.h>
 
 namespace spruce {

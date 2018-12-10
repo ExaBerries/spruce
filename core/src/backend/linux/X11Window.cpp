@@ -1,6 +1,4 @@
-﻿
-
-#ifdef __linux__
+﻿#ifdef __linux__
 #include <backend/linux/opengl/X11OpenGLSurface.h>
 #include <backend/linux/vulkan/X11VulkanSurface.h>
 #include <backend/linux/X11Window.h>

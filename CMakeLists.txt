@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
 
 project(spruce VERSION 0.0.9)
 

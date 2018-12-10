@@ -1,5 +1,4 @@
 #pragma once
-
 #ifdef __linux__
 #include <common.h>
 #include <backend/Window.h>
