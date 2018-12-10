@@ -44,6 +44,7 @@ target_compile_options(spruce PRIVATE
 	-Wextra
 	-Wshadow=local
 	-pedantic
+	-g
 )
 
 target_compile_definitions(spruce PRIVATE
@@ -51,3 +52,4 @@ target_compile_definitions(spruce PRIVATE
 )
 
 add_subdirectory(test)
+add_subdirectory(bench)

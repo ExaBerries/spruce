@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
 
 project(spruce VERSION 0.0.9)
 
+if(NOT CMAKE_BUILD_TYPE) 
+	set(CMAKE_BUILD_TYPE Debug)
+endif()
+
 include_directories(${PROJECT_SOURCE_DIR}/core/include)
 
 add_subdirectory(core)
