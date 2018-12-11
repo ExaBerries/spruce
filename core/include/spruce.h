@@ -9,7 +9,8 @@
 #include <task/async.h>
 #include <system/time.h>
 #include <system/memory.h>
-#include <io/FileHandle.h>
+#include <io/io.h>
+#include "../src/SpruceEngine.h"
 
 #ifdef TREE_ALIAS
 #define 🌲 spruce;

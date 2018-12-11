@@ -17,9 +17,9 @@ namespace spruce {
 		extern bool debug;
 		extern FramePipeline* pipeline;
 
-		void init(Application& app);
+		void init();
 		void run(Application& app);
-		void free(Application& app);
+		void free();
 
 		void setPipeline(FramePipeline* pipeline);
 		bool supportsAPI(API api);

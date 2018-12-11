@@ -11,24 +11,22 @@
 
 namespace spruce {
 	namespace app {
-		std::vector<std::function<void()>> freeCallbacks;
 		Window* window;
 		API apiType;
 		RenderAPI* api;
 		bool debug;
 		FramePipeline* pipeline;
 
-		void init(Application& app) {
+		void init() {
 			os::init();
 			task::init();
 			api = nullptr;
 			window = os::createWindow();
-			debug = false;
+			debug = true;
 			pipeline = nullptr;
 			graphics::width = graphics::getWindowWidth();
 			graphics::height = graphics::getWindowHeight();
 			graphics::vsync = true;
-			app.init();
 		}
 
 		void run(Application& app) {
@@ -46,11 +44,7 @@ namespace spruce {
 			}
 		}
 
-		void free(Application& app) {
-			app.free();
-			for (std::function<void()>& callback : freeCallbacks) {
-				callback();
-			}
+		void free() {
 			if (window->open) {
 				window->close();
 			}
@@ -100,10 +94,6 @@ namespace spruce {
 
 		void clearCommands() {
 			pipeline->clearCommands();
-		}
-
-		void addFreeCallback(std::function<void()> function) {
-			freeCallbacks.push_back(function);
 		}
 	}
 }
