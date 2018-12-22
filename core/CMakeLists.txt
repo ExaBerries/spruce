@@ -2,7 +2,10 @@ include_directories(${PROJECT_SOURCE_DIR}/core/src)
 
 find_package(Freetype REQUIRED)
 
-file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE SOURCE_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/*.mm
+)
 
 add_library(spruce STATIC ${SOURCE_FILES})
 
@@ -16,6 +19,15 @@ target_link_libraries(spruce PRIVATE
 	freetype
 	freeimage
 )
+
+if(APPLE) # mac
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
+	-framework Metal\
+	-framework OpenGL\
+	-framework Cocoa\
+	-framework Quartz\
+")
+endif()
 
 if(UNIX AND NOT APPLE) # linux
 target_link_libraries(spruce PRIVATE

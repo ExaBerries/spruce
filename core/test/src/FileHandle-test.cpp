@@ -8,9 +8,9 @@ TEST(FileHandleTest, FileHandleList) {
 	buffer<FileHandle> subItems = folder.list();
 	ASSERT_TRUE(subItems.size > 0);
 	std::pair<string, bool> expectedNames[] = {
-			std::pair("a", false),
-			std::pair("b", false),
-			std::pair("c", false)
+			std::pair<string, bool>("a", false),
+			std::pair<string, bool>("b", false),
+			std::pair<string, bool>("c", false)
 	};
 	for (FileHandle& file : subItems) {
 		bool found = false;
