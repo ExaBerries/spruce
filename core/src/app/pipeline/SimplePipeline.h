@@ -1,4 +1,5 @@
 #pragma once
+#include <common.h>
 #include <app/pipeline/Frame.h>
 #include <app/pipeline/FramePipeline.h>
 

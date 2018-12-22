@@ -1,5 +1,7 @@
 #pragma once
 #include <common.h>
+#include <graphics/GraphicsPipeline.h>
+#include <graphics/CommandBuffer.h>
 #include <graphics/Mesh.h>
 #include <graphics/Shader.h>
 #include <graphics/camera/Camera.h>
@@ -9,9 +11,7 @@
 #include <graphics/RenderPass.h>
 #include <graphics/color.h>
 #include <graphics/Font.h>
-#include <graphics/CommandBuffer.h>
 #include <graphics/Primitive.h>
-#include <io/FileHandle.h>
 
 namespace spruce {
 	namespace graphics {
@@ -24,8 +24,6 @@ namespace spruce {
 		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices);
 		Shader* createShader(const FileHandle& file, buffer<VertexAttribute> attributes);
 		Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes);
-		PerspectiveCamera* createPerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir);
-		OrthographicCamera* createOrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up, vec3f& dir);
 		Texture* createTexture(const FileHandle& path);
 		Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height);
 		RenderTarget* createRenderTarget(Texture::PixelFormat format, uint16 width, uint16 height);

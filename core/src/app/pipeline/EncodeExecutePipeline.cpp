@@ -21,9 +21,7 @@ namespace spruce {
 	}
 
 	void EncodeExecutePipeline::execute(Application& app) {
-		#ifndef PIPELINE_OFF
 		executeFrame = encodeFrame;
-		#endif
 		encodeFrame = new Frame();
 		Task<void(Application&,float)> task = createTask<Application&,float>(std::function<void(Application&,float)>(spruce::encodeFrame), task::ENGINE, true, app, graphics::delta);
 		#ifdef DEBUG
@@ -34,9 +32,9 @@ namespace spruce {
 		os::updateStart();
 		app::window->surface->renderStart();
 		app::api->renderStart();
-		buffer<CommandBuffer*> commandBuffers = executeFrame->getCommandBuffers();
-		for (CommandBuffer* cmdBuffer : commandBuffers) {
-			for (cmd::Command* command : cmdBuffer->commands) {
+		std::vector<CommandBuffer>& commandBuffers = executeFrame->commandBuffers;
+		for (CommandBuffer& cmdBuffer : commandBuffers) {
+			for (cmd::Command* command : cmdBuffer.commands) {
 				command->execute();
 			}
 		}
@@ -47,7 +45,6 @@ namespace spruce {
 		execute->executeEndTime = endTime;
 		#endif
 		#endif
-		commandBuffers.free();
 		delete executeFrame;
 		executeFrame = nullptr;
 		waitForMainTasks();
@@ -58,13 +55,13 @@ namespace spruce {
 
 	void EncodeExecutePipeline::clearCommands() {
 		if (encodeFrame != nullptr) {
-			for (auto& entry : encodeFrame->commandBuffers) {
-				entry.second.reset();
+			for (auto& cmdBuffer : encodeFrame->commandBuffers) {
+				cmdBuffer.reset();
 			}
 		}
 		if (executeFrame != nullptr) {
-			for (auto& entry : executeFrame->commandBuffers) {
-				entry.second.reset();
+			for (auto& cmdBuffer : executeFrame->commandBuffers) {
+				cmdBuffer.reset();
 			}
 		}
 	}

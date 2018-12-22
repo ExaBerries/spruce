@@ -35,7 +35,7 @@ namespace spruce {
 
 	Frame::~Frame() {
 		for (auto& cmdBuffer : commandBuffers) {
-			cmdBuffer.second.reset();
+			cmdBuffer.reset();
 		}
 		#ifdef DEBUG
 		#ifdef PROFILE
@@ -53,16 +53,8 @@ namespace spruce {
 	}
 
 	CommandBuffer& Frame::getCommandBuffer() {
-		return commandBuffers[std::this_thread::get_id()];
-	}
-
-	buffer<CommandBuffer*> Frame::getCommandBuffers() {
-		buffer<CommandBuffer*> cmdBuffers(commandBuffers.size());
-		uint16 i = 0;
-		for (auto& cmdBuffer : commandBuffers) {
-			cmdBuffers[i++] = &cmdBuffer.second;
-		}
-		return cmdBuffers;
+		commandBuffers.emplace_back();
+		return commandBuffers.back();
 	}
 
 	Frame& Frame::operator=(Frame frame) {

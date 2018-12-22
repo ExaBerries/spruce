@@ -10,6 +10,8 @@
 #include <backend/linux/vulkan/X11VulkanSurface.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 namespace spruce {
 	namespace os {
@@ -240,18 +242,43 @@ namespace spruce {
 		}
 
 		bool isDir(string path) {
-			return false;
+			struct stat s;
+			if (stat(path.c_str(), &s) == 0) {
+				return (s.st_mode & S_IFDIR);
+			} else {
+				serr("stat error, may not exist ", path);
+				return false;
+			}
 		}
 
 		bool exists(string path) {
-			return false;
+			struct stat s;
+			if (stat(path.c_str(), &s) == 0) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		void createDir(string path) {
+			mkdir(path.c_str(), S_IWUSR);
 		}
 
 		std::vector<string> listSubFiles(string path) {
-			return std::vector<string>();
+			std::vector<string> subFiles;
+			DIR* dir;
+			struct dirent* entry;
+			if ((dir  = opendir(path.c_str())) == NULL) {
+				serr("error calling opendir on ", path);
+			}
+			while ((entry = readdir(dir)) != NULL) {
+				string name(entry->d_name);
+				if (name != string(".") && name != string("..")) {
+					subFiles.push_back(name);
+				}
+			}
+			closedir(dir);
+			return subFiles;
 		}
 	}
 

@@ -22,11 +22,11 @@ namespace spruce {
 			return app::pipeline->getCommandBuffer();
 		}
 
-		Mesh* createMesh(buffer<float> vertices, buffer<uint16> indices) {
+		Mesh* createMesh(const buffer<float> vertices, const buffer<uint16> indices) {
 			return app::api->createMesh(vertices, indices);
 		}
 
-		Shader* createShader(const FileHandle& file, buffer<VertexAttribute> attributes) {
+		Shader* createShader(const FileHandle& file, const buffer<VertexAttribute> attributes) {
 			buffer<uint8> data = io::readFileBin(file);
 			if (data == nullptr) {
 				serr("could not read shader file: ", file);
@@ -116,7 +116,7 @@ namespace spruce {
 			return nullptr;
 		}
 
-		Shader* createShader(string& vertSource, string& fragSource, buffer<VertexAttribute> attributes) {
+		Shader* createShader(string& vertSource, string& fragSource, const buffer<VertexAttribute> attributes) {
 			return app::api->createShader(vertSource, fragSource, attributes);
 		}
 
@@ -132,7 +132,7 @@ namespace spruce {
 			return app::api->createTexture(path);
 		}
 
-		Texture* createTexture(Texture::PixelFormat format, buffer<uint8> data, uint16 width, uint16 height) {
+		Texture* createTexture(Texture::PixelFormat format, const buffer<uint8> data, uint16 width, uint16 height) {
 			return app::api->createTexture(format, data, width, height);
 		}
 

@@ -22,7 +22,6 @@ namespace spruce {
 			absolutePath = path;
 		}
 		if (absolutePath.size() == 0) {
-			serr("no path specified");
 			name = "";
 			extension = "";
 			size = 0;

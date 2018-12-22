@@ -27,9 +27,9 @@ namespace spruce {
 		os::updateStart();
 		app::window->surface->renderStart();
 		app::api->renderStart();
-		buffer<CommandBuffer*> commandBuffers = frame->getCommandBuffers();
-		for (CommandBuffer* cmdBuffer : commandBuffers) {
-			for (cmd::Command* command : cmdBuffer->commands) {
+		std::vector<CommandBuffer>& commandBuffers = frame->commandBuffers;
+		for (CommandBuffer& cmdBuffer : commandBuffers) {
+			for (cmd::Command* command : cmdBuffer.commands) {
 				command->execute();
 			}
 		}
@@ -40,7 +40,6 @@ namespace spruce {
 		execute->executeEndTime = endTime;
 		#endif
 		#endif
-		commandBuffers.free();
 		delete frame;
 		frame = nullptr;
 		waitForMainTasks();
@@ -51,8 +50,8 @@ namespace spruce {
 
 	void SimplePipeline::clearCommands() {
 		if (frame != nullptr) {
-			for (auto& entry : frame->commandBuffers) {
-				entry.second.reset();
+			for (auto& cmdBuffer : frame->commandBuffers) {
+				cmdBuffer.reset();
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 namespace spruce {
 	class Frame {
 		public:
-			std::map<std::thread::id, CommandBuffer> commandBuffers;
+			std::vector<CommandBuffer> commandBuffers;
 			#ifdef DEBUG
 			#ifdef PROFILE
 			uint64 encodeStartTime;
@@ -22,7 +22,6 @@ namespace spruce {
 			virtual ~Frame();
 
 			CommandBuffer& getCommandBuffer();
-			buffer<CommandBuffer*> getCommandBuffers();
 
 			Frame& operator=(Frame frame);
 	};

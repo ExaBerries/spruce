@@ -21,6 +21,7 @@ namespace spruce {
 			ShaderUniformCommand::ShaderUniformCommand(Shader* shader, string name, vec2i v2i) {
 				this->type = VEC2I;
 				this->shader = shader;
+				this->name = name;
 				this->v2i = v2i;
 			}
 

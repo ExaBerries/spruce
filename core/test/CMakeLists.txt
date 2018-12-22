@@ -12,3 +12,5 @@ target_link_libraries(test PRIVATE
 	spruce gtest gtest_main pthread
 )
 
+target_compile_features(test PRIVATE cxx_std_17)
+

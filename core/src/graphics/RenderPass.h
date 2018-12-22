@@ -4,9 +4,6 @@
 
 namespace spruce {
 	namespace graphics {
-		class RenderPass;
-		void render(RenderPass* renderPass);
-
 		class RenderPass {
 			public:
 				RenderTarget* target;

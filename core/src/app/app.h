@@ -10,7 +10,6 @@
 
 namespace spruce {
 	namespace app {
-		extern std::vector<std::function<void()>> freeCallbacks;
 		extern Window* window;
 		extern API apiType;
 		extern RenderAPI* api;
@@ -25,6 +24,5 @@ namespace spruce {
 		bool supportsAPI(API api);
 		void setRenderAPI(API api);
 		void clearCommands();
-		void addFreeCallback(std::function<void()> function);
 	}
 }
