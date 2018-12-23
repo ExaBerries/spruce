@@ -12,7 +12,7 @@ namespace spruce {
 
 				TaskData(size_t size, void(*dataDestructor)(void*));
 				TaskData(const TaskData& taskData) = delete;
-				virtual ~TaskData();
+				~TaskData();
 		};
 	}
 }

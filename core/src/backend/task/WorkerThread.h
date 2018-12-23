@@ -13,7 +13,7 @@ namespace spruce {
 
 				WorkerThread();
 				WorkerThread(const WorkerThread& thread) = delete;
-				virtual ~WorkerThread();
+				~WorkerThread();
 
 				void join();
 

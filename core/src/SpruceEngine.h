@@ -17,7 +17,7 @@ namespace spruce {
 			bool debug;
 
 			SpruceEngine(Application* (*createApplication)(SpruceEngineHandle&));
-			virtual ~SpruceEngine();
+			~SpruceEngine();
 
 			void run();
 	};

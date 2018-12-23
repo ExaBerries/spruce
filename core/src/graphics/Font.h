@@ -21,7 +21,7 @@ namespace spruce {
 
 			Font(FileHandle fileHandle, uint16 size);
 			Font(const Font& font) = delete;
-			virtual ~Font();
+			~Font();
 
 			void toVRAM();
 	};

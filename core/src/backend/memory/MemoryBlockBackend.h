@@ -10,7 +10,7 @@ namespace spruce {
 
 				MemoryBlockBackend(void* start, uint32 size);
 				MemoryBlockBackend(const MemoryBlockBackend& blk);
-				virtual ~MemoryBlockBackend();
+				~MemoryBlockBackend();
 		};
 	}
 }

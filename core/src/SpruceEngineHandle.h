@@ -8,7 +8,7 @@ namespace spruce {
 	class SpruceEngineHandle {
 		public:
 			SpruceEngineHandle();
-			virtual ~SpruceEngineHandle();
+			~SpruceEngineHandle();
 
 			void setPipeline(FramePipeline* pipeline);
 			void setRenderPipeline(app::API api);

@@ -12,7 +12,7 @@ namespace spruce {
 				CommandBuffer cmdBuffer;
 
 				GraphicsContext();
-				virtual ~GraphicsContext();
+				~GraphicsContext();
 
 				void render(Mesh* mesh, Shader* shader, Primitive primitive);
 		};
