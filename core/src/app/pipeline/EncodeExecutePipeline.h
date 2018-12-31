@@ -10,10 +10,8 @@ namespace spruce {
 			Frame* executeFrame;
 
 			EncodeExecutePipeline();
-			virtual ~EncodeExecutePipeline();
+			~EncodeExecutePipeline();
 
-			void execute(Application& app);
-			void clearCommands();
-			CommandBuffer& getCommandBuffer();
+			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer);
 	};
 }

@@ -1,19 +1,23 @@
 #pragma once
 #include <common.h>
-#include <SpruceEngineHandle.h>
+#include <app/API.h>
+#include <SpruceEngine.h>
+#include <app/pipeline/FramePipelineFwd.h>
+#include <graphics/renderer/RendererAbstractorFwd.h>
 
 namespace spruce {
 	class Application {
 		public:
-			SpruceEngineHandle handle;
+			SpruceEngine& engine;
 
-			Application(SpruceEngineHandle& handle);
+			Application(SpruceEngine& engine);
 			virtual ~Application();
 
-			virtual void render(float delta) = 0;
 			virtual void update(float delta) = 0;
 
-			void setPipeline(FramePipeline* pipeline);
+			void setFramePipeline(FramePipeline* pipeline);
 			void setRenderAPI(app::API api);
+			bool supportsAPI(app::API api);
+			void setRenderer(RendererAbstractor* renderer);
 	};
 }

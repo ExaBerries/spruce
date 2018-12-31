@@ -1,7 +1,5 @@
 #include <app/pipeline/SimplePipeline.h>
-#include <app/app.h>
 #include <backend/os.h>
-#include <graphics/graphics.h>
 #include <task/async.h>
 #include <app/pipeline/encode.h>
 
@@ -16,47 +14,20 @@ namespace spruce {
 		}
 	}
 
-	void SimplePipeline::execute(Application& app) {
+	void SimplePipeline::execute(float delta, Application& app, graphics::RendererAbstractor* renderer) {
 		frame = new Frame();
-		encodeFrame(app, graphics::delta);
-		#ifdef DEBUG
-		#ifdef PROFILE
-		uint64 startTime = sys::timeNano();
-		#endif
-		#endif
+		encodeFrame(*frame, delta, app, renderer);
 		os::updateStart();
-		app::window->surface->renderStart();
-		app::api->renderStart();
-		std::vector<CommandBuffer>& commandBuffers = frame->commandBuffers;
-		for (CommandBuffer& cmdBuffer : commandBuffers) {
-			for (cmd::Command* command : cmdBuffer.commands) {
-				command->execute();
-			}
+		//app::window->surface->renderStart();
+		//app::api->renderStart();
+		if (renderer != nullptr) {
+			renderer->executeBackend(frame->rendererData);
 		}
-		#ifdef DEBUG
-		#ifdef PROFILE
-		uint64 endTime = sys::timeNano();
-		execute->executeStartTime = startTime;
-		execute->executeEndTime = endTime;
-		#endif
-		#endif
 		delete frame;
 		frame = nullptr;
 		waitForMainTasks();
-		app::api->renderEnd();
-		app::window->surface->renderEnd();
+		//app::api->renderEnd();
+		//app::window->surface->renderEnd();
 		os::updateEnd();
-	}
-
-	void SimplePipeline::clearCommands() {
-		if (frame != nullptr) {
-			for (auto& cmdBuffer : frame->commandBuffers) {
-				cmdBuffer.reset();
-			}
-		}
-	}
-
-	CommandBuffer& SimplePipeline::getCommandBuffer() {
-		return frame->getCommandBuffer();
 	}
 }

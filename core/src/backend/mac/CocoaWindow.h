@@ -1,7 +1,6 @@
 #pragma once
 #include <backend/Window.h>
 #include <Cocoa/Cocoa.h>
-#include <backend/api/metal/MetalContext.h>
 
 @interface CocoaWindowObj : NSWindow {
 }
@@ -26,8 +25,7 @@ namespace spruce {
 			CocoaWindow();
 			virtual ~CocoaWindow();
 
-			void initOpenGL();
-			void initMetal(MetalContext* context);
+			void* initAPI(app::API api);
 			void setTitle(string title);
 			void setVisible(bool visible);
 			void setFullscreen(bool fullscreen);

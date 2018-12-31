@@ -1,7 +1,6 @@
 #pragma once
 #include <common.h>
 #include <system/time.h>
-#include <system/memory.h>
 
 namespace spruce {
 	namespace sys {

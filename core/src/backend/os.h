@@ -1,18 +1,18 @@
 #pragma once
 #include <common.h>
-#include <app/app.h>
+#include <app/API.h>
 #include <backend/Window.h>
 #include <input/Key.h>
 
 namespace spruce {
 	namespace os {
+		extern std::vector<app::API> supportedAPIs;
+
 		void init();
 		void free();
 
 		Window* createWindow();
-		RenderAPI* initAPI(Window* window, app::API api);
 		bool supportsAPI(app::API api);
-		bool supportsPrecompiledShader(app::API api);
 
 		void updateStart();
 		void updateEnd();

@@ -4,6 +4,9 @@ namespace spruce {
 	namespace app {
 		std::ostream& operator<<(std::ostream& stream, const API& api) {
 			switch (api) {
+				case DEBUG_API:
+					stream << "Debug";
+					break;
 				case OPENGL:
 					stream << "OpenGL";
 					break;

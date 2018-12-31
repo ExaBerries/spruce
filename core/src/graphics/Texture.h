@@ -1,5 +1,7 @@
 #pragma once
 #include <common.h>
+#include <graphics/TextureAPIData.h>
+#include <graphics/renderer/RendererAbstractorFwd.h>
 
 namespace spruce {
 	namespace graphics {
@@ -15,15 +17,18 @@ namespace spruce {
 				buffer<uint8> data;
 				uint16 width;
 				uint16 height;
+				TextureAPIData* apiData;
 
-				Texture(PixelFormat format, buffer<uint8> data, uint16& width, uint16& height);
+				Texture(const PixelFormat& format, buffer<uint8>& data, const uint16& width, const uint16& height);
 				Texture(const Texture& texture) = delete;
+				Texture(Texture&&) noexcept = delete;
 				virtual ~Texture();
 
-				virtual void toVRAM() = 0;
-				virtual void freeVRAM() = 0;
-				void bind();
-				void unbind();
+				void toVRAM(RendererAbstractor* renderer);
+				void freeVRAM();
+
+				Texture& operator=(const Texture&) = delete;
+				Texture& operator=(Texture&&) noexcept = delete;
 		};
 	}
 

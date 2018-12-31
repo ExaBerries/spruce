@@ -2,7 +2,6 @@
 #include <common.h>
 #include <backend/task/TaskBackend.h>
 #include <backend/task/TaskData.h>
-#include <graphics/CommandBuffer.h>
 
 namespace spruce {
 	namespace task {

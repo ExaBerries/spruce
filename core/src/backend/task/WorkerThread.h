@@ -1,6 +1,5 @@
 #pragma once
 #include <backend/task/TaskBackend.h>
-#include <graphics/CommandBuffer.h>
 #include <thread>
 
 namespace spruce {

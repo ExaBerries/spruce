@@ -1,6 +1,4 @@
 #include <app/pipeline/EncodeExecutePipeline.h>
-#include <app/app.h>
-#include <graphics/graphics.h>
 #include <task/async.h>
 #include <backend/os.h>
 #include <app/pipeline/encode.h>
@@ -20,53 +18,21 @@ namespace spruce {
 		}
 	}
 
-	void EncodeExecutePipeline::execute(Application& app) {
+	void EncodeExecutePipeline::execute(float delta, Application& app, graphics::RendererAbstractor* renderer) {
 		executeFrame = encodeFrame;
 		encodeFrame = new Frame();
-		Task<void(Application&,float)> task = createTask<Application&,float>(std::function<void(Application&,float)>(spruce::encodeFrame), task::ENGINE, true, app, graphics::delta);
-		#ifdef DEBUG
-		#ifdef PROFILE
-		uint64 startTime = sys::timeNano();
-		#endif
-		#endif
+		Task<void(Frame&,float,Application&,RendererAbstractor*)> task = createTask<Frame&,float,Application&,RendererAbstractor*>(std::function<void(Frame&,float,Application&,RendererAbstractor*)>(spruce::encodeFrame), task::ENGINE, true, *encodeFrame, delta, app, renderer);
 		os::updateStart();
-		app::window->surface->renderStart();
-		app::api->renderStart();
-		std::vector<CommandBuffer>& commandBuffers = executeFrame->commandBuffers;
-		for (CommandBuffer& cmdBuffer : commandBuffers) {
-			for (cmd::Command* command : cmdBuffer.commands) {
-				command->execute();
-			}
+		//app::window->surface->renderStart();
+		//app::api->renderStart();
+		if (renderer != nullptr) {
+			renderer->executeBackend(executeFrame->rendererData);
 		}
-		#ifdef DEBUG
-		#ifdef PROFILE
-		uint64 endTime = sys::timeNano();
-		execute->executeStartTime = startTime;
-		execute->executeEndTime = endTime;
-		#endif
-		#endif
 		delete executeFrame;
 		executeFrame = nullptr;
 		waitForMainTasks();
-		app::api->renderEnd();
-		app::window->surface->renderEnd();
+		//app::api->renderEnd();
+		//app::window->surface->renderEnd();
 		os::updateEnd();
-	}
-
-	void EncodeExecutePipeline::clearCommands() {
-		if (encodeFrame != nullptr) {
-			for (auto& cmdBuffer : encodeFrame->commandBuffers) {
-				cmdBuffer.reset();
-			}
-		}
-		if (executeFrame != nullptr) {
-			for (auto& cmdBuffer : executeFrame->commandBuffers) {
-				cmdBuffer.reset();
-			}
-		}
-	}
-
-	CommandBuffer& EncodeExecutePipeline::getCommandBuffer() {
-		return encodeFrame->getCommandBuffer();
 	}
 }

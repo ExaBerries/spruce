@@ -1,20 +1,26 @@
-#include <graphics/command/mesh/MeshBindCommand.h>
 #include <graphics/Mesh.h>
-#include <graphics/Shader.h>
-#include <graphics/graphics.h>
+#include <graphics/renderer/RendererAbstractor.h>
 
 namespace spruce {
 	namespace graphics {
-		Mesh::Mesh(buffer<float> vertices, buffer<uint16> indices) : vertices(vertices), indices(indices) {
+		Mesh::Mesh(buffer<float>& vertices, buffer<uint16>& indices) {
+			this->vertices = vertices;
+			this->indices = indices;
+			this->apiData = nullptr;
 		}
 
 		Mesh::~Mesh() {
+			freeVRAM();
 			vertices.free();
 			indices.free();
 		}
 
-		void Mesh::bind() {
-			graphics::getCommandBuffer().add(new cmd::MeshBindCommand(this));
+		void Mesh::toVRAM(RendererAbstractor* renderer) {
+			apiData = renderer->createMeshAPIData(*this);
+		}
+
+		void Mesh::freeVRAM() {
+			delete apiData;
 		}
 	}
 }

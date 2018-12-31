@@ -1,9 +1,7 @@
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/SpruceView.h>
 #include <backend/mac/opengl/OpenGLView.h>
-#include <backend/mac/opengl/CocoaOpenGLSurface.h>
-#include <backend/api/metal/MetalContext.h>
-#include <backend/mac/metal/MetalSurface.h>
+#include <backend/mac/opengl/CocoaOpenGLContext.h>
 #include <backend/mac/metal/MetalView.h>
 #include <backend/mac/objcpp.h>
 #include <log.h>
@@ -69,36 +67,32 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	void CocoaWindow::initOpenGL() {
-		if (surface != nullptr) {
-			delete surface;
-		}
+	void* CocoaWindow::initAPI(app::API api) {
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
-		this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];
-		this->surface = new CocoaOpenGLSurface(this->view);
 		NSView* oldView = window.contentView;
-		[window setContentView:this->view];
-		[window makeFirstResponder:this->view];
-		[oldView release];
-		[(OpenGLView*)view initContext];
-		[[(OpenGLView*)view getContext] makeCurrentContext];
-		[window update];
-		[window.contentView update];
-	}
-
-	void CocoaWindow::initMetal(MetalContext* context) {
-		if (surface != nullptr) {
-			delete surface;
+		void* context;
+		switch (api) {
+			case app::OPENGL:
+				this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];
+				[window setContentView:this->view];
+				[window makeFirstResponder:this->view];
+				[(OpenGLView*)view initContext];
+				[[(OpenGLView*)view getContext] makeCurrentContext];
+				context = new CocoaOpenGLContext(this->view);
+				break;
+			case app::METAL:
+				context = nullptr;
+				serr("unsupported api");
+				break;
+			default:
+				context = nullptr;
+				serr("unsupported api");
+				break;
 		}
-		NSRect viewRect = NSMakeRect(0, 0, width, height);
-		this->view = [[MetalView alloc] initWithFrame:viewRect window:this context:context];
-		this->surface = new MetalSurface(this->view, context);
-		NSView* oldView = window.contentView;
-		[window setContentView:this->view];
-		[window makeFirstResponder:this->view];
 		[oldView release];
 		[window update];
 		[window.contentView update];
+		return context;
 	}
 
 	void CocoaWindow::setTitle(string title) {

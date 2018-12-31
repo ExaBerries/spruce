@@ -5,7 +5,7 @@
 namespace spruce {
 	namespace graphics {
 		namespace camera {
-			class PerspectiveCamera: public Camera {
+			class PerspectiveCamera : public Camera {
 				public:
 					float fieldOfView;
 					float near;
@@ -14,8 +14,8 @@ namespace spruce {
 					vec3f dir;
 
 					PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir);
-					PerspectiveCamera(const PerspectiveCamera& camera) = delete;
-					virtual ~PerspectiveCamera();
+					PerspectiveCamera(const PerspectiveCamera& camera) = default;
+					~PerspectiveCamera() = default;
 
 					void update();
 			};

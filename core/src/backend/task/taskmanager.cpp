@@ -1,7 +1,6 @@
 #include <backend/task/taskmanager.h>
 #include <backend/task/WorkerThread.h>
 #include <system/system.h>
-#include <app/app.h>
 
 namespace spruce {
 	namespace task {
@@ -17,9 +16,7 @@ namespace spruce {
 
 		void init() {
 			threads = std::vector<WorkerThread>(sys::getCPUThreadCount() - 1);
-			if (app::debug) {
-				slog(threads.size(), " threads");
-			}
+			slog(threads.size(), " threads");
 		}
 
 		void free() {
@@ -178,18 +175,5 @@ namespace spruce {
 				references.erase(taskId);
 			}
 		}
-
-		#ifdef DEBUG
-		#ifdef PROFILE
-		uint8 convert(std::thread::id id) {
-			for (uint16 i = 0; i < threads.size(); i++) {
-				if (threads[i].thread.get_id() == id) {
-					return i + 1;
-				}
-			}
-			return 0;
-		}
-		#endif
-		#endif
 	}
 }

@@ -1,17 +1,25 @@
 #include <app/Application.h>
 
 namespace spruce {
-	Application::Application(SpruceEngineHandle& handle) : handle(handle) {
+	Application::Application(SpruceEngine& engine) : engine(engine) {
 	}
 
 	Application::~Application() {
 	}
 
-	void Application::setPipeline(FramePipeline* pipeline) {
-		handle.setPipeline(pipeline);
+	void Application::setFramePipeline(FramePipeline* pipeline) {
+		engine.setFramePipeline(pipeline);
 	}
 
 	void Application::setRenderAPI(app::API api) {
-		handle.setRenderPipeline(api);
+		engine.setRenderAPI(api);
+	}
+
+	bool Application::supportsAPI(app::API api) {
+		return engine.supportsAPI(api);
+	}
+
+	void Application::setRenderer(RendererAbstractor* renderer) {
+		engine.setRenderer(renderer);
 	}
 }

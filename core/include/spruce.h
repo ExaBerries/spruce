@@ -4,13 +4,13 @@
 #include <common.h>
 #include <app/app.h>
 #include <math/math.h>
-#include <graphics/graphics.h>
 #include <input/input.h>
+#include <graphics/graphics.h>
 #include <task/async.h>
 #include <system/time.h>
-#include <system/memory.h>
 #include <io/io.h>
-#include "../src/SpruceEngine.h"
+#include <memory/memory.h>
+#include <SpruceEngine.h>
 
 #ifdef TREE_ALIAS
 #define 🌲 spruce;

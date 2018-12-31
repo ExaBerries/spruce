@@ -15,13 +15,17 @@ namespace spruce {
 					float viewportWidth;
 					float viewportHeight;
 
-					Camera(float viewportWidth, float viewportHeight);
-					Camera(const Camera& camera) = delete;
-					virtual ~Camera();
+					Camera(const float& viewportWidth, const float& viewportHeight);
+					Camera(const Camera& camera) = default;
+					Camera(Camera&&) = default;
+					virtual ~Camera() = default;
 
 					virtual void update() = 0;
-					vec3f unproject(vec2f& vector, float depth);
-					vec2f project(vec3f& vector);
+					vec3f unproject(const vec2f& screen, float depth);
+					vec2f project(const vec3f& world);
+
+					Camera& operator=(const Camera&) = default;
+					Camera& operator=(Camera&&) = default;
 			};
 		}
 	}

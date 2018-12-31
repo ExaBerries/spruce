@@ -1,6 +1,7 @@
 #pragma once
 #include <common.h>
-#include <graphics/Shader.h>
+#include <graphics/MeshAPIData.h>
+#include <graphics/renderer/RendererAbstractorFwd.h>
 
 namespace spruce {
 	namespace graphics {
@@ -8,14 +9,18 @@ namespace spruce {
 			public:
 				buffer<float> vertices;
 				buffer<uint16> indices;
+				MeshAPIData* apiData;
 
-				Mesh(buffer<float> vertices, buffer<uint16> indices);
-				Mesh(const Mesh& mesh) = delete;
-				virtual ~Mesh();
+				Mesh(buffer<float>& vertices, buffer<uint16>& indices);
+				Mesh(const Mesh&) = delete;
+				Mesh(Mesh&&) noexcept = delete;
+				~Mesh();
 
-				virtual void toVRAM(Shader* shader) = 0;
-				virtual void freeVRAM() = 0;
-				void bind();
+				void toVRAM(RendererAbstractor* renderer);
+				void freeVRAM();
+
+				Mesh& operator=(const Mesh&) = delete;
+				Mesh& operator=(Mesh&&) noexcept = delete;
 		};
 	}
 

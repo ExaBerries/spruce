@@ -9,10 +9,8 @@ namespace spruce {
 			Frame* frame;
 
 			SimplePipeline();
-			virtual ~SimplePipeline();
+			~SimplePipeline();
 
-			void execute(Application& app);
-			void clearCommands();
-			CommandBuffer& getCommandBuffer();
+			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer);
 	};
 }

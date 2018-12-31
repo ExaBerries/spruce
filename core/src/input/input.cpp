@@ -1,5 +1,4 @@
 #include <input/input.h>
-#include <app/app.h>
 #include <backend/Window.h>
 #include <backend/os.h>
 #include <task/async.h>
@@ -24,7 +23,7 @@ namespace spruce {
 		}
 
 		void setCursorMode(CursorMode mode) {
-			app::window->setCursorMode(mode);
+			//app::window->setCursorMode(mode);
 		}
 
 		uint16 codeFor(Key key) {

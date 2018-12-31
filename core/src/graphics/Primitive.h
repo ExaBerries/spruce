@@ -4,7 +4,7 @@
 namespace spruce {
 	namespace graphics {
 		enum Primitive {
-			TRIANGLE, TRIANGLE_STRIP, LINE, LINE_STRIP
+			TRIANGLE, TRIANGLE_STRIP, LINE, LINE_STRIP, POINT
 		};
 	}
 }

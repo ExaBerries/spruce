@@ -1,11 +1,8 @@
 #include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
-#include <app/app.h>
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/objcpp.h>
-#include <backend/api/opengl/OpenGL.h>
-#include <backend/api/metal/Metal.h>
 #include <sys/sysctl.h>
 #include <sys/stat.h>
 #include <system/system.h>
@@ -22,7 +19,7 @@
 }
 
 - (void) quit {
-	spruce::app::window->close();
+	serr("quit");
 }
 @end
 
@@ -149,7 +146,6 @@ namespace spruce {
 			[[appMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"] setKeyEquivalentModifierMask:NSEventModifierFlagOption | NSEventModifierFlagCommand];
 			[appMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
 			[appMenu addItem:[NSMenuItem separatorItem]];
-			//[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@s    n b elector(terminate:) keyEquivalent:@"q"];
 			[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@selector(quit) keyEquivalent:@"q"];
 			NSMenuItem* windowMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
 			[bar release];
@@ -165,38 +161,6 @@ namespace spruce {
 
 		Window* createWindow() {
 			return new CocoaWindow();
-		}
-
-		RenderAPI* initAPI(Window* window, app::API api) {
-			if (api == app::OPENGL) {
-				((CocoaWindow*)window)->initOpenGL();
-				OpenGL* gl = new OpenGL(window);
-				gl->init();
-				return gl;
-			} else if (api == app::METAL) {
-				Metal* metal = new Metal(window);
-				((CocoaWindow*)window)->initMetal(&metal->context);
-				metal->createContext();
-				return metal;
-			} else {
-				return nullptr;
-			}
-		}
-
-		bool supportsAPI(app::API api) {
-			if (api == app::OPENGL) {
-				return true;
-			} else if (api == app::METAL) {
-				return true;
-			}
-			return false;
-		}
-
-		bool supportsPrecompiledShader(app::API api) {
-			if (api == app::METAL) {
-				return true;
-			}
-			return false;
 		}
 
 		void updateStart() {
@@ -221,12 +185,12 @@ namespace spruce {
 		}
 
 		string getBasePathInternal() {
-			if (app::debug) {
+			#ifdef DEBUG
 				return "assets/";
-			} else {
+			#else
 				NSBundle* bundle = [NSBundle mainBundle];
 				return convertStr(bundle.resourcePath) + "/";
-			}
+			#endif
 		}
 
 		string getBasePathExternal() {

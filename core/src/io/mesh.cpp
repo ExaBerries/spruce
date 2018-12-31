@@ -1,5 +1,4 @@
 #include <io/mesh.h>
-#include <graphics/graphics.h>
 #include <io/file.h>
 
 namespace spruce {
@@ -23,7 +22,7 @@ namespace spruce {
 				buffer<uint16> indices(indexCount);
 				memcpy(indices.data, data + offset, indexCount * sizeof(uint16));
 				offset += indexCount * sizeof(uint16);
-				return graphics::createMesh(vertices, indices);
+				return new Mesh(vertices, indices);
 			} else if (data[0] == 0x1) {
 				uint32 offset = 1;
 				uint64 vertexCount = 0;
@@ -38,7 +37,7 @@ namespace spruce {
 				buffer<uint16> indices(indexCount);
 				memcpy(indices.data, data + offset, indexCount * sizeof(uint16));
 				offset += indexCount * sizeof(uint16);
-				return graphics::createMesh(vertices, indices);
+				return new Mesh(vertices, indices);
 			}
 			return nullptr;
 		}

@@ -1,5 +1,4 @@
 #include <graphics/camera/PerspectiveCamera.h>
-#include <app/app.h>
 
 namespace spruce {
 	namespace graphics {
@@ -12,14 +11,11 @@ namespace spruce {
 				this->dir = dir;
 			}
 
-			PerspectiveCamera::~PerspectiveCamera() {
-			}
-
 			void PerspectiveCamera::update() {
 				float aspectRatio = viewportWidth / viewportHeight;
 				float absNear = std::abs(near);
 				float absFar = std::abs(far);
-				app::api->setPerspective(projection, absNear, absFar, fieldOfView, aspectRatio);
+				//app::api->setPerspective(projection, absNear, absFar, fieldOfView, aspectRatio);
 				vec3f dir = this->dir * rotation;
 				dir.nor();
 				vec3f up = this->up * rotation;
