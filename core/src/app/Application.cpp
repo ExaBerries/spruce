@@ -7,6 +7,10 @@ namespace spruce {
 	Application::~Application() {
 	}
 
+	void* Application::getRenderEncodeData() {
+		return this;
+	}
+
 	void Application::setFramePipeline(FramePipeline* pipeline) {
 		engine.setFramePipeline(pipeline);
 	}
@@ -21,5 +25,13 @@ namespace spruce {
 
 	void Application::setRenderer(RendererAbstractor* renderer) {
 		engine.setRenderer(renderer);
+	}
+
+	RendererAbstractor* Application::getRenderer() {
+		return engine.renderer;
+	}
+
+	Window* Application::getWindow() {
+		return engine.window;
 	}
 }

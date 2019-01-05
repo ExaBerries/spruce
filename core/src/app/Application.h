@@ -14,10 +14,13 @@ namespace spruce {
 			virtual ~Application();
 
 			virtual void update(float delta) = 0;
+			virtual void* getRenderEncodeData();
 
 			void setFramePipeline(FramePipeline* pipeline);
 			void setRenderAPI(app::API api);
 			bool supportsAPI(app::API api);
 			void setRenderer(RendererAbstractor* renderer);
+			RendererAbstractor* getRenderer();
+			Window* getWindow();
 	};
 }

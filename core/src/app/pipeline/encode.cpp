@@ -5,7 +5,7 @@ namespace spruce {
 	void encodeFrame(Frame& frame, float delta, Application& app, RendererAbstractor* renderer) {
 		app.update(delta);
 		if (renderer != nullptr) {
-			frame.rendererData = renderer->encodeBackend(app);
+			frame.rendererData = renderer->encodeBackend(app.getRenderEncodeData());
 		}
 		waitForGraphicsTasks(true);
 	}

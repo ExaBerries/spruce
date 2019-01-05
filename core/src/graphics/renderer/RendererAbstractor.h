@@ -13,8 +13,8 @@ namespace spruce {
 				RendererAbstractor() = default;
 				virtual ~RendererAbstractor() = default;
 
-				virtual std::any encodeBackend(Application& app) = 0;
-				virtual void executeBackend(std::any data) = 0;
+				virtual std::any encodeBackend(void* encodeData) = 0;
+				virtual void executeBackend(std::any executeData) = 0;
 
 				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) = 0;
 				virtual TextureAPIData* createTextureAPIData(Texture& texture) = 0;

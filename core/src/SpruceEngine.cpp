@@ -50,6 +50,9 @@ namespace spruce {
 	}
 
 	void SpruceEngine::setRenderer(RendererAbstractor* renderer) {
+		if (this->renderer != nullptr) {
+			delete renderer;
+		}
 		this->renderer = renderer;
 	}
 

@@ -10,7 +10,7 @@
 
 namespace spruce {
 	namespace graphics {
-		template <typename AppT, typename DataT, enum app::API api>
+		template <typename EncodeT, typename ExecuteT, enum app::API api>
 		class Renderer : public RendererAbstractor {
 			public:
 				Renderer() = default;
@@ -18,17 +18,17 @@ namespace spruce {
 				Renderer(Renderer&&) noexcept = default;
 				virtual ~Renderer() = default;
 
-				std::any encodeBackend(Application& app) {
-					return encode((AppT&) app);
+				std::any encodeBackend(void* encodeData) {
+					return encode(*((EncodeT*)encodeData));
 				}
 
-				void executeBackend(std::any data) {
-					DataT dataCasted = std::any_cast<DataT>(data);
-					execute(dataCasted);
+				void executeBackend(std::any executeData) {
+					ExecuteT executeDataCasted = std::any_cast<ExecuteT>(executeData);
+					execute(executeDataCasted);
 				}
 
-				virtual DataT encode(AppT& app) = 0;
-				virtual void execute(DataT& data) = 0;
+				virtual ExecuteT encode(EncodeT& encodeData) = 0;
+				virtual void execute(ExecuteT& executeData) = 0;
 
 				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) = 0;
 				virtual TextureAPIData* createTextureAPIData(Texture& texture) = 0;

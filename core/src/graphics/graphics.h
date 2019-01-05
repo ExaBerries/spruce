@@ -9,4 +9,3 @@
 #include <graphics/camera/OrthographicCamera.h>
 #include <graphics/camera/PerspectiveCamera.h>
 #include <graphics/renderer/Renderer.h>
-#include <graphics/renderer/api/opengl/OpenGLRenderer.h>
