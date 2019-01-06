@@ -12,15 +12,15 @@ namespace spruce {
 
 		mat4f();
 		mat4f(float values[16]);
-		mat4f(vec3f& translation, quaternion& rotation, vec3f& scale);
-		mat4f(vec3f& direction, vec3f& up);
+		mat4f(const vec3f& translation, const quaternion& rotation, const vec3f& scale);
+		mat4f(const vec3f& direction, const vec3f& up);
 		mat4f(const mat4f& matrix);
 		~mat4f();
 
 		mat4f& setIdentity();
 		mat4f& set(float values[16]);
-		mat4f& set(vec3f& translation, quaternion& rotation, vec3f& scale);
-		mat4f& set(vec3f& direction, vec3f& up);
+		mat4f& set(const vec3f& translation, const quaternion& rotation, const vec3f& scale);
+		mat4f& set(const vec3f& direction, const vec3f& up);
 
 		float determinate();
 		mat4f& invert();

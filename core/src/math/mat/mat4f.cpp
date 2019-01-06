@@ -27,7 +27,7 @@ namespace spruce {
 		}
 	}
 
-	mat4f::mat4f(vec3f& translation, quaternion& rotation, vec3f& scale) {
+	mat4f::mat4f(const vec3f& translation, const quaternion& rotation, const vec3f& scale) {
 		float x2 = rotation.x * rotation.x;
 		float y2 = rotation.y * rotation.y;
 		float z2 = rotation.z * rotation.z;
@@ -52,7 +52,7 @@ namespace spruce {
 		values[15] = 1.0f;
 	}
 
-	mat4f::mat4f(vec3f& direction, vec3f& up) {
+	mat4f::mat4f(const vec3f& direction, const vec3f& up) {
 		vec3f dirNor = vec3f(direction).nor();
 		vec3f dirCrsUp = vec3f(dirNor).crs(up).nor();
 		vec3f dirCrsUpCrsDir = vec3f(dirCrsUp).crs(dirNor).nor();
@@ -110,7 +110,7 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f& mat4f::set(vec3f& translation, quaternion& rotation, vec3f& scale) {
+	mat4f& mat4f::set(const vec3f& translation, const quaternion& rotation, const vec3f& scale) {
 		float x2 = rotation.x * rotation.x;
 		float y2 = rotation.y * rotation.y;
 		float z2 = rotation.z * rotation.z;
@@ -136,7 +136,7 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f& mat4f::set(vec3f& direction, vec3f& up) {
+	mat4f& mat4f::set(const vec3f& direction, const vec3f& up) {
 		vec3f dirNor = vec3f(direction).nor();
 		vec3f dirCrsUp = vec3f(dirNor).crs(up).nor();
 		vec3f dirCrsUpCrsDir = vec3f(dirCrsUp).crs(dirNor).nor();
