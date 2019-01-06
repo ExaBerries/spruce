@@ -44,12 +44,15 @@ namespace spruce {
 	}
 
 	void SpruceEngine::setFramePipeline(FramePipeline* pipeline) {
+		if (this->framePipeline != nullptr) {
+			delete this->framePipeline;
+		}
 		this->framePipeline = pipeline;
 	}
 
 	void SpruceEngine::setRenderer(RendererAbstractor* renderer) {
 		if (this->renderer != nullptr) {
-			delete renderer;
+			delete this->renderer;
 		}
 		this->renderer = renderer;
 	}
