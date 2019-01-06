@@ -11,11 +11,11 @@ namespace spruce {
 				this->dir = dir;
 			}
 
-			void PerspectiveCamera::update() {
+			void PerspectiveCamera::update(RendererAbstractor* renderer) {
 				float aspectRatio = viewportWidth / viewportHeight;
 				float absNear = std::abs(near);
 				float absFar = std::abs(far);
-				//app::api->setPerspective(projection, absNear, absFar, fieldOfView, aspectRatio);
+				renderer->setPerspective(projection, absNear, absFar, fieldOfView, aspectRatio);
 				vec3f dir = this->dir * rotation;
 				dir.nor();
 				vec3f up = this->up * rotation;

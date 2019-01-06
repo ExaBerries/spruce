@@ -18,6 +18,8 @@ namespace spruce {
 
 				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) = 0;
 				virtual TextureAPIData* createTextureAPIData(Texture& texture) = 0;
+				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) = 0;
+				virtual void setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio) = 0;
 		};
 	}
 

@@ -10,8 +10,8 @@ namespace spruce {
 				this->up = up;
 			}
 
-			void OrthographicCamera::update() {
-				//app::api->setOrthographic(projection, -viewportWidth / 2, viewportWidth / 2, viewportHeight / 2, viewportHeight / -2, near, far);
+			void OrthographicCamera::update(RendererAbstractor* renderer) {
+				renderer->setOrthographic(projection, -viewportWidth / 2, viewportWidth / 2, viewportHeight / 2, viewportHeight / -2, near, far);
 				vec3f dir = this->dir * rotation;
 				dir.nor();
 				vec3f up = this->up * rotation;

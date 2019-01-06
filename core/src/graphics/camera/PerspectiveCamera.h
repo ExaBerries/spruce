@@ -17,7 +17,7 @@ namespace spruce {
 					PerspectiveCamera(const PerspectiveCamera& camera) = default;
 					~PerspectiveCamera() = default;
 
-					void update();
+					void update(RendererAbstractor* renderer);
 			};
 		}
 	}

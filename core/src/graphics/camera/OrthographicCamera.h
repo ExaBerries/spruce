@@ -15,7 +15,7 @@ namespace spruce {
 					OrthographicCamera(const OrthographicCamera& camera) = default;
 					~OrthographicCamera() = default;
 
-					void update();
+					void update(RendererAbstractor* renderer);
 			};
 		}
 	}

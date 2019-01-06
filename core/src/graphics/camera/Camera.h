@@ -1,5 +1,6 @@
 #pragma once
 #include <common.h>
+#include <graphics/renderer/RendererAbstractor.h>
 
 namespace spruce {
 	namespace graphics {
@@ -20,7 +21,7 @@ namespace spruce {
 					Camera(Camera&&) = default;
 					virtual ~Camera() = default;
 
-					virtual void update() = 0;
+					virtual void update(RendererAbstractor* renderer) = 0;
 					vec3f unproject(const vec2f& screen, float depth);
 					vec2f project(const vec3f& world);
 
