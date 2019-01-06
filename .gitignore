@@ -36,9 +36,27 @@
 .cproject
 .classpath
 /.settings
-/Debug
-/Release
+/build
 .checkstyle
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
 
 # Mac
 .DS_Store
+
+#CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+# clang-tidy
+.clang-tidy

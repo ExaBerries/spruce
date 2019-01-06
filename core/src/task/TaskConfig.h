@@ -1,0 +1,58 @@
+#pragma once
+#include <common.h>
+#include <task/TaskPriority.h>
+#include <task/Task.h>
+#include <backend/task/taskmanager.h>
+#include <tuple>
+
+namespace spruce {
+	template <typename T>
+	class TaskConfig;
+
+	template <typename OUTPUT, typename ... TYPES>
+	class TaskConfig<OUTPUT(TYPES...)> {
+		public:
+			std::function<OUTPUT(TYPES...)> function;
+			task::TaskPriority priority;
+			bool concurrent;
+			std::tuple<TYPES...> args;
+
+			TaskConfig(std::function<OUTPUT(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) : args(args...) {
+				this->function = function;
+				this->priority = priority;
+				this->concurrent = concurrent;
+			}
+
+			~TaskConfig() {
+			}
+	};
+
+	template <typename RETURN, typename ... TYPES>
+	Task<RETURN(TYPES...)> createTask(TaskConfig<RETURN(TYPES...)> config) {
+		uint64 id = task::taskId++;
+		task::TaskData* taskData = new task::TaskData(sizeof(RETURN), [](void* data) {((RETURN*)data)->~RETURN();});
+		new (taskData->data) RETURN();
+		Task<RETURN(TYPES...)> task(id, taskData->complete, *((RETURN*)taskData->data));
+		task.priority = config.priority;
+		task::TaskBackend* taskBackend = new task::TaskBackend(id, taskData->complete);
+		taskBackend->priority = config.priority;
+		taskBackend->concurrent = config.concurrent;
+		taskBackend->functionData = new task::FunctionDataTemplate<RETURN, TYPES...>((RETURN*)taskData->data, config.function, config.args, id);
+		addTask(id, taskData, taskBackend);
+		return task;
+	}
+
+	template <typename ... TYPES>
+	Task<void(TYPES...)> createTask(TaskConfig<void(TYPES...)> config) {
+		uint64 id = task::taskId++;
+		task::TaskData* taskData = new task::TaskData(sizeof(bool), [](void* data) {});
+		Task<void(TYPES...)> task(id, taskData->complete);
+		task.priority = config.priority;
+		task::TaskBackend* taskBackend = new task::TaskBackend(id, taskData->complete);
+		taskBackend->priority = config.priority;
+		taskBackend->concurrent = config.concurrent;
+		taskBackend->functionData = new task::FunctionDataTemplate<void, TYPES...>((bool*)taskData->data, config.function, config.args, id);
+		addTask(id, taskData, taskBackend);
+		return task;
+	}
+}
