@@ -3,19 +3,14 @@
 #include <app/API.h>
 #include <backend/Window.h>
 #include <input/Key.h>
+#include <backend/ApplicationBackend.h>
 
 namespace spruce {
 	namespace os {
-		extern std::vector<app::API> supportedAPIs;
-
 		void init();
 		void free();
 
-		Window* createWindow();
-		bool supportsAPI(app::API api);
-
-		void updateStart();
-		void updateEnd();
+		ApplicationBackend* createAppBackend();
 
 		uint16 codeFor(input::Key key);
 

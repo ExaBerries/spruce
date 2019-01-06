@@ -2,6 +2,7 @@
 #include <common.h>
 #include <app/ApplicationFwd.h>
 #include <graphics/renderer/RendererAbstractor.h>
+#include <backend/ApplicationBackend.h>
 
 namespace spruce {
 	class FramePipeline {
@@ -9,6 +10,6 @@ namespace spruce {
 			FramePipeline() = default;
 			virtual ~FramePipeline() = default;
 
-			virtual void execute(float delta, Application& app, graphics::RendererAbstractor* renderer) = 0;
+			virtual void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) = 0;
 	};
 }

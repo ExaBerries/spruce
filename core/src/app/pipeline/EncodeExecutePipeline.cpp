@@ -1,6 +1,5 @@
 #include <app/pipeline/EncodeExecutePipeline.h>
 #include <task/async.h>
-#include <backend/os.h>
 #include <app/pipeline/encode.h>
 
 namespace spruce {
@@ -18,21 +17,16 @@ namespace spruce {
 		}
 	}
 
-	void EncodeExecutePipeline::execute(float delta, Application& app, graphics::RendererAbstractor* renderer) {
+	void EncodeExecutePipeline::execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) {
 		executeFrame = encodeFrame;
 		encodeFrame = new Frame();
 		Task<void(Frame&,float,Application&,RendererAbstractor*)> task = createTask<Frame&,float,Application&,RendererAbstractor*>(std::function<void(Frame&,float,Application&,RendererAbstractor*)>(spruce::encodeFrame), task::ENGINE, true, *encodeFrame, delta, app, renderer);
-		os::updateStart();
-		//app::window->surface->renderStart();
-		//app::api->renderStart();
 		if (renderer != nullptr) {
 			renderer->executeBackend(executeFrame->rendererData);
 		}
 		delete executeFrame;
 		executeFrame = nullptr;
 		waitForMainTasks();
-		//app::api->renderEnd();
-		//app::window->surface->renderEnd();
-		os::updateEnd();
+		appBackend.update();
 	}
 }

@@ -5,11 +5,13 @@
 #include <backend/Window.h>
 #include <app/API.h>
 #include <graphics/renderer/RendererAbstractor.h>
+#include <backend/ApplicationBackend.h>
 
 namespace spruce {
 	class SpruceEngine {
 		public:
 			Application* application;
+			ApplicationBackend* appBackend;
 			FramePipeline* framePipeline;
 			Window* window;
 			app::API apiType;

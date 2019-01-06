@@ -11,6 +11,6 @@ namespace spruce {
 			SimplePipeline();
 			~SimplePipeline();
 
-			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer);
+			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend);
 	};
 }

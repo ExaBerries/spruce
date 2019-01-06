@@ -1,46 +1,16 @@
 #include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
-#include <backend/mac/CocoaWindow.h>
+#include <backend/mac/CocoaAppBackend.h>
 #include <backend/mac/objcpp.h>
 #include <sys/sysctl.h>
 #include <sys/stat.h>
 #include <system/system.h>
 #include <dirent.h>
 
-@interface CocoaApp : NSApplication {
-}
-- (void) doNothing:(id) object;
-- (void) quit;
-@end
-
-@implementation CocoaApp
-- (void) doNothing:(id) object {
-}
-
-- (void) quit {
-	serr("quit");
-}
-@end
-
-@interface AppDelegate : NSObject <NSApplicationDelegate>
-@end
-
-@implementation AppDelegate
-- (void) applicationDidFinishLaunching:(NSNotification*)notification {
-	[NSApp stop:nil];
-	[NSApp activateIgnoringOtherApps:YES];
-}
-
-- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)_app {
-	return YES;
-}
-@end
-
 namespace spruce {
 	namespace os {
 		buffer<uint16> keyCodes(nullptr);
-		AppDelegate* delegate;
 
 		void init() {
 			keyCodes = buffer<uint16>(80);
@@ -124,56 +94,13 @@ namespace spruce {
 			keyCodes[input::F10] = 0x6D;
 			keyCodes[input::F11] = 0x67;
 			keyCodes[input::F12] = 0x6F;
-			[CocoaApp sharedApplication];
-			[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-			[NSThread detachNewThreadSelector:@selector(doNothing:) toTarget:NSApp withObject:nil];
-			delegate = [[AppDelegate alloc] init];
-			[NSApp setDelegate:delegate];
-			NSString* appName = @"spruce";
-			NSMenu* bar = [[NSMenu alloc] init];
-			[NSApp setMainMenu:bar];
-			NSMenuItem* appMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
-			NSMenu* appMenu = [[NSMenu alloc] init];
-			[appMenuItem setSubmenu:appMenu];
-			[appMenu addItemWithTitle:[NSString stringWithFormat:@"About %@", appName] action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-			[appMenu addItem:[NSMenuItem separatorItem]];
-			NSMenu* servicesMenu = [[NSMenu alloc] init];
-			[NSApp setServicesMenu:servicesMenu];
-			[[appMenu addItemWithTitle:@"Services" action:NULL keyEquivalent:@""] setSubmenu:servicesMenu];
-			[servicesMenu release];
-			[appMenu addItem:[NSMenuItem separatorItem]];
-			[appMenu addItemWithTitle:[NSString stringWithFormat:@"Hide %@", appName] action:@selector(hide:) keyEquivalent:@"h"];
-			[[appMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"] setKeyEquivalentModifierMask:NSEventModifierFlagOption | NSEventModifierFlagCommand];
-			[appMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
-			[appMenu addItem:[NSMenuItem separatorItem]];
-			[appMenu addItemWithTitle:[NSString stringWithFormat:@"Quit  %@", appName] action:@selector(quit) keyEquivalent:@"q"];
-			NSMenuItem* windowMenuItem = [bar addItemWithTitle:@"" action:NULL keyEquivalent:@""];
-			[bar release];
-			NSMenu* windowMenu = [[NSMenu alloc] initWithTitle:@"Window"];
-			[NSApp setWindowsMenu:windowMenu];
-			[windowMenuItem setSubmenu:windowMenu];
 		}
 
 		void free() {
-			[delegate release];
-			delegate = nullptr;
 		}
 
-		Window* createWindow() {
-			return new CocoaWindow();
-		}
-
-		void updateStart() {
-		}
-
-		void updateEnd() {
-			while (true) {
-				NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
-				if (event != nullptr) {
-					[NSApp sendEvent:event];
-				}
-				break;
-			}
+		ApplicationBackend* createAppBackend() {
+			return new CocoaAppBackend();
 		}
 
 		uint16 codeFor(input::Key key) {

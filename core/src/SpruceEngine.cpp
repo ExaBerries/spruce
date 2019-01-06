@@ -11,10 +11,8 @@ namespace spruce {
 		apiContext = nullptr;
 		os::init();
 		task::init();
-		window = os::createWindow();
-		//graphics::width = graphics::getWindowWidth();
-		//graphics::height = graphics::getWindowHeight();
-		//graphics::vsync = true;
+		appBackend = os::createAppBackend();
+		window = appBackend->createWindow();
 		application = createApplication(*this);
 	}
 
@@ -35,7 +33,7 @@ namespace spruce {
 			float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
 			lastTime = sys::timeNano();
 			if (application != nullptr) {
-				framePipeline->execute(delta, *application, renderer);
+				framePipeline->execute(delta, *application, renderer, *appBackend);
 			}
 		}
 	}
@@ -57,6 +55,6 @@ namespace spruce {
 	}
 
 	bool SpruceEngine::supportsAPI(app::API api) {
-		return os::supportsAPI(api);
+		return appBackend->supportsAPI(api);
 	}
 }

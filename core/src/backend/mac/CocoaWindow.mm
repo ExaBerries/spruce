@@ -31,7 +31,7 @@
 	spruceWindow->height = viewFrameBacking.size.height;
 }
 
-- (void) windowWillClose:(NSNotification*)notification {
+- (void)windowWillClose:(NSNotification *)notification {
 	spruceWindow->open = false;
 }
 @end
@@ -53,7 +53,6 @@ namespace spruce {
 		delegate = [[WindowDelegate alloc] initWithWindow:spruceWindow cocoaWindow:window];
 		[window setDelegate:delegate];
 		[window makeKeyAndOrderFront: window];
-		[NSApp run];
 	}
 
 	CocoaWindow::~CocoaWindow() {
@@ -118,6 +117,7 @@ namespace spruce {
 
 	void CocoaWindow::close() {
 		[windowController close];
+		open = false;
 	}
 
 	void CocoaWindow::setCursorMode(input::CursorMode mode) {
