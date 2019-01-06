@@ -9,6 +9,6 @@ namespace spruce {
 
 			Script(string code);
 			Script(FileHandle& handle);
-			virtual ~Script();
+			~Script();
 	};
 }

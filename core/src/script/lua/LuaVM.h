@@ -14,7 +14,7 @@ namespace spruce {
 			Script& script;
 
 			LuaVM(Script& script);
-			virtual ~LuaVM();
+			~LuaVM();
 
 			void execute() {
 				vm.script(script.code);
