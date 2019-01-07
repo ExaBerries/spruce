@@ -18,14 +18,8 @@ namespace spruce {
 				Renderer(Renderer&&) noexcept = default;
 				virtual ~Renderer() = default;
 
-				std::any encodeBackend(void* encodeData) {
-					return encode(*((EncodeT*)encodeData));
-				}
-
-				void executeBackend(std::any executeData) {
-					ExecuteT executeDataCasted = std::any_cast<ExecuteT>(executeData);
-					execute(executeDataCasted);
-				}
+				std::any encodeBackend(void* encodeData);
+				void executeBackend(std::any executeData);
 
 				virtual ExecuteT encode(EncodeT& encodeData) = 0;
 				virtual void execute(ExecuteT& executeData) = 0;
@@ -38,6 +32,17 @@ namespace spruce {
 				Renderer& operator=(const Renderer&) = default;
 				Renderer& operator=(Renderer&&) noexcept = default;
 		};
+
+		template <typename EncodeT, typename ExecuteT, enum app::API api>
+		std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) {
+			return encode(*((EncodeT*)encodeData));
+		}
+
+		template <typename EncodeT, typename ExecuteT, enum app::API api>
+		void Renderer<EncodeT, ExecuteT, api>::executeBackend(std::any executeData) {
+			ExecuteT executeDataCasted = std::any_cast<ExecuteT>(executeData);
+			execute(executeDataCasted);
+		}
 	}
 
 	using graphics::Renderer;
