@@ -58,6 +58,7 @@ class Example {
     Example() = default;
     Example(const Example&) = default; // indicates this type can be copied, note: no variable name required as it is defaulted
     Example(Example&&) noexcept = default;
+    ~Example() = default;
   
     Example& operator=(const Example&) = default;
     Example& operator=(Example&&) noexcept = default;
