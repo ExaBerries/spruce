@@ -43,8 +43,8 @@ static void vec3fScaleMulti(benchmark::State& state) {
 			vec3f vec = vecs[i] * scales[i];
 		}
 	}
-	state.SetBytesProcessed(sizeof(vecs) + sizeof(scales));
-	state.SetItemsProcessed(NUM);
+	state.SetBytesProcessed(state.iterations() * (sizeof(vecs) + sizeof(scales)));
+	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(vec3fScaleMulti);
 
@@ -63,8 +63,8 @@ static void vec3fAddMulti(benchmark::State& state) {
 			vec3f vec = vecsa[i] + vecsb[i];
 		}
 	}
-	state.SetBytesProcessed(sizeof(vecsa) + sizeof(vecsb));
-	state.SetItemsProcessed(NUM);
+	state.SetBytesProcessed(state.iterations() * (sizeof(vecsa) + sizeof(vecsb)));
+	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(vec3fAddMulti);
 
@@ -136,8 +136,8 @@ static void fcvec3fScaleMulti(benchmark::State& state) {
 			fcvec3f vec = vecs[i] * scales[i];
 		}
 	}
-	state.SetBytesProcessed(sizeof(vecs) + sizeof(scales));
-	state.SetItemsProcessed(NUM);
+	state.SetBytesProcessed(state.iterations() * (sizeof(vecs) + sizeof(scales)));
+	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(fcvec3fScaleMulti);
 
@@ -156,8 +156,8 @@ static void fcvec3fAddMulti(benchmark::State& state) {
 			fcvec3f vec = vecsa[i] + vecsb[i];
 		}
 	}
-	state.SetBytesProcessed(sizeof(vecsa) + sizeof(vecsb));
-	state.SetItemsProcessed(NUM);
+	state.SetBytesProcessed(state.iterations() * (sizeof(vecsa) + sizeof(vecsb)));
+	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(fcvec3fAddMulti);
 
@@ -220,8 +220,8 @@ static void fncvec3fScaleMulti(benchmark::State& state) {
 			fncvec3f vec = vecs[i] * scales[i];
 		}
 	}
-	state.SetBytesProcessed(sizeof(vecs) + sizeof(scales));
-	state.SetItemsProcessed(NUM);
+	state.SetBytesProcessed(state.iterations() * (sizeof(vecs) + sizeof(scales)));
+	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(fncvec3fScaleMulti);
 
@@ -240,7 +240,7 @@ static void fncvec3fAddMulti(benchmark::State& state) {
 			fncvec3f vec = vecsa[i] + vecsb[i];
 		}
 	}
-	state.SetBytesProcessed(sizeof(vecsa) + sizeof(vecsb));
-	state.SetItemsProcessed(NUM);
+	state.SetBytesProcessed(state.iterations() * (sizeof(vecsa) + sizeof(vecsb)));
+	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(fncvec3fAddMulti);

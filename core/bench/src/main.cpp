@@ -4,12 +4,12 @@
 static void syscapCpy(benchmark::State& state) {
 	constexpr uint64 SIZE = 1024 * 1024;
 	uint8* a = (uint8*) malloc(SIZE);
-	memset(a, 0, sizeof(a));
+	memset(a, 2, SIZE);
 	uint8* b = (uint8*) malloc(SIZE);
 	for (auto _ : state) {
 		benchmark::DoNotOptimize(memcpy(b, a, SIZE));
 	}
-	state.SetBytesProcessed(SIZE);
+	state.SetBytesProcessed(state.iterations() * SIZE);
 	free(a);
 	free(b);
 }
@@ -32,7 +32,7 @@ static void syscapAdd(benchmark::State& state) {
 			v = a0[i] + a1[i];
 		}
 	}
-	state.SetBytesProcessed(sizeof(a0) + sizeof(a1));
+	state.SetBytesProcessed(state.iterations() * (sizeof(a0) + sizeof(a1)));
 }
 BENCHMARK(syscapAdd);
 
