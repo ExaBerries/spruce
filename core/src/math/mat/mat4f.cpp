@@ -21,7 +21,7 @@ namespace spruce {
 		values[15] = 1.0;
 	}
 
-	mat4f::mat4f(float values[16]) {
+	mat4f::mat4f(const float values[16]) {
 		for (uint8 i = 0; i < 16; i++) {
 			this->values[i] = values[i];
 		}
@@ -74,15 +74,6 @@ namespace spruce {
 		values[15] = 1;
 	}
 
-	mat4f::mat4f(const mat4f& matrix) {
-		for (uint8 i = 0; i < 16; i++) {
-			values[i] = matrix.values[i];
-		}
-	}
-
-	mat4f::~mat4f() {
-	}
-
 	mat4f& mat4f::setIdentity() {
 		values[0] = 1.0;
 		values[1] = 0.0;
@@ -103,7 +94,7 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f& mat4f::set(float values[16]) {
+	mat4f& mat4f::set(const float values[16]) {
 		for (int i = 0; i < 16; i++) {
 			this->values[i] = values[i];
 		}
@@ -297,14 +288,14 @@ namespace spruce {
 		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + matrix.values[3];
 		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + matrix.values[7];
 		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + matrix.values[11];
-		return vec3f(x, y, z);
+		return {x, y, z};
 	}
 
 	vec3f operator*(const mat4f& matrix, const vec3f& vector) {
 		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + matrix.values[3];
 		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + matrix.values[7];
 		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + matrix.values[11];
-		return vec3f(x, y, z);
+		return {x, y, z};
 	}
 
 	vec4f operator*(const vec4f& vector, const mat4f& matrix) {
@@ -312,7 +303,7 @@ namespace spruce {
 		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + vector.w * matrix.values[7];
 		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + vector.w * matrix.values[11];
 		float w = vector.x * matrix.values[12] + vector.y * matrix.values[13] + vector.z * matrix.values[14] + vector.w * matrix.values[15];
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
 	vec4f operator*(const mat4f& matrix, const vec4f& vector) {
@@ -320,7 +311,7 @@ namespace spruce {
 		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + vector.w * matrix.values[7];
 		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + vector.w * matrix.values[11];
 		float w = vector.x * matrix.values[12] + vector.y * matrix.values[13] + vector.z * matrix.values[14] + vector.w * matrix.values[15];
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
 	mat4f& mat4f::operator+=(const mat4f& matrix) {

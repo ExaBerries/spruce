@@ -1,18 +1,19 @@
 #pragma once
 #include <types.h>
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 namespace spruce {
-    struct vec2i {
-        int32 x;
-        int32 y;
+	struct vec2i {
+		int32 x = 0;
+		int32 y = 0;
 
-        vec2i();
-        vec2i(const vec2i& vector);
-		vec2i(const int32& scalar);
-		vec2i(const int32& x, const int32& y);
-		~vec2i();
+		vec2i() = default;
+		vec2i(int32 scalar);
+		vec2i(int32 x, int32 y);
+		vec2i(const vec2i&) = default;
+		vec2i(vec2i&&) noexcept = default;
+		~vec2i() = default;
 
 		float mag2() const;
 		float mag() const;
@@ -23,19 +24,10 @@ namespace spruce {
 		vec2i& add(const vec2i& vector);
 		vec2i& sub(const vec2i& vector);
 
-		vec2i& add(const int32& value);
-		vec2i& sub(const int32& value);
-		vec2i& scl(const int32& value);
-		vec2i& div(const int32& value);
-
-		friend vec2i operator+(const vec2i left, const vec2i& right);
-		friend vec2i operator-(const vec2i left, const vec2i& right);
-
-		friend vec2i operator+(const vec2i left, int32 value);
-		friend vec2i operator-(const vec2i left, int32 value);
-		friend vec2i operator%(const vec2i left, int32 value);
-		friend vec2i operator*(const vec2i left, int32 value);
-		friend vec2i operator/(const vec2i left, int32 value);
+		vec2i& add(int32 value);
+		vec2i& sub(int32 value);
+		vec2i& scl(int32 value);
+		vec2i& div(int32 value);
 
 		bool operator==(const vec2i& vector) const;
 		bool operator!=(const vec2i& vector) const;
@@ -43,14 +35,26 @@ namespace spruce {
 		vec2i& operator+=(const vec2i& vector);
 		vec2i& operator-=(const vec2i& vector);
 
-		vec2i& operator+=(const int32& value);
-		vec2i& operator-=(const int32& value);
-		vec2i& operator%=(const int32& value);
-		vec2i& operator*=(const int32& value);
-		vec2i& operator/=(const int32& value);
+		vec2i& operator+=(int32 value);
+		vec2i& operator-=(int32 value);
+		vec2i& operator%=(int32 value);
+		vec2i& operator*=(int32 value);
+		vec2i& operator/=(int32 value);
 
-		friend std::ostream& operator<<(std::ostream& stream, const vec2i& vector);
-    };
+		vec2i& operator=(const vec2i&) = default;
+		vec2i& operator=(vec2i&&) noexcept = default;
+	};
+
+	vec2i operator+(const vec2i& left, const vec2i& right);
+	vec2i operator-(const vec2i& left, const vec2i& right);
+
+	vec2i operator+(const vec2i& left, int32 value);
+	vec2i operator-(const vec2i& left, int32 value);
+	vec2i operator%(const vec2i& left, int32 value);
+	vec2i operator*(const vec2i& left, int32 value);
+	vec2i operator/(const vec2i& left, int32 value);
+
+	std::ostream& operator<<(std::ostream& stream, const vec2i& vector);
 }
 
 namespace std {

@@ -1,18 +1,19 @@
 #pragma once
 #include <types.h>
 #include <log.h>
-#include <math.h>
+#include <cmath>
 
 namespace spruce {
 	struct vec2d {
-		double x;
-		double y;
+		double x = 0;
+		double y = 0;
 
-		vec2d();
-		vec2d(const vec2d& vector);
-		vec2d(const double& scalar);
-		vec2d(const double& x, const double& y);
-		~vec2d();
+		vec2d() = default;
+		vec2d(double scalar);
+		vec2d(double x, double y);
+		vec2d(const vec2d&) = default;
+		vec2d(vec2d&&) noexcept = default;
+		~vec2d() = default;
 
 		double mag2() const;
 		double mag() const;
@@ -24,18 +25,10 @@ namespace spruce {
 		vec2d& add(const vec2d& vector);
 		vec2d& sub(const vec2d& vector);
 
-		vec2d& add(const double& value);
-		vec2d& sub(const double& value);
-		vec2d& scl(const double& value);
-		vec2d& div(const double& value);
-
-		friend vec2d operator+(const vec2d left, const vec2d& right);
-		friend vec2d operator-(const vec2d left, const vec2d& right);
-
-		friend vec2d operator+(const vec2d left, double value);
-		friend vec2d operator-(const vec2d left, double value);
-		friend vec2d operator*(const vec2d left, double value);
-		friend vec2d operator/(const vec2d left, double value);
+		vec2d& add(double value);
+		vec2d& sub(double value);
+		vec2d& scl(double value);
+		vec2d& div(double value);
 
 		bool operator==(const vec2d& vector) const;
 		bool operator!=(const vec2d& vector) const;
@@ -43,15 +36,26 @@ namespace spruce {
 		vec2d& operator+=(const vec2d& vector);
 		vec2d& operator-=(const vec2d& vector);
 
-		vec2d& operator+=(const double& value);
-		vec2d& operator-=(const double& value);
-		vec2d& operator*=(const double& value);
-		vec2d& operator/=(const double& value);
+		vec2d& operator+=(double value);
+		vec2d& operator-=(double value);
+		vec2d& operator*=(double value);
+		vec2d& operator/=(double value);
 
-		friend std::ostream& operator<<(std::ostream& stream, const vec2d& vector);
+		vec2d& operator=(const vec2d&) = default;
+		vec2d& operator=(vec2d&&) noexcept = default;
 
 		static vec2d lerp(const vec2d& a, const vec2d& b, double alpha);
 	};
+
+	vec2d operator+(const vec2d& left, const vec2d& right);
+	vec2d operator-(const vec2d& left, const vec2d& right);
+
+	vec2d operator+(const vec2d& left, double value);
+	vec2d operator-(const vec2d& left, double value);
+	vec2d operator*(const vec2d& left, double value);
+	vec2d operator/(const vec2d& left, double value);
+
+	std::ostream& operator<<(std::ostream& stream, const vec2d& vector);
 }
 
 namespace std {

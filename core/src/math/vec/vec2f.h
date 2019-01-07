@@ -1,18 +1,18 @@
 #pragma once
 #include <types.h>
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 namespace spruce {
 	struct vec2f {
-		float x;
-		float y;
+		float x = 0;
+		float y = 0;
 
-		vec2f();
-		vec2f(const vec2f& vector);
-		vec2f(const float& scalar);
-		vec2f(const float& x, const float& y);
-		~vec2f();
+		vec2f() = default;
+		vec2f(float scalar);
+		vec2f(float x, float y);
+		vec2f(const vec2f&) noexcept = default;
+		~vec2f() = default;
 
 		float mag2() const;
 		float mag() const;
@@ -24,18 +24,10 @@ namespace spruce {
 		vec2f& add(const vec2f& vector);
 		vec2f& sub(const vec2f& vector);
 
-		vec2f& add(const float& value);
-		vec2f& sub(const float& value);
-		vec2f& scl(const float& value);
-		vec2f& div(const float& value);
-
-		friend vec2f operator+(const vec2f left, const vec2f& right);
-		friend vec2f operator-(const vec2f left, const vec2f& right);
-
-		friend vec2f operator+(const vec2f left, float value);
-		friend vec2f operator-(const vec2f left, float value);
-		friend vec2f operator*(const vec2f left, float value);
-		friend vec2f operator/(const vec2f left, float value);
+		vec2f& add(float value);
+		vec2f& sub(float value);
+		vec2f& scl(float value);
+		vec2f& div(float value);
 
 		bool operator==(const vec2f& vector) const;
 		bool operator!=(const vec2f& vector) const;
@@ -43,15 +35,26 @@ namespace spruce {
 		vec2f& operator+=(const vec2f& vector);
 		vec2f& operator-=(const vec2f& vector);
 
-		vec2f& operator+=(const float& value);
-		vec2f& operator-=(const float& value);
-		vec2f& operator*=(const float& value);
-		vec2f& operator/=(const float& value);
+		vec2f& operator+=(float value);
+		vec2f& operator-=(float value);
+		vec2f& operator*=(float value);
+		vec2f& operator/=(float value);
 
-		friend std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
+		vec2f& operator=(const vec2f&) = default;
+		vec2f& operator=(vec2f&&) noexcept = default;
 
 		static vec2f lerp(const vec2f& a, const vec2f& b, float alpha);
 	};
+
+	vec2f operator+(const vec2f& left, const vec2f& right);
+	vec2f operator-(const vec2f& left, const vec2f& right);
+
+	vec2f operator+(const vec2f& left, float value);
+	vec2f operator-(const vec2f& left, float value);
+	vec2f operator*(const vec2f& left, float value);
+	vec2f operator/(const vec2f& left, float value);
+
+	std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
 }
 
 namespace std {

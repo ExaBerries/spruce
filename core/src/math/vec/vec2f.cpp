@@ -1,19 +1,10 @@
 #include <math/vec/vec2f.h>
 
 namespace spruce {
-	vec2f::vec2f() : x(0), y(0) {
+	vec2f::vec2f(float scalar) : x(scalar), y(scalar) {
 	}
 
-	vec2f::vec2f(const vec2f& vector) : x(vector.x), y(vector.y) {
-	}
-
-	vec2f::vec2f(const float& scalar) : x(scalar), y(scalar) {
-	}
-
-	vec2f::vec2f(const float& x, const float& y) : x(x), y(y) {
-	}
-
-	vec2f::~vec2f() {
+	vec2f::vec2f(float x, float y) : x(x), y(y) {
 	}
 
 	float vec2f::mag2() const {
@@ -60,64 +51,64 @@ namespace spruce {
 		return *this;
 	}
 
-	vec2f& vec2f::add(const float& value) {
+	vec2f& vec2f::add(float value) {
 		x += value;
 		y += value;
 		return *this;
 	}
 
-	vec2f& vec2f::sub(const float& value) {
+	vec2f& vec2f::sub(float value) {
 		x -= value;
 		y -= value;
 		return *this;
 	}
 
-	vec2f& vec2f::scl(const float& value) {
+	vec2f& vec2f::scl(float value) {
 		x *= value;
 		y *= value;
 		return *this;
 	}
 
-	vec2f& vec2f::div(const float& value) {
+	vec2f& vec2f::div(float value) {
 		x /= value;
 		y /= value;
 		return *this;
 	}
 
-	vec2f operator+(vec2f left, const vec2f& right) {
+	vec2f operator+(const vec2f& left, const vec2f& right) {
 		float x = left.x + right.x;
 		float y = left.y + right.y;
-		return vec2f(x, y);
+		return {x, y};
 	}
 
-	vec2f operator-(vec2f left, const vec2f& right) {
+	vec2f operator-(const vec2f& left, const vec2f& right) {
 		float x = left.x - right.x;
 		float y = left.y - right.y;
-		return vec2f(x, y);
+		return {x, y};
 	}
 
-	vec2f operator+(vec2f left, float value) {
+	vec2f operator+(const vec2f& left, float value) {
 		float x = left.x + value;
 		float y = left.y + value;
-		return vec2f(x, y);
+		return {x, y};
 	}
 
-	vec2f operator-(vec2f left, float value) {
+	vec2f operator-(const vec2f& left, float value) {
 		float x = left.x - value;
 		float y = left.y - value;
-		return vec2f(x, y);
+		return {x, y};
 	}
 
-	vec2f operator*(vec2f left, float value) {
+	vec2f operator*(const vec2f& left, float value) {
 		float x = left.x * value;
 		float y = left.y * value;
-		return vec2f(x, y);
+		return {x, y};
 	}
 
-	vec2f operator/(vec2f left, float value) {
+	vec2f operator/(const vec2f& left, float value) {
 		float x = left.x / value;
 		float y = left.y / value;
-		return vec2f(x, y);
+		return {x, y};
 	}
 
 	bool vec2f::operator==(const vec2f& vector) const {
@@ -140,25 +131,25 @@ namespace spruce {
 		return *this;
 	}
 
-	vec2f& vec2f::operator+=(const float& value) {
+	vec2f& vec2f::operator+=(float value) {
 		this->x += value;
 		this->y += value;
 		return *this;
 	}
 
-	vec2f& vec2f::operator-=(const float& value) {
+	vec2f& vec2f::operator-=(float value) {
 		this->x -= value;
 		this->y -= value;
 		return *this;
 	}
 
-	vec2f& vec2f::operator*=(const float& value) {
+	vec2f& vec2f::operator*=(float value) {
 		this->x *= value;
 		this->y *= value;
 		return *this;
 	}
 
-	vec2f& vec2f::operator/=(const float& value) {
+	vec2f& vec2f::operator/=(float value) {
 		this->x /= value;
 		this->y /= value;
 		return *this;

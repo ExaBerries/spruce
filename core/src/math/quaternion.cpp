@@ -1,16 +1,10 @@
 #include <math/quaternion.h>
 
 namespace spruce {
-	quaternion::quaternion() : x(0), y(0), z(0), w(1) {
+	quaternion::quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {
 	}
 
-	quaternion::quaternion(const quaternion& quaternion) : x(quaternion.x), y(quaternion.y), z(quaternion.z), w(quaternion.w) {
-	}
-
-	quaternion::quaternion(const float& x, const float& y, const float& z, const float& w) : x(x), y(y), z(z), w(w) {
-	}
-
-	quaternion::quaternion(const float& pitch, const float& yaw, const float& roll) {
+	quaternion::quaternion(float pitch, float yaw, float roll) {
 		/*
 		float ys = sin(yaw /2);
 		float yc = cos(yaw / 2);
@@ -44,9 +38,6 @@ namespace spruce {
 		nor();
 	}
 
-	quaternion::~quaternion() {
-	}
-
 	quaternion& quaternion::set(const quaternion& quaternion) {
 		this->x = quaternion.x;
 		this->y = quaternion.y;
@@ -55,7 +46,7 @@ namespace spruce {
 		return *this;
 	}
 
-	quaternion& quaternion::set(const float x, const float y, const float z, const float w) {
+	quaternion& quaternion::set(float x, float y, float z, float w) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
@@ -63,7 +54,7 @@ namespace spruce {
 		return *this;
 	}
 
-	quaternion& quaternion::set(const vec3f& axis, const float& angle) {
+	quaternion& quaternion::set(const vec3f& axis, float angle) {
 		float sinHalfAngle = sin(angle / 2);
 		this->x = axis.x * sinHalfAngle;
 		this->y = axis.y * sinHalfAngle;
@@ -83,7 +74,7 @@ namespace spruce {
 		return *this;
 	}
 
-	quaternion& quaternion::set(const float& yaw, const float& pitch, const float& roll) {
+	quaternion& quaternion::set(float yaw, float pitch, float roll) {
 		/*
 		float ys = sin(yaw /2);
 		float yc = cos(yaw / 2);
@@ -145,7 +136,7 @@ namespace spruce {
 		float y = left.y + right.y;
 		float z = left.z + right.z;
 		float w = left.w + right.w;
-		return quaternion(x, y, z, w);
+		return {x, y, z, w};
 	}
 
 	quaternion operator-(const quaternion& left, const quaternion& right) {
@@ -153,7 +144,7 @@ namespace spruce {
 		float y = left.y - right.y;
 		float z = left.z - right.z;
 		float w = left.w - right.w;
-		return quaternion(x, y, z, w);
+		return {x, y, z, w};
 	}
 
 	quaternion operator*(const quaternion& left, const quaternion& right) {
@@ -161,19 +152,19 @@ namespace spruce {
 		float y = left.w * right.y + left.y * right.w + left.z * right.x - left.x * right.z;
 		float z = left.w * right.z + left.z * right.w + left.x * right.y - left.y * right.x;
 		float w = left.w * right.w - left.x * right.x - left.y * right.y - left.z * right.z;
-		return quaternion(x, y, z, w);
+		return {x, y, z, w};
 	}
 
 	vec3f operator*(const vec3f& vector, const quaternion& quaternion) {
 		spruce::quaternion conjugate = spruce::quaternion(quaternion).conjugate();
 		spruce::quaternion result = quaternion * spruce::quaternion(vector.x, vector.y, vector.z, 0) * conjugate;
-		return vec3f(result.x, result.y, result.z);
+		return {result.x, result.y, result.z};
 	}
 
 	vec3f operator*(const quaternion& quaternion, const vec3f& vector) {
 		spruce::quaternion conjugate = spruce::quaternion(quaternion).conjugate();
 		spruce::quaternion result = quaternion * spruce::quaternion(vector.x, vector.y, vector.z, 0) * conjugate;
-		return vec3f(result.x, result.y, result.z);
+		return {result.x, result.y, result.z};
 	}
 
 	quaternion& quaternion::operator+=(const quaternion& quaternion) {
@@ -210,6 +201,6 @@ namespace spruce {
 	}
 
 	quaternion quaternion::lerp(const quaternion& a, const quaternion& b, float alpha) {
-		return quaternion((1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y, (1 - alpha) * a.z + alpha * b.z, (1 - alpha) * a.w + alpha * b.w);
+		return {(1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y, (1 - alpha) * a.z + alpha * b.z, (1 - alpha) * a.w + alpha * b.w};
 	}
 }

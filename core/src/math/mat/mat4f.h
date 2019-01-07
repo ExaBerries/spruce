@@ -3,7 +3,7 @@
 #include <math/vec/vec3f.h>
 #include <math/vec/vec4f.h>
 #include <math/quaternion.h>
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 namespace spruce {
@@ -11,28 +11,21 @@ namespace spruce {
 		float values[16];
 
 		mat4f();
-		mat4f(float values[16]);
+		explicit mat4f(const float values[16]);
 		mat4f(const vec3f& translation, const quaternion& rotation, const vec3f& scale);
 		mat4f(const vec3f& direction, const vec3f& up);
-		mat4f(const mat4f& matrix);
-		~mat4f();
+		mat4f(const mat4f&) = default;
+		mat4f(mat4f&&) noexcept = default;
+		~mat4f() = default;
 
 		mat4f& setIdentity();
-		mat4f& set(float values[16]);
+		mat4f& set(const float values[16]);
 		mat4f& set(const vec3f& translation, const quaternion& rotation, const vec3f& scale);
 		mat4f& set(const vec3f& direction, const vec3f& up);
 
 		float determinate();
 		mat4f& invert();
 		mat4f& transpose();
-
-		friend mat4f operator+(const mat4f& left, const mat4f& right);
-		friend mat4f operator-(const mat4f& left, const mat4f& right);
-		friend mat4f operator*(const mat4f& left, const mat4f& right);
-		friend vec3f operator*(const vec3f& vector, const mat4f& matrix);
-		friend vec3f operator*(const mat4f& matrix, const vec3f& vector);
-		friend vec4f operator*(const vec4f& vector, const mat4f& matrix);
-		friend vec4f operator*(const mat4f& matrix, const vec4f& vector);
 
 		mat4f& operator+=(const mat4f& matrix);
 		mat4f& operator-=(const mat4f& matrix);
@@ -41,8 +34,19 @@ namespace spruce {
 		bool operator==(const mat4f& matrix) const;
 		bool operator!=(const mat4f& matrix) const;
 
-		friend std::ostream& operator<<(std::ostream& stream, const mat4f& matrix);
+		mat4f& operator=(const mat4f&) = default;
+		mat4f& operator=(mat4f&&) noexcept = default;
 	};
+
+	mat4f operator+(const mat4f& left, const mat4f& right);
+	mat4f operator-(const mat4f& left, const mat4f& right);
+	mat4f operator*(const mat4f& left, const mat4f& right);
+	vec3f operator*(const vec3f& vector, const mat4f& matrix);
+	vec3f operator*(const mat4f& matrix, const vec3f& vector);
+	vec4f operator*(const vec4f& vector, const mat4f& matrix);
+	vec4f operator*(const mat4f& matrix, const vec4f& vector);
+
+	std::ostream& operator<<(std::ostream& stream, const mat4f& matrix);
 }
 
 namespace std {
