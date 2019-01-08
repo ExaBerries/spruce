@@ -1,5 +1,6 @@
 ﻿#ifdef __linux__
 #include <backend/linux/X11Window.h>
+#include <backend/linux/opengl/X11OpenGLContext.h>
 
 namespace spruce {
 	X11Window::X11Window(Display* display) {
@@ -36,7 +37,7 @@ namespace spruce {
 		XSetWMProtocols(display, window, &wmDeleteMessage, 1);
 	}
 
-	void* X11Window::initAPI(app::API api) {
+	APIContext* X11Window::initAPI(app::API api) {
 		if (window != 0) {
 			XFreeColormap(display, colormap);
 			XDestroyWindow(display, window);
@@ -44,15 +45,24 @@ namespace spruce {
 		APIContext* context;
 		switch (api) {
 			case app::OPENGL:
-				context = nullptr;
+				{
+					X11OpenGLContext* glContext = new X11OpenGLContext(display);
+					createXWindow(glContext->getVisual(), glContext->getDepth());
+					glContext->windowCreated(window);
+					context = glContext;
+				}
 				break;
 			case app::VULKAN:
-				context = nullptr;
-				serr("unsupported api");
+				{
+					context = nullptr;
+					serr("unsupported api");
+				}
 				break;
 			default:
-				context = nullptr;
-				serr("unsupported api");
+				{
+					context = nullptr;
+					serr("unsupported api");
+				}
 				break;
 		}
 		return context;

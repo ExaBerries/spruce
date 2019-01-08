@@ -1,7 +1,7 @@
 #ifdef __linux__
 #include <backend/linux/opengl/X11OpenGLContext.h>
-#define GLX_CONTEXT_MAJOR_VERSION_ARB       0x2091
-#define GLX_CONTEXT_MINOR_VERSION_ARB       0x2092
+#define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
+#define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 
 namespace spruce {
@@ -22,11 +22,15 @@ namespace spruce {
 		};
 		int32 fbcount;
 		GLXFBConfig* fbc = glXChooseFBConfig(display, DefaultScreen(display), vatt, &fbcount);
-		int best_fbc = -1, worst_fbc = -1, best_num_samp = -1, worst_num_samp = 999;
+		int32 best_fbc = -1;
+		int32 worst_fbc = -1;
+		int32 best_num_samp = -1;
+		int32 worst_num_samp = 999;
 		for (int32 i = 0; i < fbcount; i++) {
 			XVisualInfo* vi = glXGetVisualFromFBConfig(display, fbc[i]);
-			if (vi){
-				int samp_buf, samples;
+			if (vi != nullptr) {
+				int32 samp_buf;
+				int32 samples;
 				glXGetFBConfigAttrib(display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf);
 				glXGetFBConfigAttrib(display, fbc[i], GLX_SAMPLES, &samples);
 				if (best_fbc < 0 || (samp_buf && samples > best_num_samp)) {

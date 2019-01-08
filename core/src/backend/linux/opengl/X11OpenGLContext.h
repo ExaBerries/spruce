@@ -5,6 +5,7 @@
 #include <X11/Xlib.h>
 #include <graphics/renderer/api/opengl/OpenGLContext.h>
 #include <graphics/renderer/api/opengl/glplatform.h>
+#include <GL/glx.h>
 
 typedef Window XWindow;
 
