@@ -2,6 +2,7 @@
 #include <common.h>
 #include <input/input.h>
 #include <app/API.h>
+#include <graphics/renderer/api/APIContext.h>
 
 namespace spruce {
 	class Window {
@@ -17,7 +18,7 @@ namespace spruce {
 			Window(const Window&&) noexcept = delete;
 			virtual ~Window() = default;
 
-			virtual void* initAPI(app::API api) = 0;
+			virtual APIContext* initAPI(app::API api) = 0;
 			virtual void setTitle(string title) = 0;
 			virtual void setVisible(bool visible) = 0;
 			virtual void setFullscreen(bool fullscreen) = 0;

@@ -66,10 +66,10 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	void* CocoaWindow::initAPI(app::API api) {
+	APIContext* CocoaWindow::initAPI(app::API api) {
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
 		NSView* oldView = window.contentView;
-		void* context;
+		APIContext* context;
 		switch (api) {
 			case app::OPENGL:
 				this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];

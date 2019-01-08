@@ -1,11 +1,12 @@
 #pragma once
 #include <types.h>
+#include <app/API.h>
 #include <app/ApplicationFwd.h>
 #include <app/pipeline/FramePipeline.h>
 #include <backend/Window.h>
-#include <app/API.h>
-#include <graphics/renderer/RendererAbstractor.h>
 #include <backend/ApplicationBackend.h>
+#include <graphics/renderer/RendererAbstractor.h>
+#include <graphics/renderer/api/APIContext.h>
 
 namespace spruce {
 	class SpruceEngine {
@@ -15,7 +16,7 @@ namespace spruce {
 			FramePipeline* framePipeline;
 			Window* window;
 			app::API apiType;
-			void* apiContext;
+			APIContext* apiContext;
 			RendererAbstractor* renderer;
 
 			explicit SpruceEngine(Application* (*createApplication)(SpruceEngine&));
