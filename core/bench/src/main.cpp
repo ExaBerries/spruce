@@ -1,5 +1,6 @@
 #include <benchmark/benchmark.h>
 #include <types.h>
+#include <cstring>
 
 static void syscapCpy(benchmark::State& state) {
 	constexpr uint64 SIZE = 1024 * 1024;

@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/SpruceView.h>
 #include <backend/Window.h>
 #include <input/input.h>
@@ -119,3 +120,4 @@
 	[self handleMouseMove:event];
 }
 @end
+#endif

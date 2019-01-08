@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/opengl/CocoaOpenGLContext.h>
 
 namespace spruce {
@@ -17,3 +18,4 @@ namespace spruce {
 		[[view getContext] setValues:&interval forParameter:NSOpenGLCPSwapInterval];
 	}
 }
+#endif

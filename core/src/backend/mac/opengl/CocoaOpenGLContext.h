@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __APPLE__
 #include <common.h>
 #include <graphics/renderer/api/opengl/OpenGLContext.h>
 #include <backend/mac/opengl/OpenGLView.h>
@@ -16,3 +17,4 @@ namespace spruce {
 			void setSwapInverval(int32 interval);
 	};
 }
+#endif

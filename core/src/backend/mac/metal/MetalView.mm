@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/metal/MetalView.h>
 #include <log.h>
 
@@ -51,3 +52,4 @@
 	return [mlayer nextDrawable];
 }
 @end
+#endif

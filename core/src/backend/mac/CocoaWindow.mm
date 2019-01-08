@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/SpruceView.h>
 #include <backend/mac/opengl/OpenGLView.h>
@@ -129,3 +130,4 @@ namespace spruce {
 		}
 	}
 }
+#endif

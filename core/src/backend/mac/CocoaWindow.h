@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __APPLE__
 #include <backend/Window.h>
 #include <Cocoa/Cocoa.h>
 
@@ -23,7 +24,7 @@ namespace spruce {
 			WindowDelegate* delegate;
 
 			CocoaWindow();
-			virtual ~CocoaWindow();
+			~CocoaWindow();
 
 			void* initAPI(app::API api);
 			void setTitle(string title);
@@ -33,3 +34,4 @@ namespace spruce {
 			void setCursorMode(input::CursorMode mode);
 	};
 }
+#endif

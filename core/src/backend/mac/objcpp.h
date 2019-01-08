@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __APPLE__
 #include <common.h>
 
 #ifdef __OBJC__
@@ -10,4 +11,5 @@
 			NSString* convertStr(std::string str);
 		}
 	#endif
+#endif
 #endif

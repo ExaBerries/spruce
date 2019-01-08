@@ -1,13 +1,11 @@
-#include <backend/linux/opengl/X11OpenGLSurface.h>
 #ifdef __linux__
+#include <backend/linux/opengl/X11OpenGLContext.h>
 #define GLX_CONTEXT_MAJOR_VERSION_ARB       0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB       0x2092
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
-#include <backend/api/opengl/OpenGLRenderTarget.h>
-#include <graphics/graphics.h>
 
 namespace spruce {
-	X11OpenGLSurface::X11OpenGLSurface(Display* display) {
+	X11OpenGLContext::X11OpenGLContext(Display* display) {
 		this->display = display;
 		static GLint vatt[] = {
 			GLX_X_RENDERABLE, True,
@@ -47,19 +45,19 @@ namespace spruce {
 		window = 0;
 	}
 
-	X11OpenGLSurface::~X11OpenGLSurface() {
+	X11OpenGLContext::~X11OpenGLContext() {
 		XFree(visualInfo);
 	}
 
-	Visual* X11OpenGLSurface::getVisual() {
+	Visual* X11OpenGLContext::getVisual() {
 		return visualInfo->visual;
 	}
 
-	uint32 X11OpenGLSurface::getDepth() {
+	uint32 X11OpenGLContext::getDepth() {
 		return visualInfo->depth;
 	}
 
-	void X11OpenGLSurface::windowCreated(XWindow window) {
+	void X11OpenGLContext::windowCreated(XWindow window) {
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
 		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc) glXGetProcAddressARB((const GLubyte*) "glXCreateContextAttribsARB");
 		GLint catt[] {
@@ -73,24 +71,20 @@ namespace spruce {
 		this->window = window;
 		glXMakeCurrent(display, window, context);
 		glewInit();
-		target = new OpenGLRenderTarget();
 	}
 
-	void X11OpenGLSurface::apiInitalized(XWindow window) {
-	}
-
-	void X11OpenGLSurface::renderStart() {
+	void X11OpenGLContext::makeContextCurrent() {
 		glXMakeCurrent(display, window, context);
-		uint8 interval = graphics::vsync;
+	}
+	
+	void X11OpenGLContext::swapBuffers() {
+		glXSwapBuffers(display, window);
+	}
+	
+	void X11OpenGLContext::setSwapInverval(int32 interval) {
 		void (*glXSwapInterval)(uint8) = 0;
 		glXSwapInterval = (void (*)(uint8)) glXGetProcAddressARB((const GLubyte*) "glXSwapInvervalEXT");
 		glXSwapInterval(interval);
-		target->width = graphics::width;
-		target->height = graphics::height;
-	}
-
-	void X11OpenGLSurface::renderEnd() {
-		glXSwapBuffers(display, window);
 	}
 }
 #endif

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __APPLE__
 #include <common.h>
 #include <backend/ApplicationBackend.h>
 #include <backend/mac/objcpp.h>
@@ -25,3 +26,4 @@ namespace spruce {
 			void update();
 	};
 }
+#endif

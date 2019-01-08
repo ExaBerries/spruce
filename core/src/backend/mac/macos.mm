@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/os.h>
 #include <system/system.h>
 #include <input/input.h>
@@ -230,3 +231,4 @@ namespace spruce {
 		}
 	}
 }
+#endif

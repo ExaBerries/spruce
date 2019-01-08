@@ -4,10 +4,15 @@ find_package(Freetype REQUIRED)
 
 file(GLOB_RECURSE SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.mm
 )
 
-add_library(spruce STATIC ${SOURCE_FILES})
+if(APPLE) # mac
+file(GLOB_RECURSE OBJC_SOURCE_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/src/*.mm
+)
+endif()
+
+add_library(spruce STATIC ${SOURCE_FILES} ${OBJC_SOURCE_FILES})
 
 set_target_properties(spruce PROPERTIES
 	VERSION ${PROJECT_VERSION}

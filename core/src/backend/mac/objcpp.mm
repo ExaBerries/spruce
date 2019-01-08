@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/objcpp.h>
 #include <string>
 
@@ -10,3 +11,4 @@ namespace spruce {
 		return [NSString stringWithCString:str.c_str() encoding:[NSString defaultCStringEncoding]];
 	}
 }
+#endif

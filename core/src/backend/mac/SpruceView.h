@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __APPLE__
 #include <backend/mac/CocoaWindow.h>
 #import <Cocoa/Cocoa.h>
 
@@ -10,3 +11,4 @@
 }
 - (instancetype) initWithFrame:(NSRect)frameRect window:(spruce::CocoaWindow*)window;
 @end
+#endif

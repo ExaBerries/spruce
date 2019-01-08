@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/opengl/OpenGLView.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/gl3.h>
@@ -66,3 +67,4 @@
 	return context;
 }
 @end
+#endif

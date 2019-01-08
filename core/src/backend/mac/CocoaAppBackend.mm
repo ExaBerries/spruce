@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/CocoaAppBackend.h>
 #include <backend/mac/CocoaWindow.h>
 
@@ -74,3 +75,4 @@ namespace spruce {
 		}
 	}
 }
+#endif

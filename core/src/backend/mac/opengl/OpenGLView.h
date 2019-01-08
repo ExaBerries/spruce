@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __APPLE__
 #import <backend/mac/SpruceView.h>
 #import <Cocoa/Cocoa.h>
 #import <OpenGL/OpenGL.h>
@@ -13,3 +14,4 @@
 - (void) update;
 - (NSOpenGLContext*) getContext;
 @end
+#endif
