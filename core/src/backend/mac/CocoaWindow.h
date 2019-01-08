@@ -26,7 +26,7 @@ namespace spruce {
 			CocoaWindow();
 			~CocoaWindow();
 
-			void* initAPI(app::API api);
+			APIContext* initAPI(app::API api);
 			void setTitle(string title);
 			void setVisible(bool visible);
 			void setFullscreen(bool fullscreen);

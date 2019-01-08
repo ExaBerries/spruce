@@ -40,6 +40,9 @@ namespace spruce {
 
 	void SpruceEngine::setRenderAPI(app::API newAPI) {
 		this->apiType = newAPI;
+		if (apiContext != nullptr) {
+			delete apiContext;
+		}
 		apiContext = window->initAPI(app::OPENGL);
 	}
 
