@@ -20,7 +20,8 @@ namespace spruce {
 				void createProgram();
 				void bindAttribLocation(uint16 location, string name);
 				void bind();
-				void setUniform(uint16 location, const float& value);
+				void setUniform(uint16 location, int32 value);
+				void setUniform(uint16 location, float value);
 				void setUniform(uint16 location, const vec2f& vector);
 				void setUniform(uint16 location, const vec3f& vector);
 				void setUniform(uint16 location, const vec4f& vector);

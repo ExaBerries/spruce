@@ -23,7 +23,7 @@ namespace spruce {
 			if (vertSuccess == GL_FALSE) {
 				GLint length = 0;
 				glGetShaderiv(vertShader, GL_INFO_LOG_LENGTH, &length);
-				GLchar errorLog[length];
+				buffer<GLchar> errorLog(length);
 				glGetShaderInfoLog(vertShader, length, &length, &errorLog[0]);
 				serr("failed to specialize vertex shader:");
 				serr(errorLog);
@@ -39,7 +39,7 @@ namespace spruce {
 			if (fragSuccess == GL_FALSE) {
 				GLint length = 0;
 				glGetShaderiv(fragShader, GL_INFO_LOG_LENGTH, &length);
-				GLchar errorLog[length];
+				buffer<GLchar> errorLog(length);
 				glGetShaderInfoLog(fragShader, length, &length, &errorLog[0]);
 				serr("failed to specialize fragment shader:");
 				serr(errorLog);
@@ -58,7 +58,7 @@ namespace spruce {
 			if (vertSuccess == GL_FALSE) {
 				GLint length = 0;
 				glGetShaderiv(vertShader, GL_INFO_LOG_LENGTH, &length);
-				GLchar errorLog[length];
+				buffer<GLchar> errorLog(length);
 				glGetShaderInfoLog(vertShader, length, &length, &errorLog[0]);
 				serr("failed to compile vertex shader:");
 				slog(errorLog);
@@ -75,7 +75,7 @@ namespace spruce {
 			if (fragSuccess == GL_FALSE) {
 				GLint length = 0;
 				glGetShaderiv(fragShader, GL_INFO_LOG_LENGTH, &length);
-				GLchar errorLog[length];
+				buffer<GLchar> errorLog(length);
 				glGetShaderInfoLog(fragShader, length, &length, &errorLog[0]);
 				serr("failed to compile fragment shader:");
 				serr(errorLog);
@@ -94,7 +94,7 @@ namespace spruce {
 			if (linked == GL_FALSE) {
 				GLint length = 0;
 				glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
-				GLchar errorLog[length];
+				buffer<GLchar> errorLog(length);
 				glGetProgramInfoLog(program, length, &length, &errorLog[0]);
 				serr("failed to link shader:");
 				serr(errorLog);
@@ -114,7 +114,11 @@ namespace spruce {
 			glUseProgram(program);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, const float& value) {
+		void OpenGLShader::setUniform(uint16 location, int32 value) {
+			glUniform1i(location, value);
+		}
+
+		void OpenGLShader::setUniform(uint16 location, float value) {
 			glUniform1f(location, value);
 		}
 
