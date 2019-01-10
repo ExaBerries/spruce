@@ -30,7 +30,8 @@ namespace spruce {
 				OpenGLRenderer& operator=(OpenGLRenderer&&) = delete;
 		};
 
-		OpenGLRenderer::OpenGLRenderer(Application& app) : context(*((OpenGLContext*)app.engine.apiContext)) {
+		template <typename EncodeT, typename ExecuteT>
+		OpenGLRenderer<EncodeT, ExecuteT>::OpenGLRenderer(Application& app) : context(*((OpenGLContext*)app.engine.apiContext)) {
 		}
 
 		template <typename EncodeT, typename ExecuteT>
