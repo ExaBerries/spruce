@@ -22,7 +22,7 @@
 	NSOpenGLPixelFormatAttribute attributes[] = {
 		NSOpenGLPFAAccelerated,
 		NSOpenGLPFAClosestPolicy,
-		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion4_1Core,
 		NSOpenGLPFAColorSize, 24,
 		NSOpenGLPFAAlphaSize, 8,
 		NSOpenGLPFADepthSize, 24,
