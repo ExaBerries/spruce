@@ -12,9 +12,7 @@ namespace spruce {
 			public:
 				OpenGLContext& context;
 
-				explicit OpenGLRenderer(Application& app) : context(*((OpenGLContext*)app.engine.apiContext)) {
-				}
-
+				explicit OpenGLRenderer(Application& app);
 				OpenGLRenderer(const OpenGLRenderer&) = delete;
 				OpenGLRenderer(OpenGLRenderer&&) = delete;
 				virtual ~OpenGLRenderer() = default;
@@ -31,6 +29,9 @@ namespace spruce {
 				OpenGLRenderer& operator=(const OpenGLRenderer&) = delete;
 				OpenGLRenderer& operator=(OpenGLRenderer&&) = delete;
 		};
+
+		OpenGLRenderer::OpenGLRenderer(Application& app) : context(*((OpenGLContext*)app.engine.apiContext)) {
+		}
 
 		template <typename EncodeT, typename ExecuteT>
 		void OpenGLRenderer<EncodeT, ExecuteT>::setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) {
