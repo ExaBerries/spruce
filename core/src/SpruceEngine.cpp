@@ -43,7 +43,7 @@ namespace spruce {
 		if (apiContext != nullptr) {
 			delete apiContext;
 		}
-		apiContext = window->initAPI(app::OPENGL);
+		apiContext = window->initAPI(newAPI);
 	}
 
 	void SpruceEngine::setFramePipeline(FramePipeline* pipeline) {

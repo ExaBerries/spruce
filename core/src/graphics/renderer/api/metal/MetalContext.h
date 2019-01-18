@@ -1,19 +1,26 @@
 #pragma once
+#ifdef __APPLE__
 #include <common.h>
-#include <objc/objc.h>
-#include <Metal/Metal.h>
-#include <MetalKit/MetalKit.h>
+#include <graphics/renderer/api/APIContext.h>
+#include <graphics/renderer/api/metal/wrapper/MetalDevice.h>
 
 namespace spruce {
-	class MetalContext {
+	class MetalContext : public APIContext {
 		public:
-			id<MTLDevice> device;
-			id<MTLCommandQueue> commandQueue;
-			id<MTLCommandBuffer> commandBuffer;
-			id<MTLDepthStencilState> depthStencilState;
-			id<MTLRenderCommandEncoder> renderEncoder;
+			void* mtlView;
+			MetalDevice device;
 
-			MetalContext();
-			~MetalContext();
+			MetalContext(void* mtlView);
+			MetalContext(const MetalContext&) = delete;
+			MetalContext(MetalContext&&) noexcept = delete;
+			~MetalContext() = default;
+
+			//id<MTLDrawable> getDrawable();
+
+			void viewCreated();
+
+			MetalContext& operator=(const MetalContext&) = delete;
+			MetalContext& operator=(MetalContext&&) noexcept = delete;
 	};
 }
+#endif

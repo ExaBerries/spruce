@@ -11,6 +11,7 @@
 	CAMetalLayer* mlayer;
 }
 - (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)window;
+- (void) setDevice:(id<MTLDevice>)device;
 - (void) update;
 - (id<CAMetalDrawable>) getDrawable;
 @end

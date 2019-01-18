@@ -39,12 +39,16 @@
 	return YES;
 }
 
+- (void) setDevice:(id<MTLDevice>)device {
+	mlayer.device = device;
+}
+
 - (void) update {
 	//mlayer.drawableSize = CGSizeMake(spruce::graphics::width, spruce::graphics::height);
 	//if (spruce::graphics::vsync) {
 		mlayer.displaySyncEnabled = YES;
 	//} else {
-		mlayer.displaySyncEnabled = NO;
+		//mlayer.displaySyncEnabled = NO;
 	//}
 }
 
