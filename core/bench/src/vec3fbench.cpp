@@ -6,6 +6,7 @@ using namespace spruce;
 static void vec3fConstruct(benchmark::State& state) {
 	for (auto _ : state) {
 		vec3f v;
+		benchmark::DoNotOptimize(v);
 	}
 }
 BENCHMARK(vec3fConstruct);
