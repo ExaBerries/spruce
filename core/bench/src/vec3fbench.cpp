@@ -30,40 +30,42 @@ BENCHMARK(vec3fAddVec);
 
 static void vec3fScaleMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
-	vec3f vecs[NUM];
+	struct TestData {
+		vec3f vector;
+		float scale;
+	};
+	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		vecs[i].set(i, i, i);
-	}
-	float scales[NUM];
-	for (uint64 i = 0; i < NUM; i++) {
-		scales[i] = i;
+		data[i].vector.set(i, i, i);
+		data[i].scale = i;
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
-			vec3f vec = vecs[i] * scales[i];
+			vec3f vec = data[i].vector * data[i].scale;
 		}
 	}
-	state.SetBytesProcessed(state.iterations() * (sizeof(vecs) + sizeof(scales)));
+	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(vec3fScaleMulti);
 
 static void vec3fAddMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
-	vec3f vecsa[NUM];
+	struct TestData {
+		vec3f a;
+		vec3f b;
+	};
+	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		vecsa[i].set(i, i, i);
-	}
-	vec3f vecsb[NUM];
-	for (uint64 i = 0; i < NUM; i++) {
-		vecsb[i] = i;
+		data[i].a.set(i, i, i);
+		data[i].b = i;
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
-			vec3f vec = vecsa[i] + vecsb[i];
+			vec3f vec = data[i].a + data[i].b;
 		}
 	}
-	state.SetBytesProcessed(state.iterations() * (sizeof(vecsa) + sizeof(vecsb)));
+	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
 BENCHMARK(vec3fAddMulti);
