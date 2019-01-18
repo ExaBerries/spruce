@@ -5,10 +5,14 @@
 #include <cmath>
 
 namespace spruce {
-	struct vec3f {
+	struct alignas(16) vec3f {
 		float x = 0;
 		float y = 0;
 		float z = 0;
+
+		private:
+		float padding = 0;
+		public:
 
 		vec3f() = default;
 		vec3f(float scalar);
@@ -68,9 +72,7 @@ namespace spruce {
 
 namespace std {
 	template <>
-	struct hash<spruce::vec3f> {
-		size_t operator()(const spruce::vec3f& v) const {
-			return std::hash<float>()(v.x) ^ (std::hash<float>()(v.y) << 1) ^ (std::hash<float>()(v.z) << 2);
-		}
-	};
+	struct hash<spruce::vec3f>;
 }
+
+#include <math/vec/vec3fImpl.h>

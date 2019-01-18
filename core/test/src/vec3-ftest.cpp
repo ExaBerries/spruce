@@ -36,3 +36,9 @@ TEST(Vec3fTest, constAdd) {
 	const vec3f b(0, 6, -2);
 	EXPECT_EQ(a + b, vec3f(2, 6, 0));
 }
+
+TEST(Vec3fTest, vec3fScale) {
+	vec3f a(1, 0, 0);
+	float b = 4;
+	EXPECT_EQ(a * b, vec3f(a.x * b, a.y * b, a.z * b));
+}
