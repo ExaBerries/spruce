@@ -114,82 +114,12 @@ namespace spruce {
 		return *this;
 	}
 
-	vec3f operator-(const vec3f& left, const vec3f& right) {
-		float x = left.x - right.x;
-		float y = left.y - right.y;
-		float z = left.z - right.z;
-		return {x, y, z};
-	}
-
-	vec3f operator+(const vec3f& left, const float& value) {
-		float x = left.x + value;
-		float y = left.y + value;
-		float z = left.z + value;
-		return {x, y, z};
-	}
-
-	vec3f operator-(const vec3f& left, const float& value) {
-		float x = left.x - value;
-		float y = left.y - value;
-		float z = left.z - value;
-		return {x, y, z};
-	}
-
-	vec3f operator/(const vec3f& left, const float& value) {
-		float x = left.x / value;
-		float y = left.y / value;
-		float z = left.z / value;
-		return {x, y, z};
-	}
-
 	bool vec3f::operator==(const vec3f& vector) const {
 		return (x == vector.x && y == vector.y && z == vector.z);
 	}
 
 	bool vec3f::operator!=(const vec3f& vector) const {
 		return (x != vector.x || y != vector.y || z != vector.z);
-	}
-
-	vec3f& vec3f::operator+=(const vec3f& vector) {
-		this->x += vector.x;
-		this->y += vector.y;
-		this->z += vector.z;
-		return *this;
-	}
-
-	vec3f& vec3f::operator-=(const vec3f& vector) {
-		this->x -= vector.x;
-		this->y -= vector.y;
-		this->z -= vector.z;
-		return *this;
-	}
-
-	vec3f& vec3f::operator+=(float value) {
-		this->x += value;
-		this->y += value;
-		this->z += value;
-		return *this;
-	}
-
-	vec3f& vec3f::operator-=(float value) {
-		this->x -= value;
-		this->y -= value;
-		this->z -= value;
-		return *this;
-	}
-
-	vec3f& vec3f::operator*=(float value) {
-		this->x *= value;
-		this->y *= value;
-		this->z *= value;
-		return *this;
-	}
-
-	vec3f& vec3f::operator/=(float value) {
-		this->x /= value;
-		this->y /= value;
-		this->z /= value;
-		return *this;
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const vec3f& vector) {

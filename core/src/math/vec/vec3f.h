@@ -1,11 +1,12 @@
 #pragma once
 #include <types.h>
 #include <math/vec/vec2f.h>
+#include <util/simd.h>
 #include <iostream>
 #include <cmath>
 
 namespace spruce {
-	struct alignas(16) vec3f {
+	struct alignas(alignof(simd::reg4f)) vec3f {
 		float x = 0;
 		float y = 0;
 		float z = 0;
@@ -59,13 +60,13 @@ namespace spruce {
 		static vec3f lerp(const vec3f& a, const vec3f& b, float alpha);
 	};
 
-	vec3f operator+(const vec3f& left, const vec3f& right);
-	vec3f operator-(const vec3f& left, const vec3f& right);
+	inline vec3f operator+(const vec3f& left, const vec3f& right);
+	inline vec3f operator-(const vec3f& left, const vec3f& right);
 
-	vec3f operator+(const vec3f& left, float value);
-	vec3f operator-(const vec3f& left, float value);
-	vec3f operator*(const vec3f& left, float value);
-	vec3f operator/(const vec3f& left, float value);
+	inline vec3f operator+(const vec3f& left, float value);
+	inline vec3f operator-(const vec3f& left, float value);
+	inline vec3f operator*(const vec3f& left, float value);
+	inline vec3f operator/(const vec3f& left, float value);
 
 	std::ostream& operator<<(std::ostream& stream, const vec3f& vector);
 }

@@ -75,6 +75,28 @@ static void vec3fAddMulti(benchmark::State& state) {
 }
 BENCHMARK(vec3fAddMulti);
 
+static void vec3fSubMulti(benchmark::State& state) {
+	constexpr uint64 NUM = 100000;
+	struct TestData {
+		vec3f a;
+		vec3f b;
+	};
+	TestData data[NUM];
+	for (uint64 i = 0; i < NUM; i++) {
+		data[i].a.set(i, i, i);
+		data[i].b = i;
+	}
+	for (auto _ : state) {
+		for (uint64 i = 0; i < NUM; i++) {
+			vec3f vec = data[i].a - data[i].b;
+			benchmark::DoNotOptimize(vec);
+		}
+	}
+	state.SetBytesProcessed(state.iterations() * sizeof(data));
+	state.SetItemsProcessed(state.iterations() * NUM);
+}
+BENCHMARK(vec3fSubMulti);
+
 static void vec3fCrs(benchmark::State& state) {
 	for (auto _ : state) {
 		vec3f vec(1, 0, 0);
