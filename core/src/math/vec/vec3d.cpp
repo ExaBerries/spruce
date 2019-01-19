@@ -111,48 +111,6 @@ namespace spruce {
 		return *this;
 	}
 
-	vec3d operator+(const vec3d& left, const vec3d& right) {
-		double x = left.x + right.x;
-		double y = left.y + right.y;
-		double z = left.z + right.z;
-		return {x, y, z};
-	}
-
-	vec3d operator-(const vec3d& left, const vec3d& right) {
-		double x = left.x - right.x;
-		double y = left.y - right.y;
-		double z = left.z - right.z;
-		return {x, y, z};
-	}
-
-	vec3d operator+(const vec3d& left, double value) {
-		double x = left.x + value;
-		double y = left.y + value;
-		double z = left.z + value;
-		return {x, y, z};
-	}
-
-	vec3d operator-(const vec3d& left, double value) {
-		double x = left.x - value;
-		double y = left.y - value;
-		double z = left.z - value;
-		return {x, y, z};
-	}
-
-	vec3d operator*(const vec3d& left, double value) {
-		double x = left.x * value;
-		double y = left.y * value;
-		double z = left.z * value;
-		return {x, y, z};
-	}
-
-	vec3d operator/(const vec3d& left, double value) {
-		double x = left.x / value;
-		double y = left.y / value;
-		double z = left.z / value;
-		return {x, y, z};
-	}
-
 	bool vec3d::operator==(const vec3d& vector) const {
 		return (x == vector.x && y == vector.y && z == vector.z);
 	}
