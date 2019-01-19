@@ -13,7 +13,7 @@ BENCHMARK(vec3dConstruct);
 
 static void vec3dScale(benchmark::State& state) {
 	vec3d a(4, 4, 4);
-	float scale = 2;
+	double scale = 2;
 	for (auto _ : state) {
 		vec3d b = a * scale;
 		benchmark::DoNotOptimize(b);
@@ -35,7 +35,7 @@ static void vec3dScaleMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
 		vec3d vector;
-		float scale;
+		double scale;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
@@ -116,8 +116,8 @@ static void vec3dAddMultiSIMD(benchmark::State& state) {
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a = {(float)i, (float)i, (float)i};
-		data[i].b = {(float)i, (float)i, (float)i};
+		data[i].a = {(double)i, (double)i, (double)i};
+		data[i].b = {(double)i, (double)i, (double)i};
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
