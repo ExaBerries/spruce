@@ -59,9 +59,9 @@ target_compile_features(spruce PRIVATE cxx_std_17)
 target_compile_options(spruce PRIVATE
 	-Wall
 	-Wextra
-	-Wshadow=local
 	-pedantic
 	-g
+	-Wno-unused-parameter
 )
 
 target_compile_definitions(spruce PRIVATE
