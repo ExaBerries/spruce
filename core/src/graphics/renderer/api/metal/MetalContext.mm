@@ -1,4 +1,4 @@
-#include "MetalContext.h"
+#include <graphics/renderer/api/metal/MetalContext.h>
 
 namespace spruce {
 	MetalContext::MetalContext() {

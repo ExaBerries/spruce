@@ -10,8 +10,8 @@ namespace spruce {
 			Frame* executeFrame;
 
 			EncodeExecutePipeline();
-			~EncodeExecutePipeline();
+			~EncodeExecutePipeline() override;
 
-			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend);
+			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) override;
 	};
 }

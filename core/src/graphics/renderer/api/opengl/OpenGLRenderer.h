@@ -15,7 +15,7 @@ namespace spruce {
 				explicit OpenGLRenderer(Application& app);
 				OpenGLRenderer(const OpenGLRenderer&) = delete;
 				OpenGLRenderer(OpenGLRenderer&&) = delete;
-				virtual ~OpenGLRenderer() = default;
+				virtual ~OpenGLRenderer() override = default;
 
 				virtual ExecuteT encode(EncodeT& encodeData) = 0;
 				virtual void execute(ExecuteT& executeData) = 0;
@@ -23,8 +23,8 @@ namespace spruce {
 				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) = 0;
 				virtual TextureAPIData* createTextureAPIData(Texture& texture) = 0;
 
-				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far);
-				virtual void setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio);
+				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) override;
+				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) override;
 
 				OpenGLRenderer& operator=(const OpenGLRenderer&) = delete;
 				OpenGLRenderer& operator=(OpenGLRenderer&&) = delete;
@@ -55,7 +55,7 @@ namespace spruce {
 		}
 
 		template <typename EncodeT, typename ExecuteT>
-		void OpenGLRenderer<EncodeT, ExecuteT>::setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio) {
+		void OpenGLRenderer<EncodeT, ExecuteT>::setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) {
 			float size = 1.0 / tan(fov / 2.0);
 			matrix.values[0] = size / aspectRatio;
 			matrix.values[1] = 0.0;

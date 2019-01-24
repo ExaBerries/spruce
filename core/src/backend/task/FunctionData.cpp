@@ -3,12 +3,6 @@
 
 namespace spruce {
 	namespace task {
-		FunctionData::FunctionData() {
-		}
-
-		FunctionData::~FunctionData() {
-		}
-
 		void FunctionData::execute() {
 			slog("empty task");
 		}

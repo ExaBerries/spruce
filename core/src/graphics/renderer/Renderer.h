@@ -16,10 +16,10 @@ namespace spruce {
 				Renderer() = default;
 				Renderer(const Renderer&) = default;
 				Renderer(Renderer&&) noexcept = default;
-				virtual ~Renderer() = default;
+				virtual ~Renderer() override = default;
 
-				std::any encodeBackend(void* encodeData);
-				void executeBackend(std::any executeData);
+				std::any encodeBackend(void* encodeData) override;
+				void executeBackend(std::any executeData) override;
 
 				virtual ExecuteT encode(EncodeT& encodeData) = 0;
 				virtual void execute(ExecuteT& executeData) = 0;
@@ -27,7 +27,7 @@ namespace spruce {
 				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) = 0;
 				virtual TextureAPIData* createTextureAPIData(Texture& texture) = 0;
 				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) = 0;
-				virtual void setPerspective(mat4f& matrix, float& near, float& far, float& fov, float& aspectRatio) = 0;
+				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) = 0;
 
 				Renderer& operator=(const Renderer&) = default;
 				Renderer& operator=(Renderer&&) noexcept = default;

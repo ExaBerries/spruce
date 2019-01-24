@@ -13,11 +13,15 @@ namespace spruce {
 					vec3f up;
 					vec3f dir;
 
-					PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir);
+					PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, const vec3f& up, const vec3f& dir);
 					PerspectiveCamera(const PerspectiveCamera& camera) = default;
-					~PerspectiveCamera() = default;
+					PerspectiveCamera(PerspectiveCamera&&) noexcept = default;
+					~PerspectiveCamera() override = default;
 
-					void update(RendererAbstractor* renderer);
+					void update(RendererAbstractor* renderer) override;
+
+					PerspectiveCamera& operator=(const PerspectiveCamera&) = default;
+					PerspectiveCamera& operator=(PerspectiveCamera&&) noexcept = default;
 			};
 		}
 	}

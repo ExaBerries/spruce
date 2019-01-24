@@ -18,15 +18,15 @@ namespace spruce {
 
 					Camera(const float& viewportWidth, const float& viewportHeight);
 					Camera(const Camera& camera) = default;
-					Camera(Camera&&) = default;
+					Camera(Camera&&) noexcept = default;
 					virtual ~Camera() = default;
 
 					virtual void update(RendererAbstractor* renderer) = 0;
-					vec3f unproject(const vec2f& screen, float depth);
-					vec2f project(const vec3f& world);
+					vec3f unproject(const vec2f& screen, float depth) const;
+					vec2f project(const vec3f& world) const;
 
 					Camera& operator=(const Camera&) = default;
-					Camera& operator=(Camera&&) = default;
+					Camera& operator=(Camera&&) noexcept = default;
 			};
 		}
 	}
