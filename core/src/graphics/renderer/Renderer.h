@@ -21,13 +21,13 @@ namespace spruce {
 				std::any encodeBackend(void* encodeData) override;
 				void executeBackend(std::any executeData) override;
 
-				virtual ExecuteT encode(EncodeT& encodeData) = 0;
-				virtual void execute(ExecuteT& executeData) = 0;
+				virtual ExecuteT encode(EncodeT& encodeData) override = 0;
+				virtual void execute(ExecuteT& executeData) override = 0;
 
-				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) = 0;
-				virtual TextureAPIData* createTextureAPIData(Texture& texture) = 0;
-				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) = 0;
-				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) = 0;
+				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) override = 0;
+				virtual TextureAPIData* createTextureAPIData(Texture& texture) override = 0;
+				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) override = 0;
+				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) override = 0;
 
 				Renderer& operator=(const Renderer&) = default;
 				Renderer& operator=(Renderer&&) noexcept = default;
