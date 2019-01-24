@@ -18,8 +18,8 @@ namespace spruce {
 			void swapBuffers() override;
 			void setSwapInverval(int32 interval) override;
 
-			CocoaOpenGLContext& operator=(const OpenGLContext&) = delete;
-			CocoaOpenGlContext& operator=(OpenGLContext&&) noexcept = delete;
+			CocoaOpenGLContext& operator=(const CocoaOpenGLContext&) = delete;
+			CocoaOpenGLContext& operator=(CocoaOpenGLContext&&) noexcept = delete;
 	};
 }
 #endif
