@@ -21,8 +21,8 @@ namespace spruce {
 				std::any encodeBackend(void* encodeData) override;
 				void executeBackend(std::any executeData) override;
 
-				virtual ExecuteT encode(EncodeT& encodeData) override = 0;
-				virtual void execute(ExecuteT& executeData) override = 0;
+				virtual ExecuteT encode(EncodeT& encodeData) = 0;
+				virtual void execute(ExecuteT& executeData) = 0;
 
 				virtual MeshAPIData* createMeshAPIData(Mesh& mesh) override = 0;
 				virtual TextureAPIData* createTextureAPIData(Texture& texture) override = 0;
