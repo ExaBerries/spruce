@@ -28,7 +28,7 @@ namespace spruce {
 	template <typename ... TYPES>
 	Task<void(TYPES...)> createTask(TaskConfig<void(TYPES...)> config) {
 		uint64 id = task::taskId++;
-		task::TaskData* taskData = new task::TaskData(sizeof(bool), [](void* data) {});
+		task::TaskData* taskData = new task::TaskData(sizeof(bool), [](void* data) {(void)data;});
 		Task<void(TYPES...)> task(id, taskData->complete);
 		task.priority = config.priority;
 		task::TaskBackend* taskBackend = new task::TaskBackend(id, taskData->complete);

@@ -62,6 +62,7 @@ target_compile_options(spruce PRIVATE
 	-pedantic
 	-g
 	-Wno-unused-parameter
+	-Wno-deprecated-declarations
 )
 
 target_compile_definitions(spruce PRIVATE
