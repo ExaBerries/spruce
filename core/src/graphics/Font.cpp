@@ -28,7 +28,7 @@ namespace spruce {
 				serr("Could not load character 'X'");
 				return;
 			}
-			FT_GlyphSlot g = face->glyph;
+			FT_GlyphSlot glyph = face->glyph;
 			uint16 width = 0;
 			uint16 height = 0;
 			for (int32 i = 0; i < 128; i++) {
@@ -36,8 +36,8 @@ namespace spruce {
 					serr("character not found: ", i);
 					continue;
 				}
-				width += g->bitmap.width;
-				height = std::max((uint32) height, g->bitmap.rows);
+				width += glyph->bitmap.width;
+				height = std::max((uint32) height, glyph->bitmap.rows);
 			}
 			uint32 xoff = 0;
 			buffer<uint8> data(width * height * sizeof(float));
@@ -49,24 +49,25 @@ namespace spruce {
 				if (FT_Load_Char(face, i, FT_LOAD_RENDER)) {
 					continue;
 				}
-				for (uint32 x = 0; x < g->bitmap.width; x++) {
-					for (uint32 y = 0; y < g->bitmap.rows; y++) {
-						fdata[x + xoff + y * width] = (float) g->bitmap.buffer[x + y * g->bitmap.width] / 256.0;
+				for (uint32 x = 0; x < glyph->bitmap.width; x++) {
+					for (uint32 y = 0; y < glyph->bitmap.rows; y++) {
+						fdata[x + xoff + y * width] = (float) glyph->bitmap.buffer[x + y * glyph->bitmap.width] / 256.0;
 					}
 				}
-				chars[i].ax = g->advance.x >> 6;
-				chars[i].ay = g->advance.y >> 6;
-				chars[i].bw = g->bitmap.width;
-				chars[i].bh = g->bitmap.rows;
-				chars[i].bl = g->bitmap_left;
-				chars[i].bt = g->bitmap_top;
-				chars[i].tx = (float) xoff / width;
-				xoff += g->bitmap.width;
+				chars[i].advance = vec2f(glyph->advance.x, glyph->advance.y) / 64;
+				chars[i].size = vec2f(glyph->bitmap.width, glyph->bitmap.rows);
+				chars[i].bearing = vec2f(glyph->bitmap_left, glyph->bitmap_top);
+				chars[i].texturex = (float) xoff / width;
+				xoff += glyph->bitmap.width;
 			}
 			FT_Done_Face(face);
 			FT_Done_FreeType(ft);
 			texture = new Texture(Texture::RED, data, width, height);
 			texture->toVRAM(renderer);
+		}
+
+		Font::CharInfo& Font::getInfoFor(char c) {
+			return chars[(uint16)c];
 		}
 
 		void Font::freeVRAM() {
