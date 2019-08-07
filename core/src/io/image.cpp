@@ -33,8 +33,9 @@ namespace spruce {
 				width = FreeImage_GetWidth(bitmap);
 				height = FreeImage_GetHeight(bitmap);
 				bitsPerPixel = FreeImage_GetBPP(bitmap);
-				buffer<uint8> data(width * height);
-				memcpy(data, pixels, width * height * 4);
+				const uint64 size = width * height * bitsPerPixel / 8;
+				buffer<uint8> data(size);
+				memcpy(data, pixels, size);
 				FreeImage_Unload(bitmap);
 				return data;
 			}
