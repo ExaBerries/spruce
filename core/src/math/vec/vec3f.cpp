@@ -150,7 +150,7 @@ namespace spruce {
 		return {x, y, z};
 	}
 
-	vec3f operator/(const vec3f& left, const float& value) {
+	vec3f operator/(const vec3f& left, float value) {
 		float x = left.x / value;
 		float y = left.y / value;
 		float z = left.z / value;
