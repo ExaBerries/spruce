@@ -20,11 +20,11 @@ static void syscapAdd(benchmark::State& state) {
 	constexpr uint64 NUM = 1024 * 1024 / sizeof(float);
 	float a0[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		a0[NUM] = i;
+		a0[i] = i;
 	}
 	float a1[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		a1[NUM] = i;
+		a1[i] = i;
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
