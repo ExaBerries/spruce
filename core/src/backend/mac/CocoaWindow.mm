@@ -78,7 +78,7 @@ namespace spruce {
 				[window makeFirstResponder:this->view];
 				[(OpenGLView*)view initContext];
 				[[(OpenGLView*)view getContext] makeCurrentContext];
-				context = new CocoaOpenGLContext(this->view);
+				context = new CocoaOpenGLContext((OpenGLView*)this->view);
 				break;
 			case app::METAL:
 				context = nullptr;

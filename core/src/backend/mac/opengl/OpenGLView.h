@@ -3,7 +3,6 @@
 #import <backend/mac/SpruceView.h>
 #import <Cocoa/Cocoa.h>
 #import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
 
 @interface OpenGLView : SpruceView {
 	NSOpenGLContext* context;
