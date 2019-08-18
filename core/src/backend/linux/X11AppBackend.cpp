@@ -1,4 +1,4 @@
-#ifdef __linux__ 
+#ifdef __linux__
 #include <backend/linux/X11AppBackend.h>
 
 namespace spruce {
@@ -15,7 +15,7 @@ namespace spruce {
 		XCloseDisplay(display);
 	}
 
-	Window* X11AppBackend::createWindow() {
+	owner<Window> X11AppBackend::createWindow() {
 		X11Window* window = new X11Window(display);
 		x11Windows.push_back(window);
 		return window;
@@ -80,12 +80,12 @@ namespace spruce {
 				for (X11Window*& window : x11Windows) {
 					if (window->window == xcevent.window) {
 						window->width = xcevent.width;
-						window->height = xcevent.height;		
+						window->height = xcevent.height;
 					}
 				}
 			} else if (event.type == ClientMessage) {
 				XClientMessageEvent cmevent = event.xclient;
-				if ((uint32)event.xclient.data.l[0] == XInternAtom(display, "WM_DELETE_WINDOW", False)) {				
+				if ((uint32)event.xclient.data.l[0] == XInternAtom(display, "WM_DELETE_WINDOW", False)) {
 					for (X11Window*& window : x11Windows) {
 						if (window->window == cmevent.window) {
 							window->close();

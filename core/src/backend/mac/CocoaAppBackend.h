@@ -24,7 +24,7 @@ namespace spruce {
 			CocoaAppBackend(CocoaAppBackend&&) noexcept = default;
 			~CocoaAppBackend() override;
 
-			Window* createWindow() override;
+			owner<Window> createWindow() override;
 			void update() override;
 
 			CocoaAppBackend& operator=(const CocoaAppBackend&) = default;

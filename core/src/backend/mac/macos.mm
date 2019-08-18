@@ -100,7 +100,7 @@ namespace spruce {
 		void free() {
 		}
 
-		ApplicationBackend* createAppBackend() {
+		owner<ApplicationBackend> createAppBackend() {
 			return new CocoaAppBackend();
 		}
 

@@ -15,7 +15,7 @@ namespace spruce {
 
 			bool supportsAPI(app::API api);
 
-			virtual Window* createWindow() = 0;
+			virtual owner<Window> createWindow() = 0;
 			virtual void update() = 0;
 
 			ApplicationBackend& operator=(const ApplicationBackend&) = default;

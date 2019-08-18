@@ -68,6 +68,10 @@ target_compile_options(spruce PRIVATE
 target_compile_definitions(spruce PRIVATE
 	DEBUG
 )
+if(APPLE) # mac
+SET(CMAKE_AR llvm-ar)
+SET(CMAKE_RANLIB llvm-ranlib)
+endif()
 
 add_subdirectory(test)
 add_subdirectory(bench)

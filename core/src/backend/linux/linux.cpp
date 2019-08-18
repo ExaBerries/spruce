@@ -101,7 +101,7 @@ namespace spruce {
 		void free() {
 		}
 
-		ApplicationBackend* createAppBackend() {
+		owner<ApplicationBackend> createAppBackend() {
 			return new X11AppBackend();
 		}
 

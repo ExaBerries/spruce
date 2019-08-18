@@ -11,10 +11,10 @@
 namespace spruce {
 	class SpruceEngine {
 		public:
-			Application* application;
-			ApplicationBackend* appBackend;
-			FramePipeline* framePipeline;
-			Window* window;
+			owner<Application> application;
+			owner<ApplicationBackend> appBackend;
+			owner<FramePipeline> framePipeline;
+			owner<Window> window;
 			app::API apiType;
 			APIContext* apiContext;
 			RendererAbstractor* renderer;
