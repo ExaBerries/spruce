@@ -6,11 +6,11 @@
 namespace spruce {
 	class EncodeExecutePipeline: public FramePipeline {
 		public:
-			Frame* encodeFrame;
-			Frame* executeFrame;
+			stackown<Frame> encodeFrame;
+			stackown<Frame> executeFrame;
 
 			EncodeExecutePipeline();
-			~EncodeExecutePipeline() override;
+			~EncodeExecutePipeline() override = default;
 
 			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) override;
 	};

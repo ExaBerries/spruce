@@ -17,7 +17,7 @@ namespace spruce {
 			X11AppBackend(X11AppBackend&&) noexcept = delete
 			~X11AppBackend() override;
 
-			Window* createWindow() override;
+			owner<Window> createWindow() override;
 			void update() override;
 
 			X11AppBackend& operator=(const X11AppBackend&) = delete;

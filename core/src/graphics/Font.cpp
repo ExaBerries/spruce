@@ -71,7 +71,7 @@ namespace spruce {
 		}
 
 		void Font::freeVRAM() {
-			delete texture;
+			delete (Texture*)texture;
 		}
 	}
 }

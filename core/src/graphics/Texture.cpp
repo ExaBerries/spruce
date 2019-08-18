@@ -20,7 +20,7 @@ namespace spruce {
 		}
 
 		void Texture::freeVRAM() {
-			delete apiData;
+			delete (TextureAPIData*)apiData;
 			apiData = nullptr;
 		}
 	}

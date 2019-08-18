@@ -14,7 +14,7 @@ namespace spruce {
 					float texturex;
 				} chars[128];
 				FileHandle fileHandle;
-				Texture* texture;
+				owner<Texture> texture;
 				uint16 size;
 
 				Font(FileHandle fileHandle, uint16 size);

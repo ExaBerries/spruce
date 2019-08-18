@@ -9,7 +9,7 @@ namespace spruce {
 			public:
 				buffer<float> vertices;
 				buffer<uint16> indices;
-				MeshAPIData* apiData;
+				owner<MeshAPIData> apiData;
 
 				Mesh(buffer<float>& vertices, buffer<uint16>& indices);
 				Mesh(const Mesh&) = delete;
