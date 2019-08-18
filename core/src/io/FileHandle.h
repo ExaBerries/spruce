@@ -19,7 +19,7 @@ namespace spruce {
 			FileHandle(FileHandleType type, const unsigned char* path);
 			FileHandle(FileHandleType type, const char* path);
 			FileHandle(FileHandleType type, string path);
-			virtual ~FileHandle();
+			~FileHandle();
 
 			buffer<FileHandle> list() const;
 

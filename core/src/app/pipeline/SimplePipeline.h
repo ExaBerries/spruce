@@ -6,11 +6,11 @@
 namespace spruce {
 	class SimplePipeline : public FramePipeline {
 		public:
-			Frame* frame;
+			stackown<Frame> frame;
 
-			SimplePipeline();
-			~SimplePipeline();
+			SimplePipeline() = default;
+			~SimplePipeline() override = default;
 
-			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend);
+			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) override;
 	};
 }

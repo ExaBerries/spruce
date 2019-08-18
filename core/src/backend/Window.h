@@ -8,8 +8,8 @@ namespace spruce {
 	class Window {
 		public:
 			bool open;
-			uint16 width;
-			uint16 height;
+			uint32 width;
+			uint32 height;
 			bool visible;
 			input::CursorMode cursorMode;
 

@@ -3,7 +3,7 @@
 
 namespace spruce {
 	namespace io {
-		Mesh* loadMesh(const FileHandle& file) {
+		owner<Mesh> loadMesh(const FileHandle& file) {
 			buffer<uint8> data = readFileBin(file);
 			if (data == nullptr) {
 				return nullptr;

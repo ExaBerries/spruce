@@ -3,24 +3,13 @@
 #include <app/pipeline/encode.h>
 
 namespace spruce {
-	SimplePipeline::SimplePipeline() {
-		frame = nullptr;
-	}
-
-	SimplePipeline::~SimplePipeline() {
-		if (frame != nullptr) {
-			delete frame;
-		}
-	}
-
 	void SimplePipeline::execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) {
-		frame = new Frame();
+		frame.cons();
 		encodeFrame(*frame, delta, app, renderer);
 		if (renderer != nullptr) {
 			renderer->executeBackend(frame->rendererData);
 		}
-		delete frame;
-		frame = nullptr;
+		frame.desc();
 		waitForMainTasks();
 		appBackend.update();
 	}

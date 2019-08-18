@@ -3,7 +3,7 @@
 namespace spruce {
 	namespace graphics {
 		namespace camera {
-			OrthographicCamera::OrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up, vec3f& dir) : Camera(viewportWidth, viewportHeight) {
+			OrthographicCamera::OrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, const vec3f& up, const vec3f& dir) : Camera(viewportWidth, viewportHeight) {
 				this->near = near;
 				this->far = far;
 				this->dir = dir;
