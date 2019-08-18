@@ -29,7 +29,7 @@ namespace spruce {
 		}
 		int32 maxDrawBuffers = 0;
 		glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxDrawBuffers);
-		if (attachments.size < maxDrawBuffers) {
+		if ((int32)attachments.size < maxDrawBuffers) {
 			glDrawBuffers(attachments.size, attachments);
 		} else {
 			serr("to many draw buffers (", attachments.size, ") only ", maxDrawBuffers, " supported");

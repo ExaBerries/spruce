@@ -39,7 +39,7 @@
 @end
 
 namespace spruce {
-	CocoaWindow::CocoaWindow() : Window() {
+	CocoaWindow::CocoaWindow() {
 		width = 1920;
 		height = 1080;
 		NSString* appName = @"spruce";
@@ -79,7 +79,7 @@ namespace spruce {
 				[window makeFirstResponder:this->view];
 				[(OpenGLView*)view initContext];
 				[[(OpenGLView*)view getContext] makeCurrentContext];
-				context = new CocoaOpenGLContext(this->view);
+				context = new CocoaOpenGLContext((OpenGLView*)this->view);
 				break;
 			case app::METAL:
 				this->view = [[MetalView alloc] initWithFrame:viewRect window:this];
@@ -107,13 +107,13 @@ namespace spruce {
 	}
 
 	void CocoaWindow::setFullscreen(bool fullscreen) {
-		if ([view isFullScreenMode]) {
+		if ([view isInFullScreenMode]) {
 			if (!fullscreen) {
-				[view exitFullScreenMode];
+				[view exitFullScreenModeWithOptions:nil];
 			}
 		} else {
 			if (fullscreen) {
-				[view enterFullScreenMode:[NSScreen mainScreen]];
+				[view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 			}
 		}
 	}

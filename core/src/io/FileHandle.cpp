@@ -78,6 +78,9 @@ namespace spruce {
 			return nullptr;
 		}
 		std::vector<string> subFiles = os::listSubFiles(absolutePath);
+		if (subFiles.size() == 0) {
+			return nullptr;
+		}
 		buffer<FileHandle> subPaths(subFiles.size());
 		for (uint32 i = 0; i < subFiles.size(); i++) {
 			subPaths[i] = FileHandle(FileHandle::ABSOLUTE, absolutePath + ((absolutePath.c_str()[absolutePath.size() - 1] != '/') ? "/" : "") + subFiles[i]);

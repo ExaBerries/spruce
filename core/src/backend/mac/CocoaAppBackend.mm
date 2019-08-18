@@ -64,7 +64,7 @@ namespace spruce {
 		delegate = nullptr;
 	}
 
-	Window* CocoaAppBackend::createWindow() {
+	owner<Window> CocoaAppBackend::createWindow() {
 		return new CocoaWindow();
 	}
 

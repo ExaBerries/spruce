@@ -24,9 +24,10 @@ namespace spruce {
 			Visual* getVisual();
 			uint32 getDepth();
 			void windowCreated(XWindow window);
-			void makeContextCurrent();
-			void swapBuffers();
-			void setSwapInverval(int32 interval);
+
+			void makeContextCurrent() override;
+			void swapBuffers() override;
+			void setSwapInverval(int32 interval) override;
 	};
 }
 #endif

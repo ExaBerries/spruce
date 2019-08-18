@@ -100,7 +100,7 @@ namespace spruce {
 		void free() {
 		}
 
-		ApplicationBackend* createAppBackend() {
+		owner<ApplicationBackend> createAppBackend() {
 			return new CocoaAppBackend();
 		}
 
@@ -168,8 +168,8 @@ namespace spruce {
 
 	namespace sys {
 		string getCPUName() {
-			size_t length = 128;
-			char buffer[length];
+			size_t length;
+			char buffer[128];
 			sysctlbyname("machdep.cpu.brand_string", &buffer, &length, NULL, 0);
 			return string(buffer);
 		}

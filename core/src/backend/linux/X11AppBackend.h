@@ -11,12 +11,17 @@ namespace spruce {
 		public:
 			Display* display;
 			std::vector<X11Window*> x11Windows;
-			
-			X11AppBackend();
-			~X11AppBackend();
 
-			Window* createWindow();
-			void update();
+			X11AppBackend();
+			X11AppBackend(const X11AppBackend&) = delete;
+			X11AppBackend(X11AppBackend&&) noexcept = delete
+			~X11AppBackend() override;
+
+			owner<Window> createWindow() override;
+			void update() override;
+
+			X11AppBackend& operator=(const X11AppBackend&) = delete;
+			X11AppBackend& operator=(X11AppBackend&&) noexcept = delete;
 	};
 }
 #endif

@@ -59,14 +59,19 @@ target_compile_features(spruce PRIVATE cxx_std_17)
 target_compile_options(spruce PRIVATE
 	-Wall
 	-Wextra
-	-Wshadow=local
 	-pedantic
 	-g
+	-Wno-unused-parameter
+	-Wno-deprecated-declarations
 )
 
 target_compile_definitions(spruce PRIVATE
 	DEBUG
 )
+if(APPLE) # mac
+SET(CMAKE_AR llvm-ar)
+SET(CMAKE_RANLIB llvm-ranlib)
+endif()
 
 add_subdirectory(test)
 add_subdirectory(bench)

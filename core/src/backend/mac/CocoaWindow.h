@@ -12,7 +12,6 @@
 	CocoaWindowObj* cocoaWindow;
 }
 - (instancetype) initWithWindow:(spruce::Window*)spruceWindow cocoaWindow:(NSWindow*)cocoaWindow;
-//- (void) windowDidResize:(NSNotification*)notification;
 @end
 
 namespace spruce {
@@ -24,14 +23,19 @@ namespace spruce {
 			WindowDelegate* delegate;
 
 			CocoaWindow();
-			~CocoaWindow();
+			CocoaWindow(const CocoaWindow&) = delete;
+			CocoaWindow(CocoaWindow&&) noexcept = delete;
+			~CocoaWindow() override;
 
-			APIContext* initAPI(app::API api);
-			void setTitle(string title);
-			void setVisible(bool visible);
-			void setFullscreen(bool fullscreen);
-			void close();
-			void setCursorMode(input::CursorMode mode);
+			APIContext* initAPI(app::API api) override;
+			void setTitle(string title) override;
+			void setVisible(bool visible) override;
+			void setFullscreen(bool fullscreen) override;
+			void close() override;
+			void setCursorMode(input::CursorMode mode) override;
+
+			CocoaWindow& operator=(const CocoaWindow&) = delete;
+			CocoaWindow& operator=(CocoaWindow&&) noexcept = delete;
 	};
 }
 #endif

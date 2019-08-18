@@ -20,11 +20,11 @@ namespace spruce {
 		if (window->open) {
 			window->close();
 		}
-		delete window;
-		delete framePipeline;
+		delete (Window*)window;
+		delete (FramePipeline*)framePipeline;
 		task::free();
 		os::free();
-		delete application;
+		delete (Application*)application;
 	}
 
 	void SpruceEngine::run() {
@@ -48,7 +48,7 @@ namespace spruce {
 
 	void SpruceEngine::setFramePipeline(FramePipeline* pipeline) {
 		if (this->framePipeline != nullptr) {
-			delete this->framePipeline;
+			delete (FramePipeline*)this->framePipeline;
 		}
 		this->framePipeline = pipeline;
 	}
