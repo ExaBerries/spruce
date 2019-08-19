@@ -6,6 +6,11 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
+	aowner<TYPE>::aowner(aownter<TYPE>&& other) : ptr(other.ptr) {
+		other.ptr = nullptr;
+	}
+
+	template <typename TYPE>
 	aowner<TYPE>::~aowner() {
 		free();
 	}
@@ -16,14 +21,23 @@ namespace spruce {
 		this->ptr = nullptr;
 	}
 
-	template <typename TYPE, typename ... CONSTYPES>
-	aowner<TYPE> newaown(CONSTYPES&& ... args) {
-		return new TYPE(args...);
-	}
-
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	aowner<TYPE>& aowner<TYPE>::operator=(aowner<OTHERTYPE>&& newOwner) noexcept {
 		this->ptr = newOwner.ptr;
+		newOwner.ptr = nullptr;
+		return *this;
+	}
+
+	template <typename TYPE>
+	aowner<TYPE>& aowner<TYPE>::operator=(aowner&& other) noexcept {
+		this->ptr = other.ptr;
+		other.ptr = nullptr;
+		return *this;
+	}
+
+	template <typename TYPE, typename ... CONSTYPES>
+	aowner<TYPE> newaown(CONSTYPES&& ... args) {
+		return new TYPE(args...);
 	}
 }
