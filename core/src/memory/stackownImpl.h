@@ -8,7 +8,7 @@ namespace spruce {
 
 	template <typename TYPE>
 	template <typename ... CONSTYPES>
-	void stackown<TYPE>::cons(CONSTYPES& ... args) {
+	void stackown<TYPE>::cons(CONSTYPES&& ... args) {
 		new (data) TYPE(args...);
 		null = false;
 	}

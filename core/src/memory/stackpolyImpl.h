@@ -8,7 +8,7 @@ namespace spruce {
 
 	template <typename TYPE, uint64 SIZE>
 	template <typename POLYTYPE, typename ... CONSTYPES>
-	void stackpoly<TYPE, SIZE>::cons(CONSTYPES& ... args) {
+	void stackpoly<TYPE, SIZE>::cons(CONSTYPES&& ... args) {
 		new (data) POLYTYPE(args...);
 	}
 
