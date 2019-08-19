@@ -6,7 +6,7 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	aowner<TYPE>::aowner(aownter<TYPE>&& other) : ptr(other.ptr) {
+	aowner<TYPE>::aowner(aowner<TYPE>&& other) noexcept : owner<TYPE>(other.ptr) {
 		other.ptr = nullptr;
 	}
 
@@ -30,7 +30,7 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	aowner<TYPE>& aowner<TYPE>::operator=(aowner&& other) noexcept {
+	aowner<TYPE>& aowner<TYPE>::operator=(aowner<TYPE>&& other) noexcept {
 		this->ptr = other.ptr;
 		other.ptr = nullptr;
 		return *this;
