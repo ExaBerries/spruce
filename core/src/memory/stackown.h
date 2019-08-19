@@ -14,7 +14,7 @@ namespace spruce {
 		~stackown();
 
 		template <typename ... CONSTYPES>
-		void cons(CONSTYPES& ... args);
+		void cons(CONSTYPES&& ... args);
 		void desc();
 
 		operator TYPE*();
