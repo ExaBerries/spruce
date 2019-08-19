@@ -20,4 +20,10 @@ namespace spruce {
 	aowner<TYPE> newaown(CONSTYPES&& ... args) {
 		return new TYPE(args...);
 	}
+
+	template <typename TYPE>
+	template <typename OTHERTYPE>
+	aowner<TYPE>& aowner<TYPE>::operator=(aowner<OTHERTYPE>&& newOwner) noexcept {
+		this->ptr = newOwner.ptr;
+	}
 }

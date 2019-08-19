@@ -13,6 +13,9 @@ namespace spruce {
 
 		void free();
 
+		template <typename OTHERTYPE>
+		aowner& operator=(aowner<OTHERTYPE>&& newOwner) noexcept;
+
 		aowner& operator=(const aowner &other) = default;
 		aowner& operator=(aowner &&other) noexcept = default;
 	};
