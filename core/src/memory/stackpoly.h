@@ -13,7 +13,7 @@ namespace spruce {
 		~stackpoly();
 
 		template <typename POLYTYPE, typename ... CONSTYPES>
-		void cons(CONSTYPES& ... args);
+		void cons(CONSTYPES&& ... args);
 		void desc();
 
 		operator TYPE*();

@@ -4,7 +4,7 @@
 #include <backend/task/taskmanager.h>
 
 namespace spruce {
-	SpruceEngine::SpruceEngine(Application* (*createApplication)(SpruceEngine&)) {
+	SpruceEngine::SpruceEngine(owner<Application> (*createApplication)(SpruceEngine&)) {
 		framePipeline = nullptr;
 		apiType = app::DEBUG_API;
 		renderer = nullptr;
@@ -46,16 +46,16 @@ namespace spruce {
 		apiContext = window->initAPI(app::OPENGL);
 	}
 
-	void SpruceEngine::setFramePipeline(FramePipeline* pipeline) {
+	void SpruceEngine::setFramePipeline(owner<FramePipeline> pipeline) {
 		if (this->framePipeline != nullptr) {
 			delete (FramePipeline*)this->framePipeline;
 		}
 		this->framePipeline = pipeline;
 	}
 
-	void SpruceEngine::setRenderer(RendererAbstractor* renderer) {
+	void SpruceEngine::setRenderer(owner<RendererAbstractor> renderer) {
 		if (this->renderer != nullptr) {
-			delete this->renderer;
+			delete (RendererAbstractor*)this->renderer;
 		}
 		this->renderer = renderer;
 	}

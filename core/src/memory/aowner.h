@@ -7,18 +7,21 @@ namespace spruce {
 	struct aowner : public owner<TYPE> {
 		aowner() = default;
 		aowner(TYPE* ptr);
-		aowner(const aowner &other) = default;
-		aowner(aowner &&other) noexcept = default;
+		aowner(const aowner& other) = delete;
+		aowner(aowner&& other) noexcept;
 		~aowner();
 
 		void free();
 
-		aowner& operator=(const aowner &other) = default;
-		aowner& operator=(aowner &&other) noexcept = default;
+		template <typename OTHERTYPE>
+		aowner& operator=(aowner<OTHERTYPE>&& newOwner) noexcept;
+
+		aowner& operator=(const aowner& other) = delete;
+		aowner& operator=(aowner&& other) noexcept;
 	};
 
 	template <typename TYPE, typename ... CONSTYPES>
-	aowner<TYPE> newaown(CONSTYPES& ... args);
+	aowner<TYPE> newaown(CONSTYPES&& ... args);
 }
 
 #include <memory/aownerImpl.h>
