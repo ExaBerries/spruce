@@ -4,7 +4,7 @@
 #include <backend/task/taskmanager.h>
 
 namespace spruce {
-	SpruceEngine::SpruceEngine(Application* (*createApplication)(SpruceEngine&)) {
+	SpruceEngine::SpruceEngine(owner<Application> (*createApplication)(SpruceEngine&)) {
 		framePipeline = nullptr;
 		apiType = app::DEBUG_API;
 		renderer = nullptr;

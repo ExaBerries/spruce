@@ -19,7 +19,7 @@ namespace spruce {
 			APIContext* apiContext;
 			owner<RendererAbstractor> renderer;
 
-			explicit SpruceEngine(Application* (*createApplication)(SpruceEngine&));
+			explicit SpruceEngine(owner<Application> (*createApplication)(SpruceEngine&));
 			SpruceEngine(const SpruceEngine&) = delete;
 			SpruceEngine(SpruceEngine&&) noexcept = delete;
 			~SpruceEngine();
