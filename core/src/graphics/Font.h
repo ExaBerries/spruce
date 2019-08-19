@@ -8,22 +8,21 @@ namespace spruce {
 		class Font {
 			public:
 				struct CharInfo {
-					float ax;
-					float ay;
-					float bw;
-					float bh;
-					float bl;
-					float bt;
-					float tx;
+					vec2f advance;
+					vec2f size;
+					vec2f bearing;
+					float texturex;
 				} chars[128];
 				FileHandle fileHandle;
-				Texture* texture;
+				owner<Texture> texture;
 				uint16 size;
 
 				Font(FileHandle fileHandle, uint16 size);
 				Font(const Font& font) = delete;
 				Font(Font&&) noexcept = delete;
 				~Font();
+
+				CharInfo& getInfoFor(char c);
 
 				void toVRAM(RendererAbstractor* renderer);
 				void freeVRAM();

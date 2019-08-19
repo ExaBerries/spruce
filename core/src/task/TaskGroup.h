@@ -4,35 +4,29 @@
 #include <task/TaskConfig.h>
 
 namespace spruce {
-	template <typename T>
-	class TaskGroup;
+	namespace task {
+		template <typename T>
+		class TaskGroup;
 
-	template <typename OUTPUT, typename ... TYPES>
-	class TaskGroup<OUTPUT(TYPES...)> {
-		public:
-			std::vector<Task<OUTPUT(TYPES...)>> tasks;
+		template <typename OUTPUT, typename ... TYPES>
+		class TaskGroup<OUTPUT(TYPES...)> {
+			public:
+				std::vector<Task<OUTPUT(TYPES...)>> tasks;
 
-			TaskGroup() {
-			}
+				TaskGroup() = default;
+				TaskGroup(const TaskGroup& group);
+				TaskGroup(TaskGroup&&) noexcept = default;
+				~TaskGroup() = default;
 
-			TaskGroup(const TaskGroup& group) : tasks(group.tasks) {
-			}
+				void addTask(TaskConfig<OUTPUT(TYPES...)> config);
+				bool complete() const;
 
-			~TaskGroup() {
-			}
+				TaskGroup& operator=(const TaskGroup&) = default;
+				TaskGroup& operator=(TaskGroup&&) noexcept = default;
+		};
+	}
 
-			void addTask(TaskConfig<OUTPUT(TYPES...)> config) {
-				tasks.push_back(createTask(config));
-			}
-
-			bool complete() const {
-				bool complete = true;
-				for (Task<OUTPUT(TYPES...)> task : tasks) {
-					if (!task.complete) {
-						complete = false;
-					}
-				}
-				return complete;
-			}
-	};
+	using task::TaskGroup;
 }
+
+#include <task/TaskGroupImpl.h>

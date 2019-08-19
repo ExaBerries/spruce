@@ -15,7 +15,11 @@ namespace spruce {
 
 				TaskBackend(uint64 id, bool& complete);
 				TaskBackend(const TaskBackend& task) = delete;
+				TaskBackend(TaskBackend&&) noexcept = delete;
 				~TaskBackend();
+
+				TaskBackend& operator=(const TaskBackend&) = delete;
+				TaskBackend& operator=(TaskBackend&&) noexcept = delete;
 		};
 	}
 }

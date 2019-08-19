@@ -1,7 +1,6 @@
 #pragma once
 
 #ifdef __APPLE__
-	#include <OpenGL/gl.h>
 	#include <OpenGL/gl3.h>
 	#include <OpenGL/glext.h>
 	#include <OpenGL/gl3ext.h>
@@ -12,6 +11,5 @@
 #ifdef __linux__
 	#include <GL/glew.h>
 	#include <GL/gl.h>
-	#include <GL/glx.h>
 	#include <GL/glu.h>
 #endif

@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/opengl/OpenGLView.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/gl3.h>
@@ -21,7 +22,7 @@
 	NSOpenGLPixelFormatAttribute attributes[] = {
 		NSOpenGLPFAAccelerated,
 		NSOpenGLPFAClosestPolicy,
-		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion4_1Core,
 		NSOpenGLPFAColorSize, 24,
 		NSOpenGLPFAAlphaSize, 8,
 		NSOpenGLPFADepthSize, 24,
@@ -66,3 +67,4 @@
 	return context;
 }
 @end
+#endif

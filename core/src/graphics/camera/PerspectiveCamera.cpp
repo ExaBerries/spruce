@@ -3,7 +3,7 @@
 namespace spruce {
 	namespace graphics {
 		namespace camera {
-			PerspectiveCamera::PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, vec3f& up, vec3f& dir) : Camera(viewportWidth, viewportHeight) {
+			PerspectiveCamera::PerspectiveCamera(float viewportWidth, float viewportHeight, float fieldOfView, float near, float far, const vec3f& up, const vec3f& dir) : Camera(viewportWidth, viewportHeight) {
 				this->fieldOfView = fieldOfView;
 				this->near = near;
 				this->far = far;
@@ -11,11 +11,11 @@ namespace spruce {
 				this->dir = dir;
 			}
 
-			void PerspectiveCamera::update() {
+			void PerspectiveCamera::update(RendererAbstractor* renderer) {
 				float aspectRatio = viewportWidth / viewportHeight;
 				float absNear = std::abs(near);
 				float absFar = std::abs(far);
-				//app::api->setPerspective(projection, absNear, absFar, fieldOfView, aspectRatio);
+				renderer->setPerspective(projection, absNear, absFar, fieldOfView, aspectRatio);
 				vec3f dir = this->dir * rotation;
 				dir.nor();
 				vec3f up = this->up * rotation;

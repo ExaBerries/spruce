@@ -2,24 +2,25 @@
 #include <types.h>
 #include <math/vec/vec2f.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 namespace spruce {
 	struct vec3f {
-		float x;
-		float y;
-		float z;
+		float x = 0;
+		float y = 0;
+		float z = 0;
 
-		vec3f();
-		vec3f(const vec3f& vector);
-		vec3f(const float& scalar);
-		vec3f(const vec2f& vector, const float& z);
-		vec3f(const float& x, const float& y, const float& z);
-		~vec3f();
+		vec3f() = default;
+		vec3f(float scalar);
+		vec3f(const vec2f& vector, float z);
+		vec3f(float x, float y, float z);
+		vec3f(const vec3f&) = default;
+		vec3f(vec3f&&) noexcept = default;
+		~vec3f() = default;
 
 		vec3f& set(const vec3f& vector);
-		vec3f& set(const vec2f& vector, const float z);
-		vec3f& set(const float x, const float y, const float z);
+		vec3f& set(const vec2f& vector, float z);
+		vec3f& set(float x, float y, float z);
 
 		float mag2() const;
 		float mag() const;
@@ -32,18 +33,10 @@ namespace spruce {
 		vec3f& add(const vec3f& vector);
 		vec3f& sub(const vec3f& vector);
 
-		vec3f& add(const float& value);
-		vec3f& sub(const float& value);
-		vec3f& scl(const float& value);
-		vec3f& div(const float& value);
-
-		friend vec3f operator+(const vec3f left, const vec3f& right);
-		friend vec3f operator-(const vec3f left, const vec3f& right);
-
-		friend vec3f operator+(const vec3f left, float value);
-		friend vec3f operator-(const vec3f left, float value);
-		friend vec3f operator*(const vec3f left, float value);
-		friend vec3f operator/(const vec3f left, float value);
+		vec3f& add(float value);
+		vec3f& sub(float value);
+		vec3f& scl(float value);
+		vec3f& div(float value);
 
 		bool operator==(const vec3f& vector) const;
 		bool operator!=(const vec3f& vector) const;
@@ -51,15 +44,26 @@ namespace spruce {
 		vec3f& operator+=(const vec3f& vector);
 		vec3f& operator-=(const vec3f& vector);
 
-		vec3f& operator+=(const float& value);
-		vec3f& operator-=(const float& value);
-		vec3f& operator*=(const float& value);
-		vec3f& operator/=(const float& value);
+		vec3f& operator+=(float value);
+		vec3f& operator-=(float value);
+		vec3f& operator*=(float value);
+		vec3f& operator/=(float value);
 
-		friend std::ostream& operator<<(std::ostream& stream, const vec3f& vector);
+		vec3f& operator=(const vec3f&) = default;
+		vec3f& operator=(vec3f&&) noexcept = default;
 
 		static vec3f lerp(const vec3f& a, const vec3f& b, float alpha);
 	};
+
+	vec3f operator+(const vec3f& left, const vec3f& right);
+	vec3f operator-(const vec3f& left, const vec3f& right);
+
+	vec3f operator+(const vec3f& left, float value);
+	vec3f operator-(const vec3f& left, float value);
+	vec3f operator*(const vec3f& left, float value);
+	vec3f operator/(const vec3f& left, float value);
+
+	std::ostream& operator<<(std::ostream& stream, const vec3f& vector);
 }
 
 namespace std {

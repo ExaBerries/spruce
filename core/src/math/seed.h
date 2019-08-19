@@ -11,10 +11,14 @@ namespace spruce {
 
 			seed();
 			seed(uint64 seed);
-			seed(const seed& seed);
-			~seed();
+			seed(const seed& seed) = default;
+			seed(seed&&) noexcept = default;
+			~seed() = default;
 
-			friend std::ostream& operator<<(std::ostream& stream, const seed& seed);
+			seed& operator=(const seed&) = default;
+			seed& operator=(seed&&) = default;
 		};
+
+		std::ostream& operator<<(std::ostream& stream, const seed& seed);
 	}
 }

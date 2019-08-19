@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #include <backend/mac/CocoaWindow.h>
 #include <backend/mac/SpruceView.h>
 #include <backend/mac/opengl/OpenGLView.h>
@@ -37,7 +38,7 @@
 @end
 
 namespace spruce {
-	CocoaWindow::CocoaWindow() : Window() {
+	CocoaWindow::CocoaWindow() {
 		width = 1920;
 		height = 1080;
 		NSString* appName = @"spruce";
@@ -66,10 +67,10 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	void* CocoaWindow::initAPI(app::API api) {
+	APIContext* CocoaWindow::initAPI(app::API api) {
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
 		NSView* oldView = window.contentView;
-		void* context;
+		APIContext* context;
 		switch (api) {
 			case app::OPENGL:
 				this->view = [[OpenGLView alloc] initWithFrame:viewRect window:this];
@@ -77,7 +78,7 @@ namespace spruce {
 				[window makeFirstResponder:this->view];
 				[(OpenGLView*)view initContext];
 				[[(OpenGLView*)view getContext] makeCurrentContext];
-				context = new CocoaOpenGLContext(this->view);
+				context = new CocoaOpenGLContext((OpenGLView*)this->view);
 				break;
 			case app::METAL:
 				context = nullptr;
@@ -104,13 +105,13 @@ namespace spruce {
 	}
 
 	void CocoaWindow::setFullscreen(bool fullscreen) {
-		if ([view isFullScreenMode]) {
+		if ([view isInFullScreenMode]) {
 			if (!fullscreen) {
-				[view exitFullScreenMode];
+				[view exitFullScreenModeWithOptions:nil];
 			}
 		} else {
 			if (fullscreen) {
-				[view enterFullScreenMode:[NSScreen mainScreen]];
+				[view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 			}
 		}
 	}
@@ -129,3 +130,4 @@ namespace spruce {
 		}
 	}
 }
+#endif

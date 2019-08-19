@@ -17,7 +17,7 @@ namespace spruce {
 				buffer<uint8> data;
 				uint16 width;
 				uint16 height;
-				TextureAPIData* apiData;
+				owner<TextureAPIData> apiData;
 
 				Texture(const PixelFormat& format, buffer<uint8>& data, const uint16& width, const uint16& height);
 				Texture(const Texture& texture) = delete;

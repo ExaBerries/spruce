@@ -11,11 +11,15 @@ namespace spruce {
 					vec3f dir;
 					vec3f up;
 
-					OrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, vec3f& up, vec3f& dir);
+					OrthographicCamera(float viewportWidth, float viewportHeight, float near, float far, const vec3f& up, const vec3f& dir);
 					OrthographicCamera(const OrthographicCamera& camera) = default;
-					~OrthographicCamera() = default;
+					OrthographicCamera(OrthographicCamera&&) noexcept = default;
+					~OrthographicCamera() override = default;
 
-					void update();
+					void update(RendererAbstractor* renderer) override;
+
+					OrthographicCamera& operator=(const OrthographicCamera&) = default;
+					OrthographicCamera& operator=(OrthographicCamera&&) noexcept = default;
 			};
 		}
 	}

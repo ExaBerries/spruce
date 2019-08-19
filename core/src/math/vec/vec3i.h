@@ -2,18 +2,20 @@
 #include <types.h>
 #include <math/vec/vec2i.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 namespace spruce {
 	struct vec3i {
-		int32 x;
-		int32 y;
-		int32 z;
+		int32 x = 0;
+		int32 y = 0;
+		int32 z = 0;
 
-		vec3i();
+		vec3i() = default;
 		vec3i(int32 x, int32 y, int32 z);
 		vec3i(const vec2i vector, int32 z);
-		~vec3i();
+		vec3i(const vec3i&) = default;
+		vec3i(vec3i&&) noexcept = default;
+		~vec3i() = default;
 
 		float mag2() const;
 		float mag() const;
@@ -24,19 +26,10 @@ namespace spruce {
 		vec3i& add(const vec3i& vector);
 		vec3i& sub(const vec3i& vector);
 
-		vec3i& add(const int32& value);
-		vec3i& sub(const int32& value);
-		vec3i& scl(const int32& value);
-		vec3i& div(const int32& value);
-
-		friend vec3i operator+(const vec3i left, const vec3i& right);
-		friend vec3i operator-(const vec3i left, const vec3i& right);
-
-		friend vec3i operator+(const vec3i left, int32 value);
-		friend vec3i operator-(const vec3i left, int32 value);
-		friend vec3i operator%(const vec3i left, int32 value);
-		friend vec3i operator*(const vec3i left, int32 value);
-		friend vec3i operator/(const vec3i left, int32 value);
+		vec3i& add(int32 value);
+		vec3i& sub(int32 value);
+		vec3i& scl(int32 value);
+		vec3i& div(int32 value);
 
 		bool operator==(const vec3i& vector) const;
 		bool operator!=(const vec3i& vector) const;
@@ -50,8 +43,20 @@ namespace spruce {
 		vec3i& operator*=(int32 value);
 		vec3i& operator/=(int32 value);
 
-		friend std::ostream& operator<<(std::ostream& stream, const vec3i& vector);
+		vec3i& operator=(const vec3i&) = default;
+		vec3i& operator=(vec3i&&) noexcept = default;
 	};
+
+	vec3i operator+(const vec3i& left, const vec3i& right);
+	vec3i operator-(const vec3i& left, const vec3i& right);
+
+	vec3i operator+(const vec3i& left, int32 value);
+	vec3i operator-(const vec3i& left, int32 value);
+	vec3i operator%(const vec3i& left, int32 value);
+	vec3i operator*(const vec3i& left, int32 value);
+	vec3i operator/(const vec3i& left, int32 value);
+
+	std::ostream& operator<<(std::ostream& stream, const vec3i& vector);
 }
 
 namespace std {

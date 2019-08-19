@@ -11,6 +11,8 @@ namespace spruce {
 			SpruceEngine& engine;
 
 			Application(SpruceEngine& engine);
+			Application(const Application&) = delete;
+			Application(Application&&) noexcept = delete;
 			virtual ~Application();
 
 			virtual void update(float delta) = 0;
@@ -22,5 +24,8 @@ namespace spruce {
 			void setRenderer(RendererAbstractor* renderer);
 			RendererAbstractor* getRenderer();
 			Window* getWindow();
+
+			Application& operator=(const Application&) = delete;
+			Application& operator=(Application&&) noexcept = delete;
 	};
 }

@@ -1,4 +1,5 @@
 #pragma once
+#ifdef __APPLE__
 #include <common.h>
 #include <backend/ApplicationBackend.h>
 #include <backend/mac/objcpp.h>
@@ -19,9 +20,15 @@ namespace spruce {
 			AppDelegate* delegate;
 
 			CocoaAppBackend();
-			~CocoaAppBackend();
+			CocoaAppBackend(const CocoaAppBackend&) = default;
+			CocoaAppBackend(CocoaAppBackend&&) noexcept = default;
+			~CocoaAppBackend() override;
 
-			Window* createWindow();
-			void update();
+			owner<Window> createWindow() override;
+			void update() override;
+
+			CocoaAppBackend& operator=(const CocoaAppBackend&) = default;
+			CocoaAppBackend& operator=(CocoaAppBackend&&) noexcept = default;
 	};
 }
+#endif

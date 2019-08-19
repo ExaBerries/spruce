@@ -2,8 +2,6 @@
 #ifdef __linux__
 #include <common.h>
 #include <backend/Window.h>
-#include <backend/api/vulkan/VulkanContext.h>
-#include <backend/linux/X11RenderSurface.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -20,17 +18,21 @@ namespace spruce {
 			XWindowAttributes attributes;
 
 			X11Window(Display* display);
-			virtual ~X11Window();
+			X11Window(const X11Window&) = delete;
+			X11Window(X11Window&&) noexcept = delete;
+			~X11Window();
 
 			void createXWindow(Visual* visual, uint32 depth);
 
-			void initOpenGL();
-			void initVulkan(VulkanContext* context);
-			void setTitle(string title);
-			void setVisible(bool visible);
-			void setFullscreen(bool fullscreen);
-			void close();
-			void setCursorMode(input::CursorMode mode);
+			APIContext* initAPI(app::API api) override;
+			void setTitle(string title) override;
+			void setVisible(bool visible) override;
+			void setFullscreen(bool fullscreen) override;
+			void close() override;
+			void setCursorMode(input::CursorMode mode) override;
+
+			X11Window& operator=(const X11Window&) = delete;
+			X11Window& operator=(X11Window&&) noexcept = delete;
 	};
 }
 #endif

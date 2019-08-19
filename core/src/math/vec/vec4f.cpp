@@ -1,22 +1,13 @@
 #include <math/vec/vec4f.h>
 
 namespace spruce {
-	vec4f::vec4f() : x(0), y(0), z(0), w(0) {
+	vec4f::vec4f(float scalar) : x(scalar), y(scalar), z(scalar), w(scalar) {
 	}
 
-	vec4f::vec4f(const vec4f& vector) : x(vector.x), y(vector.y), z(vector.z), w(vector.w) {
+	vec4f::vec4f(const vec3f& vector, float w) : x(vector.x), y(vector.y), z(vector.z), w(w) {
 	}
 
-	vec4f::vec4f(const float& scalar) : x(scalar), y(scalar), z(scalar), w(scalar) {
-	}
-
-	vec4f::vec4f(const vec3f& vector, const float& w) : x(vector.x), y(vector.y), z(vector.z), w(w) {
-	}
-
-	vec4f::vec4f(const float& x, const float& y, const float& z, const float& w) : x(x), y(y), z(z), w(w) {
-	}
-
-	vec4f::~vec4f() {
+	vec4f::vec4f(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {
 	}
 
 	vec4f& vec4f::set(const vec4f& vector) {
@@ -27,7 +18,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::set(const vec3f& vector, const float w) {
+	vec4f& vec4f::set(const vec3f& vector, float w) {
 		x = vector.x;
 		y = vector.y;
 		z = vector.z;
@@ -35,7 +26,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::set(const float x, const float y, const float z, const float w) {
+	vec4f& vec4f::set(float x, float y, float z, float w) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
@@ -95,7 +86,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::add(const float& value) {
+	vec4f& vec4f::add(float value) {
 		x += value;
 		y += value;
 		z += value;
@@ -103,7 +94,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::sub(const float& value) {
+	vec4f& vec4f::sub(float value) {
 		x -= value;
 		y -= value;
 		z -= value;
@@ -111,7 +102,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::scl(const float& value) {
+	vec4f& vec4f::scl(float value) {
 		x *= value;
 		y *= value;
 		z *= value;
@@ -119,7 +110,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::div(const float& value) {
+	vec4f& vec4f::div(float value) {
 		x /= value;
 		y /= value;
 		z /= value;
@@ -132,47 +123,47 @@ namespace spruce {
 		float y = left.y + right.y;
 		float z = left.z + right.z;
 		float w = left.w + right.w;
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
-	vec4f operator-(const vec4f left, const vec4f& right) {
+	vec4f operator-(const vec4f& left, const vec4f& right) {
 		float x = left.x - right.x;
 		float y = left.y - right.y;
 		float z = left.z - right.z;
 		float w = left.w - right.w;
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
-	vec4f operator+(const vec4f left, float value) {
+	vec4f operator+(const vec4f& left, float value) {
 		float x = left.x + value;
 		float y = left.y + value;
 		float z = left.z + value;
 		float w = left.w + value;
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
-	vec4f operator-(const vec4f left, float value) {
+	vec4f operator-(const vec4f &left, float value) {
 		float x = left.x - value;
 		float y = left.y - value;
 		float z = left.z - value;
 		float w = left.w - value;
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
-	vec4f operator*(const vec4f left, float value) {
+	vec4f operator*(const vec4f& left, float value) {
 		float x = left.x * value;
 		float y = left.y * value;
 		float z = left.z * value;
 		float w = left.w * value;
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
-	vec4f operator/(const vec4f left, float value) {
+	vec4f operator/(const vec4f& left, float value) {
 		float x = left.x / value;
 		float y = left.y / value;
 		float z = left.z / value;
 		float w = left.w / value;
-		return vec4f(x, y, z, w);
+		return {x, y, z, w};
 	}
 
 	bool vec4f::operator==(const vec4f& vector) const {
@@ -199,7 +190,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::operator+=(const float& value) {
+	vec4f& vec4f::operator+=(float value) {
 		x += value;
 		y += value;
 		z += value;
@@ -207,7 +198,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::operator-=(const float& value) {
+	vec4f& vec4f::operator-=(float value) {
 		x -= value;
 		y -= value;
 		z -= value;
@@ -215,7 +206,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::operator*=(const float& value) {
+	vec4f& vec4f::operator*=(float value) {
 		x *= value;
 		y *= value;
 		z *= value;
@@ -223,7 +214,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::operator/=(const float& value) {
+	vec4f& vec4f::operator/=(float value) {
 		x /= value;
 		y /= value;
 		z /= value;

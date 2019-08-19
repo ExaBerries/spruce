@@ -8,7 +8,7 @@ namespace spruce {
 				this->viewportHeight = viewportHeight;
 			}
 
-			vec3f Camera::unproject(const vec2f& screen, float depth) {
+			vec3f Camera::unproject(const vec2f& screen, float depth) const {
 				float x = 2.0 * screen.x;
 				float y = 2.0 * screen.y;
 				float z = 2.0 * depth - 1;
@@ -19,7 +19,7 @@ namespace spruce {
 				return world;
 			}
 
-			vec2f Camera::project(const vec3f& world) {
+			vec2f Camera::project(const vec3f& world) const {
 				vec4f projected = combined * vec4f(world, 1);
 				projected /= projected.w;
 				float x = projected.x / 2.0;

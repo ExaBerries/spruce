@@ -1,8 +1,6 @@
 ﻿#ifdef __linux__
-#include <backend/linux/opengl/X11OpenGLSurface.h>
-#include <backend/linux/vulkan/X11VulkanSurface.h>
 #include <backend/linux/X11Window.h>
-#include <graphics/graphics.h>
+#include <backend/linux/opengl/X11OpenGLContext.h>
 
 namespace spruce {
 	X11Window::X11Window(Display* display) {
@@ -22,15 +20,15 @@ namespace spruce {
 		setAttributes.colormap = colormap;
 		setAttributes.background_pixmap = None;
 		setAttributes.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | ButtonMotionMask | PointerMotionMask | FocusChangeMask | StructureNotifyMask | ExposureMask;
-		this->width = graphics::width;
+		this->width = 0;//graphics::width;
 		if (width == 0) {
 			width = 1280;
-			graphics::width = width;
+			//graphics::width = width;
 		}
-		this->height = graphics::height;
+		this->height = 0;//graphics::height;
 		if (height == 0) {
 			height = 720;
-			graphics::height = height;
+			//graphics::height = height;
 		}
 		window = XCreateWindow(display, root, 0, 0, width, height, 0, depth, InputOutput, visual, CWColormap | CWEventMask, &setAttributes);
 		XStoreName(display, window, "spruce");
@@ -39,28 +37,35 @@ namespace spruce {
 		XSetWMProtocols(display, window, &wmDeleteMessage, 1);
 	}
 
-	void X11Window::initOpenGL() {
-		if (surface != nullptr) {
-			delete surface;
-			surface = nullptr;
+	APIContext* X11Window::initAPI(app::API api) {
+		if (window != 0) {
 			XFreeColormap(display, colormap);
 			XDestroyWindow(display, window);
 		}
-		surface = new X11OpenGLSurface(display);
-		createXWindow(((X11RenderSurface*)surface)->getVisual(), ((X11RenderSurface*)surface)->getDepth());
-		((X11RenderSurface*)surface)->windowCreated(window);
-	}
-
-	void X11Window::initVulkan(VulkanContext* context) {
-		if (surface != nullptr) {
-			delete surface;
-			surface = nullptr;
-			XFreeColormap(display, colormap);
-			XDestroyWindow(display, window);
+		APIContext* context;
+		switch (api) {
+			case app::OPENGL:
+				{
+					X11OpenGLContext* glContext = new X11OpenGLContext(display);
+					createXWindow(glContext->getVisual(), glContext->getDepth());
+					glContext->windowCreated(window);
+					context = glContext;
+				}
+				break;
+			case app::VULKAN:
+				{
+					context = nullptr;
+					serr("unsupported api");
+				}
+				break;
+			default:
+				{
+					context = nullptr;
+					serr("unsupported api");
+				}
+				break;
 		}
-		surface = new X11VulkanSurface(display, context);
-		createXWindow(((X11RenderSurface*)surface)->getVisual(), ((X11RenderSurface*)surface)->getDepth());
-		((X11RenderSurface*)surface)->windowCreated(window);
+		return context;
 	}
 
 	void X11Window::setTitle(string title) {

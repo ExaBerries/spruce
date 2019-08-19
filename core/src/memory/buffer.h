@@ -5,153 +5,52 @@
 namespace spruce {
 	template <typename TYPE>
 	struct buffer {
-		uint64 size;
-		TYPE* data;
+		uint64 size = 0;
+		TYPE* data = nullptr;
 
-		buffer() noexcept {
-			size = 0;
-			data = nullptr;
-		}
-
-		buffer(uint64 size) noexcept {
-			#ifdef DEBUG
-			if (size == 0) {
-				serr("buffer size must be greater than 0");
-				return;
-			}
-			#endif
-			this->size = size;
-			this->data = (TYPE*) std::malloc(size * sizeof(TYPE));
-			new (data) TYPE[size];
-		}
-
-		buffer(uint64 size, TYPE* data) noexcept {
-			this->size = size;
-			this->data = data;
-		}
-
-		buffer(std::nullptr_t) noexcept {
-			size = 0;
-			data = nullptr;
-		}
-
-		buffer(const buffer<TYPE>& buffer) noexcept {
-			this->size = buffer.size;
-			this->data = buffer.data;
-		}
-
+		buffer() noexcept = default;
+		buffer(uint64 size) noexcept;
+		buffer(uint64 size, TYPE* data) noexcept;
+		buffer(std::nullptr_t) noexcept;
+		buffer(const buffer<TYPE>&) = default;
+		buffer(buffer<TYPE>&&) noexcept = default;
 		~buffer() = default;
 
-		void realloc(uint64 newSize) {
-			#ifdef DEBUG
-			if (size == 0) {
-				serr("buffer size must be greater than 0");
-				return;
-			}
-			#endif
-			free();
-			this->size = newSize;
-			this->data = (TYPE*) std::malloc(newSize * sizeof(TYPE));
-		}
+		void realloc(uint64 newSize);
+		void free();
 
-		void free() {
-			if (data == nullptr) {
-				return;
-			}
-			for (uint64 i = 0; i < size; i++) {
-				(((TYPE*)data) + i)->~TYPE();
-			}
-			std::free(data);
-			data = nullptr;
-		}
+		TYPE* begin();
+		const TYPE* begin() const;
+		TYPE* end();
+		const TYPE* end() const;
 
-		TYPE& operator[](std::size_t idx) {
-			#ifdef DEBUG
-			#ifdef BUFFER_BOUNDS_CHECK
-			if (idx >= size) {
-				slog("buffer[] bounds check fail index=", idx, " size=", size);
-			}
-			#endif
-			#endif
-			return data[idx];
-		}
-
-		const TYPE& operator[](std::size_t idx) const {
-			#ifdef DEBUG
-			#ifdef BUFFER_BOUNDS_CHECK
-			if (idx >= size) {
-				slog("buffer[] bounds check fail index=", idx, " size=", size);
-			}
-			#endif
-			#endif
-			return data[idx];
-		}
-
-		bool operator==(const void* ptr) const {
-			return data == ptr;
-		}
-
-		bool operator!=(const void* ptr) const {
-			return data != ptr;
-		}
+		TYPE& operator[](std::size_t idx);
+		const TYPE& operator[](std::size_t idx) const;
 
 		template <typename OTHERTYPE>
-		explicit operator buffer<OTHERTYPE>() {
-			buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), (OTHERTYPE*) data);
-			return buff;
-		}
-
-
+		explicit operator buffer<OTHERTYPE>();
 		template <typename OTHERTYPE>
-		explicit operator const buffer<OTHERTYPE>() const {
-			const buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), (OTHERTYPE*) data);
-			return buff;
-		}
-
-		operator TYPE*() {
-			return data;
-		}
-
-		operator const TYPE*() const {
-			return data;
-		}
-
+		explicit operator const buffer<OTHERTYPE>() const;
+		operator TYPE*();
+		operator const TYPE*() const;
 		template <typename OTHERTYPE>
-		explicit operator OTHERTYPE*() {
-			return (OTHERTYPE*) data;
-		}
-
+		explicit operator OTHERTYPE*();
 		template <typename OTHERTYPE>
-		explicit operator const OTHERTYPE*() {
-			return (const OTHERTYPE*) data;
-		}
+		explicit operator const OTHERTYPE*();
 
-		buffer<TYPE>& operator=(std::nullptr_t) {
-			size = 0;
-			data = nullptr;
-			return *this;
-		}
-
-		TYPE* begin() {
-			return data;
-		}
-
-		const TYPE* begin() const {
-			return data;
-		}
-
-		TYPE* end() {
-			return data + size;
-		}
-
-		const TYPE* end() const {
-			return data + size;
-		}
+		buffer<TYPE>& operator=(std::nullptr_t);
+		buffer<TYPE>& operator=(const buffer<TYPE>&) = default;
+		buffer<TYPE>& operator=(buffer<TYPE>&&) = default;
 	};
 
 	template <typename TYPE>
-	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer) {
-		stream << "buffer(" << buffer.size << ", " << (void*)buffer.data << ")";
-		return stream;
-	}
+	bool operator==(buffer<TYPE>& buffer, const void* ptr);
+
+	template <typename TYPE>
+	bool operator!=(buffer<TYPE>& buffer, const void* ptr);
+
+	template <typename TYPE>
+	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer);
 }
+
+#include <memory/bufferImpl.h>

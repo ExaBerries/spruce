@@ -1,22 +1,14 @@
 #include <math/vec/vec3d.h>
 
 namespace spruce {
-	vec3d::vec3d() : x(0), y(0), z(0) {
+
+	vec3d::vec3d(double scalar) : x(scalar), y(scalar), z(scalar) {
 	}
 
-	vec3d::vec3d(const vec3d& vector) : x(vector.x), y(vector.y), z(vector.z) {
+	vec3d::vec3d(const vec2d& vector, double z) : x(vector.x), y(vector.y), z(z) {
 	}
 
-	vec3d::vec3d(const double& scalar) : x(scalar), y(scalar), z(scalar) {
-	}
-
-	vec3d::vec3d(const vec2d& vector, const double& z) : x(vector.x), y(vector.y), z(z) {
-	}
-
-	vec3d::vec3d(const double& x, const double& y, const double& z) : x(x), y(y), z(z) {
-	}
-
-	vec3d::~vec3d() {
+	vec3d::vec3d(double x, double y, double z) : x(x), y(y), z(z) {
 	}
 
 	vec3d& vec3d::set(const vec3d& vector) {
@@ -26,7 +18,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec3d& vec3d::set(const double x, const double y, const double z) {
+	vec3d& vec3d::set(double x, double y, double z) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
@@ -91,74 +83,74 @@ namespace spruce {
 		return *this;
 	}
 
-	vec3d& vec3d::add(const double& value) {
+	vec3d& vec3d::add(double value) {
 		x += value;
 		y += value;
 		z += value;
 		return *this;
 	}
 
-	vec3d& vec3d::sub(const double& value) {
+	vec3d& vec3d::sub(double value) {
 		x -= value;
 		y -= value;
 		z -= value;
 		return *this;
 	}
 
-	vec3d& vec3d::scl(const double& value) {
+	vec3d& vec3d::scl(double value) {
 		x *= value;
 		y *= value;
 		z *= value;
 		return *this;
 	}
 
-	vec3d& vec3d::div(const double& value) {
+	vec3d& vec3d::div(double value) {
 		x /= value;
 		y /= value;
 		z /= value;
 		return *this;
 	}
 
-	vec3d operator+(const vec3d left, const vec3d& right) {
+	vec3d operator+(const vec3d& left, const vec3d& right) {
 		double x = left.x + right.x;
 		double y = left.y + right.y;
 		double z = left.z + right.z;
-		return vec3d(x, y, z);
+		return {x, y, z};
 	}
 
-	vec3d operator-(const vec3d left, const vec3d& right) {
+	vec3d operator-(const vec3d& left, const vec3d& right) {
 		double x = left.x - right.x;
 		double y = left.y - right.y;
 		double z = left.z - right.z;
-		return vec3d(x, y, z);
+		return {x, y, z};
 	}
 
-	vec3d operator+(const vec3d left, double value) {
+	vec3d operator+(const vec3d& left, double value) {
 		double x = left.x + value;
 		double y = left.y + value;
 		double z = left.z + value;
-		return vec3d(x, y, z);
+		return {x, y, z};
 	}
 
-	vec3d operator-(const vec3d left, double value) {
+	vec3d operator-(const vec3d& left, double value) {
 		double x = left.x - value;
 		double y = left.y - value;
 		double z = left.z - value;
-		return vec3d(x, y, z);
+		return {x, y, z};
 	}
 
-	vec3d operator*(const vec3d left, double value) {
+	vec3d operator*(const vec3d& left, double value) {
 		double x = left.x * value;
 		double y = left.y * value;
 		double z = left.z * value;
-		return vec3d(x, y, z);
+		return {x, y, z};
 	}
 
-	vec3d operator/(const vec3d left, double value) {
+	vec3d operator/(const vec3d& left, double value) {
 		double x = left.x / value;
 		double y = left.y / value;
 		double z = left.z / value;
-		return vec3d(x, y, z);
+		return {x, y, z};
 	}
 
 	bool vec3d::operator==(const vec3d& vector) const {
@@ -183,28 +175,28 @@ namespace spruce {
 		return *this;
 	}
 
-	vec3d& vec3d::operator+=(const double& value) {
+	vec3d& vec3d::operator+=(double value) {
 		this->x += value;
 		this->y += value;
 		this->z += value;
 		return *this;
 	}
 
-	vec3d& vec3d::operator-=(const double& value) {
+	vec3d& vec3d::operator-=(double value) {
 		this->x -= value;
 		this->y -= value;
 		this->z -= value;
 		return *this;
 	}
 
-	vec3d& vec3d::operator*=(const double& value) {
+	vec3d& vec3d::operator*=(double value) {
 		this->x *= value;
 		this->y *= value;
 		this->z *= value;
 		return *this;
 	}
 
-	vec3d& vec3d::operator/=(const double& value) {
+	vec3d& vec3d::operator/=(double value) {
 		this->x /= value;
 		this->y /= value;
 		this->z /= value;

@@ -2,23 +2,24 @@
 #include <types.h>
 #include <math/vec/vec2d.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 namespace spruce {
 	struct vec3d {
-		double x;
-		double y;
-		double z;
+		double x = 0;
+		double y = 0;
+		double z = 0;
 
-		vec3d();
-		vec3d(const vec3d& vector);
-		vec3d(const double& scalar);
-		vec3d(const vec2d& vector, const double& z);
-		vec3d(const double& x, const double& y, const double& z);
-		~vec3d();
+		vec3d() = default;
+		vec3d(double scalar);
+		vec3d(const vec2d& vector, double z);
+		vec3d(double x, double y, double z);
+		vec3d(const vec3d&) = default;
+		vec3d(vec3d&&) noexcept = default;
+		~vec3d() = default;
 
 		vec3d& set(const vec3d& vector);
-		vec3d& set(const double x, const double y, const double z);
+		vec3d& set(double x, double y, double z);
 
 		double mag2() const;
 		double mag() const;
@@ -31,18 +32,10 @@ namespace spruce {
 		vec3d& add(const vec3d& vector);
 		vec3d& sub(const vec3d& vector);
 
-		vec3d& add(const double& value);
-		vec3d& sub(const double& value);
-		vec3d& scl(const double& value);
-		vec3d& div(const double& value);
-
-		friend vec3d operator+(const vec3d left, const vec3d& right);
-		friend vec3d operator-(const vec3d left, const vec3d& right);
-
-		friend vec3d operator+(const vec3d left, double value);
-		friend vec3d operator-(const vec3d left, double value);
-		friend vec3d operator*(const vec3d left, double value);
-		friend vec3d operator/(const vec3d left, double value);
+		vec3d& add(double value);
+		vec3d& sub(double value);
+		vec3d& scl(double value);
+		vec3d& div(double value);
 
 		bool operator==(const vec3d& vector) const;
 		bool operator!=(const vec3d& vector) const;
@@ -50,15 +43,26 @@ namespace spruce {
 		vec3d& operator+=(const vec3d& vector);
 		vec3d& operator-=(const vec3d& vector);
 
-		vec3d& operator+=(const double& value);
-		vec3d& operator-=(const double& value);
-		vec3d& operator*=(const double& value);
-		vec3d& operator/=(const double& value);
+		vec3d& operator+=(double value);
+		vec3d& operator-=(double value);
+		vec3d& operator*=(double value);
+		vec3d& operator/=(double value);
 
-		friend std::ostream& operator<<(std::ostream& stream, const vec3d& vector);
+		vec3d& operator=(const vec3d&) = default;
+		vec3d& operator=(vec3d&&) noexcept = default;
 
 		static vec3d lerp(const vec3d& a, const vec3d& b, double alpha);
 	};
+
+	vec3d operator+(const vec3d& left, const vec3d& right);
+	vec3d operator-(const vec3d& left, const vec3d& right);
+
+	vec3d operator+(const vec3d& left, double value);
+	vec3d operator-(const vec3d& left, double value);
+	vec3d operator*(const vec3d& left, double value);
+	vec3d operator/(const vec3d& left, double value);
+
+	std::ostream& operator<<(std::ostream& stream, const vec3d& vector);
 }
 
 namespace std {
