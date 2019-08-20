@@ -18,6 +18,8 @@ namespace spruce {
 			//id<MTLDrawable> getDrawable();
 
 			void viewCreated();
+			void setDrawableSize(vec2i size);
+			void setVSync(bool vsync);
 
 			MetalContext& operator=(const MetalContext&) = delete;
 			MetalContext& operator=(MetalContext&&) noexcept = delete;
