@@ -15,7 +15,7 @@ namespace spruce {
 			void commit();
 			void enqueue();
 			void presentDrawable(MetalDrawable* drawable);
-			MetalRenderCommandEncoder* createRenderCommandEncoder(MetalRenderPassDescriptor* descriptor);
+			owner<MetalRenderCommandEncoder> createRenderCommandEncoder(MetalRenderPassDescriptor* descriptor);
 	};
 }
 #endif

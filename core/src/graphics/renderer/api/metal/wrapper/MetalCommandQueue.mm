@@ -10,7 +10,7 @@ namespace spruce {
 		return (__bridge id<MTLCommandQueue>) ptr;
 	}
 
-	MetalCommandBuffer* MetalCommandQueue::createCommandBuffer() {
+	owner<MetalCommandBuffer> MetalCommandQueue::createCommandBuffer() {
 		return new MetalCommandBuffer([castQueue(ptr) commandBuffer]);
 	}
 }

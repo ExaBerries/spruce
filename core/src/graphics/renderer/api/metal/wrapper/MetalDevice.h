@@ -5,7 +5,9 @@
 #include <graphics/renderer/api/metal/wrapper/MetalCommandQueue.h>
 #include <graphics/renderer/api/metal/wrapper/MetalStorageMode.h>
 #include <graphics/renderer/api/metal/wrapper/MetalBuffer.h>
+#include <graphics/renderer/api/metal/wrapper/MetalLibrary.h>
 #include <graphics/renderer/api/metal/wrapper/MetalRenderPipelineState.h>
+#include <graphics/renderer/api/metal/wrapper/MetalRenderPipelineDescriptor.h>
 
 namespace spruce {
 	class MetalDevice : public MetalObj {
@@ -21,11 +23,12 @@ namespace spruce {
 			bool getHeadless();
 			bool getRemoveable();
 
-			MetalCommandQueue* createCommandQueue();
-			MetalBuffer* createMetalBuffer(uint32 length, MetalStorageMode storageMode);
+			owner<MetalCommandQueue> createCommandQueue();
+			owner<MetalBuffer> createMetalBuffer(uint32 length, MetalStorageMode storageMode);
 			void createTexture();
-			void createLibrary();
-			MetalRenderPipelineState* newRenderPipelineState();
+			owner<MetalLibrary> createLibrary(const buffer<uint8>& data);
+			owner<MetalLibrary> createLibrary(const string& text);
+			owner<MetalRenderPipelineState> newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor);
 			void newComputePipelineState();
 
 			MetalDevice& operator=(const MetalDevice&) = delete;

@@ -8,6 +8,10 @@ namespace spruce {
 		return (__bridge id<MTLDevice>) ptr;
 	}
 
+	constexpr MTLRenderPipelineDescriptor* castRPipeDesc(void* ptr) {
+		return (__bridge MTLRenderPipelineDescriptor*) ptr;
+	}
+
 	MetalDevice::MetalDevice() : MetalDevice(MTLCreateSystemDefaultDevice()) {
 	}
 
@@ -34,27 +38,41 @@ namespace spruce {
 		return castDevice(ptr).removable;
 	}
 
-	MetalCommandQueue* MetalDevice::createCommandQueue() {
+	owner<MetalCommandQueue> MetalDevice::createCommandQueue() {
 		return new MetalCommandQueue([castDevice(ptr) newCommandQueue]);
 	}
 
-	MetalBuffer* MetalDevice::createMetalBuffer(uint32 length, MetalStorageMode storageMode) {
+	owner<MetalBuffer> MetalDevice::createMetalBuffer(uint32 length, MetalStorageMode storageMode) {
 		return new MetalBuffer([castDevice(ptr) newBufferWithLength:length options:mapMode(storageMode)]);
 	}
 
 	void MetalDevice::createTexture() {
-
 	}
 
-	void MetalDevice::createLibrary() {
-
+	owner<MetalLibrary> MetalDevice::createLibrary(const buffer<uint8>& data) {
+		NSError* compileError = NULL;
+		dispatch_data_t dispatchData = dispatch_data_create(data, data.size, nil, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+		id<MTLLibrary> library = [castDevice(ptr) newLibraryWithData:dispatchData error:&compileError];
+		if (!library) {
+			NSLog(@"%@", compileError);
+		}
+		dispatch_release(dispatchData);
+		return new MetalLibrary((__bridge void*) library);
 	}
 
-	MetalRenderPipelineState* MetalDevice::newRenderPipelineState() {
-		MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-		NSError* err = nullptr;
-		MetalRenderPipelineState* state = new MetalRenderPipelineState([castDevice(ptr)  newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&err]);
-		[pipelineStateDescriptor release];
+	owner<MetalLibrary> MetalDevice::createLibrary(const string& text) {
+		NSString* objcSource = convertStr(text);
+		NSError* compileError = NULL;
+		id<MTLLibrary> library = [castDevice(ptr) newLibraryWithSource:objcSource options:nil error:&compileError];
+		if (!library) {
+			NSLog(@"%@", compileError);
+		}
+		return new MetalLibrary((__bridge void*) library);
+	}
+
+	owner<MetalRenderPipelineState> MetalDevice::newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor) {
+		NSError* err = NULL;
+		owner<MetalRenderPipelineState> state = new MetalRenderPipelineState([castDevice(ptr) newRenderPipelineStateWithDescriptor:castRPipeDesc(descriptor.ptr) error:&err]);
 		if (state->ptr == nullptr) {
 			NSLog(@"error creating render pipeline state %@", err);
 			return nullptr;

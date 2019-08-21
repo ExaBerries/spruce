@@ -9,4 +9,5 @@
 #include <graphics/renderer/api/metal/wrapper/MetalCommandBuffer.h>
 #include <graphics/renderer/api/metal/wrapper/MetalDrawable.h>
 #include <graphics/renderer/api/metal/wrapper/MetalRenderPipelineState.h>
+#include <graphics/renderer/api/metal/wrapper/MetalLibrary.h>
 #endif

@@ -3,13 +3,6 @@
 #include <graphics/renderer/api/metal/mtlplatform.h>
 
 namespace spruce {
-	MetalRenderCommandEncoder::MetalRenderCommandEncoder(void* ptr) : MetalObj(ptr) {
-	}
-
-	MetalRenderCommandEncoder::~MetalRenderCommandEncoder() {
-		//[release];
-	}
-
 	constexpr id<MTLRenderCommandEncoder> castRCE(void* ptr) {
 		return (__bridge id<MTLRenderCommandEncoder>) ptr;
 	}
@@ -24,6 +17,13 @@ namespace spruce {
 
 	constexpr id<MTLTexture> castTexture(const void* ptr) {
 		return (__bridge id<MTLTexture>) ptr;
+	}
+
+	MetalRenderCommandEncoder::MetalRenderCommandEncoder(void* ptr) : MetalObj(ptr) {
+	}
+
+	MetalRenderCommandEncoder::~MetalRenderCommandEncoder() {
+		//[release];
 	}
 
 	void MetalRenderCommandEncoder::setRenderPipelineState(MetalRenderPipelineState* state) {
