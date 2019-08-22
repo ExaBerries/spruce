@@ -23,7 +23,7 @@ namespace spruce {
 		mat4f& set(const vec3f& translation, const quaternion& rotation, const vec3f& scale);
 		mat4f& set(const vec3f& direction, const vec3f& up);
 
-		float determinate();
+		float determinant();
 		mat4f& invert();
 		mat4f& transpose();
 

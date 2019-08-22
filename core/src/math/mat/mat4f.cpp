@@ -150,7 +150,7 @@ namespace spruce {
 		return *this;
 	}
 
-	float mat4f::determinate() {
+	float mat4f::determinant() {
 		float a = values[0] * (values[5] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[9] * values[15] - values[11] * values[13]) + values[7] * (values[9] * values[14] - values[10] * values[13]));
 		float b = values[1] * (values[4] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[14] - values[10] * values[12]));
 		float c = values[2] * (values[4] * (values[9] * values[15] - values[11] * values[13]) - values[5] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[13] - values[9] * values[12]));
@@ -159,7 +159,7 @@ namespace spruce {
 	}
 
 	mat4f& mat4f::invert() {
-		float det = determinate();
+		float det = determinant();
 		if (det == 0.0) {
 			return *this;
 		}
