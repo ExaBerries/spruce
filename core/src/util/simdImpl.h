@@ -63,12 +63,7 @@ namespace spruce {
 		}
 
 		inline reg4d load1d4d(const double& value) {
-			double val[4];
-			val[0] = value;
-			val[1] = value;
-			val[2] = value;
-			val[3] = value;
-			return _mm256_loadu_pd(val);
+			return _mm256_set1_pd(value);
 		}
 
 		inline void store4d(double& out, const reg4d& reg) {
