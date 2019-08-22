@@ -63,6 +63,8 @@ target_compile_options(spruce PRIVATE
 	-g
 	-Wno-unused-parameter
 	-Wno-deprecated-declarations
+	-mavx2
+	-mfma
 )
 
 target_compile_definitions(spruce PRIVATE

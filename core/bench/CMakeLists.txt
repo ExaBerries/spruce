@@ -11,5 +11,6 @@ target_compile_features(bench PRIVATE cxx_std_17)
 target_compile_options(bench PRIVATE
 	-g
 	-mavx2
+	-mfma
 	-O3
 )

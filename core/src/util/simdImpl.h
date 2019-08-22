@@ -30,6 +30,10 @@ namespace spruce {
 			return _mm_div_ps(a, b);
 		}
 
+		inline reg4f fmadd4f(const reg4f& a, const reg4f& b, const reg4f& c) {
+			return _mm_fmadd_ps(a, b, c);
+		}
+
 		inline reg2d load2d2d(const double& data) {
 			return _mm_load_pd(&data);
 		}
@@ -56,6 +60,34 @@ namespace spruce {
 
 		inline reg2d div2d(const reg2d& a, const reg2d& b) {
 			return _mm_div_pd(a, b);
+		}
+
+		inline reg8f load8f8f(const float& data) {
+			return _mm256_load_ps(&data);
+		}
+
+		inline reg8f load1f8f(const float& value) {
+			return _mm256_set1_ps(value);
+		}
+
+		inline void store8f(float& out, const reg8f& reg) {
+			_mm256_store_ps(&out, reg);
+		}
+
+		inline reg8f add8f(const reg8f& a, const reg8f& b) {
+			return _mm256_add_ps(a, b);
+		}
+
+		inline reg8f sub8f(const reg8f& a, const reg8f& b) {
+			return _mm256_sub_ps(a, b);
+		}
+
+		inline reg8f mul8f(const reg8f& a, const reg8f& b) {
+			return _mm256_mul_ps(a, b);
+		}
+
+		inline reg8f div8f(const reg8f& a, const reg8f& b) {
+			return _mm256_div_ps(a, b);
 		}
 
 		inline reg4d load4d4d(const double& data) {
