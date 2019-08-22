@@ -83,8 +83,9 @@ namespace spruce {
 				break;
 			case app::METAL:
 				this->view = [[MetalView alloc] initWithFrame:viewRect window:this];
+				[window setContentView:this->view];
+				[window makeFirstResponder:this->view];
 				context = new MetalContext(this->view);
-				((MetalContext*)context)->viewCreated();
 				break;
 			default:
 				context = nullptr;
@@ -93,7 +94,9 @@ namespace spruce {
 		}
 		[oldView release];
 		[window update];
-		[window.contentView update];
+		if (api == app::OPENGL) {
+			[window.contentView update];
+		}
 		return context;
 	}
 

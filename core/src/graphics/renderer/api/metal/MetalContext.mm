@@ -5,10 +5,11 @@
 namespace spruce {
 	MetalContext::MetalContext(void* mtlView) {
 		this->mtlView = mtlView;
+		[((MetalView*) mtlView) setDevice:(__bridge id<MTLDevice>) this->device.ptr];
 	}
 
-	void MetalContext::viewCreated() {
-		[((MetalView*) mtlView) setDevice:(__bridge id<MTLDevice>) this->device.ptr];
+	owner<MetalDrawable> MetalContext::getDrawable() {
+		return new MetalDrawable((__bridge void*)[((MetalView*) mtlView) getDrawable]);
 	}
 
 	void MetalContext::setDrawableSize(vec2i size) {

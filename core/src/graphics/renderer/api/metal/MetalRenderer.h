@@ -67,8 +67,8 @@ namespace spruce {
 			matrix.values[7] = 0.0;
 			matrix.values[8] = 0.0;
 			matrix.values[9] = 0.0;
-			matrix.values[10] = (far + near) / (near - far);
-			matrix.values[11] = (2.0 * far * near) / (near - far);
+			matrix.values[10] = far / (near - far);
+			matrix.values[11] = (far * near) / (near - far);
 			matrix.values[12] = 0.0;
 			matrix.values[13] = 0.0;
 			matrix.values[14] = -1.0;

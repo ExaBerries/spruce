@@ -9,14 +9,11 @@
 
 @interface MetalView : SpruceView {
 	CAMetalLayer* mlayer;
-	spruce::vec2i drawableSize;
-	bool vsync;
 }
 - (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)window;
 - (void) setDevice:(id<MTLDevice>)device;
-- (void) update;
 - (id<CAMetalDrawable>) getDrawable;
-- (void)setDrawableSize:(spruce::vec2i)newDrawableSize;
-- (void)setVSync:(bool)newVSync;
+- (void)setDrawableSize:(spruce::vec2i)drawableSize;
+- (void)setVSync:(bool)vsync;
 @end
 #endif

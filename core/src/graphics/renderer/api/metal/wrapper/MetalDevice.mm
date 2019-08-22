@@ -42,11 +42,16 @@ namespace spruce {
 		return new MetalCommandQueue([castDevice(ptr) newCommandQueue]);
 	}
 
-	owner<MetalBuffer> MetalDevice::createMetalBuffer(uint32 length, MetalStorageMode storageMode) {
-		return new MetalBuffer([castDevice(ptr) newBufferWithLength:length options:mapMode(storageMode)]);
+	owner<MetalBuffer> MetalDevice::createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode) {
+		return new MetalBuffer([castDevice(ptr) newBufferWithLength:length options:mapResourceStorageMode(resourceStorageMode)]);
 	}
 
-	void MetalDevice::createTexture() {
+	owner<MetalTexture> MetalDevice::createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage) {
+		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mapPixelFormat(format) width:size.x height:size.y mipmapped:mipmap];
+		desc.resourceOptions = mapResourceStorageMode(resourceStorageMode);
+		desc.storageMode = mapStorageMode(storageMode);
+		desc.usage = mapTextureUsage(usage);
+		return new MetalTexture([castDevice(ptr) newTextureWithDescriptor:desc]);
 	}
 
 	owner<MetalLibrary> MetalDevice::createLibrary(const buffer<uint8>& data) {
@@ -80,8 +85,13 @@ namespace spruce {
 		return state;
 	}
 
-	void MetalDevice::newComputePipelineState() {
-
+	owner<MetalDepthStencilState> MetalDevice::newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite) {
+		MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
+		depthStencilDescriptor.depthCompareFunction = mapCompareFunction(compareFunction);
+		depthStencilDescriptor.depthWriteEnabled = depthWrite;
+		id<MTLDepthStencilState> depthStencilState = [castDevice(ptr) newDepthStencilStateWithDescriptor:depthStencilDescriptor];
+		[depthStencilDescriptor release];
+		return new MetalDepthStencilState(depthStencilState);
 	}
 }
 #endif

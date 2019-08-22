@@ -27,11 +27,11 @@ namespace spruce {
 	}
 
 	void MetalCommandBuffer::presentDrawable(MetalDrawable* drawable) {
-		[castCmdBuffer(ptr) presentDrawable:castDrawable(drawable)];
+		[castCmdBuffer(ptr) presentDrawable:castDrawable(drawable->ptr)];
 	}
 
-	owner<MetalRenderCommandEncoder> MetalCommandBuffer::createRenderCommandEncoder(MetalRenderPassDescriptor* descriptor) {
-		return new MetalRenderCommandEncoder([castCmdBuffer(ptr) renderCommandEncoderWithDescriptor:castRPD(descriptor->ptr)]);
+	owner<MetalRenderCommandEncoder> MetalCommandBuffer::createRenderCommandEncoder(MetalRenderPassDescriptor& descriptor) {
+		return new MetalRenderCommandEncoder([castCmdBuffer(ptr) renderCommandEncoderWithDescriptor:castRPD(descriptor.ptr)]);
 	}
 }
 #endif

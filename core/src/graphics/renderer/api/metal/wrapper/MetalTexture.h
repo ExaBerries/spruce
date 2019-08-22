@@ -7,7 +7,14 @@ namespace spruce {
 	class MetalTexture : public MetalObj {
 		public:
 			MetalTexture(void* ptr);
+			MetalTexture(const MetalTexture&) = delete;
+			MetalTexture(MetalTexture&&) noexcept = delete;
 			~MetalTexture();
+
+			vec2i getSize();
+
+			MetalTexture& operator=(const MetalTexture&) = delete;
+			MetalTexture& operator=(MetalTexture&&) noexcept = delete;
 	};
 }
 #endif

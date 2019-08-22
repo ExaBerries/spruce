@@ -10,4 +10,5 @@
 #include <graphics/renderer/api/metal/wrapper/MetalDrawable.h>
 #include <graphics/renderer/api/metal/wrapper/MetalRenderPipelineState.h>
 #include <graphics/renderer/api/metal/wrapper/MetalLibrary.h>
+#include <graphics/renderer/api/metal/wrapper/MetalTexture.h>
 #endif

@@ -7,23 +7,41 @@
 #include <MetalKit/MetalKit.h>
 
 #include <graphics/renderer/api/metal/wrapper/MetalStorageMode.h>
+#include <graphics/renderer/api/metal/wrapper/MetalResourceStorageMode.h>
 #include <graphics/renderer/api/metal/wrapper/MetalPrimitive.h>
 #include <graphics/renderer/api/metal/wrapper/MetalIndexType.h>
 #include <graphics/renderer/api/metal/wrapper/MetalVertexFormat.h>
 #include <graphics/renderer/api/metal/wrapper/MetalVertexStepFunction.h>
 #include <graphics/renderer/api/metal/wrapper/MetalPixelFormat.h>
+#include <graphics/renderer/api/metal/wrapper/MetalLoadAction.h>
+#include <graphics/renderer/api/metal/wrapper/MetalStoreAction.h>
+#include <graphics/renderer/api/metal/wrapper/MetalTextureUsage.h>
+#include <graphics/renderer/api/metal/wrapper/MetalCompareFunction.h>
 
 namespace spruce {
-	constexpr MTLResourceOptions mapMode(MetalStorageMode mode) {
+	constexpr MTLStorageMode mapStorageMode(MetalStorageMode mode) {
 		switch (mode) {
-			case MetalStorageMode::STORAGE_MODE_SHARED:
+			case MetalStorageMode::SHARED:
 				return MTLStorageModeShared;
-			case MetalStorageMode::STORAGE_MODE_MANAGED:
+			case MetalStorageMode::MANAGED:
 				return MTLStorageModeManaged;
-			case MetalStorageMode::STORAGE_MODE_PRIVATE:
+			case MetalStorageMode::PRIVATE:
 				return MTLStorageModePrivate;
 			default:
 				return MTLStorageModeShared;
+		}
+	}
+
+	constexpr MTLResourceOptions mapResourceStorageMode(MetalResourceStorageMode mode) {
+		switch (mode) {
+			case MetalResourceStorageMode::SHARED:
+				return MTLResourceStorageModeShared;
+			case MetalResourceStorageMode::MANAGED:
+				return MTLResourceStorageModeManaged;
+			case MetalResourceStorageMode::PRIVATE:
+				return MTLResourceStorageModePrivate;
+			default:
+				return MTLResourceStorageModeShared;
 		}
 	}
 
@@ -323,6 +341,81 @@ namespace spruce {
 				return MTLPixelFormatX24_Stencil8;
 			default:
 				return MTLPixelFormatInvalid;
+		}
+	}
+
+	constexpr MTLLoadAction mapLoadAction(MetalLoadAction loadAction) {
+		switch (loadAction) {
+			case MetalLoadAction::DONT_CARE:
+				return MTLLoadActionDontCare;
+			case MetalLoadAction::LOAD:
+				return MTLLoadActionLoad;
+			case MetalLoadAction::CLEAR:
+				return MTLLoadActionClear;
+			default:
+				return MTLLoadActionDontCare;
+		}
+	}
+
+	constexpr MTLStoreAction mapStoreAction(MetalStoreAction storeAction) {
+		switch (storeAction) {
+			case MetalStoreAction::DONT_CARE:
+				return MTLStoreActionDontCare;
+			case MetalStoreAction::STORE:
+				return MTLStoreActionStore;
+			case MetalStoreAction::MULTISAMPLE_RESOLVE:
+				return MTLStoreActionMultisampleResolve;
+			case MetalStoreAction::STORE_AND_MULTISAMPLE_RESOLVE:
+				return MTLStoreActionStoreAndMultisampleResolve;
+			case MetalStoreAction::UNKNOWN:
+				return MTLStoreActionUnknown;
+			case MetalStoreAction::CUSTOM_SAMPLE_DEPTH_STORE:
+				return MTLStoreActionCustomSampleDepthStore;
+			default:
+				return MTLStoreActionDontCare;
+		}
+	}
+
+	inline MTLTextureUsage mapTextureUsage(MetalTextureUsage usage) {
+		MTLTextureUsage mtlUsage = 0;
+		if ((int32)usage & (int32)MetalTextureUsage::UNKNOWN) {
+			mtlUsage |= MTLTextureUsageUnknown;
+		}
+		if ((int32)usage & (int32)MetalTextureUsage::SHADER_READ) {
+			mtlUsage |= MTLTextureUsageShaderRead;
+		}
+		if ((int32)usage & (int32)MetalTextureUsage::SHADER_WRITE) {
+			mtlUsage |= MTLTextureUsageShaderWrite;
+		}
+		if ((int32)usage & (int32)MetalTextureUsage::RENDER_TARGET) {
+			mtlUsage |= MTLTextureUsageRenderTarget;
+		}
+		if ((int32)usage & (int32)MetalTextureUsage::PIXEL_FORMAT_VIEW) {
+			mtlUsage |= MTLTextureUsagePixelFormatView;
+		}
+		return mtlUsage;
+	}
+
+	constexpr MTLCompareFunction mapCompareFunction(MetalCompareFunction func) {
+		switch (func) {
+			case MetalCompareFunction::NEVER:
+				return MTLCompareFunctionNever;
+			case MetalCompareFunction::LESS:
+				return MTLCompareFunctionLess;
+			case MetalCompareFunction::EQUAL:
+				return MTLCompareFunctionEqual;
+			case MetalCompareFunction::LESS_EQUAL:
+				return MTLCompareFunctionLessEqual;
+			case MetalCompareFunction::GREATER:
+				return MTLCompareFunctionGreater;
+			case MetalCompareFunction::NOT_EQUAL:
+				return MTLCompareFunctionNotEqual;
+			case MetalCompareFunction::GREATER_EQUAL:
+				return MTLCompareFunctionGreaterEqual;
+			case MetalCompareFunction::ALWAYS:
+				return MTLCompareFunctionAlways;
+			default:
+				return MTLCompareFunctionAlways;
 		}
 	}
 }

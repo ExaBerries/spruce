@@ -2,6 +2,7 @@
 #ifdef __APPLE__
 #include <graphics/renderer/api/metal/wrapper/MetalObj.h>
 #include <graphics/renderer/api/metal/wrapper/MetalRenderPipelineState.h>
+#include <graphics/renderer/api/metal/wrapper/MetalDepthStencilState.h>
 #include <graphics/renderer/api/metal/wrapper/MetalBuffer.h>
 #include <graphics/renderer/api/metal/wrapper/MetalTexture.h>
 #include <graphics/renderer/api/metal/wrapper/MetalPrimitive.h>
@@ -13,8 +14,9 @@ namespace spruce {
 			MetalRenderCommandEncoder(void* ptr);
 			~MetalRenderCommandEncoder();
 
+			void endEncoding();
 			void setRenderPipelineState(MetalRenderPipelineState* state);
-			void setDepthStencilState();
+			void setDepthStencilState(MetalDepthStencilState* state);
 			void setViewport(vec2d pos, vec2d size, double near, double far);
 
 			void setVertexBuffer(const MetalBuffer* buffer, uint32 offset, uint32 index);

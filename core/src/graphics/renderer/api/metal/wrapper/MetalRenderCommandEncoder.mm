@@ -11,6 +11,10 @@ namespace spruce {
 		return (__bridge id<MTLRenderPipelineState>) ptr;
 	}
 
+	constexpr id<MTLDepthStencilState> castDSS(void* ptr) {
+		return (__bridge id<MTLDepthStencilState>) ptr;
+	}
+
 	constexpr id<MTLBuffer> castBuffer(const void* ptr) {
 		return (__bridge id<MTLBuffer>) ptr;
 	}
@@ -23,15 +27,19 @@ namespace spruce {
 	}
 
 	MetalRenderCommandEncoder::~MetalRenderCommandEncoder() {
-		//[release];
+		[castRCE(ptr) release];
+	}
+
+	void MetalRenderCommandEncoder::endEncoding() {
+		[castRCE(ptr) endEncoding];
 	}
 
 	void MetalRenderCommandEncoder::setRenderPipelineState(MetalRenderPipelineState* state) {
 		[castRCE(ptr) setRenderPipelineState:castRPS(state->ptr)];
 	}
 
-	void MetalRenderCommandEncoder::setDepthStencilState() {
-		//[castRCE(ptr) setDepthStencilState:castDSS(state->ptr)];
+	void MetalRenderCommandEncoder::setDepthStencilState(MetalDepthStencilState* state) {
+		[castRCE(ptr) setDepthStencilState:castDSS(state->ptr)];
 	}
 
 	void MetalRenderCommandEncoder::setViewport(vec2d pos, vec2d size, double near, double far) {

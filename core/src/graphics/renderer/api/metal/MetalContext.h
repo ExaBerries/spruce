@@ -3,6 +3,7 @@
 #include <common.h>
 #include <graphics/renderer/api/APIContext.h>
 #include <graphics/renderer/api/metal/wrapper/MetalDevice.h>
+#include <graphics/renderer/api/metal/wrapper/MetalDrawable.h>
 
 namespace spruce {
 	class MetalContext : public APIContext {
@@ -15,9 +16,7 @@ namespace spruce {
 			MetalContext(MetalContext&&) noexcept = delete;
 			~MetalContext() = default;
 
-			//id<MTLDrawable> getDrawable();
-
-			void viewCreated();
+			owner<MetalDrawable> getDrawable();
 			void setDrawableSize(vec2i size);
 			void setVSync(bool vsync);
 
