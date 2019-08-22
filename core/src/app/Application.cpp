@@ -19,8 +19,12 @@ namespace spruce {
 		engine.setRenderAPI(api);
 	}
 
-	bool Application::supportsAPI(app::API api) {
+	bool Application::supportsAPI(app::API api) const {
 		return engine.supportsAPI(api);
+	}
+
+	const buffer<app::API> Application::getSupportedAPIs() const {
+		return engine.getSupportedAPIs();
 	}
 
 	void Application::setRenderer(RendererAbstractor* renderer) {

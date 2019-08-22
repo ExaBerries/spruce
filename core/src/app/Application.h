@@ -20,7 +20,8 @@ namespace spruce {
 
 			void setFramePipeline(FramePipeline* pipeline);
 			void setRenderAPI(app::API api);
-			bool supportsAPI(app::API api);
+			bool supportsAPI(app::API api) const;
+			const buffer<app::API> getSupportedAPIs() const;
 			void setRenderer(RendererAbstractor* renderer);
 			RendererAbstractor* getRenderer();
 			Window* getWindow();

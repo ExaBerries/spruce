@@ -43,7 +43,7 @@ namespace spruce {
 		if (apiContext != nullptr) {
 			delete apiContext;
 		}
-		apiContext = window->initAPI(app::OPENGL);
+		apiContext = window->initAPI(newAPI);
 	}
 
 	void SpruceEngine::setFramePipeline(owner<FramePipeline> pipeline) {
@@ -62,5 +62,9 @@ namespace spruce {
 
 	bool SpruceEngine::supportsAPI(app::API api) {
 		return appBackend->supportsAPI(api);
+	}
+
+	const buffer<app::API> SpruceEngine::getSupportedAPIs() {
+		return appBackend->supportedAPIs;
 	}
 }

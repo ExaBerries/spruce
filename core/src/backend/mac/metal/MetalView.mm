@@ -11,17 +11,12 @@
 
 - (CALayer*) makeBackingLayer {
 	mlayer = [[CAMetalLayer alloc] init];
-	//mlayer.device = context->device;
 	mlayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
 	mlayer.colorspace = CGColorSpaceCreateDeviceRGB();
 	mlayer.wantsExtendedDynamicRangeContent = YES;
-	//if (spruce::graphics::vsync) {
-		mlayer.displaySyncEnabled = YES;
-	//} else {
-		//mlayer.displaySyncEnabled = NO;
-	//}
+	mlayer.displaySyncEnabled = YES;
 	mlayer.framebufferOnly = YES;
-	//mlayer.drawableSize = CGSizeMake(spruce::graphics::width, spruce::graphics::height);
+	mlayer.drawableSize = CGSizeMake(self.frame.size.width, self.frame.size.height);
 	mlayer.magnificationFilter = kCAFilterNearest;
 	self.layer = mlayer;
 	return mlayer;
@@ -39,17 +34,24 @@
 	return YES;
 }
 
-- (void) update {
-	//mlayer.drawableSize = CGSizeMake(spruce::graphics::width, spruce::graphics::height);
-	//if (spruce::graphics::vsync) {
-		mlayer.displaySyncEnabled = YES;
-	//} else {
-		mlayer.displaySyncEnabled = NO;
-	//}
+- (void) setDevice:(id<MTLDevice>)device {
+	mlayer.device = device;
 }
 
 - (id<CAMetalDrawable>) getDrawable {
 	return [mlayer nextDrawable];
+}
+
+- (void)setDrawableSize:(spruce::vec2i)drawableSize {
+	mlayer.drawableSize = CGSizeMake(drawableSize.x, drawableSize.y);
+}
+
+- (void)setVSync:(bool)vsync {
+	if (vsync) {
+		mlayer.displaySyncEnabled = YES;
+	} else {
+		mlayer.displaySyncEnabled = NO;
+	}
 }
 @end
 #endif

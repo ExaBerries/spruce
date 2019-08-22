@@ -4,6 +4,7 @@
 #include <backend/mac/opengl/OpenGLView.h>
 #include <backend/mac/opengl/CocoaOpenGLContext.h>
 #include <backend/mac/metal/MetalView.h>
+#include <graphics/renderer/api/metal/MetalContext.h>
 #include <backend/mac/objcpp.h>
 #include <log.h>
 
@@ -81,8 +82,10 @@ namespace spruce {
 				context = new CocoaOpenGLContext((OpenGLView*)this->view);
 				break;
 			case app::METAL:
-				context = nullptr;
-				serr("unsupported api");
+				this->view = [[MetalView alloc] initWithFrame:viewRect window:this];
+				[window setContentView:this->view];
+				[window makeFirstResponder:this->view];
+				context = new MetalContext(this->view);
 				break;
 			default:
 				context = nullptr;
@@ -91,7 +94,9 @@ namespace spruce {
 		}
 		[oldView release];
 		[window update];
-		[window.contentView update];
+		if (api == app::OPENGL) {
+			[window.contentView update];
+		}
 		return context;
 	}
 
