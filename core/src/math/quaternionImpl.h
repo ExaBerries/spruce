@@ -5,24 +5,24 @@ namespace spruce {
 		float mag2 = quaternion::mag2();
 		if (mag2 != 0 && mag2 != 1) {
 			float mag = sqrt(mag2);
-			simd::reg4f thisreg = simd::load4f(x);
-			simd::reg4f magreg = simd::load1f(mag);
+			simd::reg4f thisreg = simd::load4f4f(x);
+			simd::reg4f magreg = simd::load1f4f(mag);
 			simd::store4f(x, simd::div4f(thisreg, magreg));
 		}
 		return *this;
 	}
 
 	inline quaternion operator+(const quaternion& left, const quaternion& right) {
-		simd::reg4f l = simd::load4f(left.x);
-		simd::reg4f r = simd::load4f(right.x);
+		simd::reg4f l = simd::load4f4f(left.x);
+		simd::reg4f r = simd::load4f4f(right.x);
 		quaternion out;
 		simd::store4f(out.x, simd::add4f(l, r));
 		return out;
 	}
 
 	inline quaternion operator-(const quaternion& left, const quaternion& right) {
-		simd::reg4f l = simd::load4f(left.x);
-		simd::reg4f r = simd::load4f(right.x);
+		simd::reg4f l = simd::load4f4f(left.x);
+		simd::reg4f r = simd::load4f4f(right.x);
 		quaternion out;
 		simd::store4f(out.x, simd::sub4f(l, r));
 		return out;
@@ -49,15 +49,15 @@ namespace spruce {
 	}
 
 	inline quaternion& quaternion::operator+=(const quaternion& quaternion) {
-		simd::reg4f t = simd::load4f(x);
-		simd::reg4f q = simd::load4f(quaternion.x);
+		simd::reg4f t = simd::load4f4f(x);
+		simd::reg4f q = simd::load4f4f(quaternion.x);
 		simd::store4f(x, simd::add4f(t, q));
 		return *this;
 	}
 
 	inline quaternion& quaternion::operator-=(const quaternion& quaternion) {
-		simd::reg4f t = simd::load4f(x);
-		simd::reg4f q = simd::load4f(quaternion.x);
+		simd::reg4f t = simd::load4f4f(x);
+		simd::reg4f q = simd::load4f4f(quaternion.x);
 		simd::store4f(x, simd::sub4f(t, q));
 		return *this;
 	}

@@ -6,10 +6,11 @@
 namespace spruce {
 	namespace simd {
 		using reg4f = __m128;
+		using reg2d = __m128d;
 		using reg4d = __m256d;
 
-		inline reg4f load4f(const float& data);
-		inline reg4f load1f(const float& value);
+		inline reg4f load4f4f(const float& data);
+		inline reg4f load1f4f(const float& value);
 
 		inline void store4f(float& out, const reg4f& reg);
 
@@ -18,8 +19,18 @@ namespace spruce {
 		inline reg4f mul4f(const reg4f& a, const reg4f& b);
 		inline reg4f div4f(const reg4f& a, const reg4f& b);
 
-		inline reg4d load4d(const double& data);
-		inline reg4d load1d(const double& value);
+		inline reg2d load2d2d(const double& data);
+		inline reg2d load1d2d(const double& value);
+
+		inline void store2d(double& out, const reg2d& reg);
+
+		inline reg2d add2d(const reg2d& a, const reg2d& b);
+		inline reg2d sub2d(const reg2d& a, const reg2d& b);
+		inline reg2d mul2d(const reg2d& a, const reg2d& b);
+		inline reg2d div2d(const reg2d& a, const reg2d& b);
+
+		inline reg4d load4d4d(const double& data);
+		inline reg4d load1d4d(const double& value);
 
 		inline void store4d(double& out, const reg4d& reg);
 
