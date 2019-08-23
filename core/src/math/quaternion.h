@@ -1,10 +1,12 @@
 #pragma once
 #include <types.h>
-#include <iostream>
 #include <math/vec/vec3f.h>
+#include <util/simd.h>
+#include <iostream>
+#include <cmath>
 
 namespace spruce {
-	struct quaternion {
+	struct alignas(alignof(simd::reg4f)) quaternion {
 		float x = 0;
 		float y = 0;
 		float z = 0;
@@ -43,22 +45,14 @@ namespace spruce {
 		static quaternion lerp(const quaternion& a, const quaternion& b, float alpha);
 	};
 
-	quaternion operator+(const quaternion& left, const quaternion& right);
-	quaternion operator-(const quaternion& left, const quaternion& right);
-	quaternion operator*(const quaternion& left, const quaternion& right);
-	quaternion operator/(const quaternion& left, const quaternion& right);
-	vec3f operator*(const quaternion& quaternion, const vec3f& vector);
-	vec3f operator*(const vec3f& vector, const quaternion& quaternion);
+	inline quaternion operator+(const quaternion& left, const quaternion& right);
+	inline quaternion operator-(const quaternion& left, const quaternion& right);
+	inline quaternion operator*(const quaternion& left, const quaternion& right);
+	inline vec3f operator*(const quaternion& quaternion, const vec3f& vector);
+	inline vec3f operator*(const vec3f& vector, const quaternion& quaternion);
 
 	std::ostream& operator<<(std::ostream& stream, const quaternion& quaternion);
 }
 
-namespace std {
-	template <>
-	struct hash<spruce::quaternion> {
-		size_t operator()(const spruce::quaternion& q) const {
-			return std::hash<float>()(q.x) ^ (std::hash<float>()(q.y) << 1) ^ (std::hash<float>()(q.z) << 2) ^ (std::hash<float>()(q.w) << 3);
-		}
-	};
-}
+#include <math/quaternionImpl.h>
 

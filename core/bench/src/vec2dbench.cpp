@@ -1,131 +1,123 @@
 #include <benchmark/benchmark.h>
-#include <math/vec/vec3f.h>
+#include <math/vec/vec2d.h>
 
 using namespace spruce;
 
-static void vec3fConstruct(benchmark::State& state) {
+static void vec2dConstruct(benchmark::State& state) {
 	for (auto _ : state) {
-		vec3f v;
+		vec2d v;
 		benchmark::DoNotOptimize(v);
 	}
 }
-BENCHMARK(vec3fConstruct);
+BENCHMARK(vec2dConstruct);
 
-static void vec3fScale(benchmark::State& state) {
-	vec3f a(4, 4, 4);
+static void vec2dScale(benchmark::State& state) {
+	vec2d a(4, 4);
 	float scale = 2;
 	for (auto _ : state) {
-		vec3f b = a * scale;
+		vec2d b = a * scale;
 		benchmark::DoNotOptimize(b);
 	}
 }
-BENCHMARK(vec3fScale);
+BENCHMARK(vec2dScale);
 
-static void vec3fAddVec(benchmark::State& state) {
-	vec3f a(1, 0, 0);
-	vec3f b(0, 1, 1);
+static void vec2dAddVec(benchmark::State& state) {
+	vec2d a(1, 0);
+	vec2d b(0, 1);
 	for (auto _ : state) {
-		vec3f c = a + b;
+		vec2d c = a + b;
 		benchmark::DoNotOptimize(c);
 	}
 }
-BENCHMARK(vec3fAddVec);
+BENCHMARK(vec2dAddVec);
 
-static void vec3fScaleMulti(benchmark::State& state) {
+static void vec2dScaleMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vec3f vector;
+		vec2d vector;
 		float scale;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].vector.set(i, i, i);
+		data[i].vector.set(i, i);
 		data[i].scale = i;
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
-			vec3f vec = data[i].vector * data[i].scale;
+			vec2d vec = data[i].vector * data[i].scale;
 			benchmark::DoNotOptimize(vec);
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec3fScaleMulti);
+BENCHMARK(vec2dScaleMulti);
 
-static void vec3fAddMulti(benchmark::State& state) {
+static void vec2dAddMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vec3f a;
-		vec3f b;
+		vec2d a;
+		vec2d b;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a.set(i, i, i);
+		data[i].a.set(i, i);
 		data[i].b = i;
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
-			vec3f vec = data[i].a + data[i].b;
+			vec2d vec = data[i].a + data[i].b;
 			benchmark::DoNotOptimize(vec);
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec3fAddMulti);
+BENCHMARK(vec2dAddMulti);
 
-static void vec3fSubMulti(benchmark::State& state) {
+static void vec2dSubMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vec3f a;
-		vec3f b;
+		vec2d a;
+		vec2d b;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a.set(i, i, i);
+		data[i].a.set(i, i);
 		data[i].b = i;
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
-			vec3f vec = data[i].a - data[i].b;
+			vec2d vec = data[i].a - data[i].b;
 			benchmark::DoNotOptimize(vec);
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec3fSubMulti);
-
-static void vec3fCrs(benchmark::State& state) {
-	for (auto _ : state) {
-		vec3f vec(1, 0, 0);
-		vec3f crs = vec.crs(vec3f(0, 1, 0));
-	}
-}
-BENCHMARK(vec3fCrs);
+BENCHMARK(vec2dSubMulti);
 
 #ifdef __APPLE__
 #include <simd/simd.h>
 
-static void vec3fAddMultiMacSys(benchmark::State& state) {
+static void vec2dAddMultiMacSys(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vector_float3 a;
-		vector_float3 b;
+		vector_double2 a;
+		vector_double2 b;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a = {(float)i, (float)i, (float)i};
-		data[i].b = {(float)i, (float)i, (float)i};
+		data[i].a = {(float)i, (float)i};
+		data[i].b = {(float)i, (float)i};
 	}
 	for (auto _ : state) {
 		for (uint64 i = 0; i < NUM; i++) {
-			volatile vector_float3 vec = data[i].a + data[i].b;
+			volatile vector_double2 vec = data[i].a + data[i].b;
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec3fAddMultiMacSys);
+BENCHMARK(vec2dAddMultiMacSys);
 #endif
