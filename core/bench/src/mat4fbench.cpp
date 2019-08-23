@@ -179,7 +179,7 @@ BENCHMARK(mat4fMulVec3fMulti);
 #ifdef __APPLE__
 #include <simd/simd.h>
 
-static void mat4fAddMultiSIMD(benchmark::State& state) {
+static void mat4fAddMultiMacSys(benchmark::State& state) {
 	constexpr uint64 NUM = 10000;
 	struct TestData {
 		matrix_float4x4 a;
@@ -204,9 +204,9 @@ static void mat4fAddMultiSIMD(benchmark::State& state) {
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(mat4fAddMultiSIMD);
+BENCHMARK(mat4fAddMultiMacSys);
 
-static void mat4fMulMultiSIMD(benchmark::State& state) {
+static void mat4fMulMultiMacSys(benchmark::State& state) {
 	constexpr uint64 NUM = 10000;
 	struct TestData {
 		matrix_float4x4 a;
@@ -231,9 +231,9 @@ static void mat4fMulMultiSIMD(benchmark::State& state) {
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(mat4fMulMultiSIMD);
+BENCHMARK(mat4fMulMultiMacSys);
 
-static void mat4fMulVec3fMultiSIMD(benchmark::State& state) {
+static void mat4fMulVec3fMultiMacSys(benchmark::State& state) {
 	constexpr uint64 NUM = 10000;
 	struct TestData {
 		matrix_float4x4 a;
@@ -258,5 +258,5 @@ static void mat4fMulVec3fMultiSIMD(benchmark::State& state) {
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(mat4fMulVec3fMultiSIMD);
+BENCHMARK(mat4fMulVec3fMultiMacSys);
 #endif

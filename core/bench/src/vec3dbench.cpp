@@ -108,7 +108,7 @@ BENCHMARK(vec3dCrs);
 #ifdef __APPLE__
 #include <simd/simd.h>
 
-static void vec3dAddMultiSIMD(benchmark::State& state) {
+static void vec3dAddMultiMacSys(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
 		vector_double3 a;
@@ -127,6 +127,6 @@ static void vec3dAddMultiSIMD(benchmark::State& state) {
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec3dAddMultiSIMD);
+BENCHMARK(vec3dAddMultiMacSys);
 #endif
 

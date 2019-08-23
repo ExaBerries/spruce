@@ -100,7 +100,7 @@ BENCHMARK(vec2dSubMulti);
 #ifdef __APPLE__
 #include <simd/simd.h>
 
-static void vec2dAddMultiSIMD(benchmark::State& state) {
+static void vec2dAddMultiMacSys(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
 		vector_double2 a;
@@ -119,5 +119,5 @@ static void vec2dAddMultiSIMD(benchmark::State& state) {
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec2dAddMultiSIMD);
+BENCHMARK(vec2dAddMultiMacSys);
 #endif
