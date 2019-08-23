@@ -63,14 +63,14 @@ namespace spruce {
 	}
 
 	inline quaternion& quaternion::operator*=(const quaternion& quaternion) {
-		float x = this->w * quaternion.x + this->x * quaternion.w + this->y * quaternion.z - this->z * quaternion.y;
-		float y = this->w * quaternion.y + this->y * quaternion.w + this->z * quaternion.x - this->x * quaternion.z;
-		float z = this->w * quaternion.z + this->z * quaternion.w + this->x * quaternion.y - this->y * quaternion.x;
-		float w = this->w * quaternion.w - this->x * quaternion.x - this->y * quaternion.y - this->z * quaternion.z;
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
+		float tx = this->w * quaternion.x + this->x * quaternion.w + this->y * quaternion.z - this->z * quaternion.y;
+		float ty = this->w * quaternion.y + this->y * quaternion.w + this->z * quaternion.x - this->x * quaternion.z;
+		float tz = this->w * quaternion.z + this->z * quaternion.w + this->x * quaternion.y - this->y * quaternion.x;
+		float tw = this->w * quaternion.w - this->x * quaternion.x - this->y * quaternion.y - this->z * quaternion.z;
+		this->x = tx;
+		this->y = ty;
+		this->z = tz;
+		this->w = tw;
 		return *this;
 	}
 }
