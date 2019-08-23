@@ -1,5 +1,6 @@
 #pragma once
 #include <types.h>
+#include <util/simd.h>
 #include <cmath>
 #include <iostream>
 
@@ -11,8 +12,12 @@ namespace spruce {
 		vec2f() = default;
 		vec2f(float scalar);
 		vec2f(float x, float y);
-		vec2f(const vec2f&) noexcept = default;
+		vec2f(const vec2f&) = default;
+		vec2f(vec2f&&) noexcept = default;
 		~vec2f() = default;
+
+		vec2f& set(float scalar);
+		vec2f& set(float x, float y);
 
 		float mag2() const;
 		float mag() const;
@@ -46,22 +51,15 @@ namespace spruce {
 		static vec2f lerp(const vec2f& a, const vec2f& b, float alpha);
 	};
 
-	vec2f operator+(const vec2f& left, const vec2f& right);
-	vec2f operator-(const vec2f& left, const vec2f& right);
+	inline vec2f operator+(const vec2f& left, const vec2f& right);
+	inline vec2f operator-(const vec2f& left, const vec2f& right);
 
-	vec2f operator+(const vec2f& left, float value);
-	vec2f operator-(const vec2f& left, float value);
-	vec2f operator*(const vec2f& left, float value);
-	vec2f operator/(const vec2f& left, float value);
+	inline vec2f operator+(const vec2f& left, float value);
+	inline vec2f operator-(const vec2f& left, float value);
+	inline vec2f operator*(const vec2f& left, float value);
+	inline vec2f operator/(const vec2f& left, float value);
 
 	std::ostream& operator<<(std::ostream& stream, const vec2f& vector);
 }
 
-namespace std {
-	template <>
-	struct hash<spruce::vec2f> {
-		size_t operator()(const spruce::vec2f& v) const {
-			return std::hash<float>()(v.x) ^ (std::hash<float>()(v.y) << 1);
-		}
-	};
-}
+#include <math/vec/vec2fImpl.h>

@@ -1,14 +1,19 @@
 #pragma once
 #include <types.h>
 #include <math/vec/vec2d.h>
+#include <util/simd.h>
 #include <iostream>
 #include <cmath>
 
 namespace spruce {
-	struct vec3d {
+	struct alignas(alignof(simd::reg4d)) vec3d {
 		double x = 0;
 		double y = 0;
 		double z = 0;
+
+		private:
+		double padding = 0;
+		public:
 
 		vec3d() = default;
 		vec3d(double scalar);
@@ -54,22 +59,20 @@ namespace spruce {
 		static vec3d lerp(const vec3d& a, const vec3d& b, double alpha);
 	};
 
-	vec3d operator+(const vec3d& left, const vec3d& right);
-	vec3d operator-(const vec3d& left, const vec3d& right);
+	inline vec3d operator+(const vec3d& left, const vec3d& right);
+	inline vec3d operator-(const vec3d& left, const vec3d& right);
 
-	vec3d operator+(const vec3d& left, double value);
-	vec3d operator-(const vec3d& left, double value);
-	vec3d operator*(const vec3d& left, double value);
-	vec3d operator/(const vec3d& left, double value);
+	inline vec3d operator+(const vec3d& left, double value);
+	inline vec3d operator-(const vec3d& left, double value);
+	inline vec3d operator*(const vec3d& left, double value);
+	inline vec3d operator/(const vec3d& left, double value);
 
 	std::ostream& operator<<(std::ostream& stream, const vec3d& vector);
 }
 
 namespace std {
 	template <>
-	struct hash<spruce::vec3d> {
-		size_t operator()(const spruce::vec3d& v) const {
-			return std::hash<double>()(v.x) ^ (std::hash<double>()(v.y) << 1) ^ (std::hash<double>()(v.z) << 2);
-		}
-	};
+	struct hash<spruce::vec3d>;
 }
+
+#include <math/vec/vec3dImpl.h>

@@ -54,6 +54,9 @@ namespace spruce {
 		[NSApp setWindowsMenu:windowMenu];
 		[windowMenuItem setSubmenu:windowMenu];
 		[NSApp run];
+		this->supportedAPIs = buffer<app::API>(2);
+		supportedAPIs[0] = app::OPENGL;
+		supportedAPIs[1] = app::METAL;
 	}
 
 	CocoaAppBackend::~CocoaAppBackend() {

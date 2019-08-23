@@ -118,108 +118,12 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f operator+(const vec4f left, const vec4f& right) {
-		float x = left.x + right.x;
-		float y = left.y + right.y;
-		float z = left.z + right.z;
-		float w = left.w + right.w;
-		return {x, y, z, w};
-	}
-
-	vec4f operator-(const vec4f& left, const vec4f& right) {
-		float x = left.x - right.x;
-		float y = left.y - right.y;
-		float z = left.z - right.z;
-		float w = left.w - right.w;
-		return {x, y, z, w};
-	}
-
-	vec4f operator+(const vec4f& left, float value) {
-		float x = left.x + value;
-		float y = left.y + value;
-		float z = left.z + value;
-		float w = left.w + value;
-		return {x, y, z, w};
-	}
-
-	vec4f operator-(const vec4f &left, float value) {
-		float x = left.x - value;
-		float y = left.y - value;
-		float z = left.z - value;
-		float w = left.w - value;
-		return {x, y, z, w};
-	}
-
-	vec4f operator*(const vec4f& left, float value) {
-		float x = left.x * value;
-		float y = left.y * value;
-		float z = left.z * value;
-		float w = left.w * value;
-		return {x, y, z, w};
-	}
-
-	vec4f operator/(const vec4f& left, float value) {
-		float x = left.x / value;
-		float y = left.y / value;
-		float z = left.z / value;
-		float w = left.w / value;
-		return {x, y, z, w};
-	}
-
 	bool vec4f::operator==(const vec4f& vector) const {
 		return (x == vector.x && y == vector.y && z == vector.z && w == vector.w);
 	}
 
 	bool vec4f::operator!=(const vec4f& vector) const {
 		return (x != vector.x || y != vector.y || z != vector.z || w != vector.w);
-	}
-
-	vec4f& vec4f::operator+=(const vec4f& vector) {
-		x += vector.x;
-		y += vector.y;
-		z += vector.z;
-		w += vector.w;
-		return *this;
-	}
-
-	vec4f& vec4f::operator-=(const vec4f& vector) {
-		x -= vector.x;
-		y -= vector.y;
-		z -= vector.z;
-		w -= vector.w;
-		return *this;
-	}
-
-	vec4f& vec4f::operator+=(float value) {
-		x += value;
-		y += value;
-		z += value;
-		w += value;
-		return *this;
-	}
-
-	vec4f& vec4f::operator-=(float value) {
-		x -= value;
-		y -= value;
-		z -= value;
-		w -= value;
-		return *this;
-	}
-
-	vec4f& vec4f::operator*=(float value) {
-		x *= value;
-		y *= value;
-		z *= value;
-		w *= value;
-		return *this;
-	}
-
-	vec4f& vec4f::operator/=(float value) {
-		x /= value;
-		y /= value;
-		z /= value;
-		w /= value;
-		return *this;
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const vec4f& vector) {

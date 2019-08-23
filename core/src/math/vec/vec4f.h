@@ -1,10 +1,12 @@
 #pragma once
 #include <types.h>
 #include <math/vec/vec3f.h>
+#include <util/simd.h>
+#include <iostream>
 #include <cmath>
 
 namespace spruce {
-	class vec4f {
+	class alignas(alignof(simd::reg4f)) vec4f {
 		public:
 			float x = 0;
 			float y = 0;
@@ -55,22 +57,15 @@ namespace spruce {
 			static vec4f lerp(const vec4f& a, const vec4f& b, float alpha);
 	};
 
-	vec4f operator+(const vec4f& left, const vec4f& right);
-	vec4f operator-(const vec4f& left, const vec4f& right);
+	inline vec4f operator+(const vec4f& left, const vec4f& right);
+	inline vec4f operator-(const vec4f& left, const vec4f& right);
 
-	vec4f operator+(const vec4f& left, float value);
-	vec4f operator-(const vec4f& left, float value);
-	vec4f operator*(const vec4f& left, float value);
-	vec4f operator/(const vec4f& left, float value);
+	inline vec4f operator+(const vec4f& left, float value);
+	inline vec4f operator-(const vec4f& left, float value);
+	inline vec4f operator*(const vec4f& left, float value);
+	inline vec4f operator/(const vec4f& left, float value);
 
 	std::ostream& operator<<(std::ostream& stream, const vec4f& vector);
 }
 
-namespace std {
-	template <>
-	struct hash<spruce::vec4f> {
-		size_t operator()(const spruce::vec4f& v) const {
-			return std::hash<float>()(v.x) ^ (std::hash<float>()(v.y) << 1) ^ (std::hash<float>()(v.z) << 2) ^ (std::hash<float>()(v.w) << 3);
-		}
-	};
-}
+#include <math/vec/vec4fImpl.h>

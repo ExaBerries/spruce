@@ -22,9 +22,8 @@ namespace spruce {
 	}
 
 	mat4f::mat4f(const float values[16]) {
-		for (uint8 i = 0; i < 16; i++) {
-			this->values[i] = values[i];
-		}
+		simd::store8f(this->values[0], simd::load8f8f(values[0]));
+		simd::store8f(this->values[8], simd::load8f8f(values[8]));
 	}
 
 	mat4f::mat4f(const vec3f& translation, const quaternion& rotation, const vec3f& scale) {
@@ -74,6 +73,25 @@ namespace spruce {
 		values[15] = 1;
 	}
 
+	mat4f::mat4f(float v0, float v1, float v2, float v3, float v4, float v5, float v6, float v7, float v8, float v9, float v10, float v11, float v12, float v13, float v14, float v15) {
+		values[0] = v0;
+		values[1] = v1;
+		values[2] = v2;
+		values[3] = v3;
+		values[4] = v4;
+		values[5] = v5;
+		values[6] = v6;
+		values[7] = v7;
+		values[8] = v8;
+		values[9] = v9;
+		values[10] = v10;
+		values[11] = v11;
+		values[12] = v12;
+		values[13] = v13;
+		values[14] = v14;
+		values[15] = v15;
+	}
+
 	mat4f& mat4f::setIdentity() {
 		values[0] = 1.0;
 		values[1] = 0.0;
@@ -95,9 +113,8 @@ namespace spruce {
 	}
 
 	mat4f& mat4f::set(const float values[16]) {
-		for (int i = 0; i < 16; i++) {
-			this->values[i] = values[i];
-		}
+		simd::store8f(this->values[0], simd::load8f8f(values[0]));
+		simd::store8f(this->values[8], simd::load8f8f(values[8]));
 		return *this;
 	}
 
@@ -150,55 +167,6 @@ namespace spruce {
 		return *this;
 	}
 
-	float mat4f::determinate() {
-		float a = values[0] * (values[5] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[9] * values[15] - values[11] * values[13]) + values[7] * (values[9] * values[14] - values[10] * values[13]));
-		float b = values[1] * (values[4] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[14] - values[10] * values[12]));
-		float c = values[2] * (values[4] * (values[9] * values[15] - values[11] * values[13]) - values[5] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[13] - values[9] * values[12]));
-		float d = values[3] * (values[4] * (values[9] * values[14] - values[10] * values[13]) - values[5] * (values[8] * values[14] - values[10] * values[12]) + values[6] * (values[8] * values[13] - values[9] * values[12]));
-		return a - b + c - d;
-	}
-
-	mat4f& mat4f::invert() {
-		float det = determinate();
-		if (det == 0.0) {
-			return *this;
-		}
-		float values[16];
-		values[0] = this->values[9] * this->values[14] * this->values[7] - this->values[13] * this->values[10] * this->values[7] + this->values[13] * this->values[6] * this->values[11] - this->values[5] * this->values[14] * this->values[11] - this->values[9] * this->values[6] * this->values[15] + this->values[5] * this->values[10] * this->values[15];
-		values[1] = this->values[13] * this->values[10] * this->values[3] - this->values[9] * this->values[14] * this->values[3] - this->values[13] * this->values[2] * this->values[11] + this->values[1] * this->values[14] * this->values[11] + this->values[9] * this->values[2] * this->values[15] - this->values[1] * this->values[10] * this->values[15];
-		values[2] = this->values[5] * this->values[14] * this->values[3] - this->values[13] * this->values[6] * this->values[3] + this->values[13] * this->values[2] * this->values[7] - this->values[1] * this->values[14] * this->values[7] - this->values[5] * this->values[2] * this->values[15] + this->values[1] * this->values[6] * this->values[15];
-		values[3] = this->values[9] * this->values[6] * this->values[3] - this->values[5] * this->values[10] * this->values[3] - this->values[9] * this->values[2] * this->values[7] + this->values[1] * this->values[10] * this->values[7] + this->values[5] * this->values[2] * this->values[11] - this->values[1] * this->values[6] * this->values[11];
-		values[4] = this->values[12] * this->values[10] * this->values[7] - this->values[8] * this->values[14] * this->values[7] - this->values[12] * this->values[6] * this->values[11] + this->values[4] * this->values[14] * this->values[11] + this->values[8] * this->values[6] * this->values[15] - this->values[4] * this->values[10] * this->values[15];
-		values[5] = this->values[8] * this->values[14] * this->values[3] - this->values[12] * this->values[10] * this->values[3] + this->values[12] * this->values[2] * this->values[11] - this->values[0] * this->values[14] * this->values[11] - this->values[8] * this->values[2] * this->values[15] + this->values[0] * this->values[10] * this->values[15];
-		values[6] = this->values[12] * this->values[6] * this->values[3] - this->values[4] * this->values[14] * this->values[3] - this->values[12] * this->values[2] * this->values[7] + this->values[0] * this->values[14] * this->values[7] + this->values[4] * this->values[2] * this->values[15] - this->values[0] * this->values[6] * this->values[15];
-		values[7] = this->values[4] * this->values[10] * this->values[3] - this->values[8] * this->values[6] * this->values[3] + this->values[8] * this->values[2] * this->values[7] - this->values[0] * this->values[10] * this->values[7] - this->values[4] * this->values[2] * this->values[11] + this->values[0] * this->values[6] * this->values[11];
-		values[8] = this->values[8] * this->values[13] * this->values[7] - this->values[12] * this->values[9] * this->values[7] + this->values[12] * this->values[5] * this->values[11] - this->values[4] * this->values[13] * this->values[11] - this->values[8] * this->values[5] * this->values[15] + this->values[4] * this->values[9] * this->values[15];
-		values[9] = this->values[12] * this->values[9] * this->values[3] - this->values[8] * this->values[13] * this->values[3] - this->values[12] * this->values[1] * this->values[11] + this->values[0] * this->values[13] * this->values[11] + this->values[8] * this->values[1] * this->values[15] - this->values[0] * this->values[9] * this->values[15];
-		values[10] = this->values[4] * this->values[13] * this->values[3] - this->values[12] * this->values[5] * this->values[3] + this->values[12] * this->values[1] * this->values[7] - this->values[0] * this->values[13] * this->values[7] - this->values[4] * this->values[1] * this->values[15] + this->values[0] * this->values[5] * this->values[15];
-		values[11] = this->values[8] * this->values[5] * this->values[3] - this->values[4] * this->values[9] * this->values[3] - this->values[8] * this->values[1] * this->values[7] + this->values[0] * this->values[9] * this->values[7] + this->values[4] * this->values[1] * this->values[11] - this->values[0] * this->values[5] * this->values[11];
-		values[12] = this->values[12] * this->values[9] * this->values[6] - this->values[8] * this->values[13] * this->values[6] - this->values[12] * this->values[5] * this->values[10] + this->values[4] * this->values[13] * this->values[10] + this->values[8] * this->values[5] * this->values[14] - this->values[4] * this->values[9] * this->values[14];
-		values[13] = this->values[8] * this->values[13] * this->values[2] - this->values[12] * this->values[9] * this->values[2] + this->values[12] * this->values[1] * this->values[10] - this->values[0] * this->values[13] * this->values[10] - this->values[8] * this->values[1] * this->values[14] + this->values[0] * this->values[9] * this->values[14];
-		values[14] = this->values[12] * this->values[5] * this->values[2] - this->values[4] * this->values[13] * this->values[2] - this->values[12] * this->values[1] * this->values[6] + this->values[0] * this->values[13] * this->values[6] + this->values[4] * this->values[1] * this->values[14] - this->values[0] * this->values[5] * this->values[14];
-		values[15] = this->values[4] * this->values[9] * this->values[2] - this->values[8] * this->values[5] * this->values[2] + this->values[8] * this->values[1] * this->values[6] - this->values[0] * this->values[9] * this->values[6] - this->values[4] * this->values[1] * this->values[10] + this->values[0] * this->values[5] * this->values[10];
-		this->values[0] = values[0] / det;
-		this->values[1] = values[1] / det;
-		this->values[2] = values[2] / det;
-		this->values[3] = values[3] / det;
-		this->values[4] = values[4] / det;
-		this->values[5] = values[5] / det;
-		this->values[6] = values[6] / det;
-		this->values[7] = values[7] / det;
-		this->values[8] = values[8] / det;
-		this->values[9] = values[9] / det;
-		this->values[12] = values[12] / det;
-		this->values[10] = values[10] / det;
-		this->values[13] = values[13] / det;
-		this->values[14] = values[14] / det;
-		this->values[11] = values[11] / det;
-		this->values[15] = values[15] / det;
-		return *this;
-	}
-
 	mat4f& mat4f::transpose() {
 		float tmp[16];
 		tmp[0] = values[0];
@@ -221,161 +189,6 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f operator+(const mat4f& left, const mat4f& right) {
-		float values[16];
-		values[0] = left.values[0] + right.values[0];
-		values[1] = left.values[1] + right.values[1];
-		values[2] = left.values[2] + right.values[2];
-		values[3] = left.values[3] + right.values[3];
-		values[4] = left.values[4] + right.values[4];
-		values[5] = left.values[5] + right.values[5];
-		values[6] = left.values[6] + right.values[6];
-		values[7] = left.values[7] + right.values[7];
-		values[8] = left.values[8] + right.values[8];
-		values[9] = left.values[9] + right.values[9];
-		values[10] = left.values[10] + right.values[10];
-		values[11] = left.values[11] + right.values[11];
-		values[12] = left.values[12] + right.values[12];
-		values[13] = left.values[13] + right.values[13];
-		values[14] = left.values[14] + right.values[14];
-		values[15] = left.values[15] + right.values[15];
-		return mat4f(values);
-	}
-
-	mat4f operator-(const mat4f& left, const mat4f& right) {
-		float values[16];
-		values[0] = left.values[0] - right.values[0];
-		values[1] = left.values[1] - right.values[1];
-		values[2] = left.values[2] - right.values[2];
-		values[3] = left.values[3] - right.values[3];
-		values[4] = left.values[4] - right.values[4];
-		values[5] = left.values[5] - right.values[5];
-		values[6] = left.values[6] - right.values[6];
-		values[7] = left.values[7] - right.values[7];
-		values[8] = left.values[8] - right.values[8];
-		values[9] = left.values[9] - right.values[9];
-		values[10] = left.values[10] - right.values[10];
-		values[11] = left.values[11] - right.values[11];
-		values[12] = left.values[12] - right.values[12];
-		values[13] = left.values[13] - right.values[13];
-		values[14] = left.values[14] - right.values[14];
-		values[15] = left.values[15] - right.values[15];
-		return mat4f(values);
-	}
-
-	mat4f operator*(const mat4f& left, const mat4f& right) {
-		float values[16];
-		values[0] = left.values[0] * right.values[0] + left.values[1] * right.values[4] + left.values[2] * right.values[8] + left.values[3] * right.values[12];
-		values[1] = left.values[0] * right.values[1] + left.values[1] * right.values[5] + left.values[2] * right.values[9] + left.values[3] * right.values[13];
-		values[2] = left.values[0] * right.values[2] + left.values[1] * right.values[6] + left.values[2] * right.values[10] + left.values[3] * right.values[14];
-		values[3] = left.values[0] * right.values[3] + left.values[1] * right.values[7] + left.values[2] * right.values[11] + left.values[3] * right.values[15];
-		values[4] = left.values[4] * right.values[0] + left.values[5] * right.values[4] + left.values[6] * right.values[8] + left.values[7] * right.values[12];
-		values[5] = left.values[4] * right.values[1] + left.values[5] * right.values[5] + left.values[6] * right.values[9] + left.values[7] * right.values[13];
-		values[6] = left.values[4] * right.values[2] + left.values[5] * right.values[6] + left.values[6] * right.values[10] + left.values[7] * right.values[14];
-		values[7] = left.values[4] * right.values[3] + left.values[5] * right.values[7] + left.values[6] * right.values[11] + left.values[7] * right.values[15];
-		values[8] = left.values[8] * right.values[0] + left.values[9] * right.values[4] + left.values[10] * right.values[8] + left.values[11] * right.values[12];
-		values[9] = left.values[8] * right.values[1] + left.values[9] * right.values[5] + left.values[10] * right.values[9] + left.values[11] * right.values[13];
-		values[10] = left.values[8] * right.values[2] + left.values[9] * right.values[6] + left.values[10] * right.values[10] + left.values[11] * right.values[14];
-		values[11] = left.values[8] * right.values[3] + left.values[9] * right.values[7] + left.values[10] * right.values[11] + left.values[11] * right.values[15];
-		values[12] = left.values[12] * right.values[0] + left.values[13] * right.values[4] + left.values[14] * right.values[8] + left.values[15] * right.values[12];
-		values[13] = left.values[12] * right.values[1] + left.values[13] * right.values[5] + left.values[14] * right.values[9] + left.values[15] * right.values[13];
-		values[14] = left.values[12] * right.values[2] + left.values[13] * right.values[6] + left.values[14] * right.values[10] + left.values[15] * right.values[14];
-		values[15] = left.values[12] * right.values[3] + left.values[13] * right.values[7] + left.values[14] * right.values[11] + left.values[15] * right.values[15];
-		return mat4f(values);
-	}
-
-	vec3f operator*(const vec3f& vector, const mat4f& matrix) {
-		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + matrix.values[3];
-		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + matrix.values[7];
-		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + matrix.values[11];
-		return {x, y, z};
-	}
-
-	vec3f operator*(const mat4f& matrix, const vec3f& vector) {
-		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + matrix.values[3];
-		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + matrix.values[7];
-		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + matrix.values[11];
-		return {x, y, z};
-	}
-
-	vec4f operator*(const vec4f& vector, const mat4f& matrix) {
-		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + vector.w * matrix.values[3];
-		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + vector.w * matrix.values[7];
-		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + vector.w * matrix.values[11];
-		float w = vector.x * matrix.values[12] + vector.y * matrix.values[13] + vector.z * matrix.values[14] + vector.w * matrix.values[15];
-		return {x, y, z, w};
-	}
-
-	vec4f operator*(const mat4f& matrix, const vec4f& vector) {
-		float x = vector.x * matrix.values[0] + vector.y * matrix.values[1] + vector.z * matrix.values[2] + vector.w * matrix.values[3];
-		float y = vector.x * matrix.values[4] + vector.y * matrix.values[5] + vector.z * matrix.values[6] + vector.w * matrix.values[7];
-		float z = vector.x * matrix.values[8] + vector.y * matrix.values[9] + vector.z * matrix.values[10] + vector.w * matrix.values[11];
-		float w = vector.x * matrix.values[12] + vector.y * matrix.values[13] + vector.z * matrix.values[14] + vector.w * matrix.values[15];
-		return {x, y, z, w};
-	}
-
-	mat4f& mat4f::operator+=(const mat4f& matrix) {
-		this->values[0] += matrix.values[0];
-		this->values[1] += matrix.values[1];
-		this->values[2] += matrix.values[2];
-		this->values[3] += matrix.values[3];
-		this->values[4] += matrix.values[4];
-		this->values[5] += matrix.values[5];
-		this->values[6] += matrix.values[6];
-		this->values[7] += matrix.values[7];
-		this->values[8] += matrix.values[8];
-		this->values[9] += matrix.values[9];
-		this->values[10] += matrix.values[10];
-		this->values[11] += matrix.values[11];
-		this->values[12] += matrix.values[12];
-		this->values[13] += matrix.values[13];
-		this->values[14] += matrix.values[14];
-		this->values[15] += matrix.values[15];
-		return *this;
-	}
-
-	mat4f& mat4f::operator-=(const mat4f& matrix) {
-		this->values[0] -= matrix.values[0];
-		this->values[1] -= matrix.values[1];
-		this->values[2] -= matrix.values[2];
-		this->values[3] -= matrix.values[3];
-		this->values[4] -= matrix.values[4];
-		this->values[5] -= matrix.values[5];
-		this->values[6] -= matrix.values[6];
-		this->values[7] -= matrix.values[7];
-		this->values[8] -= matrix.values[8];
-		this->values[9] -= matrix.values[9];
-		this->values[10] -= matrix.values[10];
-		this->values[11] -= matrix.values[11];
-		this->values[12] -= matrix.values[12];
-		this->values[13] -= matrix.values[13];
-		this->values[14] -= matrix.values[14];
-		this->values[15] -= matrix.values[15];
-		return *this;
-	}
-
-	mat4f& mat4f::operator*=(const mat4f& matrix) {
-		float values[16];
-		values[0] = this->values[0] * matrix.values[0] + this->values[1] * matrix.values[4] + this->values[2] * matrix.values[8] + this->values[3] * matrix.values[12];
-		values[1] = this->values[0] * matrix.values[1] + this->values[1] * matrix.values[5] + this->values[2] * matrix.values[9] + this->values[3] * matrix.values[13];
-		values[2] = this->values[0] * matrix.values[2] + this->values[1] * matrix.values[6] + this->values[2] * matrix.values[10] + this->values[3] * matrix.values[14];
-		values[3] = this->values[0] * matrix.values[3] + this->values[1] * matrix.values[7] + this->values[2] * matrix.values[11] + this->values[3] * matrix.values[15];
-		values[4] = this->values[4] * matrix.values[0] + this->values[5] * matrix.values[4] + this->values[6] * matrix.values[8] + this->values[7] * matrix.values[12];
-		values[5] = this->values[4] * matrix.values[1] + this->values[5] * matrix.values[5] + this->values[6] * matrix.values[9] + this->values[7] * matrix.values[13];
-		values[6] = this->values[4] * matrix.values[2] + this->values[5] * matrix.values[6] + this->values[6] * matrix.values[10] + this->values[7] * matrix.values[14];
-		values[7] = this->values[4] * matrix.values[3] + this->values[5] * matrix.values[7] + this->values[6] * matrix.values[11] + this->values[7] * matrix.values[15];
-		values[8] = this->values[8] * matrix.values[0] + this->values[9] * matrix.values[4] + this->values[10] * matrix.values[8] + this->values[11] * matrix.values[12];
-		values[9] = this->values[8] * matrix.values[1] + this->values[9] * matrix.values[5] + this->values[10] * matrix.values[9] + this->values[11] * matrix.values[13];
-		values[10] = this->values[8] * matrix.values[2] + this->values[9] * matrix.values[6] + this->values[10] * matrix.values[10] + this->values[11] * matrix.values[14];
-		values[11] = this->values[8] * matrix.values[3] + this->values[9] * matrix.values[7] + this->values[10] * matrix.values[11] + this->values[11] * matrix.values[15];
-		values[12] = this->values[12] * matrix.values[0] + this->values[13] * matrix.values[4] + this->values[14] * matrix.values[8] + this->values[15] * matrix.values[12];
-		values[13] = this->values[12] * matrix.values[1] + this->values[13] * matrix.values[5] + this->values[14] * matrix.values[9] + this->values[15] * matrix.values[13];
-		values[14] = this->values[12] * matrix.values[2] + this->values[13] * matrix.values[6] + this->values[14] * matrix.values[10] + this->values[15] * matrix.values[14];
-		values[15] = this->values[12] * matrix.values[3] + this->values[13] * matrix.values[7] + this->values[14] * matrix.values[11] + this->values[15] * matrix.values[15];
-		memcpy(this->values, values, sizeof(float) * 16);
-		return *this;
-	}
-
 	bool mat4f::operator==(const mat4f& matrix) const {
 		for (uint8 i = 0; i < 16; i++) {
 			if (values[i] != matrix.values[i]) {
@@ -388,9 +201,7 @@ namespace spruce {
 	bool mat4f::operator!=(const mat4f& matrix) const {
 		for (uint8 i = 0; i < 16; i++) {
 			if (values[i] != matrix.values[i]) {
-				if (values[i] != matrix.values[i]) {
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;

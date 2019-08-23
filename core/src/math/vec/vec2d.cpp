@@ -7,6 +7,18 @@ namespace spruce {
 	vec2d::vec2d(double x, double y) : x(x), y(y) {
 	}
 
+	vec2d& vec2d::set(double scalar) {
+		x = scalar;
+		y = scalar;
+		return *this;
+	}
+
+	vec2d& vec2d::set(double x, double y) {
+		this->x = x;
+		this->y = y;
+		return *this;
+	}
+
 	double vec2d::mag2() const {
 		return x * x + y * y;
 	}
@@ -75,84 +87,12 @@ namespace spruce {
 		return *this;
 	}
 
-	vec2d operator+(const vec2d& left, const vec2d& right) {
-		float x = left.x + right.x;
-		float y = left.y + right.y;
-		return {x, y};
-	}
-
-	vec2d operator-(const vec2d& left, const vec2d& right) {
-		float x = left.x - right.x;
-		float y = left.y - right.y;
-		return {x, y};
-	}
-
-	vec2d operator+(const vec2d& left, double value) {
-		float x = left.x + value;
-		float y = left.y + value;
-		return {x, y};
-	}
-
-	vec2d operator-(const vec2d left, double value) {
-		float x = left.x - value;
-		float y = left.y - value;
-		return {x, y};
-	}
-
-	vec2d operator*(const vec2d left, double value) {
-		float x = left.x * value;
-		float y = left.y * value;
-		return {x, y};
-	}
-
-	vec2d operator/(const vec2d left, double value) {
-		float x = left.x / value;
-		float y = left.y / value;
-		return {x, y};
-	}
-
 	bool vec2d::operator==(const vec2d& vector) const {
 		return (x == vector.x && y == vector.y);
 	}
 
 	bool vec2d::operator!=(const vec2d& vector) const {
 		return (x != vector.x || y != vector.x);
-	}
-
-	vec2d& vec2d::operator+=(const vec2d& vector) {
-		this->x += vector.x;
-		this->y += vector.y;
-		return *this;
-	}
-
-	vec2d& vec2d::operator-=(const vec2d& vector) {
-		this->x -= vector.x;
-		this->y -= vector.y;
-		return *this;
-	}
-
-	vec2d& vec2d::operator+=(double value) {
-		this->x += value;
-		this->y += value;
-		return *this;
-	}
-
-	vec2d& vec2d::operator-=(double value) {
-		this->x -= value;
-		this->y -= value;
-		return *this;
-	}
-
-	vec2d& vec2d::operator*=(double value) {
-		this->x *= value;
-		this->y *= value;
-		return *this;
-	}
-
-	vec2d& vec2d::operator/=(double value) {
-		this->x /= value;
-		this->y /= value;
-		return *this;
 	}
 
 	std::ostream& operator<<(std::ostream& stream, const vec2d& vector) {

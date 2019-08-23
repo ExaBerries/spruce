@@ -1,10 +1,11 @@
 #pragma once
 #include <types.h>
-#include <log.h>
+#include <util/simd.h>
+#include <iostream>
 #include <cmath>
 
 namespace spruce {
-	struct vec2d {
+	struct alignas(alignof(simd::reg2d)) vec2d {
 		double x = 0;
 		double y = 0;
 
@@ -14,6 +15,9 @@ namespace spruce {
 		vec2d(const vec2d&) = default;
 		vec2d(vec2d&&) noexcept = default;
 		~vec2d() = default;
+
+		vec2d& set(double scalar);
+		vec2d& set(double x, double y);
 
 		double mag2() const;
 		double mag() const;
@@ -47,22 +51,15 @@ namespace spruce {
 		static vec2d lerp(const vec2d& a, const vec2d& b, double alpha);
 	};
 
-	vec2d operator+(const vec2d& left, const vec2d& right);
-	vec2d operator-(const vec2d& left, const vec2d& right);
+	inline vec2d operator+(const vec2d& left, const vec2d& right);
+	inline vec2d operator-(const vec2d& left, const vec2d& right);
 
-	vec2d operator+(const vec2d& left, double value);
-	vec2d operator-(const vec2d& left, double value);
-	vec2d operator*(const vec2d& left, double value);
-	vec2d operator/(const vec2d& left, double value);
+	inline vec2d operator+(const vec2d& left, double value);
+	inline vec2d operator-(const vec2d& left, double value);
+	inline vec2d operator*(const vec2d& left, double value);
+	inline vec2d operator/(const vec2d& left, double value);
 
 	std::ostream& operator<<(std::ostream& stream, const vec2d& vector);
 }
 
-namespace std {
-	template <>
-	struct hash<spruce::vec2d> {
-		size_t operator()(const spruce::vec2d& v) const {
-			return std::hash<double>()(v.x) ^ (std::hash<double>()(v.y) << 1);
-		}
-	};
-}
+#include <math/vec/vec2dImpl.h>
