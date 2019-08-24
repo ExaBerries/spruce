@@ -95,3 +95,16 @@ TEST(Mat4fTest, transpose) {
 	EXPECT_EQ(b, expected);
 }
 
+
+TEST(Mat4fTest, transformVec3f) {
+	mat4f m = {{0, 4, 0}, {}, {2, 1, 2}};
+	vec3f v = {8, 2.2, 7};
+	EXPECT_EQ(m * v, vec3f(16, 6.2, 14));
+}
+
+TEST(Mat4fTest, transformVec4f) {
+	mat4f m = {{0, 4, 0}, {}, {2, 1, 2}};
+	vec4f v = {8, 2.2, 7, 1};
+	EXPECT_EQ(m * v, vec4f(16, 6.2, 14, 1));
+}
+

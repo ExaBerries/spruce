@@ -39,6 +39,28 @@ namespace spruce {
 		return *this;
 	}
 
+	inline mat4f& mat4f::transpose() {
+		float tmp[16];
+		tmp[0] = values[0];
+		tmp[1] = values[4];
+		tmp[2] = values[8];
+		tmp[3] = values[12];
+		tmp[4] = values[1];
+		tmp[5] = values[5];
+		tmp[6] = values[9];
+		tmp[7] = values[13];
+		tmp[8] = values[2];
+		tmp[9] = values[6];
+		tmp[10] = values[10];
+		tmp[11] = values[14];
+		tmp[12] = values[3];
+		tmp[13] = values[7];
+		tmp[14] = values[11];
+		tmp[15] = values[15];
+		memcpy(&values, &tmp, 16 * sizeof(float));
+		return *this;
+	}
+
 	inline mat4f operator+(const mat4f& left, const mat4f& right) {
 		float values[16];
 		simd::reg8f la = simd::load8f8f(left.values[0]);
@@ -111,58 +133,132 @@ namespace spruce {
 	}
 
 	inline vec3f operator*(const vec3f& vector, const mat4f& matrix) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f c0 = simd::load4f4f(tmp[0]);
+		simd::reg4f c1 = simd::load4f4f(tmp[4]);
+		simd::reg4f c2 = simd::load4f4f(tmp[8]);
+		simd::reg4f c3 = simd::load4f4f(tmp[12]);
 		simd::reg4f x = simd::load1f4f(vector.x);
 		simd::reg4f y = simd::load1f4f(vector.y);
 		simd::reg4f z = simd::load1f4f(vector.z);
-		simd::reg4f p1 = simd::mul4f(x, r0);
-		simd::reg4f p2 = simd::fmadd4f(y, r1, p1);
-		simd::reg4f p3 = simd::mul4f(z, r2);
+		simd::reg4f w = simd::load1f4f(1);
+		simd::reg4f p1 = simd::mul4f(x, c0);
+		simd::reg4f p2 = simd::fmadd4f(y, c1, p1);
+		simd::reg4f p3 = simd::mul4f(z, c2);
+		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
-		simd::store4f(vec[0], simd::add4f(p2, p3));
+		simd::store4f(vec[0], simd::add4f(p2, p4));
 		return *((vec3f*)vec);
 	}
 
 	inline vec3f operator*(const mat4f& matrix, const vec3f& vector) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f c0 = simd::load4f4f(tmp[0]);
+		simd::reg4f c1 = simd::load4f4f(tmp[4]);
+		simd::reg4f c2 = simd::load4f4f(tmp[8]);
+		simd::reg4f c3 = simd::load4f4f(tmp[12]);
 		simd::reg4f x = simd::load1f4f(vector.x);
 		simd::reg4f y = simd::load1f4f(vector.y);
 		simd::reg4f z = simd::load1f4f(vector.z);
-		simd::reg4f p1 = simd::mul4f(x, r0);
-		simd::reg4f p2 = simd::fmadd4f(y, r1, p1);
-		simd::reg4f p3 = simd::mul4f(z, r2);
+		simd::reg4f w = simd::load1f4f(1);
+		simd::reg4f p1 = simd::mul4f(x, c0);
+		simd::reg4f p2 = simd::fmadd4f(y, c1, p1);
+		simd::reg4f p3 = simd::mul4f(z, c2);
+		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
-		simd::store4f(vec[0], simd::add4f(p2, p3));
+		simd::store4f(vec[0], simd::add4f(p2, p4));
 		return *((vec3f*)vec);
 	}
 
 	inline vec4f operator*(const vec4f& vector, const mat4f& matrix) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
-		simd::reg4f r3 = simd::load4f4f(matrix.values[12]);
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f c0 = simd::load4f4f(tmp[0]);
+		simd::reg4f c1 = simd::load4f4f(tmp[4]);
+		simd::reg4f c2 = simd::load4f4f(tmp[8]);
+		simd::reg4f c3 = simd::load4f4f(tmp[12]);
 		simd::reg4f x = simd::load1f4f(vector.x);
 		simd::reg4f y = simd::load1f4f(vector.y);
 		simd::reg4f z = simd::load1f4f(vector.z);
 		simd::reg4f w = simd::load1f4f(vector.w);
-		simd::reg4f p1 = simd::mul4f(x, r0);
-		simd::reg4f p2 = simd::fmadd4f(y, r1, p1);
-		simd::reg4f p3 = simd::mul4f(z, r2);
-		simd::reg4f p4 = simd::fmadd4f(w, r3, p3);
+		simd::reg4f p1 = simd::mul4f(x, c0);
+		simd::reg4f p2 = simd::fmadd4f(y, c1, p1);
+		simd::reg4f p3 = simd::mul4f(z, c2);
+		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
 		simd::store4f(vec[0], simd::add4f(p2, p4));
 		return *((vec4f*)vec);
 	}
 
 	inline vec4f operator*(const mat4f& matrix, const vec4f& vector) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
-		simd::reg4f r3 = simd::load4f4f(matrix.values[12]);
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f r0 = simd::load4f4f(tmp[0]);
+		simd::reg4f r1 = simd::load4f4f(tmp[4]);
+		simd::reg4f r2 = simd::load4f4f(tmp[8]);
+		simd::reg4f r3 = simd::load4f4f(tmp[12]);
 		simd::reg4f x = simd::load1f4f(vector.x);
 		simd::reg4f y = simd::load1f4f(vector.y);
 		simd::reg4f z = simd::load1f4f(vector.z);

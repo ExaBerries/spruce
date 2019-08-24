@@ -167,28 +167,6 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f& mat4f::transpose() {
-		float tmp[16];
-		tmp[0] = values[0];
-		tmp[1] = values[4];
-		tmp[2] = values[8];
-		tmp[3] = values[12];
-		tmp[4] = values[1];
-		tmp[5] = values[5];
-		tmp[6] = values[9];
-		tmp[7] = values[13];
-		tmp[8] = values[2];
-		tmp[9] = values[6];
-		tmp[10] = values[10];
-		tmp[11] = values[14];
-		tmp[12] = values[3];
-		tmp[13] = values[7];
-		tmp[14] = values[11];
-		tmp[15] = values[15];
-		memcpy(&values, &tmp, 16 * sizeof(float));
-		return *this;
-	}
-
 	bool mat4f::operator==(const mat4f& matrix) const {
 		for (uint8 i = 0; i < 16; i++) {
 			if (values[i] != matrix.values[i]) {
