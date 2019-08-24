@@ -34,6 +34,11 @@ namespace spruce {
 			return _mm_fmadd_ps(a, b, c);
 		}
 
+		template <int32 m0, int32 m1, int32 m2, int32 m3>
+		inline reg4f shuffle4f(const reg4f& a, const reg4f& b) {
+			return _mm_shuffle_ps(a, b, _MM_SHUFFLE(m0, m1, m2, m3));
+		}
+
 		inline reg2d load2d2d(const double& data) {
 			return _mm_load_pd(&data);
 		}

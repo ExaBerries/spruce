@@ -20,6 +20,8 @@ namespace spruce {
 		inline reg4f mul4f(const reg4f& a, const reg4f& b);
 		inline reg4f div4f(const reg4f& a, const reg4f& b);
 		inline reg4f fmadd4f(const reg4f& a, const reg4f& b, const reg4f& c);
+		template <int32 m0, int32 m1, int32 m2, int32 m3>
+		inline reg4f shuffle4f(const reg4f& a, const reg4f& b);
 
 		inline reg2d load2d2d(const double& data);
 		inline reg2d load1d2d(const double& value);
