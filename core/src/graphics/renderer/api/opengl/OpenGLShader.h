@@ -15,8 +15,8 @@ namespace spruce {
 				OpenGLShader(const OpenGLShader&) = delete;
 				~OpenGLShader();
 
-				void compileSPIRV(buffer<uint8> vertData, buffer<uint8> fragData);
-				void compileSource(string vertStr, string fragData);
+				void compileSPIRV(const buffer<uint8>& vertData, const buffer<uint8>& fragData);
+				void compileSource(const string& vertStr, const string& fragData);
 				void createProgram();
 				void bindAttribLocation(uint16 location, string name);
 				void bind();

@@ -14,7 +14,7 @@ namespace spruce {
 			glDeleteProgram(program);
 		}
 
-		void OpenGLShader::compileSPIRV(buffer<uint8> vertData, buffer<uint8> fragData) {
+		void OpenGLShader::compileSPIRV(const buffer<uint8>& vertData, const buffer<uint8>& fragData) {
 			vertShader = glCreateShader(GL_VERTEX_SHADER);
 			glShaderBinary(1, &vertShader, GL_SHADER_BINARY_FORMAT_SPIR_V, vertData, vertData.size);
 			glSpecializeShader(vertShader, "main", 0, nullptr, nullptr);
@@ -28,6 +28,7 @@ namespace spruce {
 				serr("failed to specialize vertex shader:");
 				serr(errorLog);
 				glDeleteShader(vertShader);
+				errorLog.free();
 				return;
 			}
 
@@ -44,11 +45,12 @@ namespace spruce {
 				serr("failed to specialize fragment shader:");
 				serr(errorLog);
 				glDeleteShader(fragShader);
+				errorLog.free();
 				return;
 			}
 		}
 
-		void OpenGLShader::compileSource(string vertStr, string fragStr) {
+		void OpenGLShader::compileSource(const string& vertStr, const string& fragStr) {
 			const char* vertCStr = vertStr.c_str();
 			vertShader = glCreateShader(GL_VERTEX_SHADER);
 			glShaderSource(vertShader, 1, &vertCStr, nullptr);
@@ -63,6 +65,7 @@ namespace spruce {
 				serr("failed to compile vertex shader:");
 				slog(errorLog);
 				glDeleteShader(vertShader);
+				errorLog.free();
 				return;
 			}
 
@@ -80,6 +83,7 @@ namespace spruce {
 				serr("failed to compile fragment shader:");
 				serr(errorLog);
 				glDeleteShader(fragShader);
+				errorLog.free();
 				return;
 			}
 		}
@@ -101,6 +105,7 @@ namespace spruce {
 				glDeleteProgram(program);
 				glDeleteShader(vertShader);
 				glDeleteShader(fragShader);
+				errorLog.free();
 				return;
 			}
 			glValidateProgram(program);
