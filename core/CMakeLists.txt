@@ -10,6 +10,8 @@ if(APPLE) # mac
 file(GLOB_RECURSE OBJC_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/*.mm
 )
+else()
+	set(OBJCPP_SOURCE_FILES "")
 endif()
 
 add_library(spruce STATIC ${SOURCE_FILES} ${OBJC_SOURCE_FILES})
@@ -20,22 +22,76 @@ set_target_properties(spruce PROPERTIES
 	LINKER_LANGUAGE CXX
 )
 
-target_link_libraries(spruce PRIVATE
+set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+set(pkg_config "${generated_dir}/${PROJECT_NAME}.pc")
+set(targets_export_name "${PROJECT_NAME}Targets")
+set(namespace "${PROJECT_NAME}::")
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+	"${version_config}"
+	VERSION ${PACKAGE_VERSION}
+	COMPATIBILITY AnyNewerVersion
+)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in" "${project_config}" @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/spruce.pc.in" "${pkg_config}" @ONLY)
+
+install(
+	TARGETS spruce
+	EXPORT ${targets_export_name}
+	LIBRARY DESTINATION "lib"
+	ARCHIVE DESTINATION "lib"
+	INCLUDES DESTINATION "include"
+)
+
+install(
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+	DESTINATION "include"
+	FILES_MATCHING PATTERN "*.h"
+)
+
+install(
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/"
+	DESTINATION "include/${PROJECT_NAME}"
+	FILES_MATCHING PATTERN "*.h"
+)
+
+install(
+	FILES "${project_config}" "${version_config}"
+	DESTINATION "lib/cmake/${PROJECT_NAME}"
+)
+
+install(
+	FILES "${pkg_config}"
+	DESTINATION "lib/pkgconfig"
+)
+
+install(
+	EXPORT "${targets_export_name}"
+	NAMESPACE "${namespace}"
+	DESTINATION "lib/cmake/${PROJECT_NAME}"
+)
+
+target_link_libraries(spruce PUBLIC
 	freetype
 	freeimage
 )
 
 if(APPLE) # mac
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
-	-framework Metal\
-	-framework OpenGL\
-	-framework Cocoa\
-	-framework Quartz\
-")
+target_link_options(spruce PUBLIC
+	"SHELL:-framework Metal"
+	"SHELL:-framework OpenGL"
+	"SHELL:-framework Cocoa"
+	"SHELL:-framework Quartz"
+)
+SET(CMAKE_AR llvm-ar)
+SET(CMAKE_RANLIB llvm-ranlib)
 endif()
 
 if(UNIX AND NOT APPLE) # linux
-target_link_libraries(spruce PRIVATE
+target_link_libraries(spruce PUBLIC
 	X11
 	vulkan
 	GL
@@ -47,33 +103,41 @@ endif()
 
 target_include_directories(spruce
 	PUBLIC
-		$<INSTALL_INTERFACE:include>
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+		$<INSTALL_INTERFACE:include>
+		$<INSTALL_INTERFACE:include/spruce>
 		${FREETYPE_INCLUDE_DIRS}
 	PRIVATE
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_compile_features(spruce PRIVATE cxx_std_17)
-
-target_compile_options(spruce PRIVATE
-	-Wall
-	-Wextra
-	-pedantic
-	-g
-	-Wno-unused-parameter
-	-Wno-deprecated-declarations
-	-mavx2
-	-mfma
+target_compile_features(spruce PUBLIC
+	cxx_std_17
 )
 
-target_compile_definitions(spruce PRIVATE
-	DEBUG
+target_compile_options(spruce
+	PUBLIC
+		-mavx2
+		-mfma
+		-fno-strict-aliasing
+		-fno-cxx-exceptions
+		-fno-rtti
+	PRIVATE
+		-Wall
+		-Wextra
+		-Wpedantic
+		-Wno-unused-parameter
+		-Wno-deprecated-declarations
+		$<$<CONFIG:Debug>:-Og>
+		$<$<CONFIG:Release>:-O3>
+		$<$<CONFIG:Release>:-Werror>
+		$<$<CONFIG:Release>:-Wno-error-\#-warnings>
 )
-if(APPLE) # mac
-SET(CMAKE_AR llvm-ar)
-SET(CMAKE_RANLIB llvm-ranlib)
-endif()
+
+target_compile_definitions(spruce PUBLIC
+	$<$<CONFIG:DEBUG>:DEBUG>
+	GL_SILENCE_DEPRECATION
+)
 
 add_subdirectory(test)
 add_subdirectory(bench)
