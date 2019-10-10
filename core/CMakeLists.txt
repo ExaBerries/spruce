@@ -115,6 +115,9 @@ target_compile_features(spruce PUBLIC
 	cxx_std_17
 )
 
+set_source_files_properties(${OBJC_SOURCE_FILES} PROPERTIES COMPILE_FLAGS -Wno-old-style-cast)
+set_source_files_properties(../core/src/graphics/Font.cpp PROPERTIES COMPILE_FLAGS -Wno-old-style-cast)
+
 target_compile_options(spruce
 	PUBLIC
 		-mavx2
@@ -126,13 +129,22 @@ target_compile_options(spruce
 		-Wall
 		-Wextra
 		-Wpedantic
-		-Wno-unused-parameter
 		-Wno-deprecated-declarations
+		-Wnon-virtual-dtor
+		-Wold-style-cast
+		-Wcast-align
+		-Wunused
+		-Woverloaded-virtual
+		-Wconversion
+		-Wsign-conversion
+		-Wdouble-promotion
+		-Wformat=2
 		$<$<CONFIG:Debug>:-Og>
 		$<$<CONFIG:Release>:-O3>
 		$<$<CONFIG:Release>:-Werror>
 		$<$<CONFIG:Release>:-Wno-error-\#-warnings>
 )
+
 
 target_compile_definitions(spruce PUBLIC
 	$<$<CONFIG:DEBUG>:DEBUG>

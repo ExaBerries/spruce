@@ -30,9 +30,9 @@ namespace spruce {
 				FIBITMAP* bitmap = FreeImage_ConvertTo32Bits(temp);
 				FreeImage_Unload(temp);
 				uint8* pixels = FreeImage_GetBits(bitmap);
-				width = FreeImage_GetWidth(bitmap);
-				height = FreeImage_GetHeight(bitmap);
-				bitsPerPixel = FreeImage_GetBPP(bitmap);
+				width = static_cast<uint16>(FreeImage_GetWidth(bitmap));
+				height = static_cast<uint16>(FreeImage_GetHeight(bitmap));
+				bitsPerPixel = static_cast<uint16>(FreeImage_GetBPP(bitmap));
 				const uint64 size = width * height * bitsPerPixel / 8;
 				buffer<uint8> data(size);
 				memcpy(data, pixels, size);

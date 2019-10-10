@@ -10,7 +10,7 @@ namespace spruce {
 		}
 		#endif
 		this->size = size;
-		this->data = (TYPE*) std::malloc(size * sizeof(TYPE));
+		this->data = static_cast<TYPE*>(std::malloc(size * sizeof(TYPE)));
 		new (data) TYPE[size];
 	}
 
@@ -36,7 +36,7 @@ namespace spruce {
 		#endif
 		free();
 		this->size = newSize;
-		this->data = (TYPE*) std::malloc(newSize * sizeof(TYPE));
+		this->data = static_cast<TYPE*>(std::malloc(newSize * sizeof(TYPE)));
 	}
 
 	template <typename TYPE>
@@ -45,7 +45,7 @@ namespace spruce {
 			return;
 		}
 		for (uint64 i = 0; i < size; i++) {
-			(((TYPE*)data) + i)->~TYPE();
+			(static_cast<TYPE*>(data) + i)->~TYPE();
 		}
 		std::free(data);
 		data = nullptr;
@@ -98,7 +98,7 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	buffer<TYPE>::operator buffer<OTHERTYPE>() {
-		buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), (OTHERTYPE*) data);
+		buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), reinterpret_cast<OTHERTYPE*>(data));
 		return buff;
 	}
 
@@ -106,7 +106,7 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	buffer<TYPE>::operator const buffer<OTHERTYPE>() const {
-		const buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), (OTHERTYPE*) data);
+		const buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), reinterpret_cast<OTHERTYPE*>(data));
 		return buff;
 	}
 
@@ -123,13 +123,13 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	buffer<TYPE>::operator OTHERTYPE*() {
-		return (OTHERTYPE*) data;
+		return static_cast<OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	buffer<TYPE>::operator const OTHERTYPE*() {
-		return (const OTHERTYPE*) data;
+		return static_cast<const OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE>
@@ -151,7 +151,7 @@ namespace spruce {
 
 	template <typename TYPE>
 	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer) {
-		stream << "buffer(" << buffer.size << ", " << (void*)buffer.data << ")";
+		stream << "buffer(" << buffer.size << ", " << reinterpret_cast<void*>(buffer.data) << ")";
 		return stream;
 	}
 }

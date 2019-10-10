@@ -21,7 +21,7 @@ namespace spruce {
 		}
 
 		uint16 getCPUThreadCount() {
-			return std::thread::hardware_concurrency();
+			return static_cast<uint16>(std::thread::hardware_concurrency());
 		}
 	}
 }

@@ -29,8 +29,8 @@
 	[cocoaWindow update];
 	NSRect viewFrame = cocoaWindow.contentView.frame;
 	NSRect viewFrameBacking = [cocoaWindow.contentView convertRectToBacking:viewFrame];
-	spruceWindow->width = viewFrameBacking.size.width;
-	spruceWindow->height = viewFrameBacking.size.height;
+	spruceWindow->width = static_cast<uint32>(viewFrameBacking.size.width);
+	spruceWindow->height = static_cast<uint32>(viewFrameBacking.size.height);
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -68,7 +68,7 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	APIContext* CocoaWindow::initAPI(app::API api) {
+	owner<APIContext> CocoaWindow::initAPI(app::API api) {
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
 		NSView* oldView = window.contentView;
 		APIContext* context;

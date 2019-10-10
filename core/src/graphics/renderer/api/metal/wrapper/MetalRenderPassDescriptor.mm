@@ -21,7 +21,7 @@ namespace spruce {
 		castRPDesc(ptr).colorAttachments[index].texture = castTexture(texture->ptr);
 		castRPDesc(ptr).colorAttachments[index].loadAction = mapLoadAction(loadAction);
 		castRPDesc(ptr).colorAttachments[index].storeAction = mapStoreAction(storeAction);
-		castRPDesc(ptr).colorAttachments[index].clearColor = MTLClearColorMake(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+		castRPDesc(ptr).colorAttachments[index].clearColor = MTLClearColorMake(static_cast<double>(clearColor.r), static_cast<double>(clearColor.g), static_cast<double>(clearColor.b), static_cast<double>(clearColor.a));
 	}
 
 	void MetalRenderPassDescriptor::setDepthAttachment(MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, double clearDepth) {

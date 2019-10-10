@@ -16,7 +16,7 @@ namespace spruce {
 			owner<FramePipeline> framePipeline;
 			owner<Window> window;
 			app::API apiType;
-			APIContext* apiContext;
+			owner<APIContext> apiContext;
 			owner<RendererAbstractor> renderer;
 
 			explicit SpruceEngine(owner<Application> (*createApplication)(SpruceEngine&));

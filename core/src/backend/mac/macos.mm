@@ -178,7 +178,7 @@ namespace spruce {
 			uint32 coreCount = 0;
 			size_t size = sizeof(coreCount);
 			sysctlbyname("hw.physicalcpu", &coreCount, &size, NULL, 0);
-			return coreCount;
+			return static_cast<uint16>(coreCount);
 		}
 
 		uint64 getCPUFrequency() {

@@ -13,7 +13,7 @@ namespace spruce {
 
 			void* getContents();
 			void didModifyRange(uint32 start, uint32 length);
-			uint32 getLength();
+			uint64 getLength();
 
 			MetalBuffer& operator=(const MetalBuffer&) = delete;
 			MetalBuffer& operator=(MetalBuffer&&) noexcept = delete;

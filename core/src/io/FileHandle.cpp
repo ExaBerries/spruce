@@ -61,7 +61,7 @@ namespace spruce {
 			FILE* cfile = fopen(absolutePath.c_str(), "rt");
 			if (cfile != NULL) {
 				fseek(cfile, 0, SEEK_END);
-				size = ftell(cfile);
+				size = static_cast<uint64>(ftell(cfile));
 				fclose(cfile);
 			} else {
 				size = 0;

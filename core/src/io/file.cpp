@@ -6,7 +6,7 @@ namespace spruce {
 			FILE* cfile = fopen(file.absolutePath.c_str(), "rt");
 			if (cfile != NULL) {
 				fseek(cfile, 0, SEEK_END);
-				uint64 length = ftell(cfile);
+				uint64 length = static_cast<uint64>(ftell(cfile));
 				char* data = new char[length + 1];
 				memset(data, 0, length + 1);
 				fseek(cfile, 0, SEEK_SET);
@@ -25,7 +25,7 @@ namespace spruce {
 			FILE* cfile = fopen(file.absolutePath.c_str(), "rb");
 			if (cfile != NULL) {
 				fseek(cfile, 0, SEEK_END);
-				uint64 length = ftell(cfile);
+				uint64 length = static_cast<uint64>(ftell(cfile));
 				buffer<uint8> data(length);
 				memset(data, 0, length);
 				fseek(cfile, 0, SEEK_SET);

@@ -10,7 +10,7 @@
 @interface MetalView : SpruceView {
 	CAMetalLayer* mlayer;
 }
-- (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)window;
+- (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)cocoaWindow;
 - (void) setDevice:(id<MTLDevice>)device;
 - (id<CAMetalDrawable>) getDrawable;
 - (void)setDrawableSize:(spruce::vec2i)drawableSize;

@@ -20,7 +20,7 @@ namespace spruce {
 		}
 
 		void Mesh::freeVRAM() {
-			delete (MeshAPIData*)apiData;
+			delete apiData;
 			apiData = nullptr;
 		}
 	}

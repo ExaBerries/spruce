@@ -11,7 +11,7 @@ namespace spruce {
 
 	inline mat4f& mat4f::invert() {
 		float det = determinant();
-		if (det == 0.0) {
+		if (det == 0.0f) {
 			return *this;
 		}
 		float tmpValues[16];
@@ -69,7 +69,7 @@ namespace spruce {
 		simd::reg8f rb = simd::load8f8f(right.values[8]);
 		simd::store8f(values[0], simd::add8f(la, ra));
 		simd::store8f(values[8], simd::add8f(lb, rb));
-		return *((mat4f*)&values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 
 	inline mat4f operator-(const mat4f& left, const mat4f& right) {
@@ -80,7 +80,7 @@ namespace spruce {
 		simd::reg8f rb = simd::load8f8f(right.values[8]);
 		simd::store8f(values[0], simd::sub8f(la, ra));
 		simd::store8f(values[8], simd::sub8f(lb, rb));
-		return *((mat4f*)&values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 
 	inline mat4f operator*(const mat4f& left, const mat4f& right) {
@@ -129,7 +129,7 @@ namespace spruce {
 			simd::reg4f br4 = simd::load4f4f(right.values[12]);
 			simd::store4f(values[12], simd::fmadd4f(a12, br1, simd::fmadd4f(a13, br2, simd::fmadd4f(a14, br3, simd::mul4f(a15, br4)))));
 		}
-		return *((mat4f*)values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 
 	inline vec3f operator*(const vec3f& vector, const mat4f& matrix) {
@@ -164,7 +164,7 @@ namespace spruce {
 		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
 		simd::store4f(vec[0], simd::add4f(p2, p4));
-		return *((vec3f*)vec);
+		return *reinterpret_cast<vec3f*>(vec);
 	}
 
 	inline vec3f operator*(const mat4f& matrix, const vec3f& vector) {
@@ -199,7 +199,7 @@ namespace spruce {
 		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
 		simd::store4f(vec[0], simd::add4f(p2, p4));
-		return *((vec3f*)vec);
+		return *reinterpret_cast<vec3f*>(vec);
 	}
 
 	inline vec4f operator*(const vec4f& vector, const mat4f& matrix) {
@@ -234,7 +234,7 @@ namespace spruce {
 		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
 		simd::store4f(vec[0], simd::add4f(p2, p4));
-		return *((vec4f*)vec);
+		return *reinterpret_cast<vec4f*>(vec);
 	}
 
 	inline vec4f operator*(const mat4f& matrix, const vec4f& vector) {
@@ -269,7 +269,7 @@ namespace spruce {
 		simd::reg4f p4 = simd::fmadd4f(w, r3, p3);
 		float vec[4];
 		simd::store4f(vec[0], simd::add4f(p2, p4));
-		return *((vec4f*)vec);
+		return *reinterpret_cast<vec4f*>(vec);
 	}
 
 	inline mat4f& mat4f::operator+=(const mat4f& matrix) {
@@ -337,7 +337,7 @@ namespace spruce {
 			simd::reg4f br4 = simd::load4f4f(matrix.values[12]);
 			simd::store4f(values[12], simd::fmadd4f(a12, br1, simd::fmadd4f(a13, br2, simd::fmadd4f(a14, br3, simd::mul4f(a15, br4)))));
 		}
-		return *((mat4f*)values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 }
 

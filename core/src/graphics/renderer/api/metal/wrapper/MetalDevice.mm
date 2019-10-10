@@ -47,7 +47,7 @@ namespace spruce {
 	}
 
 	owner<MetalTexture> MetalDevice::createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage) {
-		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mapPixelFormat(format) width:size.x height:size.y mipmapped:mipmap];
+		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mapPixelFormat(format) width:static_cast<NSUInteger>(size.x) height:static_cast<NSUInteger>(size.y) mipmapped:mipmap];
 		desc.resourceOptions = mapResourceStorageMode(resourceStorageMode);
 		desc.storageMode = mapStorageMode(storageMode);
 		desc.usage = mapTextureUsage(usage);

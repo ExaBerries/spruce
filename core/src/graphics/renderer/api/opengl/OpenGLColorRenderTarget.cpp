@@ -1,7 +1,7 @@
 #include <graphics/renderer/api/opengl/OpenGLColorRenderTarget.h>
 
 namespace spruce {
-	OpenGLColorRenderTarget::OpenGLColorRenderTarget(uint16 width, uint16 height, GLenum internalFormat, GLenum externalFormat, GLenum type) {
+	OpenGLColorRenderTarget::OpenGLColorRenderTarget(uint16 width, uint16 height, GLint internalFormat, GLenum externalFormat, GLenum type) {
 		this->width = width;
 		this->height = height;
 		glGenTextures(1, &texture);

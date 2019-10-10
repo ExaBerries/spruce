@@ -35,7 +35,7 @@ namespace spruce {
 
 		template <typename EncodeT, typename ExecuteT, enum app::API api>
 		std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) {
-			return encode(*((EncodeT*)encodeData));
+			return encode(*static_cast<EncodeT*>(encodeData));
 		}
 
 		template <typename EncodeT, typename ExecuteT, enum app::API api>
