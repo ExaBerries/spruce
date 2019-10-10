@@ -38,15 +38,15 @@ namespace spruce {
 		return castDevice(ptr).removable;
 	}
 
-	owner<MetalCommandQueue> MetalDevice::createCommandQueue() {
+	[[nodiscard]] owner<MetalCommandQueue> MetalDevice::createCommandQueue() {
 		return new MetalCommandQueue([castDevice(ptr) newCommandQueue]);
 	}
 
-	owner<MetalBuffer> MetalDevice::createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode) {
+	[[nodiscard]] owner<MetalBuffer> MetalDevice::createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode) {
 		return new MetalBuffer([castDevice(ptr) newBufferWithLength:length options:mapResourceStorageMode(resourceStorageMode)]);
 	}
 
-	owner<MetalTexture> MetalDevice::createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage) {
+	[[nodiscard]] owner<MetalTexture> MetalDevice::createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage) {
 		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mapPixelFormat(format) width:static_cast<NSUInteger>(size.x) height:static_cast<NSUInteger>(size.y) mipmapped:mipmap];
 		desc.resourceOptions = mapResourceStorageMode(resourceStorageMode);
 		desc.storageMode = mapStorageMode(storageMode);
@@ -54,7 +54,7 @@ namespace spruce {
 		return new MetalTexture([castDevice(ptr) newTextureWithDescriptor:desc]);
 	}
 
-	owner<MetalLibrary> MetalDevice::createLibrary(const buffer<uint8>& data) {
+	[[nodiscard]] owner<MetalLibrary> MetalDevice::createLibrary(const buffer<uint8>& data) {
 		NSError* compileError = NULL;
 		dispatch_data_t dispatchData = dispatch_data_create(data, data.size, nil, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
 		id<MTLLibrary> library = [castDevice(ptr) newLibraryWithData:dispatchData error:&compileError];
@@ -65,7 +65,7 @@ namespace spruce {
 		return new MetalLibrary((__bridge void*) library);
 	}
 
-	owner<MetalLibrary> MetalDevice::createLibrary(const string& text) {
+	[[nodiscard]] owner<MetalLibrary> MetalDevice::createLibrary(const string& text) {
 		NSString* objcSource = convertStr(text);
 		NSError* compileError = NULL;
 		id<MTLLibrary> library = [castDevice(ptr) newLibraryWithSource:objcSource options:nil error:&compileError];
@@ -75,7 +75,7 @@ namespace spruce {
 		return new MetalLibrary((__bridge void*) library);
 	}
 
-	owner<MetalRenderPipelineState> MetalDevice::newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor) {
+	[[nodiscard]] owner<MetalRenderPipelineState> MetalDevice::newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor) {
 		NSError* err = NULL;
 		owner<MetalRenderPipelineState> state = new MetalRenderPipelineState([castDevice(ptr) newRenderPipelineStateWithDescriptor:castRPipeDesc(descriptor.ptr) error:&err]);
 		if (state->ptr == nullptr) {
@@ -85,7 +85,7 @@ namespace spruce {
 		return state;
 	}
 
-	owner<MetalDepthStencilState> MetalDevice::newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite) {
+	[[nodiscard]] owner<MetalDepthStencilState> MetalDevice::newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite) {
 		MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 		depthStencilDescriptor.depthCompareFunction = mapCompareFunction(compareFunction);
 		depthStencilDescriptor.depthWriteEnabled = depthWrite;

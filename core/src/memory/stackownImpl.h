@@ -9,12 +9,14 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename ... CONSTYPES>
 	void stackown<TYPE>::cons(CONSTYPES&& ... args) {
+		static_assert(std::is_constructible_v<TYPE, CONSTYPES...>);
 		new (data) TYPE(args...);
 		null = false;
 	}
 
 	template <typename TYPE>
 	void stackown<TYPE>::desc() {
+		static_assert(std::is_destructible_v<TYPE>);
 		reinterpret_cast<TYPE*>(data)->~TYPE();
 		null = true;
 	}
@@ -32,12 +34,14 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	stackown<TYPE>::operator OTHERTYPE*() {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return reinterpret_cast<OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	stackown<TYPE>::operator const OTHERTYPE*() const {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return reinterpret_cast<const OTHERTYPE*>(data);
 	}
 

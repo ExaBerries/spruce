@@ -3,7 +3,7 @@
 
 namespace spruce {
 	template <typename TYPE, uint64 SIZE>
-	struct stackpoly {
+	struct alignas(alignof(TYPE)) stackpoly {
 		uint8 data[SIZE];
 		bool null = true;
 

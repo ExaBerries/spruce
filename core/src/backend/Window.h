@@ -18,7 +18,7 @@ namespace spruce {
 			Window(const Window&&) noexcept = delete;
 			virtual ~Window() = default;
 
-			virtual owner<APIContext> initAPI(app::API api) = 0;
+			[[nodiscard]] virtual owner<APIContext> initAPI(app::API api) = 0;
 			virtual void setTitle(string title) = 0;
 			virtual void setVisible(bool visible) = 0;
 			virtual void setFullscreen(bool fullscreen) = 0;

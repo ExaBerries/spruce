@@ -9,11 +9,13 @@ namespace spruce {
 	template <typename TYPE, uint64 SIZE>
 	template <typename POLYTYPE, typename ... CONSTYPES>
 	void stackpoly<TYPE, SIZE>::cons(CONSTYPES&& ... args) {
+		static_assert(std::is_constructible_v<POLYTYPE, CONSTYPES...>);
 		new (data) POLYTYPE(args...);
 	}
 
 	template <typename TYPE, uint64 SIZE>
 	void stackpoly<TYPE, SIZE>::desc() {
+		static_assert(std::is_destructible_v<TYPE>);
 		static_cast<TYPE*>(data)->~TYPE();
 	}
 
@@ -30,12 +32,14 @@ namespace spruce {
 	template <typename TYPE, uint64 SIZE>
 	template <typename OTHERTYPE>
 	stackpoly<TYPE, SIZE>::operator OTHERTYPE*() {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return static_cast<OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE, uint64 SIZE>
 	template <typename OTHERTYPE>
 	stackpoly<TYPE, SIZE>::operator const OTHERTYPE*() const {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return static_cast<const OTHERTYPE*>(data);
 	}
 

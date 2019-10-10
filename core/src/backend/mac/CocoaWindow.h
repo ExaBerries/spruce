@@ -27,7 +27,7 @@ namespace spruce {
 			CocoaWindow(CocoaWindow&&) noexcept = delete;
 			~CocoaWindow() override;
 
-			owner<APIContext> initAPI(app::API api) override;
+			[[nodiscard]] owner<APIContext> initAPI(app::API api) override;
 			void setTitle(string title) override;
 			void setVisible(bool visible) override;
 			void setFullscreen(bool fullscreen) override;

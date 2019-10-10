@@ -31,10 +31,10 @@ namespace spruce {
 	using task::TaskConfig;
 
 	template <typename RETURN, typename ... TYPES>
-	Task<RETURN(TYPES...)> createTask(TaskConfig<RETURN(TYPES...)> config);
+	[[nodiscard]] Task<RETURN(TYPES...)> createTask(TaskConfig<RETURN(TYPES...)> config);
 
 	template <typename ... TYPES>
-	Task<void(TYPES...)> createTask(TaskConfig<void(TYPES...)> config);
+	[[nodiscard]] Task<void(TYPES...)> createTask(TaskConfig<void(TYPES...)> config);
 }
 
 #include <task/TaskConfigImpl.h>

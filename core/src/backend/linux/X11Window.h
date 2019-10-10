@@ -24,7 +24,7 @@ namespace spruce {
 
 			void createXWindow(Visual* visual, uint32 depth);
 
-			APIContext* initAPI(app::API api) override;
+			[[nodiscard]] owner<APIContext> initAPI(app::API api) override;
 			void setTitle(string title) override;
 			void setVisible(bool visible) override;
 			void setFullscreen(bool fullscreen) override;

@@ -11,7 +11,7 @@ namespace spruce {
 		return this;
 	}
 
-	void Application::setFramePipeline(FramePipeline* pipeline) {
+	void Application::setFramePipeline(owner<FramePipeline> pipeline) {
 		engine.setFramePipeline(pipeline);
 	}
 
@@ -27,7 +27,7 @@ namespace spruce {
 		return engine.getSupportedAPIs();
 	}
 
-	void Application::setRenderer(RendererAbstractor* renderer) {
+	void Application::setRenderer(owner<RendererAbstractor> renderer) {
 		engine.setRenderer(renderer);
 	}
 

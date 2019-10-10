@@ -35,12 +35,14 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	aowner<TYPE>::operator OTHERTYPE*() {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return reinterpret_cast<OTHERTYPE*>(ptr);
 	}
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	aowner<TYPE>::operator const OTHERTYPE*() const {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return reinterpret_cast<const OTHERTYPE*>(ptr);
 	}
 
@@ -90,7 +92,7 @@ namespace spruce {
 	}
 
 	template <typename TYPE, typename ... CONSTYPES>
-	aowner<TYPE> newaown(CONSTYPES&& ... args) {
+	[[nodiscard]] aowner<TYPE> newaown(CONSTYPES&& ... args) {
 		static_assert(std::is_constructible_v<TYPE, CONSTYPES...>);
 		return new TYPE(args...);
 	}

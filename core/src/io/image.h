@@ -11,7 +11,7 @@ namespace spruce {
 			uint16 bitsPerPixel;
 		};
 
-		ImageData loadImage(const FileHandle& file);
-		buffer<uint8> loadImage(const FileHandle& file, uint16& width, uint16& height, uint16& bitsPerPixel);
+		[[nodiscard]] ImageData loadImage(const FileHandle& file);
+		[[nodiscard]] buffer<uint8> loadImage(const FileHandle& file, uint16& width, uint16& height, uint16& bitsPerPixel);
 	}
 }

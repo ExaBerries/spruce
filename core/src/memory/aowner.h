@@ -38,7 +38,7 @@ namespace spruce {
 	};
 
 	template <typename TYPE, typename ... CONSTYPES>
-	aowner<TYPE> newaown(CONSTYPES&& ... args);
+	[[nodiscard]] aowner<TYPE> newaown(CONSTYPES&& ... args);
 }
 
 #include <memory/aownerImpl.h>

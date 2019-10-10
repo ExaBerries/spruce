@@ -68,7 +68,7 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	owner<APIContext> CocoaWindow::initAPI(app::API api) {
+	[[nodiscard]] owner<APIContext> CocoaWindow::initAPI(app::API api) {
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
 		NSView* oldView = window.contentView;
 		APIContext* context;

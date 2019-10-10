@@ -17,12 +17,6 @@ namespace spruce {
 				OpenGLRenderer(OpenGLRenderer&&) = delete;
 				virtual ~OpenGLRenderer() override = default;
 
-				virtual ExecuteT encode(EncodeT& encodeData) override = 0;
-				virtual void execute(ExecuteT& executeData) override = 0;
-
-				virtual owner<MeshAPIData> createMeshAPIData(Mesh& mesh) override = 0;
-				virtual owner<TextureAPIData> createTextureAPIData(Texture& texture) override = 0;
-
 				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) override;
 				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) override;
 

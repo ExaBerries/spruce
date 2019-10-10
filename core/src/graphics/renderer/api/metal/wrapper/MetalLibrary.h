@@ -12,7 +12,7 @@ namespace spruce {
 			MetalLibrary(MetalLibrary&& other) = delete;
 			~MetalLibrary();
 
-			owner<MetalFunction> newFunctionWithName(const string& name);
+			[[nodiscard]] owner<MetalFunction> newFunctionWithName(const string& name);
 
 			MetalLibrary& operator=(const MetalLibrary& other) = delete;
 			MetalLibrary& operator=(MetalLibrary&& other) = delete;

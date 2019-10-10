@@ -12,7 +12,7 @@ namespace spruce {
 			MetalCommandQueue(MetalCommandQueue&&) noexcept = delete;
 			~MetalCommandQueue() = default;
 
-			owner<MetalCommandBuffer> createCommandBuffer();
+			[[nodiscard]] owner<MetalCommandBuffer> createCommandBuffer();
 
 			MetalCommandQueue& operator=(const MetalCommandQueue&) = delete;
 			MetalCommandQueue& operator=(MetalCommandQueue&&) noexcept = delete;
