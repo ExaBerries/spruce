@@ -6,7 +6,7 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	aowner<TYPE>::aowner(aowner<TYPE>&& other) noexcept : owner<TYPE>(other.ptr) {
+	aowner<TYPE>::aowner(aowner<TYPE>&& other) noexcept : ptr(ptr) {
 		other.ptr = nullptr;
 	}
 

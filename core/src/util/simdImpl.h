@@ -4,7 +4,7 @@ namespace spruce {
 	namespace simd {
 		[[gnu::always_inline, nodiscard]] inline reg4f load4f4f(const float& data) {
 			return _mm_load_ps(&data);
-		};
+		}
 
 		[[gnu::always_inline, nodiscard]] inline reg4f load1f4f(const float& value) {
 			return _mm_load1_ps(&value);

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstring>
 
 namespace spruce {
 	inline float mat4f::determinant() {

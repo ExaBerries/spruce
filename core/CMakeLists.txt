@@ -123,7 +123,7 @@ target_compile_options(spruce
 		-mavx2
 		-mfma
 		-fno-strict-aliasing
-		-fno-cxx-exceptions
+		-fno-exceptions
 		-fno-rtti
 	PRIVATE
 		-Wall
