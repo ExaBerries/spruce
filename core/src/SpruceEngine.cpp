@@ -20,10 +20,10 @@ namespace spruce {
 		if (window->open) {
 			window->close();
 		}
-		delete (Application*)application;
-		delete (APIContext*)apiContext;
-		delete (Window*)window;
-		delete (FramePipeline*)framePipeline;
+		delete application;
+		delete apiContext;
+		delete window;
+		delete framePipeline;
 		task::free();
 		os::free();
 	}
@@ -42,7 +42,7 @@ namespace spruce {
 	void SpruceEngine::setRenderAPI(app::API newAPI) {
 		this->apiType = newAPI;
 		if (apiContext != nullptr) {
-			delete (APIContext*)apiContext;
+			delete apiContext;
 		}
 		apiContext = window->initAPI(newAPI);
 	}
