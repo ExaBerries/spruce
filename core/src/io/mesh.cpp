@@ -21,7 +21,7 @@ namespace spruce {
 				offset += vertexCount * sizeof(float);
 				buffer<uint16> indices(indexCount);
 				memcpy(indices.data, data + offset, indexCount * sizeof(uint16));
-				offset += indexCount * sizeof(uint16);
+				//offset += indexCount * sizeof(uint16);
 				return new Mesh(vertices, indices);
 			} else if (data[0] == 0x1) {
 				uint32 offset = 1;
@@ -36,7 +36,7 @@ namespace spruce {
 				offset += vertexCount * sizeof(float);
 				buffer<uint16> indices(indexCount);
 				memcpy(indices.data, data + offset, indexCount * sizeof(uint16));
-				offset += indexCount * sizeof(uint16);
+				//offset += indexCount * sizeof(uint16);
 				return new Mesh(vertices, indices);
 			}
 			return nullptr;
