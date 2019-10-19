@@ -33,13 +33,13 @@
 	NSPoint pos = [event locationInWindow];
 	CGSize frameSize = self.frame.size;
 	if (spruceWindow->cursorMode == spruce::input::DISABLED) {
-		virtualMousePos += spruce::vec2f([event deltaX] / frameSize.width, [event deltaY] / frameSize.height);
-		NSRect local = NSMakeRect(frameSize.width / 2, frameSize.height / 2, 0, 0);
+		virtualMousePos += {static_cast<float>([event deltaX] / frameSize.width), static_cast<float>([event deltaY] / frameSize.height)};
+		NSRect local = NSMakeRect(frameSize.width / 2.0, frameSize.height / 2.0, 0.0, 0.0);
 		NSRect global = [spruceWindow->window convertRectToScreen:local];
 		NSPoint point = global.origin;
 		CGWarpMouseCursorPosition(CGPointMake(point.x, point.y));
 	} else {
-		virtualMousePos = spruce::vec2f((pos.x / frameSize.width) - 0.5, (pos.y / frameSize.height) - 0.5);
+		virtualMousePos = {static_cast<float>((pos.x / frameSize.width) - 0.5), static_cast<float>((pos.y / frameSize.height) - 0.5)};
 	}
 	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
 		spruce::input::processors[i]->mouseMove(virtualMousePos);

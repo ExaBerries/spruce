@@ -9,7 +9,7 @@ namespace spruce {
 			uint16 width;
 			uint16 height;
 
-			OpenGLColorRenderTarget(uint16 width, uint16 height, GLenum internalFormat, GLenum externalFormat, GLenum type);
+			OpenGLColorRenderTarget(uint16 width, uint16 height, GLint internalFormat, GLenum externalFormat, GLenum type);
 			OpenGLColorRenderTarget(const OpenGLColorRenderTarget&) = delete;
 			OpenGLColorRenderTarget(OpenGLColorRenderTarget&&) noexcept = delete;
 			~OpenGLColorRenderTarget();

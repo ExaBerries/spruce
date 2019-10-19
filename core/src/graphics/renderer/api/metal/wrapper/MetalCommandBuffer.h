@@ -17,7 +17,7 @@ namespace spruce {
 			void commit();
 			void enqueue();
 			void presentDrawable(MetalDrawable* drawable);
-			owner<MetalRenderCommandEncoder> createRenderCommandEncoder(MetalRenderPassDescriptor& descriptor);
+			[[nodiscard]] owner<MetalRenderCommandEncoder> createRenderCommandEncoder(MetalRenderPassDescriptor& descriptor);
 
 			MetalCommandBuffer& operator=(const MetalCommandBuffer&) = delete;
 			MetalCommandBuffer& operator=(const MetalCommandBuffer&&) noexcept = delete;

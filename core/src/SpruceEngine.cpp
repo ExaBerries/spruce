@@ -29,9 +29,9 @@ namespace spruce {
 	}
 
 	void SpruceEngine::run() {
-		uint64 lastTime = sys::timeNano();
+		int64 lastTime = sys::timeNano();
 		while (window->open) {
-			float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
+			float delta = static_cast<float>(sys::timeNano() - lastTime) / 1.0e9f;
 			lastTime = sys::timeNano();
 			if (application != nullptr) {
 				framePipeline->execute(delta, *application, renderer, *appBackend);
@@ -49,14 +49,14 @@ namespace spruce {
 
 	void SpruceEngine::setFramePipeline(owner<FramePipeline> pipeline) {
 		if (this->framePipeline != nullptr) {
-			delete (FramePipeline*)this->framePipeline;
+			delete this->framePipeline;
 		}
 		this->framePipeline = pipeline;
 	}
 
 	void SpruceEngine::setRenderer(owner<RendererAbstractor> renderer) {
 		if (this->renderer != nullptr) {
-			delete (RendererAbstractor*)this->renderer;
+			delete this->renderer;
 		}
 		this->renderer = renderer;
 	}

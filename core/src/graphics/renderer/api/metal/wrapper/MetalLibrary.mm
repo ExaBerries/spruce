@@ -15,7 +15,7 @@ namespace spruce {
 		[castLibrary(ptr) release];
 	}
 
-	owner<MetalFunction> MetalLibrary::newFunctionWithName(const string& name) {
+	[[nodiscard]] owner<MetalFunction> MetalLibrary::newFunctionWithName(const string& name) {
 		return new MetalFunction([castLibrary(ptr) newFunctionWithName:convertStr(name)]);
 	}
 }

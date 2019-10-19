@@ -4,7 +4,7 @@
 
 namespace spruce {
 	template <typename TYPE>
-	struct stackown {
+	struct alignas(alignof(TYPE)) stackown {
 		uint8 data[sizeof(TYPE)];
 		bool null = true;
 

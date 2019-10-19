@@ -4,6 +4,6 @@
 namespace spruce {
 	namespace sys {
 		float timeSec();
-		uint64 timeNano();
+		int64 timeNano();
 	}
 }

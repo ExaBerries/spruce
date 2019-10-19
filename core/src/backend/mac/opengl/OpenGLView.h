@@ -8,7 +8,7 @@
 	NSOpenGLContext* context;
 	NSOpenGLPixelFormat* pixelFormat;
 }
-- (id) initWithFrame:(NSRect)bounds window:(spruce::CocoaWindow*)window;
+- (id) initWithFrame:(NSRect)bounds window:(spruce::CocoaWindow*)cocoaWindow;
 - (void) initContext;
 - (void) update;
 - (NSOpenGLContext*) getContext;

@@ -20,15 +20,13 @@ namespace spruce {
 		setAttributes.colormap = colormap;
 		setAttributes.background_pixmap = None;
 		setAttributes.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | ButtonMotionMask | PointerMotionMask | FocusChangeMask | StructureNotifyMask | ExposureMask;
-		this->width = 0;//graphics::width;
+		this->width = 0;
 		if (width == 0) {
 			width = 1280;
-			//graphics::width = width;
 		}
-		this->height = 0;//graphics::height;
+		this->height = 0;
 		if (height == 0) {
 			height = 720;
-			//graphics::height = height;
 		}
 		window = XCreateWindow(display, root, 0, 0, width, height, 0, depth, InputOutput, visual, CWColormap | CWEventMask, &setAttributes);
 		XStoreName(display, window, "spruce");
@@ -37,7 +35,7 @@ namespace spruce {
 		XSetWMProtocols(display, window, &wmDeleteMessage, 1);
 	}
 
-	APIContext* X11Window::initAPI(app::API api) {
+	[[nodiscard]] owner<APIContext> X11Window::initAPI(app::API api) {
 		if (window != 0) {
 			XFreeColormap(display, colormap);
 			XDestroyWindow(display, window);

@@ -11,10 +11,10 @@ namespace spruce {
 	}
 
 	color::color(int32 hex) {
-		r = ((hex >> 24) & 0xFF) / 255.0;
-		g = ((hex >> 16) & 0xFF) / 255.0;
-		b = ((hex >> 8) & 0xFF) / 255.0;
-		a = (hex & 0xFF) / 255.0;
+		r = ((hex >> 24) & 0xFF) / 255.0f;
+		g = ((hex >> 16) & 0xFF) / 255.0f;
+		b = ((hex >> 8) & 0xFF) / 255.0f;
+		a = (hex & 0xFF) / 255.0f;
 	}
 
 	color::~color() {

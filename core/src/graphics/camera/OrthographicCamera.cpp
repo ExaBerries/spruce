@@ -12,11 +12,11 @@ namespace spruce {
 
 			void OrthographicCamera::update(RendererAbstractor* renderer) {
 				renderer->setOrthographic(projection, -viewportWidth / 2, viewportWidth / 2, viewportHeight / 2, viewportHeight / -2, near, far);
-				vec3f dir = this->dir * rotation;
-				dir.nor();
-				vec3f up = this->up * rotation;
-				up.nor();
-				view.set(dir, up);
+				vec3f rotatedDir = this->dir * rotation;
+				rotatedDir.nor();
+				vec3f rotatedUp = this->up * rotation;
+				rotatedUp.nor();
+				view.set(rotatedDir, rotatedUp);
 				vec3f pos = position * -1;
 				quaternion identityQuat(0, 0, 0, 1);
 				vec3f scale(1, 1, 1);

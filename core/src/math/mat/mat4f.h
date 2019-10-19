@@ -8,7 +8,7 @@
 #include <iostream>
 
 namespace spruce {
-	struct alignas(2 * alignof(simd::reg8f)) mat4f {
+	struct alignas(alignof(simd::reg8f)) mat4f {
 		float values[16];
 
 		mat4f();

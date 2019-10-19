@@ -30,13 +30,13 @@ namespace spruce {
 			bool getHeadless();
 			bool getRemoveable();
 
-			owner<MetalCommandQueue> createCommandQueue();
-			owner<MetalBuffer> createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode);
-			owner<MetalTexture> createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage);
-			owner<MetalLibrary> createLibrary(const buffer<uint8>& data);
-			owner<MetalLibrary> createLibrary(const string& text);
-			owner<MetalRenderPipelineState> newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor);
-			owner<MetalDepthStencilState> newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite);
+			[[nodiscard]] owner<MetalCommandQueue> createCommandQueue();
+			[[nodiscard]] owner<MetalBuffer> createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode);
+			[[nodiscard]] owner<MetalTexture> createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage);
+			[[nodiscard]] owner<MetalLibrary> createLibrary(const buffer<uint8>& data);
+			[[nodiscard]] owner<MetalLibrary> createLibrary(const string& text);
+			[[nodiscard]] owner<MetalRenderPipelineState> newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor);
+			[[nodiscard]] owner<MetalDepthStencilState> newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite);
 
 			MetalDevice& operator=(const MetalDevice&) = delete;
 			MetalDevice& operator=(MetalDevice&&) noexcept = delete;

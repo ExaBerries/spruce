@@ -10,7 +10,7 @@ namespace spruce {
 		void init();
 		void free();
 
-		owner<ApplicationBackend> createAppBackend();
+		[[nodiscard]] owner<ApplicationBackend> createAppBackend();
 
 		uint16 codeFor(input::Key key);
 

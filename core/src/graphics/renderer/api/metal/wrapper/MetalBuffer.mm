@@ -22,7 +22,7 @@ namespace spruce {
 		[castBuffer(ptr) didModifyRange:NSMakeRange(start, length)];
 	}
 
-	uint32 MetalBuffer::getLength() {
+	uint64 MetalBuffer::getLength() {
 		return castBuffer(ptr).length;
 	}
 }

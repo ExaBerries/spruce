@@ -3,22 +3,22 @@
 
 namespace spruce {
 	mat4f::mat4f() {
-		values[0] = 1.0;
-		values[1] = 0.0;
-		values[2] = 0.0;
-		values[3] = 0.0;
-		values[4] = 0.0;
-		values[5] = 1.0;
-		values[6] = 0.0;
-		values[7] = 0.0;
-		values[8] = 0.0;
-		values[9] = 0.0;
-		values[10] = 1.0;
-		values[11] = 0.0;
-		values[12] = 0.0;
-		values[13] = 0.0;
-		values[14] = 0.0;
-		values[15] = 1.0;
+		values[0] = 1.0f;
+		values[1] = 0.0f;
+		values[2] = 0.0f;
+		values[3] = 0.0f;
+		values[4] = 0.0f;
+		values[5] = 1.0f;
+		values[6] = 0.0f;
+		values[7] = 0.0f;
+		values[8] = 0.0f;
+		values[9] = 0.0f;
+		values[10] = 1.0f;
+		values[11] = 0.0f;
+		values[12] = 0.0f;
+		values[13] = 0.0f;
+		values[14] = 0.0f;
+		values[15] = 1.0f;
 	}
 
 	mat4f::mat4f(const float values[16]) {
@@ -33,17 +33,17 @@ namespace spruce {
 		float wx = rotation.w * rotation.x;
 		float wy = rotation.w * rotation.y;
 		float wz = rotation.w * rotation.z;
-		values[0] = scale.x * (1.0 - y2 * 2.0 + z2 * 2.0);
-		values[1] = scale.y * (rotation.x * rotation.y * 2.0 - wz);
-		values[2] = scale.z * (rotation.x * rotation.z * 2.0 + wy);
+		values[0] = scale.x * (1.0f - y2 * 2.0f + z2 * 2.0f);
+		values[1] = scale.y * (rotation.x * rotation.y * 2.0f - wz);
+		values[2] = scale.z * (rotation.x * rotation.z * 2.0f + wy);
 		values[3] = translation.x;
-		values[4] = scale.x * (rotation.x * rotation.y * 2.0 + wz);
-		values[5] = scale.y * (1.0 - (x2 * 2.0 + z2 * 2.0));
-		values[6] = scale.z * (rotation.y * rotation.z * 2.0 - wx);
+		values[4] = scale.x * (rotation.x * rotation.y * 2.0f + wz);
+		values[5] = scale.y * (1.0f - (x2 * 2.0f + z2 * 2.0f));
+		values[6] = scale.z * (rotation.y * rotation.z * 2.0f - wx);
 		values[7] = translation.y;
-		values[8] = scale.x * (rotation.x * rotation.z * 2.0 - wy);
-		values[9] = scale.y * (rotation.y * rotation.z * 2.0 + wx);
-		values[10] = scale.z * (1.0 - (x2 * 2.0 + y2 * 2.0));
+		values[8] = scale.x * (rotation.x * rotation.z * 2.0f - wy);
+		values[9] = scale.y * (rotation.y * rotation.z * 2.0f + wx);
+		values[10] = scale.z * (1.0f - (x2 * 2.0f + y2 * 2.0f));
 		values[11] = translation.z;
 		values[12] = 0.0f;
 		values[13] = 0.0f;
@@ -58,19 +58,19 @@ namespace spruce {
 		values[0] = dirCrsUp.x;
 		values[1] = dirCrsUpCrsDir.x;
 		values[2] = -dirNor.x;
-		values[3] = 0;
+		values[3] = 0.0f;
 		values[4] = dirCrsUp.y;
 		values[5] = dirCrsUpCrsDir.y;
 		values[6] = -dirNor.y;
-		values[7] = 0;
+		values[7] = 0.0f;
 		values[8] = dirCrsUp.z;
 		values[9] = dirCrsUpCrsDir.z;
 		values[10] = -dirNor.z;
-		values[11] = 0;
-		values[12] = 0;
-		values[13] = 0;
-		values[14] = 0;
-		values[15] = 1;
+		values[11] = 0.0f;
+		values[12] = 0.0f;
+		values[13] = 0.0f;
+		values[14] = 0.0f;
+		values[15] = 1.0f;
 	}
 
 	mat4f::mat4f(float v0, float v1, float v2, float v3, float v4, float v5, float v6, float v7, float v8, float v9, float v10, float v11, float v12, float v13, float v14, float v15) {
@@ -93,22 +93,22 @@ namespace spruce {
 	}
 
 	mat4f& mat4f::setIdentity() {
-		values[0] = 1.0;
-		values[1] = 0.0;
-		values[2] = 0.0;
-		values[3] = 0.0;
-		values[4] = 0.0;
-		values[5] = 1.0;
-		values[6] = 0.0;
-		values[7] = 0.0;
-		values[8] = 0.0;
-		values[9] = 0.0;
-		values[10] = 1.0;
-		values[11] = 0.0;
-		values[12] = 0.0;
-		values[13] = 0.0;
-		values[14] = 0.0;
-		values[15] = 1.0;
+		values[0] = 1.0f;
+		values[1] = 0.0f;
+		values[2] = 0.0f;
+		values[3] = 0.0f;
+		values[4] = 0.0f;
+		values[5] = 1.0f;
+		values[6] = 0.0f;
+		values[7] = 0.0f;
+		values[8] = 0.0f;
+		values[9] = 0.0f;
+		values[10] = 1.0f;
+		values[11] = 0.0f;
+		values[12] = 0.0f;
+		values[13] = 0.0f;
+		values[14] = 0.0f;
+		values[15] = 1.0f;
 		return *this;
 	}
 
@@ -125,17 +125,17 @@ namespace spruce {
 		float wx = rotation.w * rotation.x;
 		float wy = rotation.w * rotation.y;
 		float wz = rotation.w * rotation.z;
-		values[0] = scale.x * (1.0 - (y2 * 2.0 + z2 * 2.0));
-		values[1] = scale.y * (rotation.x * rotation.y * 2.0 - wz);
-		values[2] = scale.z * (rotation.x * rotation.z * 2.0 + wy);
+		values[0] = scale.x * (1.0f - (y2 * 2.0f + z2 * 2.0f));
+		values[1] = scale.y * (rotation.x * rotation.y * 2.0f - wz);
+		values[2] = scale.z * (rotation.x * rotation.z * 2.0f + wy);
 		values[3] = translation.x;
-		values[4] = scale.x * (rotation.x * rotation.y * 2.0 + wz);
-		values[5] = scale.y * (1.0 - (x2 * 2.0 + z2 * 2.0));
-		values[6] = scale.z * (rotation.y * rotation.z * 2.0 - wx);
+		values[4] = scale.x * (rotation.x * rotation.y * 2.0f + wz);
+		values[5] = scale.y * (1.0f - (x2 * 2.0f + z2 * 2.0f));
+		values[6] = scale.z * (rotation.y * rotation.z * 2.0f - wx);
 		values[7] = translation.y;
-		values[8] = scale.x * (rotation.x * rotation.z * 2.0 - wy);
-		values[9] = scale.y * (rotation.y * rotation.z * 2.0 + wx);
-		values[10] = scale.z * (1.0 - (x2 * 2.0 + y2 * 2.0));
+		values[8] = scale.x * (rotation.x * rotation.z * 2.0f - wy);
+		values[9] = scale.y * (rotation.y * rotation.z * 2.0f + wx);
+		values[10] = scale.z * (1.0f - (x2 * 2.0f + y2 * 2.0f));
 		values[11] = translation.z;
 		values[12] = 0.0f;
 		values[13] = 0.0f;
@@ -151,19 +151,19 @@ namespace spruce {
 		values[0] = dirCrsUp.x;
 		values[1] = dirCrsUp.y;
 		values[2] = dirCrsUp.z;
-		values[3] = 0;
+		values[3] = 0.0f;
 		values[4] = dirCrsUpCrsDir.x;
 		values[5] = dirCrsUpCrsDir.y;
 		values[6] = dirCrsUpCrsDir.z;
-		values[7] = 0;
+		values[7] = 0.0f;
 		values[8] = -dirNor.x;
 		values[9] = -dirNor.y;
 		values[10] = -dirNor.z;
-		values[11] = 0;
-		values[12] = 0;
-		values[13] = 0;
-		values[14] = 0;
-		values[15] = 1;
+		values[11] = 0.0f;
+		values[12] = 0.0f;
+		values[13] = 0.0f;
+		values[14] = 0.0f;
+		values[15] = 1.0f;
 		return *this;
 	}
 
@@ -187,7 +187,7 @@ namespace spruce {
 
 	std::ostream& operator<<(std::ostream& stream, const mat4f& matrix) {
 		stream << "mat4f(";
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 16; i++) {
 			stream << matrix.values[i] << ", ";
 		}
 		stream << matrix.values[15] << ")";

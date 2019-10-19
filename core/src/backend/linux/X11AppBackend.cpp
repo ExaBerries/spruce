@@ -15,7 +15,7 @@ namespace spruce {
 		XCloseDisplay(display);
 	}
 
-	owner<Window> X11AppBackend::createWindow() {
+	[[nodiscard]] owner<Window> X11AppBackend::createWindow() {
 		X11Window* window = new X11Window(display);
 		x11Windows.push_back(window);
 		return window;

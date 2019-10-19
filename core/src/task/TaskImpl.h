@@ -56,30 +56,32 @@ namespace spruce {
 	}
 
 	template <typename RETURN, typename ... TYPES>
-	Task<RETURN(TYPES...)> createTask(std::function<RETURN(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
+	[[nodiscard]] Task<RETURN(TYPES...)> createTask(std::function<RETURN(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
+		static_assert(std::is_default_constructible_v<RETURN>);
+		static_assert(std::is_destructible_v<RETURN>);
 		uint64 id = task::taskId++;
-		owner<task::TaskData> taskData = new task::TaskData(sizeof(RETURN), [](void* data) {((RETURN*)data)->~RETURN();});
+		owner<task::TaskData> taskData = new task::TaskData(sizeof(RETURN), [](void* data) {static_cast<RETURN*>(data)->~RETURN();});
 		new (taskData->data) RETURN();
-		Task<RETURN(TYPES...)> task(id, taskData->complete, *((RETURN*)taskData->data));
+		Task<RETURN(TYPES...)> task(id, taskData->complete, *static_cast<RETURN*>(taskData->data));
 		task.priority = priority;
 		owner<task::TaskBackend> taskBackend = new task::TaskBackend(id, taskData->complete);
 		taskBackend->priority = priority;
 		taskBackend->concurrent = concurrent;
-		taskBackend->functionData = new task::FunctionDataTemplate<RETURN, TYPES...>((RETURN*)taskData->data, function, std::tuple<TYPES...>(args...), id);
+		taskBackend->functionData = new task::FunctionDataTemplate<RETURN, TYPES...>(static_cast<RETURN*>(taskData->data), function, std::tuple<TYPES...>(args...), id);
 		addTask(id, taskData, taskBackend);
 		return task;
 	}
 
 	template <typename ... TYPES>
-	Task<void(TYPES...)> createTask(std::function<void(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
+	[[nodiscard]] Task<void(TYPES...)> createTask(std::function<void(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
 		uint64 id = task::taskId++;
-		owner<task::TaskData> taskData = new task::TaskData(sizeof(bool), [](void* data) {(void)data;});
+		owner<task::TaskData> taskData = new task::TaskData(sizeof(bool), []([[maybe_unused]] void* data) {});
 		Task<void(TYPES...)> task(id, taskData->complete);
 		task.priority = priority;
 		owner<task::TaskBackend> taskBackend = new task::TaskBackend(id, taskData->complete);
 		taskBackend->priority = priority;
 		taskBackend->concurrent = concurrent;
-		taskBackend->functionData = new task::FunctionDataTemplate<void, TYPES...>((bool*)taskData->data, function, std::tuple<TYPES...>(args...), id);
+		taskBackend->functionData = new task::FunctionDataTemplate<void, TYPES...>(static_cast<bool*>(taskData->data), function, std::tuple<TYPES...>(args...), id);
 		addTask(id, taskData, taskBackend);
 		return task;
 	}

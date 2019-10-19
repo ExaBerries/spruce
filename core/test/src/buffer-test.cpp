@@ -1,20 +1,22 @@
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <memory/memory.h>
 
-using namespace spruce;
+namespace spruce {
+	namespace test {
+		TEST_CASE("default construct") {
+			buffer<int32> buffer;
+			REQUIRE(buffer == nullptr);
+			REQUIRE(buffer.data == nullptr);
+			REQUIRE(buffer.size == 0);
+		}
 
-TEST(BufferTest, DefaultConstruct) {
-	buffer<int32> buffer;
-	EXPECT_EQ(buffer, nullptr);
-	EXPECT_EQ(buffer.data, nullptr);
-	EXPECT_EQ(buffer.size, 0);
-}
-
-TEST(BufferTest, SizeConstruct) {
-	constexpr uint64 NUM = 4;
-	buffer<int32> buffer(NUM);
-	EXPECT_TRUE(buffer != nullptr);
-	EXPECT_EQ(buffer.size, NUM);
-	buffer.free();
-	EXPECT_EQ(buffer, nullptr);
+		TEST_CASE("size construct") {
+			constexpr uint64 NUM = 4;
+			buffer<int32> buffer(NUM);
+			REQUIRE(buffer != nullptr);
+			REQUIRE(buffer.size == NUM);
+			buffer.free();
+			REQUIRE(buffer == nullptr);
+		}
+	}
 }

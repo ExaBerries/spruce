@@ -12,7 +12,7 @@ namespace spruce {
 		double z = 0;
 
 		private:
-		double padding = 0;
+		[[maybe_unused]] double padding = 0;
 		public:
 
 		vec3d() = default;

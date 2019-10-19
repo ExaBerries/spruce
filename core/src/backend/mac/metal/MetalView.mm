@@ -3,8 +3,8 @@
 #include <log.h>
 
 @implementation MetalView
-- (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)_window {
-	self = [super initWithFrame:frame window:_window];
+- (id) initWithFrame:(NSRect)frame window:(spruce::CocoaWindow*)cocoaWindow {
+	self = [super initWithFrame:frame window:cocoaWindow];
 	[self setWantsLayer:YES];
 	return self;
 }

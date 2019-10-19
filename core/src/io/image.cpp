@@ -3,13 +3,13 @@
 
 namespace spruce {
 	namespace io {
-		ImageData loadImage(const FileHandle& file) {
+		[[nodiscard]] ImageData loadImage(const FileHandle& file) {
 			ImageData data;
 			data.data = loadImage(file, data.width, data.height, data.bitsPerPixel);
 			return data;
 		}
 
-		buffer<uint8> loadImage(const FileHandle& file, uint16& width, uint16& height, uint16& bitsPerPixel) {
+		[[nodiscard]] buffer<uint8> loadImage(const FileHandle& file, uint16& width, uint16& height, uint16& bitsPerPixel) {
 			const char* pathCStr = file.absolutePath.c_str();
 			FREE_IMAGE_FORMAT format = FIF_UNKNOWN;
 			FIBITMAP* temp = nullptr;
@@ -30,9 +30,9 @@ namespace spruce {
 				FIBITMAP* bitmap = FreeImage_ConvertTo32Bits(temp);
 				FreeImage_Unload(temp);
 				uint8* pixels = FreeImage_GetBits(bitmap);
-				width = FreeImage_GetWidth(bitmap);
-				height = FreeImage_GetHeight(bitmap);
-				bitsPerPixel = FreeImage_GetBPP(bitmap);
+				width = static_cast<uint16>(FreeImage_GetWidth(bitmap));
+				height = static_cast<uint16>(FreeImage_GetHeight(bitmap));
+				bitsPerPixel = static_cast<uint16>(FreeImage_GetBPP(bitmap));
 				const uint64 size = width * height * bitsPerPixel / 8;
 				buffer<uint8> data(size);
 				memcpy(data, pixels, size);

@@ -2,11 +2,11 @@
 
 namespace spruce {
 	template <typename TYPE>
-	aowner<TYPE>::aowner(TYPE* ptr) : owner<TYPE>(ptr) {
+	aowner<TYPE>::aowner(TYPE* ptr) : ptr(ptr) {
 	}
 
 	template <typename TYPE>
-	aowner<TYPE>::aowner(aowner<TYPE>&& other) noexcept : owner<TYPE>(other.ptr) {
+	aowner<TYPE>::aowner(aowner<TYPE>&& other) noexcept : ptr(ptr) {
 		other.ptr = nullptr;
 	}
 
@@ -17,8 +17,63 @@ namespace spruce {
 
 	template <typename TYPE>
 	void aowner<TYPE>::free() {
+		static_assert(std::is_destructible_v<TYPE>);
 		delete this->ptr;
 		this->ptr = nullptr;
+	}
+
+	template <typename TYPE>
+	aowner<TYPE>::operator TYPE*() {
+		return ptr;
+	}
+
+	template <typename TYPE>
+	aowner<TYPE>::operator const TYPE*() const {
+		return ptr;
+	}
+
+	template <typename TYPE>
+	template <typename OTHERTYPE>
+	aowner<TYPE>::operator OTHERTYPE*() {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		return reinterpret_cast<OTHERTYPE*>(ptr);
+	}
+
+	template <typename TYPE>
+	template <typename OTHERTYPE>
+	aowner<TYPE>::operator const OTHERTYPE*() const {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		return reinterpret_cast<const OTHERTYPE*>(ptr);
+	}
+
+	template <typename TYPE>
+	TYPE& aowner<TYPE>::operator*() noexcept {
+		return *ptr;
+	}
+
+	template <typename TYPE>
+	const TYPE& aowner<TYPE>::operator*() const noexcept {
+		return *ptr;
+	}
+
+	template <typename TYPE>
+	TYPE* aowner<TYPE>::operator->() noexcept {
+		return ptr;
+	}
+
+	template <typename TYPE>
+	const TYPE* aowner<TYPE>::operator->() const noexcept {
+		return ptr;
+	}
+
+	template <typename TYPE>
+	bool aowner<TYPE>::operator==(void* otherPtr) {
+		return ptr == otherPtr;
+	}
+
+	template <typename TYPE>
+	bool aowner<TYPE>::operator!=(void* otherPtr) {
+		return ptr != otherPtr;
 	}
 
 	template <typename TYPE>
@@ -37,7 +92,8 @@ namespace spruce {
 	}
 
 	template <typename TYPE, typename ... CONSTYPES>
-	aowner<TYPE> newaown(CONSTYPES&& ... args) {
+	[[nodiscard]] aowner<TYPE> newaown(CONSTYPES&& ... args) {
+		static_assert(std::is_constructible_v<TYPE, CONSTYPES...>);
 		return new TYPE(args...);
 	}
 }
