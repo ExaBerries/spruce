@@ -46,10 +46,7 @@ namespace spruce {
 		}
 
 		bool compareTasks(TaskBackend* taskA, TaskBackend* taskB) {
-			if (taskA->priority < taskB->priority) {
-				return true;
-			}
-			return false;
+			return (taskA->priority < taskB->priority);
 		}
 
 		TaskBackend* getConcurrentTask() {
