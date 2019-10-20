@@ -137,11 +137,7 @@ namespace spruce {
 
 		bool exists(string path) {
 			struct stat s;
-			if (stat(path.c_str(), &s) == 0) {
-				return true;
-			} else {
-				return false;
-			}
+			return stat(path.c_str(), &s) == 0;
 		}
 
 		void createDir(string path) {
