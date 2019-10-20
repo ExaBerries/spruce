@@ -2,10 +2,10 @@
 
 namespace spruce {
 	void waitForMainTasks() {
-		while (task::executeMainTask());
+		while (task::executeMainTask()) {};
 	}
 
 	void waitForGraphicsTasks(bool concurrent) {
-		while (task::executeGraphicsTask(concurrent));
+		while (task::executeGraphicsTask(concurrent)) {};
 	}
 }

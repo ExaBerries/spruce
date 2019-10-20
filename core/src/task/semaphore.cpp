@@ -10,6 +10,6 @@ namespace spruce {
 	}
 
 	void semaphore::wait() {
-		while (locked);
+		while (locked) {};
 	}
 }
