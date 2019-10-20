@@ -8,18 +8,18 @@ namespace spruce {
 	}
 
 	float vec3i::mag2() const {
-		return x * x + y * y + z * z;
+		return static_cast<float>(x * x + y * y + z * z);
 	}
 
 	float vec3i::mag() const {
-		return sqrt(mag2());
+		return std::sqrt(mag2());
 	}
 
 	float vec3i::dst2(const vec3i& vector) const {
-		float dx = vector.x - x;
-		float dy = vector.y - y;
-		float dz = vector.z - z;
-		return dx * dx + dy * dy + dz * dz;
+		int32 dx = vector.x - x;
+		int32 dy = vector.y - y;
+		int32 dz = vector.z - z;
+		return static_cast<float>(dx * dx + dy * dy + dz * dz);
 	}
 
 	float vec3i::dst(const vec3i& vector) const {
@@ -27,7 +27,7 @@ namespace spruce {
 	}
 
 	float vec3i::dot(const vec3i& vector) const {
-		return vector.x * x + vector.y * y + vector.z * z;
+		return static_cast<float>(vector.x * x + vector.y * y + vector.z * z);
 	}
 
 	vec3i& vec3i::add(const vec3i& vector) {

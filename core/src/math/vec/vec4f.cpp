@@ -39,13 +39,13 @@ namespace spruce {
 	}
 
 	float vec4f::mag() const {
-		return sqrt(mag2());
+		return std::sqrt(mag2());
 	}
 
 	vec4f& vec4f::nor() {
 		float mag2 = vec4f::mag2();
 		if (mag2 != 0 && mag2 != 1) {
-			float mag = sqrt(mag2);
+			float mag = std::sqrt(mag2);
 			x /= mag;
 			y /= mag;
 			z /= mag;
@@ -63,7 +63,7 @@ namespace spruce {
 	}
 
 	float vec4f::dst(const vec4f& vector) const {
-		return sqrt(dst2(vector));
+		return std::sqrt(dst2(vector));
 	}
 
 	float vec4f::dot(const vec4f& vector) const {

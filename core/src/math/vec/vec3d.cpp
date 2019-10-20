@@ -30,13 +30,13 @@ namespace spruce {
 	}
 
 	double vec3d::mag() const {
-		return sqrt(mag2());
+		return std::sqrt(mag2());
 	}
 
 	vec3d& vec3d::nor() {
 		double mag2 = vec3d::mag2();
 		if (mag2 != 0 && mag2 != 1) {
-			double mag = sqrt(mag2);
+			double mag = std::sqrt(mag2);
 			x /= mag;
 			y /= mag;
 			z /= mag;
@@ -52,7 +52,7 @@ namespace spruce {
 	}
 
 	double vec3d::dst(const vec3d& vector) const {
-		return sqrt(dst2(vector));
+		return std::sqrt(dst2(vector));
 	}
 
 	double vec3d::dot(const vec3d& vector) const {

@@ -17,7 +17,7 @@ namespace spruce {
 				owner<Texture> texture;
 				uint16 size;
 
-				Font(FileHandle fileHandle, uint16 size);
+				Font(const FileHandle& fileHandle, uint16 size);
 				Font(const Font& font) = delete;
 				Font(Font&&) noexcept = delete;
 				~Font();

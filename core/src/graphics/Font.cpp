@@ -5,7 +5,7 @@
 
 namespace spruce {
 	namespace graphics {
-		Font::Font(FileHandle fileHandle, uint16 size) : fileHandle(fileHandle) {
+		Font::Font(const FileHandle& fileHandle, uint16 size) : fileHandle(fileHandle) {
 			texture = nullptr;
 			this->size = size;
 		}
@@ -62,9 +62,9 @@ namespace spruce {
 					}
 				}
 				chars[i].advance = vec2f(glyph->advance.x, glyph->advance.y) / 64.0f;
-				chars[i].size = vec2f(glyph->bitmap.width, glyph->bitmap.rows);
+				chars[i].size = vec2f(static_cast<float>(glyph->bitmap.width), static_cast<float>(glyph->bitmap.rows));
 				chars[i].bearing = vec2f(glyph->bitmap_left, glyph->bitmap_top);
-				chars[i].texturex = static_cast<float>(xoff) / width;
+				chars[i].texturex = static_cast<float>(xoff) / static_cast<float>(width);
 				xoff += glyph->bitmap.width;
 			}
 			FT_Done_Face(face);

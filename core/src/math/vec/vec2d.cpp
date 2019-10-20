@@ -24,13 +24,13 @@ namespace spruce {
 	}
 
 	double vec2d::mag() const {
-		return sqrt(mag2());
+		return std::sqrt(mag2());
 	}
 
 	vec2d& vec2d::nor() {
 		double mag2 = vec2d::mag2();
 		if (mag2 != 0 && mag2 != 1) {
-			double mag = sqrt(mag2);
+			double mag = std::sqrt(mag2);
 			x /= mag;
 			y /= mag;
 		}
@@ -44,7 +44,7 @@ namespace spruce {
 	}
 
 	double vec2d::dst(const vec2d& vector) const {
-		return sqrt(dst2(vector));
+		return std::sqrt(dst2(vector));
 	}
 
 	double vec2d::dot(const vec2d& vector) const {
