@@ -77,12 +77,12 @@ namespace spruce {
 
 	[[nodiscard]] owner<MetalRenderPipelineState> MetalDevice::newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor) {
 		NSError* err = NULL;
-		owner<MetalRenderPipelineState> state = new MetalRenderPipelineState([castDevice(ptr) newRenderPipelineStateWithDescriptor:castRPipeDesc(descriptor.ptr) error:&err]);
-		if (state->ptr == nullptr) {
+		id<MTLRenderPipelineState> mtlRPS = [castDevice(ptr) newRenderPipelineStateWithDescriptor:castRPipeDesc(descriptor.ptr) error:&err];
+		if (mtlRPS == nullptr) {
 			NSLog(@"error creating render pipeline state %@", err);
 			return nullptr;
 		}
-		return state;
+		return new MetalRenderPipelineState(mtlRPS);
 	}
 
 	[[nodiscard]] owner<MetalDepthStencilState> MetalDevice::newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite) {
