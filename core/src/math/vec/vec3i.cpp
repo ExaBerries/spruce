@@ -4,7 +4,7 @@ namespace spruce {
 	vec3i::vec3i(int32 x, int32 y, int32 z) : x(x), y(y), z(z) {
 	}
 
-	vec3i::vec3i(const vec2i vector, int32 z) : x(vector.x), y(vector.y), z(z) {
+	vec3i::vec3i(const vec2i& vector, int32 z) : x(vector.x), y(vector.y), z(z) {
 	}
 
 	float vec3i::mag2() const {

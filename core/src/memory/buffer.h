@@ -30,7 +30,7 @@ namespace spruce {
 		template <typename OTHERTYPE>
 		explicit operator buffer<OTHERTYPE>();
 		template <typename OTHERTYPE>
-		explicit operator const buffer<OTHERTYPE>() const;
+		explicit operator buffer<OTHERTYPE>() const;
 		operator TYPE*();
 		operator const TYPE*() const;
 		template <typename OTHERTYPE>
@@ -50,7 +50,7 @@ namespace spruce {
 	bool operator!=(buffer<TYPE>& buffer, const void* ptr);
 
 	template <typename TYPE>
-	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer);
+	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE>& buffer);
 }
 
 #include <memory/bufferImpl.h>

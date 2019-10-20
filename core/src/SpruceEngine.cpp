@@ -65,7 +65,7 @@ namespace spruce {
 		return appBackend->supportsAPI(api);
 	}
 
-	const buffer<app::API> SpruceEngine::getSupportedAPIs() {
+	const buffer<app::API>& SpruceEngine::getSupportedAPIs() {
 		return appBackend->supportedAPIs;
 	}
 }

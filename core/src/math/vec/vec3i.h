@@ -12,7 +12,7 @@ namespace spruce {
 
 		vec3i() = default;
 		vec3i(int32 x, int32 y, int32 z);
-		vec3i(const vec2i vector, int32 z);
+		vec3i(const vec2i& vector, int32 z);
 		vec3i(const vec3i&) = default;
 		vec3i(vec3i&&) noexcept = default;
 		~vec3i() = default;

@@ -108,7 +108,7 @@ namespace spruce {
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
-	buffer<TYPE>::operator const buffer<OTHERTYPE>() const {
+	buffer<TYPE>::operator buffer<OTHERTYPE>() const {
 		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		const buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), reinterpret_cast<OTHERTYPE*>(data));
 		return buff;
@@ -156,7 +156,7 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer) {
+	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE>& buffer) {
 		stream << "buffer(" << buffer.size << ", " << reinterpret_cast<void*>(buffer.data) << ")";
 		return stream;
 	}

@@ -29,7 +29,7 @@ namespace spruce {
 			void setFramePipeline(owner<FramePipeline> pipeline);
 			void setRenderer(owner<RendererAbstractor> renderer);
 			bool supportsAPI(app::API api);
-			const buffer<app::API> getSupportedAPIs();
+			const buffer<app::API>& getSupportedAPIs();
 
 			SpruceEngine& operator=(const SpruceEngine&) = delete;
 			SpruceEngine& operator=(SpruceEngine&&) noexcept = delete;

@@ -20,7 +20,7 @@ namespace spruce {
 		return engine.supportsAPI(api);
 	}
 
-	const buffer<app::API> Application::getSupportedAPIs() const {
+	const buffer<app::API>& Application::getSupportedAPIs() const {
 		return engine.getSupportedAPIs();
 	}
 
