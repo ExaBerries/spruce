@@ -4,9 +4,9 @@
 
 static void syscapCpy(benchmark::State& state) {
 	constexpr uint64 SIZE = 1024 * 1024;
-	uint8* a = (uint8*) malloc(SIZE);
+	uint8* a = static_cast<uint8*>(malloc(SIZE));
 	memset(a, 2, SIZE);
-	uint8* b = (uint8*) malloc(SIZE);
+	uint8* b = static_cast<uint8*>(malloc(SIZE));
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		benchmark::DoNotOptimize(memcpy(b, a, SIZE));
 	}
