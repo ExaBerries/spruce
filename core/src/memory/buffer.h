@@ -40,7 +40,7 @@ namespace spruce {
 
 		buffer<TYPE>& operator=(std::nullptr_t);
 		buffer<TYPE>& operator=(const buffer<TYPE>&) = default;
-		buffer<TYPE>& operator=(buffer<TYPE>&&) = default;
+		buffer<TYPE>& operator=(buffer<TYPE>&&) noexcept = default;
 	};
 
 	template <typename TYPE>

@@ -4,9 +4,6 @@ namespace spruce {
 	Application::Application(SpruceEngine& engine) : engine(engine) {
 	}
 
-	Application::~Application() {
-	}
-
 	void* Application::getRenderEncodeData() {
 		return this;
 	}

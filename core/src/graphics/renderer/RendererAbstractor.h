@@ -11,6 +11,8 @@ namespace spruce {
 		class RendererAbstractor {
 			public:
 				RendererAbstractor() = default;
+				RendererAbstractor(const RendererAbstractor&) = default;
+				RendererAbstractor(RendererAbstractor&&) noexcept = default;
 				virtual ~RendererAbstractor() = default;
 
 				virtual std::any encodeBackend(void* encodeData) = 0;
@@ -20,6 +22,9 @@ namespace spruce {
 				[[nodiscard]] virtual owner<TextureAPIData> createTextureAPIData(Texture& texture) = 0;
 				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) = 0;
 				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) = 0;
+
+				RendererAbstractor& operator=(const RendererAbstractor&) = default;
+				RendererAbstractor& operator=(RendererAbstractor&&) noexcept = default;
 		};
 	}
 

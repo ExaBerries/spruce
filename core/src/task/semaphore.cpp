@@ -1,13 +1,6 @@
 #include <task/semaphore.h>
 
 namespace spruce {
-	semaphore::semaphore() {
-		locked = false;
-	}
-
-	semaphore::~semaphore() {
-	}
-
 	void semaphore::lock() {
 		locked = true;
 	}

@@ -13,7 +13,7 @@ namespace spruce {
 			Application(SpruceEngine& engine);
 			Application(const Application&) = delete;
 			Application(Application&&) noexcept = delete;
-			virtual ~Application();
+			virtual ~Application() = default;
 
 			virtual void update(float delta) = 0;
 			virtual void* getRenderEncodeData();
