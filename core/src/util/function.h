@@ -6,7 +6,7 @@
 namespace spruce {
 	namespace util {
 		template <class FUNCTION, class TUPLE, std::size_t... INDEXES>
-		constexpr decltype(auto) execute_impl(FUNCTION&& function, TUPLE&& args, std::index_sequence<INDEXES...>) {
+		constexpr decltype(auto) execute_impl(FUNCTION&& function, TUPLE&& args, std::index_sequence<INDEXES...> /*unused*/) {
 			return function(std::get<INDEXES>(std::forward<TUPLE>(args))...);
 		}
 
