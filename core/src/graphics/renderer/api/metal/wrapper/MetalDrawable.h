@@ -11,7 +11,7 @@ namespace spruce {
 			MetalDrawable(void* ptr);
 			MetalDrawable(const MetalDrawable&) = delete;
 			MetalDrawable(MetalDrawable&&) noexcept = delete;
-			~MetalDrawable();
+			~MetalDrawable() override;
 
 			MetalDrawable& operator=(const MetalDrawable&) = delete;
 			MetalDrawable& operator=(MetalDrawable&&) noexcept = delete;

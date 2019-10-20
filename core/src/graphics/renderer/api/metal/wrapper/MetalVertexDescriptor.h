@@ -11,7 +11,7 @@ namespace spruce {
 			MetalVertexDescriptor();
 			MetalVertexDescriptor(const MetalVertexDescriptor& other) = delete;
 			MetalVertexDescriptor(MetalVertexDescriptor&& other) = delete;
-			~MetalVertexDescriptor();
+			~MetalVertexDescriptor() override;
 
 			void reset();
 			void setAttribute(uint32 index, MetalVertexFormat format, uint32 offset, uint32 bufferIndex);

@@ -9,7 +9,7 @@ namespace spruce {
 			MetalTexture(void* ptr);
 			MetalTexture(const MetalTexture&) = delete;
 			MetalTexture(MetalTexture&&) noexcept = delete;
-			~MetalTexture();
+			~MetalTexture() override;
 
 			vec2i getSize();
 

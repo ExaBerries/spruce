@@ -9,7 +9,7 @@ namespace spruce {
 			MetalBuffer(void* ptr);
 			MetalBuffer(const MetalBuffer&) = delete;
 			MetalBuffer(MetalBuffer&&) noexcept = delete;
-			~MetalBuffer();
+			~MetalBuffer() override;
 
 			void* getContents();
 			void didModifyRange(uint32 start, uint32 length);

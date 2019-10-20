@@ -9,7 +9,7 @@ namespace spruce {
 			MetalDepthStencilState(void* ptr);
 			MetalDepthStencilState(const MetalDepthStencilState& other) = delete;
 			MetalDepthStencilState(MetalDepthStencilState&& other) = delete;
-			~MetalDepthStencilState();
+			~MetalDepthStencilState() override;
 
 			MetalDepthStencilState& operator=(const MetalDepthStencilState& other) = delete;
 			MetalDepthStencilState& operator=(MetalDepthStencilState&& other) = delete;

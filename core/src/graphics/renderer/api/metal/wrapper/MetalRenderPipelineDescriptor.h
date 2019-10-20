@@ -12,7 +12,7 @@ namespace spruce {
 			MetalRenderPipelineDescriptor();
 			MetalRenderPipelineDescriptor(const MetalRenderPipelineDescriptor& other) = delete;
 			MetalRenderPipelineDescriptor(MetalRenderPipelineDescriptor&& other) = delete;
-			~MetalRenderPipelineDescriptor();
+			~MetalRenderPipelineDescriptor() override;
 
 			void setVertexFunction(const MetalFunction* function);
 			void setFragmentFunction(const MetalFunction* function);

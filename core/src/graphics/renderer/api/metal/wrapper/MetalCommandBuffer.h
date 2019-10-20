@@ -12,7 +12,7 @@ namespace spruce {
 			MetalCommandBuffer(void* ptr);
 			MetalCommandBuffer(const MetalCommandBuffer&) = delete;
 			MetalCommandBuffer(MetalCommandBuffer&&) noexcept = delete;
-			~MetalCommandBuffer() = default;
+			~MetalCommandBuffer() override = default;
 
 			void commit();
 			void enqueue();

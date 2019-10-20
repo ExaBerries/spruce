@@ -6,7 +6,7 @@ namespace spruce {
 	class MetalRenderPipelineState : public MetalObj {
 		public:
 			MetalRenderPipelineState(void* ptr);
-			~MetalRenderPipelineState();
+			~MetalRenderPipelineState() override;
 	};
 }
 #endif

@@ -12,7 +12,7 @@ namespace spruce {
 	class MetalRenderCommandEncoder : public MetalObj {
 		public:
 			MetalRenderCommandEncoder(void* ptr);
-			~MetalRenderCommandEncoder();
+			~MetalRenderCommandEncoder() override;
 
 			void endEncoding();
 			void setRenderPipelineState(MetalRenderPipelineState* state);

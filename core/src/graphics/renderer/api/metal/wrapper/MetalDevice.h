@@ -23,7 +23,7 @@ namespace spruce {
 			MetalDevice(void* ptr);
 			MetalDevice(const MetalDevice&) = delete;
 			MetalDevice(MetalDevice&&) noexcept = delete;
-			~MetalDevice();
+			~MetalDevice() override;
 
 			string getName();
 			bool getLowPower();

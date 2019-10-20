@@ -12,7 +12,7 @@ namespace spruce {
 			CocoaOpenGLContext(OpenGLView* view);
 			CocoaOpenGLContext(const CocoaOpenGLContext&) = delete;
 			CocoaOpenGLContext(CocoaOpenGLContext&&) noexcept = delete;
-			~CocoaOpenGLContext() = default;
+			~CocoaOpenGLContext() override = default;
 
 			void makeContextCurrent() override;
 			void swapBuffers() override;
