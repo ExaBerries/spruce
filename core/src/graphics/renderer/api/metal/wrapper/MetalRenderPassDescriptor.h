@@ -13,7 +13,7 @@ namespace spruce {
 			MetalRenderPassDescriptor();
 			MetalRenderPassDescriptor(const MetalRenderPassDescriptor&) = delete;
 			MetalRenderPassDescriptor(MetalRenderPassDescriptor&&) noexcept = delete;
-			~MetalRenderPassDescriptor() override;
+			~MetalRenderPassDescriptor() override = default;
 
 			void setColorAttachment(uint32 index, MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, color clearColor);
 			void setDepthAttachment(MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, double clearDepth);

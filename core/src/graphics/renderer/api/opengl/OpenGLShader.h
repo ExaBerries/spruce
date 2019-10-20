@@ -13,6 +13,7 @@ namespace spruce {
 
 				OpenGLShader();
 				OpenGLShader(const OpenGLShader&) = delete;
+				OpenGLShader(OpenGLShader&&) noexcept = delete;
 				~OpenGLShader();
 
 				void compileSPIRV(const buffer<uint8>& vertData, const buffer<uint8>& fragData);
@@ -27,6 +28,9 @@ namespace spruce {
 				void setUniform(uint16 location, const vec4f& vector);
 				void setUniform(uint16 location, const mat4f& matrix);
 				void setUniform(uint16 location, const color& color);
+
+				OpenGLShader& operator=(const OpenGLShader&) = delete;
+				OpenGLShader& operator=(OpenGLShader&&) noexcept = delete;
 		};
 	}
 

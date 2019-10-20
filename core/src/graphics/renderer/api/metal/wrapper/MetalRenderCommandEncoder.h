@@ -12,6 +12,8 @@ namespace spruce {
 	class MetalRenderCommandEncoder : public MetalObj {
 		public:
 			MetalRenderCommandEncoder(void* ptr);
+			MetalRenderCommandEncoder(const MetalRenderCommandEncoder&) = delete;
+			MetalRenderCommandEncoder(MetalRenderCommandEncoder&&) noexcept = delete;
 			~MetalRenderCommandEncoder() override;
 
 			void endEncoding();
@@ -28,6 +30,9 @@ namespace spruce {
 
 			void drawPrimitives(MetalPrimitive primitive, uint32 vertexStart, uint32 vertexCount, uint32 instanceCount);
 			void drawIndexedPrimitives(MetalPrimitive primitive, uint32 indexCount, MetalIndexType type, const MetalBuffer* indexBuffer, uint32 indexBufferOffset);
+
+			MetalRenderCommandEncoder& operator=(const MetalRenderCommandEncoder&) = delete;
+			MetalRenderCommandEncoder& operator=(MetalRenderCommandEncoder&&) noexcept = delete;
 	};
 }
 #endif

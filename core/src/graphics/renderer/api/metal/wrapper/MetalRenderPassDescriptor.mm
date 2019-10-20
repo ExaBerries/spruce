@@ -14,9 +14,6 @@ namespace spruce {
 	MetalRenderPassDescriptor::MetalRenderPassDescriptor() : MetalObj([MTLRenderPassDescriptor renderPassDescriptor]) {
 	}
 
-	MetalRenderPassDescriptor::~MetalRenderPassDescriptor() {
-	}
-
 	void MetalRenderPassDescriptor::setColorAttachment(uint32 index, MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, color clearColor) {
 		castRPDesc(ptr).colorAttachments[index].texture = castTexture(texture->ptr);
 		castRPDesc(ptr).colorAttachments[index].loadAction = mapLoadAction(loadAction);
