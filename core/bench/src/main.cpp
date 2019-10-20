@@ -7,7 +7,7 @@ static void syscapCpy(benchmark::State& state) {
 	uint8* a = (uint8*) malloc(SIZE);
 	memset(a, 2, SIZE);
 	uint8* b = (uint8*) malloc(SIZE);
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		benchmark::DoNotOptimize(memcpy(b, a, SIZE));
 	}
 	state.SetBytesProcessed(state.iterations() * SIZE);
@@ -26,11 +26,11 @@ static void syscapAdd(benchmark::State& state) {
 	for (uint64 i = 0; i < NUM; i++) {
 		a1[i] = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
 			float v;
 			benchmark::DoNotOptimize(v);
-			v = a0[i] + a1[i];
+			v = a0[i] + a1[i]; // NOLINT(clang-analyzer-deadcode.DeadStores)
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * (sizeof(a0) + sizeof(a1)));

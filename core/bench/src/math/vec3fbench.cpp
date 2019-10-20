@@ -4,7 +4,7 @@
 using namespace spruce;
 
 static void vec3fConstruct(benchmark::State& state) {
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec3f v;
 		benchmark::DoNotOptimize(v);
 	}
@@ -14,7 +14,7 @@ BENCHMARK(vec3fConstruct);
 static void vec3fScale(benchmark::State& state) {
 	vec3f a(4, 4, 4);
 	float scale = 2;
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec3f b = a * scale;
 		benchmark::DoNotOptimize(b);
 	}
@@ -24,7 +24,7 @@ BENCHMARK(vec3fScale);
 static void vec3fAddVec(benchmark::State& state) {
 	vec3f a(1, 0, 0);
 	vec3f b(0, 1, 1);
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec3f c = a + b;
 		benchmark::DoNotOptimize(c);
 	}
@@ -42,7 +42,7 @@ static void vec3fScaleMulti(benchmark::State& state) {
 		data[i].vector.set(i, i, i);
 		data[i].scale = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
 			vec3f vec = data[i].vector * data[i].scale;
 			benchmark::DoNotOptimize(vec);
@@ -64,7 +64,7 @@ static void vec3fAddMulti(benchmark::State& state) {
 		data[i].a.set(i, i, i);
 		data[i].b = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
 			vec3f vec = data[i].a + data[i].b;
 			benchmark::DoNotOptimize(vec);
@@ -86,7 +86,7 @@ static void vec3fSubMulti(benchmark::State& state) {
 		data[i].a.set(i, i, i);
 		data[i].b = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
 			vec3f vec = data[i].a - data[i].b;
 			benchmark::DoNotOptimize(vec);
@@ -98,7 +98,7 @@ static void vec3fSubMulti(benchmark::State& state) {
 BENCHMARK(vec3fSubMulti);
 
 static void vec3fCrs(benchmark::State& state) {
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec3f vec(1, 0, 0);
 		vec3f crs = vec.crs(vec3f(0, 1, 0));
 	}
@@ -119,9 +119,9 @@ static void vec3fAddMultiMacSys(benchmark::State& state) {
 		data[i].a = {(float)i, (float)i, (float)i};
 		data[i].b = {(float)i, (float)i, (float)i};
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
-			volatile vector_float3 vec = data[i].a + data[i].b;
+			volatile vector_float3 vec = data[i].a + data[i].b; // NOLINT(clang-analyzer-deadcode.DeadStores)
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));

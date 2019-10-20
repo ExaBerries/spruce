@@ -19,6 +19,7 @@ checks='*,
 -google-readability-namespace-comments,
 -google-runtime-references,
 -google-explicit-constructor,
+-google-objc-global-variable-declaration,
 
 -cppcoreguidelines-avoid-c-arrays,
 -cppcoreguidelines-non-private-member-variables-in-classes,
@@ -30,6 +31,7 @@ checks='*,
 -cppcoreguidelines-owning-memory,
 -cppcoreguidelines-macro-usage,
 -cppcoreguidelines-pro-type-member-init,
+-cppcoreguidelines-pro-type-static-cast-downcast,
 
 -modernize-concat-nested-namespaces,
 -modernize-use-trailing-return-type,
@@ -41,12 +43,16 @@ checks='*,
 -portability-simd-intrinsics,
 
 -fuchsia-overloaded-operator,
+-fuchsia-statically-constructed-objects,
+-fuchsia-default-arguments-calls,
 
 -readability-magic-numbers,
 -readability-uppercase-literal-suffix,
 -readability-else-after-return,
 
--misc-non-private-member-variables-in-classes
+-misc-non-private-member-variables-in-classes,
+
+-cert-oop54-cpp
 '
 
 checks_no_whitespace="$(echo "${checks}" | tr -d '[:space:]')"
