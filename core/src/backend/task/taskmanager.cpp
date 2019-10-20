@@ -20,17 +20,17 @@ namespace spruce {
 		}
 
 		void free() {
-			for (uint16 i = 0; i < threads.size(); i++) {
-				threads[i].join();
+			for (std::thread& thread : threads) {
+				threads.join();
 			}
-			for (uint32 i = 0; i < mainTasks.size(); i++) {
-				delete mainTasks[i];
+			for (TaskBackend*& mainTask : mainTasks) {
+				delete mainTask;
 			}
-			for (uint32 i = 0; i < concurrentTasks.size(); i++) {
-				delete concurrentTasks[i];
+			for (TaskBackend*& concurrentTask : concurrentTasks) {
+				delete concurrentTask;
 			}
-			for (auto taskData : data) {
-				delete taskData.second;
+			for (auto& [id, taskData] : data) {
+				delete taskData;
 			}
 		}
 
