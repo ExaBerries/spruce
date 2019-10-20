@@ -20,8 +20,8 @@ namespace spruce {
 		}
 
 		void free() {
-			for (std::thread& thread : threads) {
-				threads.join();
+			for (WorkerThread& thread : threads) {
+				thread.join();
 			}
 			for (TaskBackend*& mainTask : mainTasks) {
 				delete mainTask;
