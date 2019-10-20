@@ -14,9 +14,7 @@ namespace spruce {
 		}
 
 		TaskBackend::~TaskBackend() {
-			if (functionData != nullptr) {
-				delete functionData;
-			}
+			delete functionData;
 			deincrementRef(id);
 		}
 	}

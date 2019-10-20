@@ -41,23 +41,17 @@ namespace spruce {
 
 	void SpruceEngine::setRenderAPI(app::API newAPI) {
 		this->apiType = newAPI;
-		if (apiContext != nullptr) {
-			delete apiContext;
-		}
+		delete apiContext;
 		apiContext = window->initAPI(newAPI);
 	}
 
 	void SpruceEngine::setFramePipeline(owner<FramePipeline> pipeline) {
-		if (this->framePipeline != nullptr) {
-			delete this->framePipeline;
-		}
+		delete this->framePipeline;
 		this->framePipeline = pipeline;
 	}
 
 	void SpruceEngine::setRenderer(owner<RendererAbstractor> renderer) {
-		if (this->renderer != nullptr) {
-			delete this->renderer;
-		}
+		delete this->renderer;
 		this->renderer = renderer;
 	}
 
