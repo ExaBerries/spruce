@@ -16,7 +16,7 @@ namespace spruce {
 				Renderer() = default;
 				Renderer(const Renderer&) = default;
 				Renderer(Renderer&&) noexcept = default;
-				virtual ~Renderer() override = default;
+				~Renderer() override = default;
 
 				std::any encodeBackend(void* encodeData) override;
 				void executeBackend(std::any executeData) override;

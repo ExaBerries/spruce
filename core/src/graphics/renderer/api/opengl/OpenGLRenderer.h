@@ -15,7 +15,7 @@ namespace spruce {
 				explicit OpenGLRenderer(Application& app);
 				OpenGLRenderer(const OpenGLRenderer&) = delete;
 				OpenGLRenderer(OpenGLRenderer&&) = delete;
-				virtual ~OpenGLRenderer() override = default;
+				~OpenGLRenderer() override = default;
 
 				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) override;
 				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) override;

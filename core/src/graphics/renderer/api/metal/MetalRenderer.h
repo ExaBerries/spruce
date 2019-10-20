@@ -15,7 +15,7 @@ namespace spruce {
 				explicit MetalRenderer(Application& app);
 				MetalRenderer(const MetalRenderer&) = delete;
 				MetalRenderer(MetalRenderer&&) noexcept = delete;
-				virtual ~MetalRenderer() = default;
+				~MetalRenderer() = default;
 
 				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) override;
 				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) override;
