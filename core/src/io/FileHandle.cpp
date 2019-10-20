@@ -70,9 +70,6 @@ namespace spruce {
 		}
 	}
 
-	FileHandle::~FileHandle() {
-	}
-
 	buffer<FileHandle> FileHandle::list() const {
 		if (!directory) {
 			return nullptr;
