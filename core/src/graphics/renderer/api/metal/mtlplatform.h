@@ -94,15 +94,15 @@ namespace spruce {
 			case MetalVertexFormat::CHAR4:
 				return MTLVertexFormatChar4;
 			case MetalVertexFormat::UCHARNOR:
-				return MTLVertexFormatCharNormalized;
+				return MTLVertexFormatUCharNormalized;
 			case MetalVertexFormat::UCHAR2NOR:
-				return MTLVertexFormatChar2Normalized;
+				return MTLVertexFormatUChar2Normalized;
 			case MetalVertexFormat::UCHAR3NOR:
-				return MTLVertexFormatChar3Normalized;
+				return MTLVertexFormatUChar3Normalized;
 			case MetalVertexFormat::UCHAR4NOR:
-				return MTLVertexFormatChar4Normalized;
+				return MTLVertexFormatUChar4Normalized;
 			case MetalVertexFormat::CHARNOR:
-				return MTLVertexFormatChar4Normalized;
+				return MTLVertexFormatCharNormalized;
 			case MetalVertexFormat::CHAR2NOR:
 				return MTLVertexFormatChar2Normalized;
 			case MetalVertexFormat::CHAR3NOR:
@@ -336,7 +336,7 @@ namespace spruce {
 			case MetalPixelFormat::DEPTH24UNORM_STENCIL8:
 				return MTLPixelFormatDepth24Unorm_Stencil8;
 			case MetalPixelFormat::X32_STENCIL8:
-				return MTLPixelFormatX24_Stencil8;
+				return MTLPixelFormatX32_Stencil8;
 			case MetalPixelFormat::X24_STENCIL8:
 				return MTLPixelFormatX24_Stencil8;
 			default:
