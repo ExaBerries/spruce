@@ -27,13 +27,13 @@ namespace spruce {
 			XNextEvent(display, &event);
 			if (event.type == KeyPress) {
 				XKeyEvent kevent = event.xkey;
-				for (uint16 i = 0; i < input::processors.size(); i++) {
-					input::processors[i]->keyDown(kevent.keycode);
+				for (input::InputProcessor* processor : input::processors) {
+					processor->keyDown(kevent.keycode);
 				}
 			} else if (event.type == KeyRelease) {
 				XKeyEvent kevent = event.xkey;
-				for (uint16 i = 0; i < input::processors.size(); i++) {
-					input::processors[i]->keyUp(kevent.keycode);
+				for (input::InputProcessor* processor : input::processors) {
+					processor->keyUp(kevent.keycode);
 				}
 			} else if (event.type == ButtonPress) {
 				XButtonEvent bevent = event.xbutton;
@@ -45,8 +45,8 @@ namespace spruce {
 				} else if (bevent.button == 3) {
 					btn = input::RIGHT;
 				}
-				for (uint16 i = 0; i < input::processors.size(); i++) {
-					input::processors[i]->mouseDown(btn);
+				for (input::InputProcessor* processor : input::processors) {
+					processor->mouseDown(btn);
 				}
 			} else if (event.type == ButtonRelease) {
 				XButtonEvent bevent = event.xbutton;
@@ -58,8 +58,8 @@ namespace spruce {
 				} else if (bevent.button == 3) {
 					btn = input::RIGHT;
 				}
-				for (uint16 i = 0; i < input::processors.size(); i++) {
-					input::processors[i]->mouseUp(btn);
+				for (input::InputProcessor* processor : input::processors) {
+					processor->mouseUp(btn);
 				}
 			} else if (event.type == MotionNotify) {
 				XButtonEvent bevent = event.xbutton;
@@ -69,8 +69,8 @@ namespace spruce {
 						newPos.x /= window->width;
 						newPos.y /= window->height;
 						newPos -= vec2f(0.5);
-						for (uint16 i = 0; i < input::processors.size(); i++) {
-							input::processors[i]->mouseMove(newPos);
+						for (input::InputProcessor* processor : input::processors) {
+							processor->mouseMove(newPos);
 						}
 						break;
 					}

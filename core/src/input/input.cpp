@@ -15,7 +15,7 @@ namespace spruce {
 
 		void removeProcessor(InputProcessor* processor) {
 			std::lock_guard<std::mutex> processorsLock(processorsMutex);
-			for (uint16 i = 0; i < processors.size(); i++) {
+			for (uint32 i = 0; i < processors.size(); i++) {
 				if (processors[i] == processor) {
 					processors.erase(processors.begin() + i);
 				}
