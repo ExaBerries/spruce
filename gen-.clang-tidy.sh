@@ -1,11 +1,13 @@
 checks='*,
 
--android-*
--openmp-*
+-android-*,
+-openmp-*,
 
 -clang-analyzer-optin.osx.cocoa.localizability.NonLocalizedStringChecker,
 -clang-analyzer-nullability.NullabilityBase,
 -clang-analyzer-osx.cocoa.RetainCountBase,
+
+-bugprone-branch-clone,
 
 -llvm-include-order,
 -llvm-namespace-comment,
@@ -19,6 +21,7 @@ checks='*,
 -hicpp-explicit-conversions,
 -hicpp-use-auto,
 -hicpp-no-array-decay,
+-hicpp-vararg,
 
 -google-readability-namespace-comments,
 -google-runtime-references,
