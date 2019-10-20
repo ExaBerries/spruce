@@ -28,12 +28,11 @@ namespace spruce {
 		template <typename ... ARGS>
 		class FunctionDataTemplate<void, ARGS...> : public FunctionData {
 			public:
-				bool* output;
 				std::function<void(ARGS...)> function;
 				std::tuple<ARGS...> args;
 				uint64 taskId;
 
-				FunctionDataTemplate(bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId);
+				FunctionDataTemplate([[maybe_unused]] bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId);
 				FunctionDataTemplate(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate(FunctionDataTemplate&&) noexcept = delete;
 				~FunctionDataTemplate() override = default;

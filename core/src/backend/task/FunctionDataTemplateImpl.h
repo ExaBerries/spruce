@@ -15,8 +15,7 @@ namespace spruce {
 		}
 
 		template <typename ... ARGS>
-		FunctionDataTemplate<void, ARGS...>::FunctionDataTemplate(bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId) : args(args) {
-			this->output = output;
+		FunctionDataTemplate<void, ARGS...>::FunctionDataTemplate([[maybe_unused]] bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId) : args(args) {
 			this->function = function;
 			this->taskId = taskId;
 		}
