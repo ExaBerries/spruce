@@ -116,8 +116,9 @@ static void vec3dAddMultiMacSys(benchmark::State& state) {
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a = {(double)i, (double)i, (double)i};
-		data[i].b = {(double)i, (double)i, (double)i};
+		double di = i;
+		data[i].a = {di, di, di};
+		data[i].b = {di, di, di};
 	}
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {

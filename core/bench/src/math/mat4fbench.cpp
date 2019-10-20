@@ -187,10 +187,11 @@ static void mat4fAddMultiMacSys(benchmark::State& state) {
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		vector_float4 r0 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r1 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r2 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r3 = {(float)i,(float)i,(float)i,(float)i};
+		float fi = i;
+		vector_float4 r0 = {fi,fi,fi,fi};
+		vector_float4 r1 = {fi,fi,fi,fi};
+		vector_float4 r2 = {fi,fi,fi,fi};
+		vector_float4 r3 = {fi,fi,fi,fi};
 		matrix_float4x4 mat = matrix_from_rows(r0,r1,r2,r3);
 		data[i].a = mat;
 		data[i].b = mat;
@@ -214,10 +215,11 @@ static void mat4fMulMultiMacSys(benchmark::State& state) {
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		vector_float4 r0 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r1 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r2 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r3 = {(float)i,(float)i,(float)i,(float)i};
+		float fi = i;
+		vector_float4 r0 = {fi,fi,fi,fi};
+		vector_float4 r1 = {fi,fi,fi,fi};
+		vector_float4 r2 = {fi,fi,fi,fi};
+		vector_float4 r3 = {fi,fi,fi,fi};
 		matrix_float4x4 mat = matrix_from_rows(r0,r1,r2,r3);
 		data[i].a = mat;
 		data[i].b = mat;
@@ -241,13 +243,14 @@ static void mat4fMulVec3fMultiMacSys(benchmark::State& state) {
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		vector_float4 r0 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r1 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r2 = {(float)i,(float)i,(float)i,(float)i};
-		vector_float4 r3 = {(float)i,(float)i,(float)i,(float)i};
+		float fi = i;
+		vector_float4 r0 = {fi,fi,fi,fi};
+		vector_float4 r1 = {fi,fi,fi,fi};
+		vector_float4 r2 = {fi,fi,fi,fi};
+		vector_float4 r3 = {fi,fi,fi,fi};
 		matrix_float4x4 mat = matrix_from_rows(r0,r1,r2,r3);
 		data[i].a = mat;
-		data[i].b = {(float)i, (float)i, (float)i, 1};
+		data[i].b = {fi, fi, fi, 1};
 	}
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {

@@ -48,7 +48,7 @@ namespace spruce {
 			}
 			uint32 xoff = 0;
 			buffer<uint8> data(width * height * sizeof(float));
-			buffer<float> fdata = (buffer<float>) data;
+			buffer<float> fdata = static_cast<buffer<float>>(data);
 			for (float& f : fdata) {
 				f = 0.5f;
 			}
@@ -74,11 +74,11 @@ namespace spruce {
 		}
 
 		Font::CharInfo& Font::getInfoFor(char c) {
-			return chars[(uint16)c];
+			return chars[static_cast<uint16>(c)];
 		}
 
 		void Font::freeVRAM() {
-			delete (Texture*)texture;
+			delete texture;
 		}
 	}
 }

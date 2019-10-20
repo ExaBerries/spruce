@@ -116,8 +116,9 @@ static void vec3fAddMultiMacSys(benchmark::State& state) {
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a = {(float)i, (float)i, (float)i};
-		data[i].b = {(float)i, (float)i, (float)i};
+		float fi = i;
+		data[i].a = {fi, fi, fi};
+		data[i].b = {fi, fi, fi};
 	}
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
