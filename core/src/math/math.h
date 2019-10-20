@@ -9,7 +9,6 @@
 #include <math/vec/vec3f.h>
 #include <math/vec/vec3d.h>
 #include <math/vec/vec4f.h>
-#include <math.h>
 #include <cmath>
 
 namespace spruce {

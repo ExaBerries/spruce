@@ -1,7 +1,13 @@
 #pragma once
+#ifdef __cplusplus
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#else
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#endif
 
 #ifdef __cplusplus
 #include <string>
