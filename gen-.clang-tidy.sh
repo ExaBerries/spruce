@@ -22,6 +22,7 @@ checks='*,
 -hicpp-use-auto,
 -hicpp-no-array-decay,
 -hicpp-vararg,
+-hicpp-use-nullptr,
 
 -google-readability-namespace-comments,
 -google-runtime-references,
@@ -51,6 +52,8 @@ checks='*,
 -modernize-use-nodiscard,
 -modernize-use-auto,
 -modernize-loop-convert,
+-modernize-use-nullptr,
+-modernize-pass-by-value,
 
 -portability-simd-intrinsics,
 
@@ -62,6 +65,8 @@ checks='*,
 -readability-uppercase-literal-suffix,
 -readability-else-after-return,
 -readability-implicit-bool-conversion,
+-readability-convert-member-functions-to-static,
+-readability-container-size-empty,
 
 -misc-non-private-member-variables-in-classes,
 
