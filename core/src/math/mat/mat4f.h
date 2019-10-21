@@ -20,33 +20,33 @@ namespace spruce {
 		mat4f(mat4f&&) noexcept = default;
 		~mat4f() = default;
 
-		mat4f& setIdentity();
-		mat4f& set(const float values[16]);
-		mat4f& set(const vec3f& translation, const quaternion& rotation, const vec3f& scale);
-		mat4f& set(const vec3f& direction, const vec3f& up);
+		mat4f& setIdentity() noexcept;
+		mat4f& set(const float values[16]) noexcept;
+		mat4f& set(const vec3f& translation, const quaternion& rotation, const vec3f& scale) noexcept;
+		mat4f& set(const vec3f& direction, const vec3f& up) noexcept;
 
-		[[nodiscard]] float determinant();
-		mat4f& invert();
-		mat4f& transpose();
+		[[nodiscard]] float determinant() noexcept;
+		mat4f& invert() noexcept;
+		mat4f& transpose() noexcept;
 
-		mat4f& operator+=(const mat4f& matrix);
-		mat4f& operator-=(const mat4f& matrix);
-		mat4f& operator*=(const mat4f& matrix);
+		mat4f& operator+=(const mat4f& matrix) noexcept;
+		mat4f& operator-=(const mat4f& matrix) noexcept;
+		mat4f& operator*=(const mat4f& matrix) noexcept;
 
-		[[nodiscard]] bool operator==(const mat4f& matrix) const;
-		[[nodiscard]] bool operator!=(const mat4f& matrix) const;
+		[[nodiscard]] bool operator==(const mat4f& matrix) const noexcept;
+		[[nodiscard]] bool operator!=(const mat4f& matrix) const noexcept;
 
 		mat4f& operator=(const mat4f&) = default;
 		mat4f& operator=(mat4f&&) noexcept = default;
 	};
 
-	inline mat4f operator+(const mat4f& left, const mat4f& right);
-	inline mat4f operator-(const mat4f& left, const mat4f& right);
-	inline mat4f operator*(const mat4f& left, const mat4f& right);
-	inline vec3f operator*(const vec3f& vector, const mat4f& matrix);
-	inline vec3f operator*(const mat4f& matrix, const vec3f& vector);
-	inline vec4f operator*(const vec4f& vector, const mat4f& matrix);
-	inline vec4f operator*(const mat4f& matrix, const vec4f& vector);
+	inline mat4f operator+(const mat4f& left, const mat4f& right) noexcept;
+	inline mat4f operator-(const mat4f& left, const mat4f& right) noexcept;
+	inline mat4f operator*(const mat4f& left, const mat4f& right) noexcept;
+	inline vec3f operator*(const vec3f& vector, const mat4f& matrix) noexcept;
+	inline vec3f operator*(const mat4f& matrix, const vec3f& vector) noexcept;
+	inline vec4f operator*(const vec4f& vector, const mat4f& matrix) noexcept;
+	inline vec4f operator*(const mat4f& matrix, const vec4f& vector) noexcept;
 
 	std::ostream& operator<<(std::ostream& stream, const mat4f& matrix);
 }

@@ -8,7 +8,7 @@ namespace spruce {
 		}
 
 		template <typename OUTPUT, typename ... ARGS>
-		void FunctionDataTemplate<OUTPUT, ARGS...>::execute() {
+		void FunctionDataTemplate<OUTPUT, ARGS...>::execute() noexcept {
 			(*output) = util::execute(function, args);
 		}
 
@@ -17,7 +17,7 @@ namespace spruce {
 		}
 
 		template <typename ... ARGS>
-		void FunctionDataTemplate<void, ARGS...>::execute() {
+		void FunctionDataTemplate<void, ARGS...>::execute() noexcept {
 			util::execute(function, args);
 		}
 	}

@@ -15,9 +15,9 @@ namespace spruce {
 				WorkerThread(WorkerThread&&) noexcept = delete;
 				~WorkerThread();
 
-				void join();
+				void join() noexcept;
 
-				static void run(WorkerThread* thread);
+				static void run(WorkerThread* thread) noexcept;
 
 				WorkerThread& operator=(const WorkerThread&) = delete;
 				WorkerThread& operator=(WorkerThread&&) noexcept = delete;

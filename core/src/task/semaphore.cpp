@@ -1,15 +1,15 @@
 #include <task/semaphore.h>
 
 namespace spruce {
-	void semaphore::lock() {
+	void semaphore::lock() noexcept {
 		locked = true;
 	}
 
-	void semaphore::unlock() {
+	void semaphore::unlock() noexcept {
 		locked = false;
 	}
 
-	void semaphore::wait() {
+	void semaphore::wait() noexcept {
 		while (locked) {};
 	}
 }

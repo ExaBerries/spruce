@@ -5,8 +5,8 @@ namespace spruce {
 	struct semaphore {
 		bool locked = false;
 
-		void lock();
-		void unlock();
-		void wait();
+		void lock() noexcept;
+		void unlock() noexcept;
+		void wait() noexcept;
 	};
 }

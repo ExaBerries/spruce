@@ -146,12 +146,12 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	bool operator==(buffer<TYPE>& buffer, const void* ptr) {
+	bool operator==(buffer<TYPE>& buffer, const void* ptr) noexcept {
 		return buffer.data == ptr;
 	}
 
 	template <typename TYPE>
-	bool operator!=(buffer<TYPE>& buffer, const void* ptr) {
+	bool operator!=(buffer<TYPE>& buffer, const void* ptr) noexcept {
 		return buffer.data != ptr;
 	}
 

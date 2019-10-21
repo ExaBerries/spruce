@@ -27,8 +27,8 @@ namespace spruce {
 		TYPE* operator->() noexcept;
 		const TYPE* operator->() const noexcept;
 
-		[[nodiscard]] bool operator==(void* otherPtr);
-		[[nodiscard]] bool operator!=(void* otherPtr);
+		[[nodiscard]] bool operator==(void* otherPtr) const noexcept;
+		[[nodiscard]] bool operator!=(void* otherPtr) const noexcept;
 
 		template <typename OTHERTYPE>
 		aowner& operator=(aowner<OTHERTYPE>&& newOwner) noexcept;

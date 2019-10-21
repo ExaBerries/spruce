@@ -44,10 +44,10 @@ namespace spruce {
 	};
 
 	template <typename TYPE>
-	[[nodiscard]] bool operator==(buffer<TYPE>& buffer, const void* ptr);
+	[[nodiscard]] bool operator==(buffer<TYPE>& buffer, const void* ptr) noexcept;
 
 	template <typename TYPE>
-	[[nodiscard]] bool operator!=(buffer<TYPE>& buffer, const void* ptr);
+	[[nodiscard]] bool operator!=(buffer<TYPE>& buffer, const void* ptr) noexcept;
 
 	template <typename TYPE>
 	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE>& buffer);

@@ -56,7 +56,7 @@ namespace spruce {
 	}
 
 	template <typename RETURN, typename ... TYPES>
-	[[nodiscard]] Task<RETURN(TYPES...)> createTask(std::function<RETURN(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
+	[[nodiscard]] Task<RETURN(TYPES...)> createTask(std::function<RETURN(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) noexcept {
 		static_assert(std::is_default_constructible_v<RETURN>);
 		static_assert(std::is_destructible_v<RETURN>);
 		uint64 id = task::taskId++;
@@ -73,7 +73,7 @@ namespace spruce {
 	}
 
 	template <typename ... TYPES>
-	[[nodiscard]] Task<void(TYPES...)> createTask(std::function<void(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) {
+	[[nodiscard]] Task<void(TYPES...)> createTask(std::function<void(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) noexcept {
 		uint64 id = task::taskId++;
 		owner<task::TaskData> taskData = new task::TaskData(sizeof(bool), []([[maybe_unused]] void* data) {});
 		Task<void(TYPES...)> task(id, taskData->complete);

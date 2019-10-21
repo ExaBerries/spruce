@@ -1,7 +1,7 @@
 #pragma once
 
 namespace spruce {
-	inline quaternion& quaternion::nor() {
+	inline quaternion& quaternion::nor() noexcept {
 		float mag2 = quaternion::mag2();
 		if (mag2 != 0 && mag2 != 1) {
 			float mag = std::sqrt(mag2);
@@ -12,7 +12,7 @@ namespace spruce {
 		return *this;
 	}
 
-	inline quaternion operator+(const quaternion& left, const quaternion& right) {
+	inline quaternion operator+(const quaternion& left, const quaternion& right) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f r = simd::load4f4f(right.x);
 		quaternion out;
@@ -20,7 +20,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline quaternion operator-(const quaternion& left, const quaternion& right) {
+	inline quaternion operator-(const quaternion& left, const quaternion& right) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f r = simd::load4f4f(right.x);
 		quaternion out;
@@ -28,7 +28,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline quaternion operator*(const quaternion& left, const quaternion& right) {
+	inline quaternion operator*(const quaternion& left, const quaternion& right) noexcept {
 		float x = left.w * right.x + left.x * right.w + left.y * right.z - left.z * right.y;
 		float y = left.w * right.y + left.y * right.w + left.z * right.x - left.x * right.z;
 		float z = left.w * right.z + left.z * right.w + left.x * right.y - left.y * right.x;
@@ -36,33 +36,33 @@ namespace spruce {
 		return {x, y, z, w};
 	}
 
-	inline vec3f operator*(const quaternion& quaternion, const vec3f& vector) {
+	inline vec3f operator*(const quaternion& quaternion, const vec3f& vector) noexcept {
 		spruce::quaternion conjugate = spruce::quaternion(quaternion).conjugate();
 		spruce::quaternion result = quaternion * spruce::quaternion(vector.x, vector.y, vector.z, 0) * conjugate;
 		return {result.x, result.y, result.z};
 	}
 
-	inline vec3f operator*(const vec3f& vector, const quaternion& quaternion) {
+	inline vec3f operator*(const vec3f& vector, const quaternion& quaternion) noexcept {
 		spruce::quaternion conjugate = spruce::quaternion(quaternion).conjugate();
 		spruce::quaternion result = quaternion * spruce::quaternion(vector.x, vector.y, vector.z, 0) * conjugate;
 		return {result.x, result.y, result.z};
 	}
 
-	inline quaternion& quaternion::operator+=(const quaternion& quaternion) {
+	inline quaternion& quaternion::operator+=(const quaternion& quaternion) noexcept {
 		simd::reg4f t = simd::load4f4f(x);
 		simd::reg4f q = simd::load4f4f(quaternion.x);
 		simd::store4f(x, simd::add4f(t, q));
 		return *this;
 	}
 
-	inline quaternion& quaternion::operator-=(const quaternion& quaternion) {
+	inline quaternion& quaternion::operator-=(const quaternion& quaternion) noexcept {
 		simd::reg4f t = simd::load4f4f(x);
 		simd::reg4f q = simd::load4f4f(quaternion.x);
 		simd::store4f(x, simd::sub4f(t, q));
 		return *this;
 	}
 
-	inline quaternion& quaternion::operator*=(const quaternion& quaternion) {
+	inline quaternion& quaternion::operator*=(const quaternion& quaternion) noexcept {
 		float tx = this->w * quaternion.x + this->x * quaternion.w + this->y * quaternion.z - this->z * quaternion.y;
 		float ty = this->w * quaternion.y + this->y * quaternion.w + this->z * quaternion.x - this->x * quaternion.z;
 		float tz = this->w * quaternion.z + this->z * quaternion.w + this->x * quaternion.y - this->y * quaternion.x;

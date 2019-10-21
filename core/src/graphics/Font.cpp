@@ -14,7 +14,7 @@ namespace spruce {
 			freeVRAM();
 		}
 
-		void Font::toVRAM(RendererAbstractor* renderer) {
+		void Font::toVRAM(RendererAbstractor* renderer) noexcept {
 			FT_Library ft;
 			if (FT_Init_FreeType(&ft)) {
 				serr("Could not init freetype library");
@@ -73,11 +73,11 @@ namespace spruce {
 			texture->toVRAM(renderer);
 		}
 
-		Font::CharInfo& Font::getInfoFor(char c) {
+		Font::CharInfo& Font::getInfoFor(char c) noexcept {
 			return chars[static_cast<uint16>(c)];
 		}
 
-		void Font::freeVRAM() {
+		void Font::freeVRAM() noexcept {
 			delete texture;
 		}
 	}

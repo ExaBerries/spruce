@@ -16,48 +16,48 @@ namespace spruce {
 		vec2d(vec2d&&) noexcept = default;
 		~vec2d() = default;
 
-		vec2d& set(double scalar);
-		vec2d& set(double x, double y);
+		vec2d& set(double scalar) noexcept;
+		vec2d& set(double x, double y) noexcept;
 
-		[[nodiscard]] double mag2() const;
-		[[nodiscard]] double mag() const;
-		vec2d& nor();
-		[[nodiscard]] double dst2(const vec2d& vector) const;
-		[[nodiscard]] double dst(const vec2d& vector) const;
-		[[nodiscard]] double dot(const vec2d& vector) const;
+		[[nodiscard]] double mag2() const noexcept;
+		[[nodiscard]] double mag() const noexcept;
+		vec2d& nor() noexcept;
+		[[nodiscard]] double dst2(const vec2d& vector) const noexcept;
+		[[nodiscard]] double dst(const vec2d& vector) const noexcept;
+		[[nodiscard]] double dot(const vec2d& vector) const noexcept;
 
-		vec2d& add(const vec2d& vector);
-		vec2d& sub(const vec2d& vector);
+		vec2d& add(const vec2d& vector) noexcept;
+		vec2d& sub(const vec2d& vector) noexcept;
 
-		vec2d& add(double value);
-		vec2d& sub(double value);
-		vec2d& scl(double value);
-		vec2d& div(double value);
+		vec2d& add(double value) noexcept;
+		vec2d& sub(double value) noexcept;
+		vec2d& scl(double value) noexcept;
+		vec2d& div(double value) noexcept;
 
-		[[nodiscard]] bool operator==(const vec2d& vector) const;
-		[[nodiscard]] bool operator!=(const vec2d& vector) const;
+		[[nodiscard]] bool operator==(const vec2d& vector) const noexcept;
+		[[nodiscard]] bool operator!=(const vec2d& vector) const noexcept;
 
-		vec2d& operator+=(const vec2d& vector);
-		vec2d& operator-=(const vec2d& vector);
+		vec2d& operator+=(const vec2d& vector) noexcept;
+		vec2d& operator-=(const vec2d& vector) noexcept;
 
-		vec2d& operator+=(double value);
-		vec2d& operator-=(double value);
-		vec2d& operator*=(double value);
-		vec2d& operator/=(double value);
+		vec2d& operator+=(double value) noexcept;
+		vec2d& operator-=(double value) noexcept;
+		vec2d& operator*=(double value) noexcept;
+		vec2d& operator/=(double value) noexcept;
 
 		vec2d& operator=(const vec2d&) = default;
 		vec2d& operator=(vec2d&&) noexcept = default;
 
-		[[nodiscard]] static vec2d lerp(const vec2d& a, const vec2d& b, double alpha);
+		[[nodiscard]] static vec2d lerp(const vec2d& a, const vec2d& b, double alpha) noexcept;
 	};
 
-	inline vec2d operator+(const vec2d& left, const vec2d& right);
-	inline vec2d operator-(const vec2d& left, const vec2d& right);
+	inline vec2d operator+(const vec2d& left, const vec2d& right) noexcept;
+	inline vec2d operator-(const vec2d& left, const vec2d& right) noexcept;
 
-	inline vec2d operator+(const vec2d& left, double value);
-	inline vec2d operator-(const vec2d& left, double value);
-	inline vec2d operator*(const vec2d& left, double value);
-	inline vec2d operator/(const vec2d& left, double value);
+	inline vec2d operator+(const vec2d& left, double value) noexcept;
+	inline vec2d operator-(const vec2d& left, double value) noexcept;
+	inline vec2d operator*(const vec2d& left, double value) noexcept;
+	inline vec2d operator/(const vec2d& left, double value) noexcept;
 
 	std::ostream& operator<<(std::ostream& stream, const vec2d& vector);
 }

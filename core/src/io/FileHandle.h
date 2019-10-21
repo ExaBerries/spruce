@@ -23,7 +23,7 @@ namespace spruce {
 			FileHandle(FileHandle&&) noexcept = default;
 			~FileHandle() = default;
 
-			[[nodiscard]] buffer<FileHandle> list() const;
+			[[nodiscard]] buffer<FileHandle> list() const noexcept;
 
 			FileHandle& operator=(const FileHandle&) = default;
 			FileHandle& operator=(FileHandle&&) noexcept = default;

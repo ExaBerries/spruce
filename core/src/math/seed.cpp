@@ -2,9 +2,6 @@
 
 namespace spruce {
 	namespace rand {
-		seed::seed() : seed(0) {
-		}
-
 		seed::seed(uint64 seed) : value(seed), mt(seed) {
 		}
 

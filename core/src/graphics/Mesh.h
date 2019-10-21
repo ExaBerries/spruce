@@ -16,8 +16,8 @@ namespace spruce {
 				Mesh(Mesh&&) noexcept = delete;
 				~Mesh();
 
-				void toVRAM(RendererAbstractor* renderer);
-				void freeVRAM();
+				void toVRAM(RendererAbstractor* renderer) noexcept;
+				void freeVRAM() noexcept;
 
 				Mesh& operator=(const Mesh&) = delete;
 				Mesh& operator=(Mesh&&) noexcept = delete;

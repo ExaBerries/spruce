@@ -70,7 +70,7 @@ namespace spruce {
 		}
 	}
 
-	buffer<FileHandle> FileHandle::list() const {
+	buffer<FileHandle> FileHandle::list() const noexcept {
 		if (!directory) {
 			return nullptr;
 		}

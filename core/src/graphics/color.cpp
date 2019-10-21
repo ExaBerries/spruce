@@ -4,11 +4,11 @@ namespace spruce {
 	color::color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {
 	}
 
-	bool color::operator==(const color& color) const {
+	bool color::operator==(const color& color) const noexcept {
 		return (r == color.r && g == color.g && b == color.b && a == color.a);
 	}
 
-	bool color::operator!=(const color& color) const {
+	bool color::operator!=(const color& color) const noexcept {
 		return (r != color.r || g != color.g || b != color.b || a != color.a);
 	}
 

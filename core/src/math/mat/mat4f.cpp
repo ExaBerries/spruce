@@ -92,7 +92,7 @@ namespace spruce {
 		values[15] = v15;
 	}
 
-	mat4f& mat4f::setIdentity() {
+	mat4f& mat4f::setIdentity() noexcept {
 		values[0] = 1.0f;
 		values[1] = 0.0f;
 		values[2] = 0.0f;
@@ -112,13 +112,13 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f& mat4f::set(const float values[16]) {
+	mat4f& mat4f::set(const float values[16]) noexcept {
 		simd::store8f(this->values[0], simd::load8f8f(values[0]));
 		simd::store8f(this->values[8], simd::load8f8f(values[8]));
 		return *this;
 	}
 
-	mat4f& mat4f::set(const vec3f& translation, const quaternion& rotation, const vec3f& scale) {
+	mat4f& mat4f::set(const vec3f& translation, const quaternion& rotation, const vec3f& scale) noexcept {
 		float x2 = rotation.x * rotation.x;
 		float y2 = rotation.y * rotation.y;
 		float z2 = rotation.z * rotation.z;
@@ -144,7 +144,7 @@ namespace spruce {
 		return *this;
 	}
 
-	mat4f& mat4f::set(const vec3f& direction, const vec3f& up) {
+	mat4f& mat4f::set(const vec3f& direction, const vec3f& up) noexcept {
 		vec3f dirNor = vec3f(direction).nor();
 		vec3f dirCrsUp = vec3f(dirNor).crs(up).nor();
 		vec3f dirCrsUpCrsDir = vec3f(dirCrsUp).crs(dirNor).nor();
@@ -167,7 +167,7 @@ namespace spruce {
 		return *this;
 	}
 
-	bool mat4f::operator==(const mat4f& matrix) const {
+	bool mat4f::operator==(const mat4f& matrix) const noexcept {
 		for (uint8 i = 0; i < 16; i++) {
 			if (values[i] != matrix.values[i]) {
 				return false;
@@ -176,7 +176,7 @@ namespace spruce {
 		return true;
 	}
 
-	bool mat4f::operator!=(const mat4f& matrix) const {
+	bool mat4f::operator!=(const mat4f& matrix) const noexcept {
 		for (uint8 i = 0; i < 16; i++) {
 			if (values[i] != matrix.values[i]) {
 				return true;

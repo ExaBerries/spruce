@@ -2,6 +2,7 @@ checks='*,
 
 -android-*,
 -openmp-*,
+-cert-*,
 
 -clang-analyzer-optin.osx.cocoa.localizability.NonLocalizedStringChecker,
 -clang-analyzer-nullability.NullabilityBase,
@@ -67,9 +68,7 @@ checks='*,
 -readability-convert-member-functions-to-static,
 -readability-container-size-empty,
 
--misc-non-private-member-variables-in-classes,
-
--cert-oop54-cpp
+-misc-non-private-member-variables-in-classes
 '
 
 checks_no_whitespace="$(echo "${checks}" | tr -d '[:space:]')"

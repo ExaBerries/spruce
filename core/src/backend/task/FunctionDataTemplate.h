@@ -19,7 +19,7 @@ namespace spruce {
 				FunctionDataTemplate(FunctionDataTemplate&&) noexcept = delete;
 				~FunctionDataTemplate() override = default;
 
-				void execute() override;
+				void execute() noexcept override;
 
 				FunctionDataTemplate& operator=(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate& operator=(FunctionDataTemplate&&) noexcept = delete;
@@ -37,7 +37,7 @@ namespace spruce {
 				FunctionDataTemplate(FunctionDataTemplate&&) noexcept = delete;
 				~FunctionDataTemplate() override = default;
 
-				void execute() override;
+				void execute() noexcept override;
 
 				FunctionDataTemplate& operator=(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate& operator=(FunctionDataTemplate&&) noexcept = delete;

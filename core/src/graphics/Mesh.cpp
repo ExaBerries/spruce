@@ -15,11 +15,11 @@ namespace spruce {
 			indices.free();
 		}
 
-		void Mesh::toVRAM(RendererAbstractor* renderer) {
+		void Mesh::toVRAM(RendererAbstractor* renderer) noexcept {
 			apiData = renderer->createMeshAPIData(*this);
 		}
 
-		void Mesh::freeVRAM() {
+		void Mesh::freeVRAM() noexcept {
 			delete apiData;
 			apiData = nullptr;
 		}

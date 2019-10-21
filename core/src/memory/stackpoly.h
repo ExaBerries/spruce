@@ -28,8 +28,8 @@ namespace spruce {
 		TYPE* operator->() noexcept;
 		const TYPE* operator->() const noexcept;
 
-		[[nodiscard]] bool operator==(std::nullptr_t);
-		[[nodiscard]] bool operator!=(std::nullptr_t);
+		[[nodiscard]] bool operator==(std::nullptr_t) const noexcept;
+		[[nodiscard]] bool operator!=(std::nullptr_t) const noexcept;
 
 		stackpoly& operator=(const stackpoly&) = default;
 		stackpoly& operator=(stackpoly&&) noexcept = default;

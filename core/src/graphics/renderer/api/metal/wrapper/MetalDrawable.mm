@@ -3,7 +3,7 @@
 #include <graphics/renderer/api/metal/mtlplatform.h>
 
 namespace spruce {
-	constexpr id<CAMetalDrawable> castDrawable(void* ptr) {
+	constexpr id<CAMetalDrawable> castDrawable(void* ptr) noexcept {
 		return (__bridge id<CAMetalDrawable>) ptr;
 	}
 

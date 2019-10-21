@@ -21,49 +21,49 @@ namespace spruce {
 			vec4f(vec4f&&) noexcept = default;
 			~vec4f() = default;
 
-			vec4f& set(const vec4f& vector);
-			vec4f& set(const vec3f& vector, float w);
-			vec4f& set(float x, float y, float z, float w);
+			vec4f& set(const vec4f& vector) noexcept;
+			vec4f& set(const vec3f& vector, float w) noexcept;
+			vec4f& set(float x, float y, float z, float w) noexcept;
 
-			[[nodiscard]] float mag2() const;
-			[[nodiscard]] float mag() const;
-			vec4f& nor();
-			[[nodiscard]] float dst2(const vec4f& vector) const;
-			[[nodiscard]] float dst(const vec4f& vector) const;
-			[[nodiscard]] float dot(const vec4f& vector) const;
+			[[nodiscard]] float mag2() const noexcept;
+			[[nodiscard]] float mag() const noexcept;
+			vec4f& nor() noexcept;
+			[[nodiscard]] float dst2(const vec4f& vector) const noexcept;
+			[[nodiscard]] float dst(const vec4f& vector) const noexcept;
+			[[nodiscard]] float dot(const vec4f& vector) const noexcept;
 
-			vec4f& add(const vec4f& vector);
-			vec4f& sub(const vec4f& vector);
+			vec4f& add(const vec4f& vector) noexcept;
+			vec4f& sub(const vec4f& vector) noexcept;
 
-			vec4f& add(float value);
-			vec4f& sub(float value);
-			vec4f& scl(float value);
-			vec4f& div(float value);
+			vec4f& add(float value) noexcept;
+			vec4f& sub(float value) noexcept;
+			vec4f& scl(float value) noexcept;
+			vec4f& div(float value) noexcept;
 
-			[[nodiscard]] bool operator==(const vec4f& vector) const;
-			[[nodiscard]] bool operator!=(const vec4f& vector) const;
+			[[nodiscard]] bool operator==(const vec4f& vector) const noexcept;
+			[[nodiscard]] bool operator!=(const vec4f& vector) const noexcept;
 
-			vec4f& operator+=(const vec4f& vector);
-			vec4f& operator-=(const vec4f& vector);
+			vec4f& operator+=(const vec4f& vector) noexcept;
+			vec4f& operator-=(const vec4f& vector) noexcept;
 
-			vec4f& operator+=(float value);
-			vec4f& operator-=(float value);
-			vec4f& operator*=(float value);
-			vec4f& operator/=(float value);
+			vec4f& operator+=(float value) noexcept;
+			vec4f& operator-=(float value) noexcept;
+			vec4f& operator*=(float value) noexcept;
+			vec4f& operator/=(float value) noexcept;
 
 			vec4f& operator=(const vec4f&) = default;
 			vec4f& operator=(vec4f&&) noexcept = default;
 
-			[[nodiscard]] static vec4f lerp(const vec4f& a, const vec4f& b, float alpha);
+			[[nodiscard]] static vec4f lerp(const vec4f& a, const vec4f& b, float alpha) noexcept;
 	};
 
-	inline vec4f operator+(const vec4f& left, const vec4f& right);
-	inline vec4f operator-(const vec4f& left, const vec4f& right);
+	inline vec4f operator+(const vec4f& left, const vec4f& right) noexcept;
+	inline vec4f operator-(const vec4f& left, const vec4f& right) noexcept;
 
-	inline vec4f operator+(const vec4f& left, float value);
-	inline vec4f operator-(const vec4f& left, float value);
-	inline vec4f operator*(const vec4f& left, float value);
-	inline vec4f operator/(const vec4f& left, float value);
+	inline vec4f operator+(const vec4f& left, float value) noexcept;
+	inline vec4f operator-(const vec4f& left, float value) noexcept;
+	inline vec4f operator*(const vec4f& left, float value) noexcept;
+	inline vec4f operator/(const vec4f& left, float value) noexcept;
 
 	std::ostream& operator<<(std::ostream& stream, const vec4f& vector);
 }

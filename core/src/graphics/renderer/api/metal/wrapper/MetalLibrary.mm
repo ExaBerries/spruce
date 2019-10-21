@@ -4,7 +4,7 @@
 #include <backend/mac/objcpp.h>
 
 namespace spruce {
-	constexpr id<MTLLibrary> castLibrary(void* ptr) {
+	constexpr id<MTLLibrary> castLibrary(void* ptr) noexcept {
 		return (__bridge id<MTLLibrary>) ptr;
 	}
 
@@ -15,7 +15,7 @@ namespace spruce {
 		[castLibrary(ptr) release];
 	}
 
-	[[nodiscard]] owner<MetalFunction> MetalLibrary::newFunctionWithName(const string& name) {
+	[[nodiscard]] owner<MetalFunction> MetalLibrary::newFunctionWithName(const string& name) noexcept {
 		return new MetalFunction([castLibrary(ptr) newFunctionWithName:convertStr(name)]);
 	}
 }

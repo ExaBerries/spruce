@@ -67,12 +67,12 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	bool aowner<TYPE>::operator==(void* otherPtr) {
+	bool aowner<TYPE>::operator==(void* otherPtr) const noexcept {
 		return ptr == otherPtr;
 	}
 
 	template <typename TYPE>
-	bool aowner<TYPE>::operator!=(void* otherPtr) {
+	bool aowner<TYPE>::operator!=(void* otherPtr) const noexcept {
 		return ptr != otherPtr;
 	}
 

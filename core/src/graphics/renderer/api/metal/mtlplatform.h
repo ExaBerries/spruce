@@ -19,7 +19,7 @@
 #include <graphics/renderer/api/metal/wrapper/MetalCompareFunction.h>
 
 namespace spruce {
-	[[nodiscard]] constexpr MTLStorageMode mapStorageMode(MetalStorageMode mode) {
+	[[nodiscard]] constexpr MTLStorageMode mapStorageMode(MetalStorageMode mode) noexcept {
 		switch (mode) {
 			case MetalStorageMode::SHARED:
 				return MTLStorageModeShared;
@@ -32,7 +32,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLResourceOptions mapResourceStorageMode(MetalResourceStorageMode mode) {
+	[[nodiscard]] constexpr MTLResourceOptions mapResourceStorageMode(MetalResourceStorageMode mode) noexcept {
 		switch (mode) {
 			case MetalResourceStorageMode::SHARED:
 				return MTLResourceStorageModeShared;
@@ -45,7 +45,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLPrimitiveType mapPrimitive(MetalPrimitive primitive) {
+	[[nodiscard]] constexpr MTLPrimitiveType mapPrimitive(MetalPrimitive primitive) noexcept {
 		switch (primitive) {
 			case MetalPrimitive::POINT:
 				return MTLPrimitiveTypePoint;
@@ -62,7 +62,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLIndexType mapIndexType(MetalIndexType type) {
+	[[nodiscard]] constexpr MTLIndexType mapIndexType(MetalIndexType type) noexcept {
 		switch (type) {
 			case MetalIndexType::UINT16:
 				return MTLIndexTypeUInt16;
@@ -73,7 +73,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLVertexFormat mapVertexFormat(MetalVertexFormat format) {
+	[[nodiscard]] constexpr MTLVertexFormat mapVertexFormat(MetalVertexFormat format) noexcept {
 		switch (format) {
 			case MetalVertexFormat::INVALID:
 				return MTLVertexFormatInvalid;
@@ -184,7 +184,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLVertexStepFunction mapVertexStepFunction(MetalVertexStepFunction function) {
+	[[nodiscard]] constexpr MTLVertexStepFunction mapVertexStepFunction(MetalVertexStepFunction function) noexcept {
 		switch (function) {
 			case MetalVertexStepFunction::CONSTANT:
 				return MTLVertexStepFunctionConstant;
@@ -201,7 +201,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLPixelFormat mapPixelFormat(MetalPixelFormat format) {
+	[[nodiscard]] constexpr MTLPixelFormat mapPixelFormat(MetalPixelFormat format) noexcept {
 		switch (format) {
 			case MetalPixelFormat::INVALID:
 				return MTLPixelFormatInvalid;
@@ -344,7 +344,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLLoadAction mapLoadAction(MetalLoadAction loadAction) {
+	[[nodiscard]] constexpr MTLLoadAction mapLoadAction(MetalLoadAction loadAction) noexcept {
 		switch (loadAction) {
 			case MetalLoadAction::DONT_CARE:
 				return MTLLoadActionDontCare;
@@ -357,7 +357,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] constexpr MTLStoreAction mapStoreAction(MetalStoreAction storeAction) {
+	[[nodiscard]] constexpr MTLStoreAction mapStoreAction(MetalStoreAction storeAction) noexcept {
 		switch (storeAction) {
 			case MetalStoreAction::DONT_CARE:
 				return MTLStoreActionDontCare;
@@ -376,7 +376,7 @@ namespace spruce {
 		}
 	}
 
-	[[nodiscard]] inline MTLTextureUsage mapTextureUsage(MetalTextureUsage usage) {
+	[[nodiscard]] constexpr MTLTextureUsage mapTextureUsage(MetalTextureUsage usage) noexcept {
 		MTLTextureUsage mtlUsage = 0;
 		if ((int32)usage & (int32)MetalTextureUsage::UNKNOWN) {
 			mtlUsage |= MTLTextureUsageUnknown;
@@ -396,7 +396,7 @@ namespace spruce {
 		return mtlUsage;
 	}
 
-	[[nodiscard]] constexpr MTLCompareFunction mapCompareFunction(MetalCompareFunction func) {
+	[[nodiscard]] constexpr MTLCompareFunction mapCompareFunction(MetalCompareFunction func) noexcept {
 		switch (func) {
 			case MetalCompareFunction::NEVER:
 				return MTLCompareFunctionNever;

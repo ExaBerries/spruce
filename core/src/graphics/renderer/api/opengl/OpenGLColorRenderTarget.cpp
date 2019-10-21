@@ -17,11 +17,11 @@ namespace spruce {
 		glDeleteTextures(1, &texture);
 	}
 
-	void OpenGLColorRenderTarget::attachToBoundFramebuffer(GLenum attachment) {
+	void OpenGLColorRenderTarget::attachToBoundFramebuffer(GLenum attachment) noexcept {
 		glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture, 0);
 	}
 
-	void OpenGLColorRenderTarget::bind(GLenum unit) {
+	void OpenGLColorRenderTarget::bind(GLenum unit) noexcept {
 		glActiveTexture(unit);
 		glBindTexture(GL_TEXTURE_2D, texture);
 	}

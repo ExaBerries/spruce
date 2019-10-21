@@ -15,12 +15,12 @@ namespace spruce {
 			}
 		}
 
-		void WorkerThread::join() {
+		void WorkerThread::join() noexcept {
 			running = false;
 			thread.join();
 		}
 
-		void WorkerThread::run(WorkerThread* thread) {
+		void WorkerThread::run(WorkerThread* thread) noexcept {
 			thread->running = true;
 			while (thread->running) {
 				if (thread->taskBackend == nullptr) {

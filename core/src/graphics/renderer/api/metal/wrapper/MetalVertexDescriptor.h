@@ -13,9 +13,9 @@ namespace spruce {
 			MetalVertexDescriptor(MetalVertexDescriptor&& other) = delete;
 			~MetalVertexDescriptor() override;
 
-			void reset();
-			void setAttribute(uint32 index, MetalVertexFormat format, uint32 offset, uint32 bufferIndex);
-			void setLayout(uint32 index, MetalVertexStepFunction function, uint32 stride, uint32 stepRate);
+			void reset() noexcept;
+			void setAttribute(uint32 index, MetalVertexFormat format, uint32 offset, uint32 bufferIndex) noexcept;
+			void setLayout(uint32 index, MetalVertexStepFunction function, uint32 stride, uint32 stepRate) noexcept;
 
 			MetalVertexDescriptor& operator=(const MetalVertexDescriptor& other) = delete;
 			MetalVertexDescriptor& operator=(MetalVertexDescriptor&& other) = delete;

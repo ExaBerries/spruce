@@ -4,16 +4,16 @@
 
 namespace spruce {
 	namespace sys {
-		[[nodiscard]] string getSystemInfo();
-		[[nodiscard]] string getCPUName();
-		[[nodiscard]] uint16 getCPUCoreCount();
-		[[nodiscard]] uint16 getCPUThreadCount();
-		[[nodiscard]] uint64 getCPUFrequency();
-		[[nodiscard]] uint64 getCacheLineSize();
-		[[nodiscard]] uint64 getL1CacheSize();
-		[[nodiscard]] uint64 getL2CacheSize();
-		[[nodiscard]] uint64 getL3CacheSize();
-		[[nodiscard]] uint64 getRAMSize();
-		[[nodiscard]] uint64 getSwapUsed();
+		[[nodiscard]] string getSystemInfo() noexcept;
+		[[nodiscard]] string getCPUName() noexcept;
+		[[nodiscard]] uint16 getCPUCoreCount() noexcept;
+		[[nodiscard]] uint16 getCPUThreadCount() noexcept;
+		[[nodiscard]] uint64 getCPUFrequency() noexcept;
+		[[nodiscard]] uint64 getCacheLineSize() noexcept;
+		[[nodiscard]] uint64 getL1CacheSize() noexcept;
+		[[nodiscard]] uint64 getL2CacheSize() noexcept;
+		[[nodiscard]] uint64 getL3CacheSize() noexcept;
+		[[nodiscard]] uint64 getRAMSize() noexcept;
+		[[nodiscard]] uint64 getSwapUsed() noexcept;
 	}
 }

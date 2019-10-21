@@ -3,7 +3,7 @@
 
 namespace spruce {
 	namespace task {
-		void FunctionData::execute() {
+		void FunctionData::execute() noexcept {
 			slog("empty task");
 		}
 	}

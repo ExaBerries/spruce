@@ -18,21 +18,21 @@ namespace spruce {
 				Renderer(Renderer&&) noexcept = default;
 				~Renderer() override = default;
 
-				[[nodiscard]] std::any encodeBackend(void* encodeData) override;
-				void executeBackend(std::any executeData) override;
+				[[nodiscard]] std::any encodeBackend(void* encodeData) noexcept override;
+				void executeBackend(std::any executeData) noexcept override;
 
 				Renderer& operator=(const Renderer&) = default;
 				Renderer& operator=(Renderer&&) noexcept = default;
 		};
 
 		template <typename EncodeT, typename ExecuteT, enum app::API api>
-		[[nodiscard]] std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) {
+		[[nodiscard]] std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) noexcept {
 			static_assert(std::is_copy_assignable_v<ExecuteT>);
 			return encode(*static_cast<EncodeT*>(encodeData));
 		}
 
 		template <typename EncodeT, typename ExecuteT, enum app::API api>
-		void Renderer<EncodeT, ExecuteT, api>::executeBackend(std::any executeData) {
+		void Renderer<EncodeT, ExecuteT, api>::executeBackend(std::any executeData) noexcept {
 			ExecuteT executeDataCasted = std::any_cast<ExecuteT>(executeData);
 			execute(executeDataCasted);
 		}

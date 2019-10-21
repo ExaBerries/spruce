@@ -13,7 +13,7 @@ namespace spruce {
 	namespace os {
 		buffer<uint16> keyCodes(nullptr);
 
-		void init() {
+		void init() noexcept {
 			keyCodes = buffer<uint16>(80);
 			keyCodes[input::A] = 0x00;
 			keyCodes[input::B] = 0x0B;
@@ -97,22 +97,23 @@ namespace spruce {
 			keyCodes[input::F12] = 0x6F;
 		}
 
-		void free() {
+		void free() noexcept {
+			keyCodes.free();
 		}
 
-		[[nodiscard]] owner<ApplicationBackend> createAppBackend() {
+		[[nodiscard]] owner<ApplicationBackend> createAppBackend() noexcept {
 			return new CocoaAppBackend();
 		}
 
-		uint16 codeFor(input::Key key) {
+		uint16 codeFor(input::Key key) noexcept {
 			return keyCodes[key];
 		}
 
-		string getHomePath() {
+		string getHomePath() noexcept {
 			return getenv("HOME");
 		}
 
-		string getBasePathInternal() {
+		string getBasePathInternal() noexcept {
 			#ifdef DEBUG
 				return "assets/";
 			#else
@@ -121,11 +122,11 @@ namespace spruce {
 			#endif
 		}
 
-		string getBasePathExternal() {
+		string getBasePathExternal() noexcept {
 			return string(getHomePath() + "/Library/Application Support/");
 		}
 
-		bool isDir(const string& path) {
+		bool isDir(const string& path) noexcept {
 			struct stat s;
 			if (stat(path.c_str(), &s) == 0) {
 				return (s.st_mode & S_IFDIR);
@@ -135,16 +136,16 @@ namespace spruce {
 			}
 		}
 
-		bool exists(const string& path) {
+		bool exists(const string& path) noexcept {
 			struct stat s;
 			return stat(path.c_str(), &s) == 0;
 		}
 
-		void createDir(const string& path) {
+		void createDir(const string& path) noexcept {
 			mkdir(path.c_str(), S_IWUSR);
 		}
 
-		std::vector<string> listSubFiles(const string& path) {
+		std::vector<string> listSubFiles(const string& path) noexcept {
 			std::vector<string> subFiles;
 			DIR* dir;
 			struct dirent* entry;
@@ -163,63 +164,63 @@ namespace spruce {
 	}
 
 	namespace sys {
-		string getCPUName() {
+		string getCPUName() noexcept {
 			size_t length;
 			char buffer[128];
 			sysctlbyname("machdep.cpu.brand_string", &buffer, &length, NULL, 0);
 			return string(buffer);
 		}
 
-		uint16 getCPUCoreCount() {
+		uint16 getCPUCoreCount() noexcept {
 			uint32 coreCount = 0;
 			size_t size = sizeof(coreCount);
 			sysctlbyname("hw.physicalcpu", &coreCount, &size, NULL, 0);
 			return static_cast<uint16>(coreCount);
 		}
 
-		uint64 getCPUFrequency() {
+		uint64 getCPUFrequency() noexcept {
 			uint64 frequency = 0;
 			size_t size = sizeof(frequency);
 			sysctlbyname("hw.cpufrequency", &frequency, &size, NULL, 0);
 			return frequency;
 		}
 
-		uint64 getCacheLineSize() {
+		uint64 getCacheLineSize() noexcept {
 			uint64 cacheLineSize = 0;
 			size_t size = sizeof(cacheLineSize);
 			sysctlbyname("hw.cachelinesize", &cacheLineSize, &size, NULL, 0);
 			return cacheLineSize;
 		}
 
-		uint64 getL1CacheSize() {
+		uint64 getL1CacheSize() noexcept {
 			uint64 l1CacheSize = 0;
 			size_t size = sizeof(l1CacheSize);
 			sysctlbyname("hw.l1dcachesize", &l1CacheSize, &size, NULL, 0);
 			return l1CacheSize;
 		}
 
-		uint64 getL2CacheSize() {
+		uint64 getL2CacheSize() noexcept {
 			uint64 l2CacheSize = 0;
 			size_t size = sizeof(l2CacheSize);
 			sysctlbyname("hw.l2cachesize", &l2CacheSize, &size, NULL, 0);
 			return l2CacheSize;
 		}
 
-		uint64 getL3CacheSize() {
+		uint64 getL3CacheSize() noexcept {
 			uint64 l3CacheSize = 0;
 			size_t size = sizeof(l3CacheSize);
 			sysctlbyname("hw.l3cachesize", &l3CacheSize, &size, NULL, 0);
 			return l3CacheSize;
 		}
 
-		uint64 getRAMSize() {
+		uint64 getRAMSize() noexcept {
 			uint64 ramSize = 0;
 			size_t size = sizeof(ramSize);
 			sysctlbyname("hw.memsize", &ramSize, &size, NULL, 0);
 			return ramSize;
 		}
 
-		uint64 getSwapUsed() {
+		uint64 getSwapUsed() noexcept {
 			uint64 swapUsed = 0;
 			size_t size = sizeof(swapUsed);
 			sysctlbyname("vm.swapused", &swapUsed, &size, NULL, 0);

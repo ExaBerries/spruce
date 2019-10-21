@@ -7,19 +7,19 @@
 
 namespace spruce {
 	namespace os {
-		void init();
-		void free();
+		void init() noexcept;
+		void free() noexcept;
 
-		[[nodiscard]] owner<ApplicationBackend> createAppBackend();
+		[[nodiscard]] owner<ApplicationBackend> createAppBackend() noexcept;
 
-		[[nodiscard]] uint16 codeFor(input::Key key);
+		[[nodiscard]] uint16 codeFor(input::Key key) noexcept;
 
-		[[nodiscard]] string getHomePath();
-		[[nodiscard]] string getBasePathInternal();
-		[[nodiscard]] string getBasePathExternal();
-		[[nodiscard]] bool isDir(const string& path);
-		[[nodiscard]] bool exists(const string& path);
-		void createDir(const string& path);
-		[[nodiscard]] std::vector<string> listSubFiles(const string& path);
+		[[nodiscard]] string getHomePath() noexcept;
+		[[nodiscard]] string getBasePathInternal() noexcept;
+		[[nodiscard]] string getBasePathExternal() noexcept;
+		[[nodiscard]] bool isDir(const string& path) noexcept;
+		[[nodiscard]] bool exists(const string& path) noexcept;
+		void createDir(const string& path) noexcept;
+		[[nodiscard]] std::vector<string> listSubFiles(const string& path) noexcept;
 	}
 }

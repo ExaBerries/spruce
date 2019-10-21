@@ -6,10 +6,10 @@ namespace spruce {
 		public:
 			APIContext() = default;
 			APIContext(const APIContext&) = default;
-			APIContext(APIContext&&) = default;
+			APIContext(APIContext&&) noexcept = default;
 			virtual ~APIContext() = default;
 
 			APIContext& operator=(const APIContext&) = default;
-			APIContext& operator=(APIContext&&) = default;
+			APIContext& operator=(APIContext&&) noexcept = default;
 	};
 }

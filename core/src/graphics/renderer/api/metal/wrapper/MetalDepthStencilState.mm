@@ -3,7 +3,7 @@
 #include <graphics/renderer/api/metal/mtlplatform.h>
 
 namespace spruce {
-	constexpr id<MTLDepthStencilState> castDSS(void* ptr) {
+	constexpr id<MTLDepthStencilState> castDSS(void* ptr) noexcept {
 		return (__bridge id<MTLDepthStencilState>) ptr;
 	}
 

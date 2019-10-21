@@ -17,8 +17,8 @@ namespace spruce {
 				MetalRenderer(MetalRenderer&&) noexcept = delete;
 				~MetalRenderer() = default;
 
-				void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) override;
-				void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) override;
+				void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) noexcept override;
+				void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) noexcept override;
 
 				MetalRenderer& operator=(const MetalRenderer&) = delete;
 				MetalRenderer& operator=(MetalRenderer&&) noexcept = delete;
@@ -29,7 +29,7 @@ namespace spruce {
 		}
 
 		template <typename EncodeT, typename ExecuteT>
-		void MetalRenderer<EncodeT, ExecuteT>::setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) {
+		void MetalRenderer<EncodeT, ExecuteT>::setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) noexcept {
 			matrix.values[0] = 2.0f / (right - left);
 			matrix.values[1] = 0.0f;
 			matrix.values[2] = 0.0f;
@@ -49,7 +49,7 @@ namespace spruce {
 		}
 
 		template <typename EncodeT, typename ExecuteT>
-		void MetalRenderer<EncodeT, ExecuteT>::setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) {
+		void MetalRenderer<EncodeT, ExecuteT>::setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) noexcept {
 			float size = 1.0f / tan(fov / 2.0f);
 			matrix.values[0] = size / aspectRatio;
 			matrix.values[1] = 0.0f;

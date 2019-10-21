@@ -10,7 +10,7 @@ namespace spruce {
 				FunctionData(FunctionData&&) noexcept = delete;
 				virtual ~FunctionData() = default;
 
-				virtual void execute();
+				virtual void execute() noexcept;
 
 				FunctionData& operator=(const FunctionData&) = delete;
 				FunctionData& operator=(FunctionData&&) noexcept = delete;

@@ -13,7 +13,7 @@ namespace spruce {
 			SimplePipeline(SimplePipeline&&) noexcept = default;
 			~SimplePipeline() override = default;
 
-			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) override;
+			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) noexcept override;
 
 			SimplePipeline& operator=(const SimplePipeline&) = default;
 			SimplePipeline& operator=(SimplePipeline&&) noexcept = default;

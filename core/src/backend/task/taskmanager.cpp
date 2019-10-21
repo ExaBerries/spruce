@@ -14,12 +14,12 @@ namespace spruce {
 		std::mutex dataMutex;
 		std::mutex refMutex;
 
-		void init() {
+		void init() noexcept {
 			threads = std::vector<WorkerThread>(sys::getCPUThreadCount() - 1);
 			slog(threads.size(), " threads");
 		}
 
-		void free() {
+		void free() noexcept {
 			for (WorkerThread& thread : threads) {
 				thread.join();
 			}
@@ -34,7 +34,7 @@ namespace spruce {
 			}
 		}
 
-		void addTask(uint64 id, TaskData* taskData, TaskBackend* taskBackend) {
+		void addTask(uint64 id, TaskData* taskData, TaskBackend* taskBackend) noexcept {
 			std::lock_guard<std::mutex> taskGuard(taskMutex);
 			std::lock_guard<std::mutex> dataGuard(dataMutex);
 			data[id] = taskData;
@@ -45,11 +45,11 @@ namespace spruce {
 			}
 		}
 
-		bool compareTasks(TaskBackend* taskA, TaskBackend* taskB) {
+		bool compareTasks(TaskBackend* taskA, TaskBackend* taskB) noexcept {
 			return (taskA->priority < taskB->priority);
 		}
 
-		TaskBackend* getConcurrentTask() {
+		TaskBackend* getConcurrentTask() noexcept {
 			if (concurrentTasks.size() > 0) {
 				TaskBackend* task = concurrentTasks[0];
 				uint32 eraseIndex = 0;
@@ -67,7 +67,7 @@ namespace spruce {
 			return nullptr;
 		}
 
-		TaskBackend* getMainTask() {
+		TaskBackend* getMainTask() noexcept {
 			if (mainTasks.size() > 0) {
 				TaskBackend* task = mainTasks[0];
 				uint32 eraseIndex = 0;
@@ -85,7 +85,7 @@ namespace spruce {
 			return nullptr;
 		}
 
-		TaskBackend* getNextTask(bool main) {
+		TaskBackend* getNextTask(bool main) noexcept {
 			std::lock_guard<std::mutex> taskGuard(taskMutex);
 			TaskBackend* nextTask = nullptr;
 			if (main) {
@@ -136,7 +136,7 @@ namespace spruce {
 			return nullptr;
 		}
 
-		bool executeTask(task::TaskBackend* taskBackend) {
+		bool executeTask(task::TaskBackend* taskBackend) noexcept {
 			if (taskBackend != nullptr) {
 				if (taskBackend->functionData != nullptr) {
 					taskBackend->functionData->execute();
@@ -150,20 +150,20 @@ namespace spruce {
 			return false;
 		}
 
-		bool executeMainTask() {
+		bool executeMainTask() noexcept {
 			return executeTask(task::getNextTask(true));
 		}
 
-		bool executeGraphicsTask(bool concurrent) {
+		bool executeGraphicsTask(bool concurrent) noexcept {
 			return executeTask(task::getGraphicsTask(concurrent));
 		}
 
-		void incrementRef(uint64 taskId) {
+		void incrementRef(uint64 taskId) noexcept {
 			std::lock_guard<std::mutex> dataGuard(refMutex);
 			references[taskId]++;
 		}
 
-		void deincrementRef(uint64 taskId) {
+		void deincrementRef(uint64 taskId) noexcept {
 			std::lock_guard<std::mutex> dataGuard(refMutex);
 			references[taskId]--;
 			if (references[taskId] <= 0) {

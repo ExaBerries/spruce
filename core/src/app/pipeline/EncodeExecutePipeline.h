@@ -14,7 +14,7 @@ namespace spruce {
 			EncodeExecutePipeline(EncodeExecutePipeline&&) noexcept = default;
 			~EncodeExecutePipeline() override = default;
 
-			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) override;
+			void execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) noexcept override;
 
 			EncodeExecutePipeline& operator=(const EncodeExecutePipeline&) = default;
 			EncodeExecutePipeline& operator=(EncodeExecutePipeline&&) noexcept = default;

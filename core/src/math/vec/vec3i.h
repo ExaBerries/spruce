@@ -17,44 +17,44 @@ namespace spruce {
 		vec3i(vec3i&&) noexcept = default;
 		~vec3i() = default;
 
-		[[nodiscard]] float mag2() const;
-		[[nodiscard]] float mag() const;
-		[[nodiscard]] float dst2(const vec3i& vector) const;
-		[[nodiscard]] float dst(const vec3i& vector) const;
-		[[nodiscard]] float dot(const vec3i& vector) const;
+		[[nodiscard]] float mag2() const noexcept;
+		[[nodiscard]] float mag() const noexcept;
+		[[nodiscard]] float dst2(const vec3i& vector) const noexcept;
+		[[nodiscard]] float dst(const vec3i& vector) const noexcept;
+		[[nodiscard]] float dot(const vec3i& vector) const noexcept;
 
-		vec3i& add(const vec3i& vector);
-		vec3i& sub(const vec3i& vector);
+		vec3i& add(const vec3i& vector) noexcept;
+		vec3i& sub(const vec3i& vector) noexcept;
 
-		vec3i& add(int32 value);
-		vec3i& sub(int32 value);
-		vec3i& scl(int32 value);
-		vec3i& div(int32 value);
+		vec3i& add(int32 value) noexcept;
+		vec3i& sub(int32 value) noexcept;
+		vec3i& scl(int32 value) noexcept;
+		vec3i& div(int32 value) noexcept;
 
-		[[nodiscard]] bool operator==(const vec3i& vector) const;
-		[[nodiscard]] bool operator!=(const vec3i& vector) const;
+		[[nodiscard]] bool operator==(const vec3i& vector) const noexcept;
+		[[nodiscard]] bool operator!=(const vec3i& vector) const noexcept;
 
-		vec3i& operator+=(const vec3i& vector);
-		vec3i& operator-=(const vec3i& vector);
+		vec3i& operator+=(const vec3i& vector) noexcept;
+		vec3i& operator-=(const vec3i& vector) noexcept;
 
-		vec3i& operator+=(int32 value);
-		vec3i& operator-=(int32 value);
-		vec3i& operator%=(int32 value);
-		vec3i& operator*=(int32 value);
-		vec3i& operator/=(int32 value);
+		vec3i& operator+=(int32 value) noexcept;
+		vec3i& operator-=(int32 value) noexcept;
+		vec3i& operator%=(int32 value) noexcept;
+		vec3i& operator*=(int32 value) noexcept;
+		vec3i& operator/=(int32 value) noexcept;
 
 		vec3i& operator=(const vec3i&) = default;
 		vec3i& operator=(vec3i&&) noexcept = default;
 	};
 
-	vec3i operator+(const vec3i& left, const vec3i& right);
-	vec3i operator-(const vec3i& left, const vec3i& right);
+	vec3i operator+(const vec3i& left, const vec3i& right) noexcept;
+	vec3i operator-(const vec3i& left, const vec3i& right) noexcept;
 
-	vec3i operator+(const vec3i& left, int32 value);
-	vec3i operator-(const vec3i& left, int32 value);
-	vec3i operator%(const vec3i& left, int32 value);
-	vec3i operator*(const vec3i& left, int32 value);
-	vec3i operator/(const vec3i& left, int32 value);
+	vec3i operator+(const vec3i& left, int32 value) noexcept;
+	vec3i operator-(const vec3i& left, int32 value) noexcept;
+	vec3i operator%(const vec3i& left, int32 value) noexcept;
+	vec3i operator*(const vec3i& left, int32 value) noexcept;
+	vec3i operator/(const vec3i& left, int32 value) noexcept;
 
 	std::ostream& operator<<(std::ostream& stream, const vec3i& vector);
 }

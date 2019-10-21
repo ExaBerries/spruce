@@ -18,8 +18,8 @@ namespace spruce {
 				TaskGroup(TaskGroup&&) noexcept = default;
 				~TaskGroup() = default;
 
-				void addTask(TaskConfig<OUTPUT(TYPES...)> config);
-				[[nodiscard]] bool complete() const;
+				void addTask(TaskConfig<OUTPUT(TYPES...)> config) noexcept;
+				[[nodiscard]] bool complete() const noexcept;
 
 				TaskGroup& operator=(const TaskGroup&) = default;
 				TaskGroup& operator=(TaskGroup&&) noexcept = default;

@@ -22,10 +22,10 @@ namespace spruce {
 				Font(Font&&) noexcept = delete;
 				~Font();
 
-				[[nodiscard]] CharInfo& getInfoFor(char c);
+				[[nodiscard]] CharInfo& getInfoFor(char c) noexcept;
 
-				void toVRAM(RendererAbstractor* renderer);
-				void freeVRAM();
+				void toVRAM(RendererAbstractor* renderer) noexcept;
+				void freeVRAM() noexcept;
 
 				Font& operator=(const Font&) = delete;
 				Font& operator=(Font&&) = delete;

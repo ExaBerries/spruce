@@ -64,12 +64,12 @@ namespace spruce {
 	}
 
 	template <typename TYPE, uint64 SIZE>
-	bool stackpoly<TYPE, SIZE>::operator==(std::nullptr_t) {
+	bool stackpoly<TYPE, SIZE>::operator==(std::nullptr_t) const noexcept {
 		return null;
 	}
 
 	template <typename TYPE, uint64 SIZE>
-	bool stackpoly<TYPE, SIZE>::operator!=(std::nullptr_t) {
+	bool stackpoly<TYPE, SIZE>::operator!=(std::nullptr_t) const noexcept {
 		return !null;
 	}
 }

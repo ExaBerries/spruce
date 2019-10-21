@@ -66,12 +66,12 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	bool stackown<TYPE>::operator==(std::nullptr_t) {
+	bool stackown<TYPE>::operator==(std::nullptr_t) const noexcept {
 		return null;
 	}
 
 	template <typename TYPE>
-	bool stackown<TYPE>::operator!=(std::nullptr_t) {
+	bool stackown<TYPE>::operator!=(std::nullptr_t) const noexcept {
 		return !null;
 	}
 }

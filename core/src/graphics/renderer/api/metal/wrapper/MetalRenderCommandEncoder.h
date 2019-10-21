@@ -16,20 +16,20 @@ namespace spruce {
 			MetalRenderCommandEncoder(MetalRenderCommandEncoder&&) noexcept = delete;
 			~MetalRenderCommandEncoder() override;
 
-			void endEncoding();
-			void setRenderPipelineState(MetalRenderPipelineState* state);
-			void setDepthStencilState(MetalDepthStencilState* state);
-			void setViewport(vec2d pos, vec2d size, double near, double far);
+			void endEncoding() noexcept;
+			void setRenderPipelineState(MetalRenderPipelineState* state) noexcept;
+			void setDepthStencilState(MetalDepthStencilState* state) noexcept;
+			void setViewport(vec2d pos, vec2d size, double near, double far) noexcept;
 
-			void setVertexBuffer(const MetalBuffer* buffer, uint32 offset, uint32 index);
-			void setVertexBytes(const void* bytes, uint32 length, uint32 index);
-			void setVertexTexture(const MetalTexture* texture, uint32 index);
-			void setFragmentBuffer(const MetalBuffer* buffer, uint32 offset, uint32 index);
-			void setFragmentBytes(const void* bytes, uint32 length, uint32 index);
-			void setFragmentTexture(const MetalTexture* texture, uint32 index);
+			void setVertexBuffer(const MetalBuffer* buffer, uint32 offset, uint32 index) noexcept;
+			void setVertexBytes(const void* bytes, uint32 length, uint32 index) noexcept;
+			void setVertexTexture(const MetalTexture* texture, uint32 index) noexcept;
+			void setFragmentBuffer(const MetalBuffer* buffer, uint32 offset, uint32 index) noexcept;
+			void setFragmentBytes(const void* bytes, uint32 length, uint32 index) noexcept;
+			void setFragmentTexture(const MetalTexture* texture, uint32 index) noexcept;
 
-			void drawPrimitives(MetalPrimitive primitive, uint32 vertexStart, uint32 vertexCount, uint32 instanceCount);
-			void drawIndexedPrimitives(MetalPrimitive primitive, uint32 indexCount, MetalIndexType type, const MetalBuffer* indexBuffer, uint32 indexBufferOffset);
+			void drawPrimitives(MetalPrimitive primitive, uint32 vertexStart, uint32 vertexCount, uint32 instanceCount) noexcept;
+			void drawIndexedPrimitives(MetalPrimitive primitive, uint32 indexCount, MetalIndexType type, const MetalBuffer* indexBuffer, uint32 indexBufferOffset) noexcept;
 
 			MetalRenderCommandEncoder& operator=(const MetalRenderCommandEncoder&) = delete;
 			MetalRenderCommandEncoder& operator=(MetalRenderCommandEncoder&&) noexcept = delete;
