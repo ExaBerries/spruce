@@ -14,7 +14,7 @@ namespace spruce {
 			~OpenGLFramebuffer();
 
 			void bind();
-			bool complete();
+			[[nodiscard]] bool complete();
 			void setDrawBuffers(buffer<GLenum> attachments);
 			void createDepthRenderBuffer(uint16 width, uint16 height);
 

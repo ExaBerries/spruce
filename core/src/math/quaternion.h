@@ -28,11 +28,11 @@ namespace spruce {
 		quaternion& set(float yaw, float pitch, float roll);
 		void toEuler(float& yaw, float& pitch, float& roll);
 
-		float mag2() const;
-		float mag() const;
+		[[nodiscard]] float mag2() const;
+		[[nodiscard]] float mag() const;
 		quaternion& nor();
 		quaternion& conjugate();
-		float dot(const quaternion& quaternion) const;
+		[[nodiscard]] float dot(const quaternion& quaternion) const;
 
 		quaternion& operator+=(const quaternion& quaternion);
 		quaternion& operator-=(const quaternion& quaternion);
@@ -42,7 +42,7 @@ namespace spruce {
 		quaternion& operator=(const quaternion&) = default;
 		quaternion& operator=(quaternion&&) noexcept = default;
 
-		static quaternion lerp(const quaternion& a, const quaternion& b, float alpha);
+		[[nodiscard]] static quaternion lerp(const quaternion& a, const quaternion& b, float alpha);
 	};
 
 	inline quaternion operator+(const quaternion& left, const quaternion& right);

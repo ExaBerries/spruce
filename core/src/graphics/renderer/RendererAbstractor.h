@@ -15,7 +15,7 @@ namespace spruce {
 				RendererAbstractor(RendererAbstractor&&) noexcept = default;
 				virtual ~RendererAbstractor() = default;
 
-				virtual std::any encodeBackend(void* encodeData) = 0;
+				[[nodiscard]] virtual std::any encodeBackend(void* encodeData) = 0;
 				virtual void executeBackend(std::any executeData) = 0;
 
 				[[nodiscard]] virtual owner<MeshAPIData> createMeshAPIData(Mesh& mesh) = 0;

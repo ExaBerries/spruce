@@ -19,24 +19,24 @@ namespace spruce {
 		void realloc(uint64 newSize);
 		void free();
 
-		TYPE* begin();
-		const TYPE* begin() const;
-		TYPE* end();
-		const TYPE* end() const;
+		[[nodiscard]] TYPE* begin();
+		[[nodiscard]] const TYPE* begin() const;
+		[[nodiscard]] TYPE* end();
+		[[nodiscard]] const TYPE* end() const;
 
-		TYPE& operator[](std::size_t idx);
-		const TYPE& operator[](std::size_t idx) const;
+		[[nodiscard]] TYPE& operator[](std::size_t idx);
+		[[nodiscard]] const TYPE& operator[](std::size_t idx) const;
 
 		template <typename OTHERTYPE>
-		explicit operator buffer<OTHERTYPE>();
+		[[nodiscard]] explicit operator buffer<OTHERTYPE>();
 		template <typename OTHERTYPE>
-		explicit operator buffer<OTHERTYPE>() const;
-		operator TYPE*();
-		operator const TYPE*() const;
+		[[nodiscard]] explicit operator buffer<OTHERTYPE>() const;
+		[[nodiscard]] operator TYPE*();
+		[[nodiscard]] operator const TYPE*() const;
 		template <typename OTHERTYPE>
-		explicit operator OTHERTYPE*();
+		[[nodiscard]] explicit operator OTHERTYPE*();
 		template <typename OTHERTYPE>
-		explicit operator const OTHERTYPE*();
+		[[nodiscard]] explicit operator const OTHERTYPE*();
 
 		buffer<TYPE>& operator=(std::nullptr_t);
 		buffer<TYPE>& operator=(const buffer<TYPE>&) = default;
@@ -44,10 +44,10 @@ namespace spruce {
 	};
 
 	template <typename TYPE>
-	bool operator==(buffer<TYPE>& buffer, const void* ptr);
+	[[nodiscard]] bool operator==(buffer<TYPE>& buffer, const void* ptr);
 
 	template <typename TYPE>
-	bool operator!=(buffer<TYPE>& buffer, const void* ptr);
+	[[nodiscard]] bool operator!=(buffer<TYPE>& buffer, const void* ptr);
 
 	template <typename TYPE>
 	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE>& buffer);

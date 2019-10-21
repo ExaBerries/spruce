@@ -13,7 +13,7 @@ namespace spruce {
 			ApplicationBackend(ApplicationBackend&&) noexcept = default;
 			virtual ~ApplicationBackend() = default;
 
-			bool supportsAPI(app::API api);
+			[[nodiscard]] bool supportsAPI(app::API api);
 
 			[[nodiscard]] virtual owner<Window> createWindow() = 0;
 			virtual void update() = 0;

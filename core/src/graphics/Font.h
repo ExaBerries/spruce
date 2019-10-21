@@ -22,7 +22,7 @@ namespace spruce {
 				Font(Font&&) noexcept = delete;
 				~Font();
 
-				CharInfo& getInfoFor(char c);
+				[[nodiscard]] CharInfo& getInfoFor(char c);
 
 				void toVRAM(RendererAbstractor* renderer);
 				void freeVRAM();

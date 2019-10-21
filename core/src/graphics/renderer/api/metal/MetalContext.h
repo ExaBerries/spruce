@@ -16,7 +16,7 @@ namespace spruce {
 			MetalContext(MetalContext&&) noexcept = delete;
 			~MetalContext() override = default;
 
-			owner<MetalDrawable> getDrawable();
+			[[nodiscard]] owner<MetalDrawable> getDrawable();
 			void setDrawableSize(vec2i size);
 			void setVSync(bool vsync);
 

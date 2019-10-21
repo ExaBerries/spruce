@@ -18,7 +18,7 @@ namespace spruce {
 				Renderer(Renderer&&) noexcept = default;
 				~Renderer() override = default;
 
-				std::any encodeBackend(void* encodeData) override;
+				[[nodiscard]] std::any encodeBackend(void* encodeData) override;
 				void executeBackend(std::any executeData) override;
 
 				Renderer& operator=(const Renderer&) = default;
@@ -26,7 +26,7 @@ namespace spruce {
 		};
 
 		template <typename EncodeT, typename ExecuteT, enum app::API api>
-		std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) {
+		[[nodiscard]] std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) {
 			static_assert(std::is_copy_assignable_v<ExecuteT>);
 			return encode(*static_cast<EncodeT*>(encodeData));
 		}

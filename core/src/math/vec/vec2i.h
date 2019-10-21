@@ -15,11 +15,11 @@ namespace spruce {
 		vec2i(vec2i&&) noexcept = default;
 		~vec2i() = default;
 
-		float mag2() const;
-		float mag() const;
-		float dst2(const vec2i& vector) const;
-		float dst(const vec2i& vector) const;
-		float dot(const vec2i& vector) const;
+		[[nodiscard]] float mag2() const;
+		[[nodiscard]] float mag() const;
+		[[nodiscard]] float dst2(const vec2i& vector) const;
+		[[nodiscard]] float dst(const vec2i& vector) const;
+		[[nodiscard]] float dot(const vec2i& vector) const;
 
 		vec2i& add(const vec2i& vector);
 		vec2i& sub(const vec2i& vector);
@@ -29,8 +29,8 @@ namespace spruce {
 		vec2i& scl(int32 value);
 		vec2i& div(int32 value);
 
-		bool operator==(const vec2i& vector) const;
-		bool operator!=(const vec2i& vector) const;
+		[[nodiscard]] bool operator==(const vec2i& vector) const;
+		[[nodiscard]] bool operator!=(const vec2i& vector) const;
 
 		vec2i& operator+=(const vec2i& vector);
 		vec2i& operator-=(const vec2i& vector);

@@ -14,6 +14,6 @@ namespace spruce {
 
 		void setCursorMode(CursorMode mode);
 
-		uint16 codeFor(Key key);
+		[[nodiscard]] uint16 codeFor(Key key);
 	}
 }

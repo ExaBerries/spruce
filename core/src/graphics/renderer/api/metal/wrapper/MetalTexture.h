@@ -11,7 +11,7 @@ namespace spruce {
 			MetalTexture(MetalTexture&&) noexcept = delete;
 			~MetalTexture() override;
 
-			vec2i getSize();
+			[[nodiscard]] vec2i getSize();
 
 			MetalTexture& operator=(const MetalTexture&) = delete;
 			MetalTexture& operator=(MetalTexture&&) noexcept = delete;

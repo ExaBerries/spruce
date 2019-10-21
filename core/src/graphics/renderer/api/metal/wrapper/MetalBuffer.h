@@ -11,9 +11,9 @@ namespace spruce {
 			MetalBuffer(MetalBuffer&&) noexcept = delete;
 			~MetalBuffer() override;
 
-			void* getContents();
+			[[nodiscard]] void* getContents();
 			void didModifyRange(uint32 start, uint32 length);
-			uint64 getLength();
+			[[nodiscard]] uint64 getLength();
 
 			MetalBuffer& operator=(const MetalBuffer&) = delete;
 			MetalBuffer& operator=(MetalBuffer&&) noexcept = delete;

@@ -12,14 +12,14 @@ namespace spruce {
 
 		[[nodiscard]] owner<ApplicationBackend> createAppBackend();
 
-		uint16 codeFor(input::Key key);
+		[[nodiscard]] uint16 codeFor(input::Key key);
 
-		string getHomePath();
-		string getBasePathInternal();
-		string getBasePathExternal();
-		bool isDir(const string& path);
-		bool exists(const string& path);
+		[[nodiscard]] string getHomePath();
+		[[nodiscard]] string getBasePathInternal();
+		[[nodiscard]] string getBasePathExternal();
+		[[nodiscard]] bool isDir(const string& path);
+		[[nodiscard]] bool exists(const string& path);
 		void createDir(const string& path);
-		std::vector<string> listSubFiles(const string& path);
+		[[nodiscard]] std::vector<string> listSubFiles(const string& path);
 	}
 }

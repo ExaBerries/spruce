@@ -25,10 +25,10 @@ namespace spruce {
 			MetalDevice(MetalDevice&&) noexcept = delete;
 			~MetalDevice() override;
 
-			string getName();
-			bool getLowPower();
-			bool getHeadless();
-			bool getRemoveable();
+			[[nodiscard]] string getName();
+			[[nodiscard]] bool getLowPower();
+			[[nodiscard]] bool getHeadless();
+			[[nodiscard]] bool getRemoveable();
 
 			[[nodiscard]] owner<MetalCommandQueue> createCommandQueue();
 			[[nodiscard]] owner<MetalBuffer> createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode);

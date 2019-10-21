@@ -15,8 +15,8 @@ namespace spruce {
 		constexpr color(int32 hex);
 		~color() = default;
 
-		bool operator==(const color& color) const;
-		bool operator!=(const color& color) const;
+		[[nodiscard]] bool operator==(const color& color) const;
+		[[nodiscard]] bool operator!=(const color& color) const;
 
 		color& operator=(const color&) = default;
 		color& operator=(color&&) noexcept = default;

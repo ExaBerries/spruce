@@ -21,8 +21,8 @@ namespace spruce {
 			X11OpenGLContext(Display* display);
 			~X11OpenGLContext();
 
-			Visual* getVisual();
-			uint32 getDepth();
+			[[nodiscard]] Visual* getVisual();
+			[[nodiscard]] uint32 getDepth();
 			void windowCreated(XWindow window);
 
 			void makeContextCurrent() override;

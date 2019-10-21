@@ -3,7 +3,7 @@
 
 namespace spruce {
 	namespace sys {
-		float timeSec();
-		int64 timeNano();
+		[[nodiscard]] float timeSec();
+		[[nodiscard]] int64 timeNano();
 	}
 }

@@ -20,11 +20,11 @@ namespace spruce {
 
 			void setFramePipeline(owner<FramePipeline> pipeline);
 			void setRenderAPI(app::API api);
-			bool supportsAPI(app::API api) const;
-			const buffer<app::API>& getSupportedAPIs() const;
+			[[nodiscard]] bool supportsAPI(app::API api) const;
+			[[nodiscard]] const buffer<app::API>& getSupportedAPIs() const;
 			void setRenderer(owner<RendererAbstractor> renderer);
-			RendererAbstractor* getRenderer();
-			Window* getWindow();
+			[[nodiscard]] RendererAbstractor* getRenderer();
+			[[nodiscard]] Window* getWindow();
 
 			Application& operator=(const Application&) = delete;
 			Application& operator=(Application&&) noexcept = delete;

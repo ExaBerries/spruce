@@ -19,12 +19,12 @@ namespace spruce {
 		vec2d& set(double scalar);
 		vec2d& set(double x, double y);
 
-		double mag2() const;
-		double mag() const;
+		[[nodiscard]] double mag2() const;
+		[[nodiscard]] double mag() const;
 		vec2d& nor();
-		double dst2(const vec2d& vector) const;
-		double dst(const vec2d& vector) const;
-		double dot(const vec2d& vector) const;
+		[[nodiscard]] double dst2(const vec2d& vector) const;
+		[[nodiscard]] double dst(const vec2d& vector) const;
+		[[nodiscard]] double dot(const vec2d& vector) const;
 
 		vec2d& add(const vec2d& vector);
 		vec2d& sub(const vec2d& vector);
@@ -34,8 +34,8 @@ namespace spruce {
 		vec2d& scl(double value);
 		vec2d& div(double value);
 
-		bool operator==(const vec2d& vector) const;
-		bool operator!=(const vec2d& vector) const;
+		[[nodiscard]] bool operator==(const vec2d& vector) const;
+		[[nodiscard]] bool operator!=(const vec2d& vector) const;
 
 		vec2d& operator+=(const vec2d& vector);
 		vec2d& operator-=(const vec2d& vector);
@@ -48,7 +48,7 @@ namespace spruce {
 		vec2d& operator=(const vec2d&) = default;
 		vec2d& operator=(vec2d&&) noexcept = default;
 
-		static vec2d lerp(const vec2d& a, const vec2d& b, double alpha);
+		[[nodiscard]] static vec2d lerp(const vec2d& a, const vec2d& b, double alpha);
 	};
 
 	inline vec2d operator+(const vec2d& left, const vec2d& right);

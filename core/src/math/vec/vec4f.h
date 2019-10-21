@@ -25,12 +25,12 @@ namespace spruce {
 			vec4f& set(const vec3f& vector, float w);
 			vec4f& set(float x, float y, float z, float w);
 
-			float mag2() const;
-			float mag() const;
+			[[nodiscard]] float mag2() const;
+			[[nodiscard]] float mag() const;
 			vec4f& nor();
-			float dst2(const vec4f& vector) const;
-			float dst(const vec4f& vector) const;
-			float dot(const vec4f& vector) const;
+			[[nodiscard]] float dst2(const vec4f& vector) const;
+			[[nodiscard]] float dst(const vec4f& vector) const;
+			[[nodiscard]] float dot(const vec4f& vector) const;
 
 			vec4f& add(const vec4f& vector);
 			vec4f& sub(const vec4f& vector);
@@ -40,8 +40,8 @@ namespace spruce {
 			vec4f& scl(float value);
 			vec4f& div(float value);
 
-			bool operator==(const vec4f& vector) const;
-			bool operator!=(const vec4f& vector) const;
+			[[nodiscard]] bool operator==(const vec4f& vector) const;
+			[[nodiscard]] bool operator!=(const vec4f& vector) const;
 
 			vec4f& operator+=(const vec4f& vector);
 			vec4f& operator-=(const vec4f& vector);
@@ -54,7 +54,7 @@ namespace spruce {
 			vec4f& operator=(const vec4f&) = default;
 			vec4f& operator=(vec4f&&) noexcept = default;
 
-			static vec4f lerp(const vec4f& a, const vec4f& b, float alpha);
+			[[nodiscard]] static vec4f lerp(const vec4f& a, const vec4f& b, float alpha);
 	};
 
 	inline vec4f operator+(const vec4f& left, const vec4f& right);

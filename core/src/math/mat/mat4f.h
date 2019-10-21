@@ -25,7 +25,7 @@ namespace spruce {
 		mat4f& set(const vec3f& translation, const quaternion& rotation, const vec3f& scale);
 		mat4f& set(const vec3f& direction, const vec3f& up);
 
-		float determinant();
+		[[nodiscard]] float determinant();
 		mat4f& invert();
 		mat4f& transpose();
 
@@ -33,8 +33,8 @@ namespace spruce {
 		mat4f& operator-=(const mat4f& matrix);
 		mat4f& operator*=(const mat4f& matrix);
 
-		bool operator==(const mat4f& matrix) const;
-		bool operator!=(const mat4f& matrix) const;
+		[[nodiscard]] bool operator==(const mat4f& matrix) const;
+		[[nodiscard]] bool operator!=(const mat4f& matrix) const;
 
 		mat4f& operator=(const mat4f&) = default;
 		mat4f& operator=(mat4f&&) noexcept = default;

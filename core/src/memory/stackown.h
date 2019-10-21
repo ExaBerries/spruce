@@ -17,20 +17,20 @@ namespace spruce {
 		void cons(CONSTYPES&& ... args);
 		void desc();
 
-		operator TYPE*();
-		operator const TYPE*() const;
+		[[nodiscard]] operator TYPE*();
+		[[nodiscard]] operator const TYPE*() const;
 		template <typename OTHERTYPE>
-		explicit operator OTHERTYPE*();
+		[[nodiscard]] explicit operator OTHERTYPE*();
 		template <typename OTHERTYPE>
-		explicit operator const OTHERTYPE*() const;
+		[[nodiscard]] explicit operator const OTHERTYPE*() const;
 
 		TYPE& operator*() noexcept;
 		const TYPE& operator*() const noexcept;
 		TYPE* operator->() noexcept;
 		const TYPE* operator->() const noexcept;
 
-		bool operator==(std::nullptr_t);
-		bool operator!=(std::nullptr_t);
+		[[nodiscard]] bool operator==(std::nullptr_t);
+		[[nodiscard]] bool operator!=(std::nullptr_t);
 
 		stackown& operator=(const stackown&) = default;
 		stackown& operator=(stackown&&) noexcept = default;

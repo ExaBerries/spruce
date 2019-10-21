@@ -5,11 +5,12 @@
 
 namespace spruce {
 	namespace task {
+		extern uint64 taskId;
+
 		void init();
 		void free();
 		void addTask(uint64 id, TaskData* data, TaskBackend* taskBackend);
-		TaskBackend* getNextTask(bool main);
-		extern uint64 taskId;
+		[[nodiscard]] TaskBackend* getNextTask(bool main);
 		bool executeMainTask();
 		bool executeGraphicsTask(bool concurrent);
 		void incrementRef(uint64 id);
