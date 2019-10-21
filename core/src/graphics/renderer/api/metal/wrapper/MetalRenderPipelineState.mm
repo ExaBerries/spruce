@@ -4,8 +4,5 @@
 namespace spruce {
 	MetalRenderPipelineState::MetalRenderPipelineState(void* ptr) : MetalObj(ptr) {
 	}
-
-	MetalRenderPipelineState::~MetalRenderPipelineState() {
-	}
 }
 #endif

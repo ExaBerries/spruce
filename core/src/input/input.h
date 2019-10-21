@@ -9,11 +9,11 @@ namespace spruce {
 	namespace input {
 		extern std::vector<InputProcessor*> processors;
 
-		void addProcessor(InputProcessor* processor);
-		void removeProcessor(InputProcessor* processor);
+		void addProcessor(InputProcessor* processor) noexcept;
+		void removeProcessor(InputProcessor* processor) noexcept;
 
-		void setCursorMode(CursorMode mode);
+		void setCursorMode(CursorMode mode) noexcept;
 
-		uint16 codeFor(Key key);
+		[[nodiscard]] uint16 codeFor(Key key) noexcept;
 	}
 }

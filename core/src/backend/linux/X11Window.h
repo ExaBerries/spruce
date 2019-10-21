@@ -22,14 +22,14 @@ namespace spruce {
 			X11Window(X11Window&&) noexcept = delete;
 			~X11Window();
 
-			void createXWindow(Visual* visual, uint32 depth);
+			void createXWindow(Visual* visual, uint32 depth) noexcept;
 
-			[[nodiscard]] owner<APIContext> initAPI(app::API api) override;
-			void setTitle(string title) override;
-			void setVisible(bool visible) override;
-			void setFullscreen(bool fullscreen) override;
-			void close() override;
-			void setCursorMode(input::CursorMode mode) override;
+			[[nodiscard]] owner<APIContext> initAPI(app::API api) noexcept override;
+			void setTitle(string title) noexcept override;
+			void setVisible(bool visible) noexcept override;
+			void setFullscreen(bool fullscreen) noexcept override;
+			void close() noexcept override;
+			void setCursorMode(input::CursorMode mode) noexcept override;
 
 			X11Window& operator=(const X11Window&) = delete;
 			X11Window& operator=(X11Window&&) noexcept = delete;

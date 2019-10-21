@@ -8,25 +8,25 @@ namespace spruce {
 		std::vector<InputProcessor*> processors;
 		std::mutex processorsMutex;
 
-		void addProcessor(InputProcessor* processor) {
+		void addProcessor(InputProcessor* processor) noexcept {
 			std::lock_guard<std::mutex> processorsLock(processorsMutex);
 			processors.push_back(processor);
 		}
 
-		void removeProcessor(InputProcessor* processor) {
+		void removeProcessor(InputProcessor* processor) noexcept {
 			std::lock_guard<std::mutex> processorsLock(processorsMutex);
-			for (uint16 i = 0; i < processors.size(); i++) {
+			for (uint32 i = 0; i < processors.size(); i++) {
 				if (processors[i] == processor) {
 					processors.erase(processors.begin() + i);
 				}
 			}
 		}
 
-		void setCursorMode(CursorMode mode) {
+		void setCursorMode(CursorMode mode) noexcept {
 			//app::window->setCursorMode(mode);
 		}
 
-		uint16 codeFor(Key key) {
+		uint16 codeFor(Key key) noexcept {
 			return os::codeFor(key);
 		}
 	}

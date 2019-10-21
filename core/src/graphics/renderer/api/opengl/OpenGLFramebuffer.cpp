@@ -13,16 +13,16 @@ namespace spruce {
 		glDeleteFramebuffers(1, &framebuffer);
 	}
 
-	void OpenGLFramebuffer::bind() {
+	void OpenGLFramebuffer::bind() noexcept {
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	}
 
-	bool OpenGLFramebuffer::complete() {
+	bool OpenGLFramebuffer::complete() noexcept {
 		bind();
 		return (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 	}
 
-	void OpenGLFramebuffer::setDrawBuffers(buffer<GLenum> attachments) {
+	void OpenGLFramebuffer::setDrawBuffers(buffer<GLenum> attachments) noexcept {
 		if (attachments.size == 0) {
 			glDrawBuffer(GL_NONE);
 			return;
@@ -37,7 +37,7 @@ namespace spruce {
 		}
 	}
 
-	void OpenGLFramebuffer::createDepthRenderBuffer(uint16 width, uint16 height) {
+	void OpenGLFramebuffer::createDepthRenderBuffer(uint16 width, uint16 height) noexcept {
 		bind();
 		glGenRenderbuffers(1, &depthbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, depthbuffer);

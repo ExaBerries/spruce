@@ -10,7 +10,7 @@ namespace spruce {
 	vec4f::vec4f(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {
 	}
 
-	vec4f& vec4f::set(const vec4f& vector) {
+	vec4f& vec4f::set(const vec4f& vector) noexcept {
 		x = vector.x;
 		y = vector.y;
 		z = vector.z;
@@ -18,7 +18,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::set(const vec3f& vector, float w) {
+	vec4f& vec4f::set(const vec3f& vector, float w) noexcept {
 		x = vector.x;
 		y = vector.y;
 		z = vector.z;
@@ -26,7 +26,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::set(float x, float y, float z, float w) {
+	vec4f& vec4f::set(float x, float y, float z, float w) noexcept {
 		this->x = x;
 		this->y = y;
 		this->z = z;
@@ -34,18 +34,18 @@ namespace spruce {
 		return *this;
 	}
 
-	float vec4f::mag2() const {
+	float vec4f::mag2() const noexcept {
 		return x * x + y * y + z * z + w * w;
 	}
 
-	float vec4f::mag() const {
-		return sqrt(mag2());
+	float vec4f::mag() const noexcept {
+		return std::sqrt(mag2());
 	}
 
-	vec4f& vec4f::nor() {
+	vec4f& vec4f::nor() noexcept {
 		float mag2 = vec4f::mag2();
 		if (mag2 != 0 && mag2 != 1) {
-			float mag = sqrt(mag2);
+			float mag = std::sqrt(mag2);
 			x /= mag;
 			y /= mag;
 			z /= mag;
@@ -54,7 +54,7 @@ namespace spruce {
 		return *this;
 	}
 
-	float vec4f::dst2(const vec4f& vector) const {
+	float vec4f::dst2(const vec4f& vector) const noexcept {
 		float dx = vector.x - x;
 		float dy = vector.y - y;
 		float dz = vector.z - z;
@@ -62,15 +62,15 @@ namespace spruce {
 		return dx * dx + dy * dy + dz * dz + dw * dw;
 	}
 
-	float vec4f::dst(const vec4f& vector) const {
-		return sqrt(dst2(vector));
+	float vec4f::dst(const vec4f& vector) const noexcept {
+		return std::sqrt(dst2(vector));
 	}
 
-	float vec4f::dot(const vec4f& vector) const {
+	float vec4f::dot(const vec4f& vector) const noexcept {
 		return x * vector.x + y * vector.y + z * vector.z + w * vector.w;
 	}
 
-	vec4f& vec4f::add(const vec4f& vector) {
+	vec4f& vec4f::add(const vec4f& vector) noexcept {
 		x += vector.x;
 		y += vector.y;
 		z += vector.z;
@@ -78,7 +78,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::sub(const vec4f& vector) {
+	vec4f& vec4f::sub(const vec4f& vector) noexcept {
 		x -= vector.x;
 		y -= vector.y;
 		z -= vector.z;
@@ -86,7 +86,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::add(float value) {
+	vec4f& vec4f::add(float value) noexcept {
 		x += value;
 		y += value;
 		z += value;
@@ -94,7 +94,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::sub(float value) {
+	vec4f& vec4f::sub(float value) noexcept {
 		x -= value;
 		y -= value;
 		z -= value;
@@ -102,7 +102,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::scl(float value) {
+	vec4f& vec4f::scl(float value) noexcept {
 		x *= value;
 		y *= value;
 		z *= value;
@@ -110,7 +110,7 @@ namespace spruce {
 		return *this;
 	}
 
-	vec4f& vec4f::div(float value) {
+	vec4f& vec4f::div(float value) noexcept {
 		x /= value;
 		y /= value;
 		z /= value;
@@ -118,11 +118,11 @@ namespace spruce {
 		return *this;
 	}
 
-	bool vec4f::operator==(const vec4f& vector) const {
+	bool vec4f::operator==(const vec4f& vector) const noexcept {
 		return (x == vector.x && y == vector.y && z == vector.z && w == vector.w);
 	}
 
-	bool vec4f::operator!=(const vec4f& vector) const {
+	bool vec4f::operator!=(const vec4f& vector) const noexcept {
 		return (x != vector.x || y != vector.y || z != vector.z || w != vector.w);
 	}
 
@@ -131,7 +131,7 @@ namespace spruce {
 		return stream;
 	}
 
-	vec4f lerp(const vec4f& a, const vec4f& b, float alpha) {
+	vec4f lerp(const vec4f& a, const vec4f& b, float alpha) noexcept {
 		float oneMinuaAlpha = 1 - alpha;
 		return vec4f(oneMinuaAlpha * a.x + alpha * b.x, oneMinuaAlpha * a.y + alpha * b.y, oneMinuaAlpha * a.z + alpha * b.z, oneMinuaAlpha * a.w + alpha * b.w);
 	}

@@ -3,7 +3,7 @@
 #include <graphics/renderer/api/metal/mtlplatform.h>
 
 namespace spruce {
-	constexpr id<MTLFunction> castFunc(void* ptr) {
+	constexpr id<MTLFunction> castFunc(void* ptr) noexcept {
 		return (__bridge id<MTLFunction>) ptr;
 	}
 
@@ -13,6 +13,5 @@ namespace spruce {
 	MetalFunction::~MetalFunction() {
 		[castFunc(ptr) release];
 	}
-
 }
 #endif

@@ -10,11 +10,11 @@ namespace spruce {
 				OpenGLContext() = default;
 				OpenGLContext(const OpenGLContext&) = delete;
 				OpenGLContext(OpenGLContext&&) = delete;
-				virtual ~OpenGLContext() = default;
+				~OpenGLContext() override = default;
 
-				virtual void makeContextCurrent() = 0;
-				virtual void swapBuffers() = 0;
-				virtual void setSwapInverval(int32 interval) = 0;
+				virtual void makeContextCurrent() noexcept = 0;
+				virtual void swapBuffers() noexcept = 0;
+				virtual void setSwapInverval(int32 interval) noexcept = 0;
 
 				OpenGLContext& operator=(const OpenGLContext&) = delete;
 				OpenGLContext& operator=(OpenGLContext&&) = delete;

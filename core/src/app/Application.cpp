@@ -4,38 +4,35 @@ namespace spruce {
 	Application::Application(SpruceEngine& engine) : engine(engine) {
 	}
 
-	Application::~Application() {
-	}
-
-	void* Application::getRenderEncodeData() {
+	void* Application::getRenderEncodeData() noexcept {
 		return this;
 	}
 
-	void Application::setFramePipeline(owner<FramePipeline> pipeline) {
+	void Application::setFramePipeline(owner<FramePipeline> pipeline) noexcept {
 		engine.setFramePipeline(pipeline);
 	}
 
-	void Application::setRenderAPI(app::API api) {
+	void Application::setRenderAPI(app::API api) noexcept {
 		engine.setRenderAPI(api);
 	}
 
-	bool Application::supportsAPI(app::API api) const {
+	bool Application::supportsAPI(app::API api) const noexcept {
 		return engine.supportsAPI(api);
 	}
 
-	const buffer<app::API> Application::getSupportedAPIs() const {
+	const buffer<app::API>& Application::getSupportedAPIs() const noexcept {
 		return engine.getSupportedAPIs();
 	}
 
-	void Application::setRenderer(owner<RendererAbstractor> renderer) {
+	void Application::setRenderer(owner<RendererAbstractor> renderer) noexcept {
 		engine.setRenderer(renderer);
 	}
 
-	RendererAbstractor* Application::getRenderer() {
+	RendererAbstractor* Application::getRenderer() noexcept {
 		return engine.renderer;
 	}
 
-	Window* Application::getWindow() {
+	Window* Application::getWindow() noexcept {
 		return engine.window;
 	}
 }

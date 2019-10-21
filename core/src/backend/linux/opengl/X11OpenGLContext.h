@@ -18,16 +18,16 @@ namespace spruce {
 			GLXContext context;
 			XVisualInfo* visualInfo;
 
-			X11OpenGLContext(Display* display);
-			~X11OpenGLContext();
+			X11OpenGLContext(Display* display) noexcept;
+			~X11OpenGLContext() noexcept;
 
-			Visual* getVisual();
-			uint32 getDepth();
-			void windowCreated(XWindow window);
+			[[nodiscard]] Visual* getVisual() noexcept;
+			[[nodiscard]] uint32 getDepth() noexcept;
+			void windowCreated(XWindow window) noexcept;
 
-			void makeContextCurrent() override;
-			void swapBuffers() override;
-			void setSwapInverval(int32 interval) override;
+			void makeContextCurrent() noexcept override;
+			void swapBuffers() noexcept override;
+			void setSwapInverval(int32 interval) noexcept override;
 	};
 }
 #endif

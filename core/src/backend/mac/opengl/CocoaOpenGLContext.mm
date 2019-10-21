@@ -6,15 +6,15 @@ namespace spruce {
 		this-> view = view;
 	}
 
-	void CocoaOpenGLContext::makeContextCurrent() {
+	void CocoaOpenGLContext::makeContextCurrent() noexcept {
 		[[view getContext] makeCurrentContext];
 	}
 
-	void CocoaOpenGLContext::swapBuffers() {
+	void CocoaOpenGLContext::swapBuffers() noexcept {
 		[[view getContext] flushBuffer];
 	}
 
-	void CocoaOpenGLContext::setSwapInverval(int32 interval) {
+	void CocoaOpenGLContext::setSwapInverval(int32 interval) noexcept {
 		[[view getContext] setValues:&interval forParameter:NSOpenGLCPSwapInterval];
 	}
 }

@@ -12,12 +12,12 @@ namespace spruce {
 			MetalCommandBuffer(void* ptr);
 			MetalCommandBuffer(const MetalCommandBuffer&) = delete;
 			MetalCommandBuffer(MetalCommandBuffer&&) noexcept = delete;
-			~MetalCommandBuffer() = default;
+			~MetalCommandBuffer() override = default;
 
-			void commit();
-			void enqueue();
-			void presentDrawable(MetalDrawable* drawable);
-			[[nodiscard]] owner<MetalRenderCommandEncoder> createRenderCommandEncoder(MetalRenderPassDescriptor& descriptor);
+			void commit() noexcept;
+			void enqueue() noexcept;
+			void presentDrawable(MetalDrawable* drawable) noexcept;
+			[[nodiscard]] owner<MetalRenderCommandEncoder> createRenderCommandEncoder(MetalRenderPassDescriptor& descriptor) noexcept;
 
 			MetalCommandBuffer& operator=(const MetalCommandBuffer&) = delete;
 			MetalCommandBuffer& operator=(const MetalCommandBuffer&&) noexcept = delete;

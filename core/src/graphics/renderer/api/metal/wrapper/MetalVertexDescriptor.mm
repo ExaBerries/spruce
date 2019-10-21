@@ -14,17 +14,17 @@ namespace spruce {
 		[castVertexDescriptor(ptr) release];
 	}
 
-	void MetalVertexDescriptor::reset() {
+	void MetalVertexDescriptor::reset() noexcept {
 		[castVertexDescriptor(ptr) reset];
 	}
 
-	void MetalVertexDescriptor::setAttribute(uint32 index, MetalVertexFormat format, uint32 offset, uint32 bufferIndex) {
+	void MetalVertexDescriptor::setAttribute(uint32 index, MetalVertexFormat format, uint32 offset, uint32 bufferIndex) noexcept {
 		castVertexDescriptor(ptr).attributes[index].format = mapVertexFormat(format);
 		castVertexDescriptor(ptr).attributes[index].offset = offset;
 		castVertexDescriptor(ptr).attributes[index].bufferIndex = bufferIndex;
 	}
 
-	void MetalVertexDescriptor::setLayout(uint32 index, MetalVertexStepFunction function, uint32 stride, uint32 stepRate) {
+	void MetalVertexDescriptor::setLayout(uint32 index, MetalVertexStepFunction function, uint32 stride, uint32 stepRate) noexcept {
 		castVertexDescriptor(ptr).layouts[index].stepFunction = mapVertexStepFunction(function);
 		castVertexDescriptor(ptr).layouts[index].stride = stride;
 		castVertexDescriptor(ptr).layouts[index].stepRate = stepRate;

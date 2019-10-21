@@ -17,15 +17,15 @@ namespace spruce {
 				owner<Texture> texture;
 				uint16 size;
 
-				Font(FileHandle fileHandle, uint16 size);
+				Font(const FileHandle& fileHandle, uint16 size);
 				Font(const Font& font) = delete;
 				Font(Font&&) noexcept = delete;
 				~Font();
 
-				CharInfo& getInfoFor(char c);
+				[[nodiscard]] CharInfo& getInfoFor(char c) noexcept;
 
-				void toVRAM(RendererAbstractor* renderer);
-				void freeVRAM();
+				void toVRAM(RendererAbstractor* renderer) noexcept;
+				void freeVRAM() noexcept;
 
 				Font& operator=(const Font&) = delete;
 				Font& operator=(Font&&) = delete;

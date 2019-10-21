@@ -21,7 +21,7 @@ namespace spruce {
 				offset += vertexCount * sizeof(float);
 				buffer<uint16> indices(indexCount);
 				memcpy(indices.data, data + offset, indexCount * sizeof(uint16));
-				offset += indexCount * sizeof(uint16);
+				//offset += indexCount * sizeof(uint16);
 				return new Mesh(vertices, indices);
 			} else if (data[0] == 0x1) {
 				uint32 offset = 1;
@@ -36,7 +36,7 @@ namespace spruce {
 				offset += vertexCount * sizeof(float);
 				buffer<uint16> indices(indexCount);
 				memcpy(indices.data, data + offset, indexCount * sizeof(uint16));
-				offset += indexCount * sizeof(uint16);
+				//offset += indexCount * sizeof(uint16);
 				return new Mesh(vertices, indices);
 			}
 			return nullptr;
@@ -55,7 +55,7 @@ namespace spruce {
 			writeFileBin(file, data);
 		}
 
-		buffer<uint8> serializeMesh(Mesh* mesh, buffer<uint8>& data, uint32& offset) {
+		void serializeMesh(Mesh* mesh, buffer<uint8>& data, uint32& offset) {
 			memcpy(data + offset, &(mesh->vertices.size), sizeof(uint64));
 			offset += sizeof(uint64);
 			memcpy(data + offset, &(mesh->indices.size), sizeof(uint64));
@@ -64,7 +64,6 @@ namespace spruce {
 			offset += mesh->vertices.size * sizeof(float);
 			memcpy(data + offset, mesh->indices.data, mesh->indices.size * sizeof(uint16));
 			offset += mesh->indices.size * sizeof(uint16);
-			return data;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 namespace spruce {
-	inline vec4f operator+(const vec4f& left, const vec4f& right) {
+	inline vec4f operator+(const vec4f& left, const vec4f& right) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f r = simd::load4f4f(right.x);
 		vec4f out;
@@ -9,7 +9,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec4f operator-(const vec4f& left, const vec4f& right) {
+	inline vec4f operator-(const vec4f& left, const vec4f& right) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f r = simd::load4f4f(right.x);
 		vec4f out;
@@ -17,7 +17,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec4f operator+(const vec4f& left, float value) {
+	inline vec4f operator+(const vec4f& left, float value) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f v = simd::load1f4f(value);
 		vec4f out;
@@ -25,7 +25,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec4f operator-(const vec4f& left, float value) {
+	inline vec4f operator-(const vec4f& left, float value) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f v = simd::load1f4f(value);
 		vec4f out;
@@ -33,7 +33,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec4f operator*(const vec4f& left, float value) {
+	inline vec4f operator*(const vec4f& left, float value) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f v = simd::load1f4f(value);
 		vec4f out;
@@ -41,7 +41,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec4f operator/(const vec4f& left, float value) {
+	inline vec4f operator/(const vec4f& left, float value) noexcept {
 		simd::reg4f l = simd::load4f4f(left.x);
 		simd::reg4f v = simd::load1f4f(value);
 		vec4f out;
@@ -49,42 +49,42 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec4f& vec4f::operator+=(const vec4f& vector) {
+	inline vec4f& vec4f::operator+=(const vec4f& vector) noexcept {
 		simd::reg4f t = simd::load4f4f(this->x);
 		simd::reg4f v = simd::load4f4f(vector.x);
 		simd::store4f(this->x, simd::add4f(t, v));
 		return *this;
 	}
 
-	inline vec4f& vec4f::operator-=(const vec4f& vector) {
+	inline vec4f& vec4f::operator-=(const vec4f& vector) noexcept {
 		simd::reg4f t = simd::load4f4f(this->x);
 		simd::reg4f v = simd::load4f4f(vector.x);
 		simd::store4f(this->x, simd::sub4f(t, v));
 		return *this;
 	}
 
-	inline vec4f& vec4f::operator+=(float value) {
+	inline vec4f& vec4f::operator+=(float value) noexcept {
 		simd::reg4f t = simd::load4f4f(this->x);
 		simd::reg4f v = simd::load1f4f(value);
 		simd::store4f(this->x, simd::add4f(t, v));
 		return *this;
 	}
 
-	inline vec4f& vec4f::operator-=(float value) {
+	inline vec4f& vec4f::operator-=(float value) noexcept {
 		simd::reg4f t = simd::load4f4f(this->x);
 		simd::reg4f v = simd::load1f4f(value);
 		simd::store4f(this->x, simd::sub4f(t, v));
 		return *this;
 	}
 
-	inline vec4f& vec4f::operator*=(float value) {
+	inline vec4f& vec4f::operator*=(float value) noexcept {
 		simd::reg4f t = simd::load4f4f(this->x);
 		simd::reg4f v = simd::load1f4f(value);
 		simd::store4f(this->x, simd::mul4f(t, v));
 		return *this;
 	}
 
-	inline vec4f& vec4f::operator/=(float value) {
+	inline vec4f& vec4f::operator/=(float value) noexcept {
 		simd::reg4f t = simd::load4f4f(this->x);
 		simd::reg4f v = simd::load1f4f(value);
 		simd::store4f(this->x, simd::div4f(t, v));

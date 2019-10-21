@@ -11,15 +11,20 @@ namespace spruce {
 		class RendererAbstractor {
 			public:
 				RendererAbstractor() = default;
+				RendererAbstractor(const RendererAbstractor&) = default;
+				RendererAbstractor(RendererAbstractor&&) noexcept = default;
 				virtual ~RendererAbstractor() = default;
 
-				virtual std::any encodeBackend(void* encodeData) = 0;
-				virtual void executeBackend(std::any executeData) = 0;
+				[[nodiscard]] virtual std::any encodeBackend(void* encodeData) noexcept = 0;
+				virtual void executeBackend(std::any executeData) noexcept = 0;
 
-				[[nodiscard]] virtual owner<MeshAPIData> createMeshAPIData(Mesh& mesh) = 0;
-				[[nodiscard]] virtual owner<TextureAPIData> createTextureAPIData(Texture& texture) = 0;
-				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) = 0;
-				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) = 0;
+				[[nodiscard]] virtual owner<MeshAPIData> createMeshAPIData(Mesh& mesh) noexcept = 0;
+				[[nodiscard]] virtual owner<TextureAPIData> createTextureAPIData(Texture& texture) noexcept = 0;
+				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) noexcept = 0;
+				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) noexcept = 0;
+
+				RendererAbstractor& operator=(const RendererAbstractor&) = default;
+				RendererAbstractor& operator=(RendererAbstractor&&) noexcept = default;
 		};
 	}
 

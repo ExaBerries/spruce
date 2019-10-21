@@ -2,7 +2,7 @@
 #include <cstring>
 
 namespace spruce {
-	inline float mat4f::determinant() {
+	inline float mat4f::determinant() noexcept {
 		float a = values[0] * (values[5] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[9] * values[15] - values[11] * values[13]) + values[7] * (values[9] * values[14] - values[10] * values[13]));
 		float b = values[1] * (values[4] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[14] - values[10] * values[12]));
 		float c = values[2] * (values[4] * (values[9] * values[15] - values[11] * values[13]) - values[5] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[13] - values[9] * values[12]));
@@ -10,7 +10,7 @@ namespace spruce {
 		return a - b + c - d;
 	}
 
-	inline mat4f& mat4f::invert() {
+	inline mat4f& mat4f::invert() noexcept {
 		float det = determinant();
 		if (det == 0.0f) {
 			return *this;
@@ -40,7 +40,7 @@ namespace spruce {
 		return *this;
 	}
 
-	inline mat4f& mat4f::transpose() {
+	inline mat4f& mat4f::transpose() noexcept {
 		float tmp[16];
 		tmp[0] = values[0];
 		tmp[1] = values[4];
@@ -62,7 +62,7 @@ namespace spruce {
 		return *this;
 	}
 
-	inline mat4f operator+(const mat4f& left, const mat4f& right) {
+	inline mat4f operator+(const mat4f& left, const mat4f& right) noexcept {
 		float values[16];
 		simd::reg8f la = simd::load8f8f(left.values[0]);
 		simd::reg8f lb = simd::load8f8f(left.values[8]);
@@ -73,7 +73,7 @@ namespace spruce {
 		return *reinterpret_cast<mat4f*>(values);
 	}
 
-	inline mat4f operator-(const mat4f& left, const mat4f& right) {
+	inline mat4f operator-(const mat4f& left, const mat4f& right) noexcept {
 		float values[16];
 		simd::reg8f la = simd::load8f8f(left.values[0]);
 		simd::reg8f lb = simd::load8f8f(left.values[8]);
@@ -84,7 +84,7 @@ namespace spruce {
 		return *reinterpret_cast<mat4f*>(values);
 	}
 
-	inline mat4f operator*(const mat4f& left, const mat4f& right) {
+	inline mat4f operator*(const mat4f& left, const mat4f& right) noexcept {
 		float values[16];
 		{ // row 1
 			simd::reg4f a0 = simd::load1f4f(left.values[0]);
@@ -133,7 +133,7 @@ namespace spruce {
 		return *reinterpret_cast<mat4f*>(values);
 	}
 
-	inline vec3f operator*(const vec3f& vector, const mat4f& matrix) {
+	inline vec3f operator*(const vec3f& vector, const mat4f& matrix) noexcept {
 		float tmp[16];
 		tmp[0] = matrix.values[0];
 		tmp[1] = matrix.values[4];
@@ -168,7 +168,7 @@ namespace spruce {
 		return *reinterpret_cast<vec3f*>(vec);
 	}
 
-	inline vec3f operator*(const mat4f& matrix, const vec3f& vector) {
+	inline vec3f operator*(const mat4f& matrix, const vec3f& vector) noexcept {
 		float tmp[16];
 		tmp[0] = matrix.values[0];
 		tmp[1] = matrix.values[4];
@@ -203,7 +203,7 @@ namespace spruce {
 		return *reinterpret_cast<vec3f*>(vec);
 	}
 
-	inline vec4f operator*(const vec4f& vector, const mat4f& matrix) {
+	inline vec4f operator*(const vec4f& vector, const mat4f& matrix) noexcept {
 		float tmp[16];
 		tmp[0] = matrix.values[0];
 		tmp[1] = matrix.values[4];
@@ -238,7 +238,7 @@ namespace spruce {
 		return *reinterpret_cast<vec4f*>(vec);
 	}
 
-	inline vec4f operator*(const mat4f& matrix, const vec4f& vector) {
+	inline vec4f operator*(const mat4f& matrix, const vec4f& vector) noexcept {
 		float tmp[16];
 		tmp[0] = matrix.values[0];
 		tmp[1] = matrix.values[4];
@@ -273,7 +273,7 @@ namespace spruce {
 		return *reinterpret_cast<vec4f*>(vec);
 	}
 
-	inline mat4f& mat4f::operator+=(const mat4f& matrix) {
+	inline mat4f& mat4f::operator+=(const mat4f& matrix) noexcept {
 		simd::reg8f ta = simd::load8f8f(values[0]);
 		simd::reg8f tb = simd::load8f8f(values[8]);
 		simd::reg8f ma = simd::load8f8f(matrix.values[0]);
@@ -283,7 +283,7 @@ namespace spruce {
 		return *this;
 	}
 
-	inline mat4f& mat4f::operator-=(const mat4f& matrix) {
+	inline mat4f& mat4f::operator-=(const mat4f& matrix) noexcept {
 		simd::reg8f ta = simd::load8f8f(values[0]);
 		simd::reg8f tb = simd::load8f8f(values[8]);
 		simd::reg8f ma = simd::load8f8f(matrix.values[0]);
@@ -293,7 +293,7 @@ namespace spruce {
 		return *this;
 	}
 
-	inline mat4f& mat4f::operator*=(const mat4f& matrix) {
+	inline mat4f& mat4f::operator*=(const mat4f& matrix) noexcept {
 		{ // row 1
 			simd::reg4f a0 = simd::load1f4f(values[0]);
 			simd::reg4f a1 = simd::load1f4f(values[1]);

@@ -10,9 +10,9 @@ namespace spruce {
 			MetalLibrary(void* ptr);
 			MetalLibrary(const MetalLibrary& other) = delete;
 			MetalLibrary(MetalLibrary&& other) = delete;
-			~MetalLibrary();
+			~MetalLibrary() override;
 
-			[[nodiscard]] owner<MetalFunction> newFunctionWithName(const string& name);
+			[[nodiscard]] owner<MetalFunction> newFunctionWithName(const string& name) noexcept;
 
 			MetalLibrary& operator=(const MetalLibrary& other) = delete;
 			MetalLibrary& operator=(MetalLibrary&& other) = delete;

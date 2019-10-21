@@ -11,19 +11,19 @@
 
 namespace spruce {
 	template <typename OUTPUT, typename ... ARGS>
-	void waitFor(Task<OUTPUT(ARGS...)>& task) {
+	void waitFor(Task<OUTPUT(ARGS...)>& task) noexcept {
 		while (!task.complete) {
 			task::executeMainTask();
 		}
 	}
 
 	template <typename OUTPUT, typename ... ARGS>
-	void waitFor(TaskGroup<OUTPUT(ARGS...)>& taskGroup) {
+	void waitFor(TaskGroup<OUTPUT(ARGS...)>& taskGroup) noexcept {
 		while (!taskGroup.complete()) {
 			task::executeMainTask();
 		}
 	}
 
-	void waitForMainTasks();
-	void waitForGraphicsTasks(bool concurrent);
+	void waitForMainTasks() noexcept;
+	void waitForGraphicsTasks(bool concurrent) noexcept;
 }

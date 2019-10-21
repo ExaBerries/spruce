@@ -15,20 +15,20 @@ namespace spruce {
 
 		void free();
 
-		operator TYPE*();
-		operator const TYPE*() const;
+		[[nodiscard]] operator TYPE*();
+		[[nodiscard]] operator const TYPE*() const;
 		template <typename OTHERTYPE>
-		explicit operator OTHERTYPE*();
+		[[nodiscard]] explicit operator OTHERTYPE*();
 		template <typename OTHERTYPE>
-		explicit operator const OTHERTYPE*() const;
+		[[nodiscard]] explicit operator const OTHERTYPE*() const;
 
-		TYPE& operator*() noexcept;
-		const TYPE& operator*() const noexcept;
+		[[nodiscard]] TYPE& operator*() noexcept;
+		[[nodiscard]] const TYPE& operator*() const noexcept;
 		TYPE* operator->() noexcept;
 		const TYPE* operator->() const noexcept;
 
-		bool operator==(void* otherPtr);
-		bool operator!=(void* otherPtr);
+		[[nodiscard]] bool operator==(void* otherPtr) const noexcept;
+		[[nodiscard]] bool operator!=(void* otherPtr) const noexcept;
 
 		template <typename OTHERTYPE>
 		aowner& operator=(aowner<OTHERTYPE>&& newOwner) noexcept;

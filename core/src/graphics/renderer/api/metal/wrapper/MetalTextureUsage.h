@@ -11,6 +11,8 @@ namespace spruce {
 		PIXEL_FORMAT_VIEW = 8
 	};
 
-	MetalTextureUsage operator|(MetalTextureUsage a, MetalTextureUsage b);
+	constexpr MetalTextureUsage operator|(MetalTextureUsage a, MetalTextureUsage b) noexcept {
+		return static_cast<MetalTextureUsage>(static_cast<int32>(a) | static_cast<int32>(b));
+	}
 }
 #endif

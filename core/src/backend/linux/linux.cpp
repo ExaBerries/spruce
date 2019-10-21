@@ -14,7 +14,7 @@ namespace spruce {
 	namespace os {
 		buffer<uint16> keyCodes(nullptr);
 
-		void init() {
+		void init() noexcept {
 			keyCodes = buffer<uint16>(80);
 			keyCodes[input::A] = 38;
 			keyCodes[input::B] = 56;
@@ -98,14 +98,15 @@ namespace spruce {
 			keyCodes[input::F12] = 96;
 		}
 
-		void free() {
+		void free() noexcept {
+			keyCodes.free();
 		}
 
-		[[nodiscard]] owner<ApplicationBackend> createAppBackend() {
+		[[nodiscard]] owner<ApplicationBackend> createAppBackend() noexcept {
 			return new X11AppBackend();
 		}
 
-		bool supportsAPI(app::API api) {
+		bool supportsAPI(app::API api) noexcept {
 			if (api == app::OPENGL) {
 				return true;
 			} else if (api == app::VULKAN) {
@@ -114,7 +115,7 @@ namespace spruce {
 			return false;
 		}
 
-		bool supportsPrecompiledShader(app::API api) {
+		bool supportsPrecompiledShader(app::API api) noexcept {
 			if (api == app::OPENGL) {
 				return true;
 			} else if (api == app::VULKAN) {
@@ -123,15 +124,15 @@ namespace spruce {
 			return false;
 		}
 
-		uint16 codeFor(input::Key key) {
+		uint16 codeFor(input::Key key) noexcept {
 			return keyCodes[key];
 		}
 
-		string getHomePath() {
+		string getHomePath() noexcept {
 			return getenv("HOME");
 		}
 
-		string getBasePathInternal() {
+		string getBasePathInternal() noexcept {
 			#ifdef DEBUG
 				return "assets/";
 			#else
@@ -139,11 +140,11 @@ namespace spruce {
 			#endif
 		}
 
-		string getBasePathExternal() {
+		string getBasePathExternal() noexcept {
 			return string();
 		}
 
-		bool isDir(string path) {
+		bool isDir(const string& path) noexcept {
 			struct stat s;
 			if (stat(path.c_str(), &s) == 0) {
 				return (s.st_mode & S_IFDIR);
@@ -153,7 +154,7 @@ namespace spruce {
 			}
 		}
 
-		bool exists(string path) {
+		bool exists(const string& path) noexcept {
 			struct stat s;
 			if (stat(path.c_str(), &s) == 0) {
 				return true;
@@ -162,11 +163,11 @@ namespace spruce {
 			}
 		}
 
-		void createDir(string path) {
+		void createDir(const string& path) noexcept {
 			mkdir(path.c_str(), S_IWUSR);
 		}
 
-		std::vector<string> listSubFiles(string path) {
+		std::vector<string> listSubFiles(const string& path) noexcept {
 			std::vector<string> subFiles;
 			DIR* dir;
 			struct dirent* entry;
@@ -185,39 +186,39 @@ namespace spruce {
 	}
 
 	namespace sys {
-		string getCPUName() {
+		string getCPUName() noexcept {
 			return "";
 		}
 
-		uint16 getCPUCoreCount() {
+		uint16 getCPUCoreCount() noexcept {
 			return 0;
 		}
 
-		uint64 getCPUFrequency() {
+		uint64 getCPUFrequency() noexcept {
 			return 0;
 		}
 
-		uint64 getCacheLineSize() {
+		uint64 getCacheLineSize() noexcept {
 			return 0;
 		}
 
-		uint64 getL1CacheSize() {
+		uint64 getL1CacheSize() noexcept {
 			return 0;
 		}
 
-		uint64 getL2CacheSize() {
+		uint64 getL2CacheSize() noexcept {
 			return 0;
 		}
 
-		uint64 getL3CacheSize() {
+		uint64 getL3CacheSize() noexcept {
 			return 0;
 		}
 
-		uint64 getRAMSize() {
+		uint64 getRAMSize() noexcept {
 			return 0;
 		}
 
-		uint64 getSwapUsed() {
+		uint64 getSwapUsed() noexcept {
 			return 0;
 		}
 	}

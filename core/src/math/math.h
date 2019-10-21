@@ -9,12 +9,11 @@
 #include <math/vec/vec3f.h>
 #include <math/vec/vec3d.h>
 #include <math/vec/vec4f.h>
-#include <math.h>
 #include <cmath>
 
 namespace spruce {
 	extern const float PI;
 
-	float clamp(const float& value, float min, float max);
-	float lerp(float a, float b, float alpha);
+	[[nodiscard]] float clamp(const float& value, float min, float max);
+	[[nodiscard]] float lerp(float a, float b, float alpha);
 }

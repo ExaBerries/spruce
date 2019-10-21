@@ -8,15 +8,15 @@ namespace spruce {
 		[((MetalView*) mtlView) setDevice:(__bridge id<MTLDevice>) this->device.ptr];
 	}
 
-	owner<MetalDrawable> MetalContext::getDrawable() {
+	owner<MetalDrawable> MetalContext::getDrawable() noexcept {
 		return new MetalDrawable((__bridge void*)[((MetalView*) mtlView) getDrawable]);
 	}
 
-	void MetalContext::setDrawableSize(vec2i size) {
+	void MetalContext::setDrawableSize(vec2i size) noexcept {
 		[((MetalView*) mtlView) setDrawableSize:size];
 	}
 
-	void MetalContext::setVSync(bool vsync) {
+	void MetalContext::setVSync(bool vsync) noexcept {
 		[((MetalView*)mtlView) setVSync:vsync];
 	}
 }

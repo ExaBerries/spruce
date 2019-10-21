@@ -4,11 +4,11 @@
 #include <backend/mac/objcpp.h>
 
 namespace spruce {
-	constexpr id<MTLDevice> castDevice(void* ptr) {
+	constexpr id<MTLDevice> castDevice(void* ptr) noexcept {
 		return (__bridge id<MTLDevice>) ptr;
 	}
 
-	constexpr MTLRenderPipelineDescriptor* castRPipeDesc(void* ptr) {
+	constexpr MTLRenderPipelineDescriptor* castRPipeDesc(void* ptr) noexcept {
 		return (__bridge MTLRenderPipelineDescriptor*) ptr;
 	}
 
@@ -22,31 +22,31 @@ namespace spruce {
 		[castDevice(ptr) release];
 	}
 
-	string MetalDevice::getName() {
+	string MetalDevice::getName() noexcept {
 		return convertStr(castDevice(ptr).name);
 	}
 
-	bool MetalDevice::getLowPower() {
+	bool MetalDevice::getLowPower() noexcept {
 		return castDevice(ptr).lowPower;
 	}
 
-	bool MetalDevice::getHeadless() {
+	bool MetalDevice::getHeadless() noexcept {
 		return castDevice(ptr).headless;
 	}
 
-	bool MetalDevice::getRemoveable() {
+	bool MetalDevice::getRemoveable() noexcept {
 		return castDevice(ptr).removable;
 	}
 
-	[[nodiscard]] owner<MetalCommandQueue> MetalDevice::createCommandQueue() {
+	[[nodiscard]] owner<MetalCommandQueue> MetalDevice::createCommandQueue() noexcept {
 		return new MetalCommandQueue([castDevice(ptr) newCommandQueue]);
 	}
 
-	[[nodiscard]] owner<MetalBuffer> MetalDevice::createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode) {
+	[[nodiscard]] owner<MetalBuffer> MetalDevice::createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode) noexcept {
 		return new MetalBuffer([castDevice(ptr) newBufferWithLength:length options:mapResourceStorageMode(resourceStorageMode)]);
 	}
 
-	[[nodiscard]] owner<MetalTexture> MetalDevice::createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage) {
+	[[nodiscard]] owner<MetalTexture> MetalDevice::createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage) noexcept {
 		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mapPixelFormat(format) width:static_cast<NSUInteger>(size.x) height:static_cast<NSUInteger>(size.y) mipmapped:mipmap];
 		desc.resourceOptions = mapResourceStorageMode(resourceStorageMode);
 		desc.storageMode = mapStorageMode(storageMode);
@@ -54,7 +54,7 @@ namespace spruce {
 		return new MetalTexture([castDevice(ptr) newTextureWithDescriptor:desc]);
 	}
 
-	[[nodiscard]] owner<MetalLibrary> MetalDevice::createLibrary(const buffer<uint8>& data) {
+	[[nodiscard]] owner<MetalLibrary> MetalDevice::createLibrary(const buffer<uint8>& data) noexcept {
 		NSError* compileError = NULL;
 		dispatch_data_t dispatchData = dispatch_data_create(data, data.size, nil, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
 		id<MTLLibrary> library = [castDevice(ptr) newLibraryWithData:dispatchData error:&compileError];
@@ -65,7 +65,7 @@ namespace spruce {
 		return new MetalLibrary((__bridge void*) library);
 	}
 
-	[[nodiscard]] owner<MetalLibrary> MetalDevice::createLibrary(const string& text) {
+	[[nodiscard]] owner<MetalLibrary> MetalDevice::createLibrary(const string& text) noexcept {
 		NSString* objcSource = convertStr(text);
 		NSError* compileError = NULL;
 		id<MTLLibrary> library = [castDevice(ptr) newLibraryWithSource:objcSource options:nil error:&compileError];
@@ -75,17 +75,17 @@ namespace spruce {
 		return new MetalLibrary((__bridge void*) library);
 	}
 
-	[[nodiscard]] owner<MetalRenderPipelineState> MetalDevice::newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor) {
+	[[nodiscard]] owner<MetalRenderPipelineState> MetalDevice::newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor) noexcept {
 		NSError* err = NULL;
-		owner<MetalRenderPipelineState> state = new MetalRenderPipelineState([castDevice(ptr) newRenderPipelineStateWithDescriptor:castRPipeDesc(descriptor.ptr) error:&err]);
-		if (state->ptr == nullptr) {
+		id<MTLRenderPipelineState> mtlRPS = [castDevice(ptr) newRenderPipelineStateWithDescriptor:castRPipeDesc(descriptor.ptr) error:&err];
+		if (mtlRPS == nullptr) {
 			NSLog(@"error creating render pipeline state %@", err);
 			return nullptr;
 		}
-		return state;
+		return new MetalRenderPipelineState(mtlRPS);
 	}
 
-	[[nodiscard]] owner<MetalDepthStencilState> MetalDevice::newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite) {
+	[[nodiscard]] owner<MetalDepthStencilState> MetalDevice::newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite) noexcept {
 		MTLDepthStencilDescriptor* depthStencilDescriptor = [MTLDepthStencilDescriptor new];
 		depthStencilDescriptor.depthCompareFunction = mapCompareFunction(compareFunction);
 		depthStencilDescriptor.depthWriteEnabled = depthWrite;

@@ -11,7 +11,7 @@ namespace spruce {
 				this->dir = dir;
 			}
 
-			void PerspectiveCamera::update(RendererAbstractor* renderer) {
+			void PerspectiveCamera::update(RendererAbstractor* renderer) noexcept {
 				float aspectRatio = viewportWidth / viewportHeight;
 				float absNear = std::abs(near);
 				float absFar = std::abs(far);

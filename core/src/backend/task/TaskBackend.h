@@ -7,7 +7,7 @@ namespace spruce {
 	namespace task {
 		class TaskBackend {
 			public:
-				FunctionData* functionData;
+				owner<FunctionData> functionData;
 				TaskPriority priority;
 				bool concurrent;
 				bool& complete;

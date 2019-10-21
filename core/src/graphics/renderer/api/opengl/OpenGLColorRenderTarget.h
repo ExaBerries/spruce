@@ -14,8 +14,8 @@ namespace spruce {
 			OpenGLColorRenderTarget(OpenGLColorRenderTarget&&) noexcept = delete;
 			~OpenGLColorRenderTarget();
 
-			void attachToBoundFramebuffer(GLenum attachment);
-			void bind(GLenum unit);
+			void attachToBoundFramebuffer(GLenum attachment) noexcept;
+			void bind(GLenum unit) noexcept;
 
  			OpenGLColorRenderTarget& operator=(const OpenGLColorRenderTarget&) = delete;
  			OpenGLColorRenderTarget& operator=(OpenGLColorRenderTarget&&) noexcept = delete;

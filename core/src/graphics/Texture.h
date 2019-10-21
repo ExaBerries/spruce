@@ -24,8 +24,8 @@ namespace spruce {
 				Texture(Texture&&) noexcept = delete;
 				virtual ~Texture();
 
-				void toVRAM(RendererAbstractor* renderer);
-				void freeVRAM();
+				void toVRAM(RendererAbstractor* renderer) noexcept;
+				void freeVRAM() noexcept;
 
 				Texture& operator=(const Texture&) = delete;
 				Texture& operator=(Texture&&) noexcept = delete;

@@ -3,13 +3,10 @@
 
 namespace spruce {
 	struct semaphore {
-		bool locked;
+		bool locked = false;
 
-		semaphore();
-		virtual ~semaphore();
-
-		void lock();
-		void unlock();
-		void wait();
+		void lock() noexcept;
+		void unlock() noexcept;
+		void wait() noexcept;
 	};
 }

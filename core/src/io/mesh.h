@@ -5,8 +5,8 @@
 
 namespace spruce {
 	namespace io {
-		[[nodiscard]] owner<Mesh> loadMesh(const FileHandle& path);
-		void writeMesh(const FileHandle& path, Mesh* mesh);
-		buffer<uint8> serializeMesh(Mesh* mesh, buffer<uint8>& data, uint32& offset);
+		[[nodiscard]] owner<Mesh> loadMesh(const FileHandle& file);
+		void writeMesh(const FileHandle& file, Mesh* mesh);
+		void serializeMesh(Mesh* mesh, buffer<uint8>& data, uint32& offset);
 	}
 }

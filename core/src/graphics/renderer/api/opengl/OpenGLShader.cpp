@@ -14,7 +14,7 @@ namespace spruce {
 			glDeleteProgram(program);
 		}
 
-		void OpenGLShader::compileSPIRV(buffer<uint8> vertData, buffer<uint8> fragData) {
+		void OpenGLShader::compileSPIRV(const buffer<uint8>& vertData, const buffer<uint8>& fragData) noexcept {
 			vertShader = glCreateShader(GL_VERTEX_SHADER);
 			glShaderBinary(1, &vertShader, GL_SHADER_BINARY_FORMAT_SPIR_V, vertData, static_cast<GLsizei>(vertData.size));
 			glSpecializeShader(vertShader, "main", 0, nullptr, nullptr);
@@ -28,6 +28,7 @@ namespace spruce {
 				serr("failed to specialize vertex shader:");
 				serr(errorLog);
 				glDeleteShader(vertShader);
+				errorLog.free();
 				return;
 			}
 
@@ -44,11 +45,12 @@ namespace spruce {
 				serr("failed to specialize fragment shader:");
 				serr(errorLog);
 				glDeleteShader(fragShader);
+				errorLog.free();
 				return;
 			}
 		}
 
-		void OpenGLShader::compileSource(string vertStr, string fragStr) {
+		void OpenGLShader::compileSource(const string& vertStr, const string& fragStr) noexcept {
 			const char* vertCStr = vertStr.c_str();
 			vertShader = glCreateShader(GL_VERTEX_SHADER);
 			glShaderSource(vertShader, 1, &vertCStr, nullptr);
@@ -63,6 +65,7 @@ namespace spruce {
 				serr("failed to compile vertex shader:");
 				slog(errorLog);
 				glDeleteShader(vertShader);
+				errorLog.free();
 				return;
 			}
 
@@ -80,11 +83,12 @@ namespace spruce {
 				serr("failed to compile fragment shader:");
 				serr(errorLog);
 				glDeleteShader(fragShader);
+				errorLog.free();
 				return;
 			}
 		}
 
-		void OpenGLShader::createProgram() {
+		void OpenGLShader::createProgram() noexcept {
 			program = glCreateProgram();
 			glAttachShader(program, vertShader);
 			glAttachShader(program, fragShader);
@@ -101,44 +105,45 @@ namespace spruce {
 				glDeleteProgram(program);
 				glDeleteShader(vertShader);
 				glDeleteShader(fragShader);
+				errorLog.free();
 				return;
 			}
 			glValidateProgram(program);
 		}
 
-		void OpenGLShader::bindAttribLocation(uint16 location, string name) {
+		void OpenGLShader::bindAttribLocation(uint16 location, const string& name) noexcept {
 			glBindAttribLocation(program, location, name.c_str());
 		}
 
-		void OpenGLShader::bind() {
+		void OpenGLShader::bind() noexcept {
 			glUseProgram(program);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, int32 value) {
+		void OpenGLShader::setUniform(uint16 location, int32 value) noexcept {
 			glUniform1i(location, value);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, float value) {
+		void OpenGLShader::setUniform(uint16 location, float value) noexcept {
 			glUniform1f(location, value);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, const vec2f& vector) {
+		void OpenGLShader::setUniform(uint16 location, const vec2f& vector) noexcept {
 			glUniform2f(location, vector.x, vector.y);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, const vec3f& vector) {
+		void OpenGLShader::setUniform(uint16 location, const vec3f& vector) noexcept {
 			glUniform3f(location, vector.x, vector.y, vector.z);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, const vec4f& vector) {
+		void OpenGLShader::setUniform(uint16 location, const vec4f& vector) noexcept {
 			glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, const mat4f& matrix) {
+		void OpenGLShader::setUniform(uint16 location, const mat4f& matrix) noexcept {
 			glUniformMatrix4fv(location, 1, GL_TRUE, matrix.values);
 		}
 
-		void OpenGLShader::setUniform(uint16 location, const color& color) {
+		void OpenGLShader::setUniform(uint16 location, const color& color) noexcept {
 			glUniform4f(location, color.r, color.g, color.b, color.a);
 		}
 	}

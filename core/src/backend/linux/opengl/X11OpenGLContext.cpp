@@ -53,15 +53,15 @@ namespace spruce {
 		XFree(visualInfo);
 	}
 
-	Visual* X11OpenGLContext::getVisual() {
+	Visual* X11OpenGLContext::getVisual() noexcept {
 		return visualInfo->visual;
 	}
 
-	uint32 X11OpenGLContext::getDepth() {
+	uint32 X11OpenGLContext::getDepth() noexcept {
 		return visualInfo->depth;
 	}
 
-	void X11OpenGLContext::windowCreated(XWindow window) {
+	void X11OpenGLContext::windowCreated(XWindow window) noexcept {
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
 		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc) glXGetProcAddressARB((const GLubyte*) "glXCreateContextAttribsARB");
 		GLint catt[] {
@@ -77,15 +77,15 @@ namespace spruce {
 		glewInit();
 	}
 
-	void X11OpenGLContext::makeContextCurrent() {
+	void X11OpenGLContext::makeContextCurrent() noexcept {
 		glXMakeCurrent(display, window, context);
 	}
-	
-	void X11OpenGLContext::swapBuffers() {
+
+	void X11OpenGLContext::swapBuffers() noexcept {
 		glXSwapBuffers(display, window);
 	}
-	
-	void X11OpenGLContext::setSwapInverval(int32 interval) {
+
+	void X11OpenGLContext::setSwapInverval(int32 interval) noexcept {
 		void (*glXSwapInterval)(uint8) = 0;
 		glXSwapInterval = (void (*)(uint8)) glXGetProcAddressARB((const GLubyte*) "glXSwapInvervalEXT");
 		glXSwapInterval(interval);

@@ -15,7 +15,7 @@ namespace spruce {
 		XDestroyWindow(display, window);
 	}
 
-	void X11Window::createXWindow(Visual* visual, uint32 depth) {
+	void X11Window::createXWindow(Visual* visual, uint32 depth) noexcept {
 		colormap = XCreateColormap(display, root, visual, AllocNone);
 		setAttributes.colormap = colormap;
 		setAttributes.background_pixmap = None;
@@ -35,7 +35,7 @@ namespace spruce {
 		XSetWMProtocols(display, window, &wmDeleteMessage, 1);
 	}
 
-	[[nodiscard]] owner<APIContext> X11Window::initAPI(app::API api) {
+	[[nodiscard]] owner<APIContext> X11Window::initAPI(app::API api) noexcept {
 		if (window != 0) {
 			XFreeColormap(display, colormap);
 			XDestroyWindow(display, window);
@@ -66,21 +66,21 @@ namespace spruce {
 		return context;
 	}
 
-	void X11Window::setTitle(string title) {
+	void X11Window::setTitle(string title) noexcept {
 		XStoreName(display, window, title.c_str());
 	}
 
-	void X11Window::setVisible(bool visible) {
+	void X11Window::setVisible(bool visible) noexcept {
 	}
 
-	void X11Window::setFullscreen(bool fullscreen) {
+	void X11Window::setFullscreen(bool fullscreen) noexcept {
 	}
 
-	void X11Window::close() {
+	void X11Window::close() noexcept {
 		open = false;
 	}
 
-	void X11Window::setCursorMode(input::CursorMode mode) {
+	void X11Window::setCursorMode(input::CursorMode mode) noexcept {
 	}
 }
 #endif

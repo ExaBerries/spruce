@@ -23,20 +23,20 @@ namespace spruce {
 			MetalDevice(void* ptr);
 			MetalDevice(const MetalDevice&) = delete;
 			MetalDevice(MetalDevice&&) noexcept = delete;
-			~MetalDevice();
+			~MetalDevice() override;
 
-			string getName();
-			bool getLowPower();
-			bool getHeadless();
-			bool getRemoveable();
+			[[nodiscard]] string getName() noexcept;
+			[[nodiscard]] bool getLowPower() noexcept;
+			[[nodiscard]] bool getHeadless() noexcept;
+			[[nodiscard]] bool getRemoveable() noexcept;
 
-			[[nodiscard]] owner<MetalCommandQueue> createCommandQueue();
-			[[nodiscard]] owner<MetalBuffer> createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode);
-			[[nodiscard]] owner<MetalTexture> createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage);
-			[[nodiscard]] owner<MetalLibrary> createLibrary(const buffer<uint8>& data);
-			[[nodiscard]] owner<MetalLibrary> createLibrary(const string& text);
-			[[nodiscard]] owner<MetalRenderPipelineState> newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor);
-			[[nodiscard]] owner<MetalDepthStencilState> newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite);
+			[[nodiscard]] owner<MetalCommandQueue> createCommandQueue() noexcept;
+			[[nodiscard]] owner<MetalBuffer> createBuffer(uint32 length, MetalResourceStorageMode resourceStorageMode) noexcept;
+			[[nodiscard]] owner<MetalTexture> createTexture(MetalPixelFormat format, vec2i size, bool mipmap, MetalResourceStorageMode resourceStorageMode, MetalStorageMode storageMode, MetalTextureUsage usage) noexcept;
+			[[nodiscard]] owner<MetalLibrary> createLibrary(const buffer<uint8>& data) noexcept;
+			[[nodiscard]] owner<MetalLibrary> createLibrary(const string& text) noexcept;
+			[[nodiscard]] owner<MetalRenderPipelineState> newRenderPipelineState(const MetalRenderPipelineDescriptor& descriptor) noexcept;
+			[[nodiscard]] owner<MetalDepthStencilState> newDepthStencilState(MetalCompareFunction compareFunction, bool depthWrite) noexcept;
 
 			MetalDevice& operator=(const MetalDevice&) = delete;
 			MetalDevice& operator=(MetalDevice&&) noexcept = delete;
