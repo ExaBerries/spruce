@@ -5,5 +5,5 @@
 #include <graphics/renderer/RendererAbstractor.h>
 
 namespace spruce {
-	void encodeFrame(Frame& frame, float delta, Application& app, RendererAbstractor* renderer);
+	void encodeFrame(Frame& frame, float delta, Application& app, RendererAbstractor* renderer) noexcept;
 }

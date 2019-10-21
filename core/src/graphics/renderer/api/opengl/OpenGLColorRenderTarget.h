@@ -9,13 +9,13 @@ namespace spruce {
 			uint16 width;
 			uint16 height;
 
-			OpenGLColorRenderTarget(uint16 width, uint16 height, GLenum internalFormat, GLenum externalFormat, GLenum type);
+			OpenGLColorRenderTarget(uint16 width, uint16 height, GLint internalFormat, GLenum externalFormat, GLenum type);
 			OpenGLColorRenderTarget(const OpenGLColorRenderTarget&) = delete;
 			OpenGLColorRenderTarget(OpenGLColorRenderTarget&&) noexcept = delete;
 			~OpenGLColorRenderTarget();
 
-			void attachToBoundFramebuffer(GLenum attachment);
-			void bind(GLenum unit);
+			void attachToBoundFramebuffer(GLenum attachment) noexcept;
+			void bind(GLenum unit) noexcept;
 
  			OpenGLColorRenderTarget& operator=(const OpenGLColorRenderTarget&) = delete;
  			OpenGLColorRenderTarget& operator=(OpenGLColorRenderTarget&&) noexcept = delete;

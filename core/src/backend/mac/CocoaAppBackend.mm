@@ -64,11 +64,11 @@ namespace spruce {
 		delegate = nullptr;
 	}
 
-	owner<Window> CocoaAppBackend::createWindow() {
+	[[nodiscard]] owner<Window> CocoaAppBackend::createWindow() noexcept {
 		return new CocoaWindow();
 	}
 
-	void CocoaAppBackend::update() {
+	void CocoaAppBackend::update() noexcept {
 		while (true) {
 			NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
 			if (event != nullptr) {

@@ -1,40 +1,40 @@
 #include <benchmark/benchmark.h>
-#include <math/vec/vec2d.h>
+#include <math/vec/vec2f.h>
 
 using namespace spruce;
 
-static void vec2dConstruct(benchmark::State& state) {
-	for (auto _ : state) {
-		vec2d v;
+static void vec2fConstruct(benchmark::State& state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
+		vec2f v;
 		benchmark::DoNotOptimize(v);
 	}
 }
-BENCHMARK(vec2dConstruct);
+BENCHMARK(vec2fConstruct);
 
-static void vec2dScale(benchmark::State& state) {
-	vec2d a(4, 4);
+static void vec2fScale(benchmark::State& state) {
+	vec2f a(4, 4);
 	float scale = 2;
-	for (auto _ : state) {
-		vec2d b = a * scale;
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
+		vec2f b = a * scale;
 		benchmark::DoNotOptimize(b);
 	}
 }
-BENCHMARK(vec2dScale);
+BENCHMARK(vec2fScale);
 
-static void vec2dAddVec(benchmark::State& state) {
-	vec2d a(1, 0);
-	vec2d b(0, 1);
-	for (auto _ : state) {
-		vec2d c = a + b;
+static void vec2fAddVec(benchmark::State& state) {
+	vec2f a(1, 0);
+	vec2f b(0, 1);
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
+		vec2f c = a + b;
 		benchmark::DoNotOptimize(c);
 	}
 }
-BENCHMARK(vec2dAddVec);
+BENCHMARK(vec2fAddVec);
 
-static void vec2dScaleMulti(benchmark::State& state) {
+static void vec2fScaleMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vec2d vector;
+		vec2f vector;
 		float scale;
 	};
 	TestData data[NUM];
@@ -42,82 +42,83 @@ static void vec2dScaleMulti(benchmark::State& state) {
 		data[i].vector.set(i, i);
 		data[i].scale = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
-			vec2d vec = data[i].vector * data[i].scale;
+			vec2f vec = data[i].vector * data[i].scale;
 			benchmark::DoNotOptimize(vec);
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec2dScaleMulti);
+BENCHMARK(vec2fScaleMulti);
 
-static void vec2dAddMulti(benchmark::State& state) {
+static void vec2fAddMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vec2d a;
-		vec2d b;
+		vec2f a;
+		vec2f b;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
 		data[i].a.set(i, i);
 		data[i].b = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
-			vec2d vec = data[i].a + data[i].b;
+			vec2f vec = data[i].a + data[i].b;
 			benchmark::DoNotOptimize(vec);
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec2dAddMulti);
+BENCHMARK(vec2fAddMulti);
 
-static void vec2dSubMulti(benchmark::State& state) {
+static void vec2fSubMulti(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vec2d a;
-		vec2d b;
+		vec2f a;
+		vec2f b;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
 		data[i].a.set(i, i);
 		data[i].b = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
-			vec2d vec = data[i].a - data[i].b;
+			vec2f vec = data[i].a - data[i].b;
 			benchmark::DoNotOptimize(vec);
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec2dSubMulti);
+BENCHMARK(vec2fSubMulti);
 
 #ifdef __APPLE__
 #include <simd/simd.h>
 
-static void vec2dAddMultiMacSys(benchmark::State& state) {
+static void vec2fAddMultiMacSys(benchmark::State& state) {
 	constexpr uint64 NUM = 100000;
 	struct TestData {
-		vector_double2 a;
-		vector_double2 b;
+		vector_float2 a;
+		vector_float2 b;
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a = {(float)i, (float)i};
-		data[i].b = {(float)i, (float)i};
+		float fi = i;
+		data[i].a = {fi, fi};
+		data[i].b = {fi, fi};
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
-			volatile vector_double2 vec = data[i].a + data[i].b;
+			volatile vector_float2 vec = data[i].a + data[i].b; // NOLINT(clang-analyzer-deadcode.DeadStores)
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));
 	state.SetItemsProcessed(state.iterations() * NUM);
 }
-BENCHMARK(vec2dAddMultiMacSys);
+BENCHMARK(vec2fAddMultiMacSys);
 #endif

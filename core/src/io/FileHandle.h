@@ -18,10 +18,15 @@ namespace spruce {
 			FileHandle();
 			FileHandle(FileHandleType type, const unsigned char* path);
 			FileHandle(FileHandleType type, const char* path);
-			FileHandle(FileHandleType type, string path);
-			~FileHandle();
+			FileHandle(FileHandleType type, const string& path);
+			FileHandle(const FileHandle&) = default;
+			FileHandle(FileHandle&&) noexcept = default;
+			~FileHandle() = default;
 
-			buffer<FileHandle> list() const;
+			[[nodiscard]] buffer<FileHandle> list() const noexcept;
+
+			FileHandle& operator=(const FileHandle&) = default;
+			FileHandle& operator=(FileHandle&&) noexcept = default;
 
 			friend std::ostream& operator<<(std::ostream& stream, const FileHandle& file);
 	};

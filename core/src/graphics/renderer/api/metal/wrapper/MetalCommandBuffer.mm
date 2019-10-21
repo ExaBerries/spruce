@@ -6,31 +6,31 @@ namespace spruce {
 	MetalCommandBuffer::MetalCommandBuffer(void* ptr) : MetalObj(ptr) {
 	}
 
-	constexpr id<MTLCommandBuffer> castCmdBuffer(void* ptr) {
+	constexpr id<MTLCommandBuffer> castCmdBuffer(void* ptr) noexcept {
 		return (__bridge id<MTLCommandBuffer>) ptr;
 	}
 
-	constexpr id<MTLDrawable> castDrawable(void* ptr) {
+	constexpr id<MTLDrawable> castDrawable(void* ptr) noexcept {
 		return (__bridge id<MTLDrawable>) ptr;
 	}
 
-	constexpr MTLRenderPassDescriptor* castRPD(void* ptr) {
+	constexpr MTLRenderPassDescriptor* castRPD(void* ptr) noexcept {
 		return (__bridge MTLRenderPassDescriptor*) ptr;
 	}
 
-	void MetalCommandBuffer::commit() {
+	void MetalCommandBuffer::commit() noexcept {
 		[castCmdBuffer(ptr) commit];
 	}
 
-	void MetalCommandBuffer::enqueue() {
+	void MetalCommandBuffer::enqueue() noexcept {
 		[castCmdBuffer(ptr) enqueue];
 	}
 
-	void MetalCommandBuffer::presentDrawable(MetalDrawable* drawable) {
+	void MetalCommandBuffer::presentDrawable(MetalDrawable* drawable) noexcept {
 		[castCmdBuffer(ptr) presentDrawable:castDrawable(drawable->ptr)];
 	}
 
-	owner<MetalRenderCommandEncoder> MetalCommandBuffer::createRenderCommandEncoder(MetalRenderPassDescriptor& descriptor) {
+	[[nodiscard]] owner<MetalRenderCommandEncoder> MetalCommandBuffer::createRenderCommandEncoder(MetalRenderPassDescriptor& descriptor) noexcept {
 		return new MetalRenderCommandEncoder([castCmdBuffer(ptr) renderCommandEncoderWithDescriptor:castRPD(descriptor.ptr)]);
 	}
 }

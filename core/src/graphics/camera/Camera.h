@@ -21,9 +21,9 @@ namespace spruce {
 					Camera(Camera&&) noexcept = default;
 					virtual ~Camera() = default;
 
-					virtual void update(RendererAbstractor* renderer) = 0;
-					vec3f unproject(const vec2f& screen, float depth) const;
-					vec2f project(const vec3f& world) const;
+					virtual void update(RendererAbstractor* renderer) noexcept = 0;
+					[[nodiscard]] vec3f unproject(const vec2f& screen, float depth) const noexcept;
+					[[nodiscard]] vec2f project(const vec3f& world) const noexcept;
 
 					Camera& operator=(const Camera&) = default;
 					Camera& operator=(Camera&&) noexcept = default;

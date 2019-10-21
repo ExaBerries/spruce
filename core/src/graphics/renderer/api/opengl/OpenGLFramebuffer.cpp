@@ -13,30 +13,31 @@ namespace spruce {
 		glDeleteFramebuffers(1, &framebuffer);
 	}
 
-	void OpenGLFramebuffer::bind() {
+	void OpenGLFramebuffer::bind() noexcept {
 		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	}
 
-	bool OpenGLFramebuffer::complete() {
+	bool OpenGLFramebuffer::complete() noexcept {
 		bind();
 		return (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 	}
 
-	void OpenGLFramebuffer::setDrawBuffers(buffer<GLenum> attachments) {
+	void OpenGLFramebuffer::setDrawBuffers(buffer<GLenum> attachments) noexcept {
 		if (attachments.size == 0) {
 			glDrawBuffer(GL_NONE);
 			return;
 		}
-		int32 maxDrawBuffers = 0;
+		GLint maxDrawBuffers = 0;
 		glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &maxDrawBuffers);
-		if ((int32)attachments.size < maxDrawBuffers) {
-			glDrawBuffers(attachments.size, attachments);
+		GLsizei attachSize = static_cast<GLsizei>(attachments.size);
+		if (attachSize < maxDrawBuffers) {
+			glDrawBuffers(attachSize, attachments);
 		} else {
 			serr("to many draw buffers (", attachments.size, ") only ", maxDrawBuffers, " supported");
 		}
 	}
 
-	void OpenGLFramebuffer::createDepthRenderBuffer(uint16 width, uint16 height) {
+	void OpenGLFramebuffer::createDepthRenderBuffer(uint16 width, uint16 height) noexcept {
 		bind();
 		glGenRenderbuffers(1, &depthbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, depthbuffer);

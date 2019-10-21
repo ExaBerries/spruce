@@ -3,7 +3,7 @@
 #include <app/pipeline/encode.h>
 
 namespace spruce {
-	void SimplePipeline::execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) {
+	void SimplePipeline::execute(float delta, Application& app, graphics::RendererAbstractor* renderer, ApplicationBackend& appBackend) noexcept {
 		frame.cons();
 		encodeFrame(*frame, delta, app, renderer);
 		if (renderer != nullptr) {

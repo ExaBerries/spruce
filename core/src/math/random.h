@@ -4,12 +4,12 @@
 
 namespace spruce {
 	namespace rand {
-		int32 rint(seed& seed, int32 min, int32 max);
-		int32 randSign(seed& seed);
-		bool rbool(seed& seed);
-		float rrealf(seed& seed, float min, float max);
-		double rreald(seed& seed, double min, double max);
-		float rnorf(seed& seed, float mean, float stddev);
-		double rnord(seed& seed, double mean, double stddev);
+		[[nodiscard]] int32 rint(seed& seed, int32 min, int32 max) noexcept;
+		[[nodiscard]] int32 randSign(seed& seed) noexcept;
+		[[nodiscard]] bool rbool(seed& seed) noexcept;
+		[[nodiscard]] float rrealf(seed& seed, float min, float max) noexcept;
+		[[nodiscard]] double rreald(seed& seed, double min, double max) noexcept;
+		[[nodiscard]] float rnorf(seed& seed, float mean, float stddev) noexcept;
+		[[nodiscard]] double rnord(seed& seed, double mean, double stddev) noexcept;
 	}
 }

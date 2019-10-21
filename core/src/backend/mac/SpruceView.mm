@@ -33,30 +33,30 @@
 	NSPoint pos = [event locationInWindow];
 	CGSize frameSize = self.frame.size;
 	if (spruceWindow->cursorMode == spruce::input::DISABLED) {
-		virtualMousePos += spruce::vec2f([event deltaX] / frameSize.width, [event deltaY] / frameSize.height);
-		NSRect local = NSMakeRect(frameSize.width / 2, frameSize.height / 2, 0, 0);
+		virtualMousePos += {static_cast<float>([event deltaX] / frameSize.width), static_cast<float>([event deltaY] / frameSize.height)};
+		NSRect local = NSMakeRect(frameSize.width / 2.0, frameSize.height / 2.0, 0.0, 0.0);
 		NSRect global = [spruceWindow->window convertRectToScreen:local];
 		NSPoint point = global.origin;
 		CGWarpMouseCursorPosition(CGPointMake(point.x, point.y));
 	} else {
-		virtualMousePos = spruce::vec2f((pos.x / frameSize.width) - 0.5, (pos.y / frameSize.height) - 0.5);
+		virtualMousePos = {static_cast<float>((pos.x / frameSize.width) - 0.5), static_cast<float>((pos.y / frameSize.height) - 0.5)};
 	}
-	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-		spruce::input::processors[i]->mouseMove(virtualMousePos);
+	for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+		processor->mouseMove(virtualMousePos);
 	}
 }
 
 - (void) keyDown:(NSEvent*)event {
 	uint16 keyCode = [event keyCode];
-	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-		spruce::input::processors[i]->keyDown(keyCode);
+	for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+		processor->keyDown(keyCode);
 	}
 }
 
 - (void) keyUp:(NSEvent*)event {
 	uint16 keyCode = [event keyCode];
-	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-		spruce::input::processors[i]->keyUp(keyCode);
+	for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+		processor->keyUp(keyCode);
 	}
 }
 
@@ -67,19 +67,19 @@
 		bool down = it->second;
 		if (down) {
 			modifiers[keyCode] = false;
-			for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-				spruce::input::processors[i]->keyUp(keyCode);
+			for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+				processor->keyUp(keyCode);
 			}
 		} else {
 			modifiers[keyCode] = true;
-			for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-				spruce::input::processors[i]->keyDown(keyCode);
+			for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+				processor->keyDown(keyCode);
 			}
 		}
 	} else {
 		modifiers[keyCode] = true;
-		for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-			spruce::input::processors[i]->keyDown(keyCode);
+		for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+			processor->keyDown(keyCode);
 		}
 	}
 }
@@ -89,14 +89,14 @@
 }
 
 - (void) mouseDown:(NSEvent*)event {
-	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-		spruce::input::processors[i]->mouseDown(spruce::input::LEFT);
+	for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+		processor->mouseDown(spruce::input::LEFT);
 	}
 }
 
 - (void) mouseUp:(NSEvent*)event {
-	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-		spruce::input::processors[i]->mouseUp(spruce::input::LEFT);
+	for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+		processor->mouseUp(spruce::input::LEFT);
 	}
 }
 
@@ -105,14 +105,14 @@
 }
 
 - (void) rightMouseDown:(NSEvent*)event {
-	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-		spruce::input::processors[i]->mouseDown(spruce::input::RIGHT);
+	for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+		processor->mouseDown(spruce::input::RIGHT);
 	}
 }
 
 - (void) rightMouseUp:(NSEvent*)event {
-	for (uint16 i = 0; i < spruce::input::processors.size(); i++) {
-		spruce::input::processors[i]->mouseUp(spruce::input::RIGHT);
+	for (spruce::input::InputProcessor* processor : spruce::input::processors) {
+	processor->mouseUp(spruce::input::RIGHT);
 	}
 }
 

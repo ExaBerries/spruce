@@ -29,8 +29,8 @@
 	[cocoaWindow update];
 	NSRect viewFrame = cocoaWindow.contentView.frame;
 	NSRect viewFrameBacking = [cocoaWindow.contentView convertRectToBacking:viewFrame];
-	spruceWindow->width = viewFrameBacking.size.width;
-	spruceWindow->height = viewFrameBacking.size.height;
+	spruceWindow->width = static_cast<uint32>(viewFrameBacking.size.width);
+	spruceWindow->height = static_cast<uint32>(viewFrameBacking.size.height);
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -68,7 +68,7 @@ namespace spruce {
 		window = nullptr;
 	}
 
-	APIContext* CocoaWindow::initAPI(app::API api) {
+	[[nodiscard]] owner<APIContext> CocoaWindow::initAPI(app::API api) noexcept {
 		NSRect viewRect = NSMakeRect(0, 0, width, height);
 		NSView* oldView = window.contentView;
 		APIContext* context;
@@ -100,16 +100,16 @@ namespace spruce {
 		return context;
 	}
 
-	void CocoaWindow::setTitle(string title) {
+	void CocoaWindow::setTitle(string title) noexcept {
 		NSString* nTitle = convertStr(title);
 		[window setTitle:nTitle];
 	}
 
-	void CocoaWindow::setVisible(bool visible) {
+	void CocoaWindow::setVisible(bool visible) noexcept {
 		[window setOpaque:visible];
 	}
 
-	void CocoaWindow::setFullscreen(bool fullscreen) {
+	void CocoaWindow::setFullscreen(bool fullscreen) noexcept {
 		if ([view isInFullScreenMode]) {
 			if (!fullscreen) {
 				[view exitFullScreenModeWithOptions:nil];
@@ -121,12 +121,12 @@ namespace spruce {
 		}
 	}
 
-	void CocoaWindow::close() {
+	void CocoaWindow::close() noexcept {
 		[windowController close];
 		open = false;
 	}
 
-	void CocoaWindow::setCursorMode(input::CursorMode mode) {
+	void CocoaWindow::setCursorMode(input::CursorMode mode) noexcept {
 		this->cursorMode = mode;
 		if (mode == input::HIDDEN || mode == input::DISABLED) {
 			[NSCursor hide];

@@ -12,7 +12,7 @@ namespace spruce {
 		float z = 0;
 
 		private:
-		float padding = 0;
+		[[maybe_unused]] float padding = 0;
 		public:
 
 		vec3f() = default;
@@ -23,50 +23,50 @@ namespace spruce {
 		vec3f(vec3f&&) noexcept = default;
 		~vec3f() = default;
 
-		vec3f& set(const vec3f& vector);
-		vec3f& set(const vec2f& vector, float z);
-		vec3f& set(float x, float y, float z);
+		vec3f& set(const vec3f& vector) noexcept;
+		vec3f& set(const vec2f& vector, float z) noexcept;
+		vec3f& set(float x, float y, float z) noexcept;
 
-		float mag2() const;
-		float mag() const;
-		vec3f& nor();
-		float dst2(const vec3f& vector) const;
-		float dst(const vec3f& vector) const;
-		float dot(const vec3f& vector) const;
-		vec3f& crs(const vec3f& vector);
+		[[nodiscard]] float mag2() const noexcept;
+		[[nodiscard]] float mag() const noexcept;
+		vec3f& nor() noexcept;
+		[[nodiscard]] float dst2(const vec3f& vector) const noexcept;
+		[[nodiscard]] float dst(const vec3f& vector) const noexcept;
+		[[nodiscard]] float dot(const vec3f& vector) const noexcept;
+		vec3f& crs(const vec3f& vector) noexcept;
 
-		vec3f& add(const vec3f& vector);
-		vec3f& sub(const vec3f& vector);
+		vec3f& add(const vec3f& vector) noexcept;
+		vec3f& sub(const vec3f& vector) noexcept;
 
-		vec3f& add(float value);
-		vec3f& sub(float value);
-		vec3f& scl(float value);
-		vec3f& div(float value);
+		vec3f& add(float value) noexcept;
+		vec3f& sub(float value) noexcept;
+		vec3f& scl(float value) noexcept;
+		vec3f& div(float value) noexcept;
 
-		bool operator==(const vec3f& vector) const;
-		bool operator!=(const vec3f& vector) const;
+		[[nodiscard]] bool operator==(const vec3f& vector) const noexcept;
+		[[nodiscard]] bool operator!=(const vec3f& vector) const noexcept;
 
-		vec3f& operator+=(const vec3f& vector);
-		vec3f& operator-=(const vec3f& vector);
+		vec3f& operator+=(const vec3f& vector) noexcept;
+		vec3f& operator-=(const vec3f& vector) noexcept;
 
-		vec3f& operator+=(float value);
-		vec3f& operator-=(float value);
-		vec3f& operator*=(float value);
-		vec3f& operator/=(float value);
+		vec3f& operator+=(float value) noexcept;
+		vec3f& operator-=(float value) noexcept;
+		vec3f& operator*=(float value) noexcept;
+		vec3f& operator/=(float value) noexcept;
 
 		vec3f& operator=(const vec3f&) = default;
 		vec3f& operator=(vec3f&&) noexcept = default;
 
-		static vec3f lerp(const vec3f& a, const vec3f& b, float alpha);
+		[[nodiscard]] static vec3f lerp(const vec3f& a, const vec3f& b, float alpha) noexcept;
 	};
 
-	inline vec3f operator+(const vec3f& left, const vec3f& right);
-	inline vec3f operator-(const vec3f& left, const vec3f& right);
+	inline vec3f operator+(const vec3f& left, const vec3f& right) noexcept;
+	inline vec3f operator-(const vec3f& left, const vec3f& right) noexcept;
 
-	inline vec3f operator+(const vec3f& left, float value);
-	inline vec3f operator-(const vec3f& left, float value);
-	inline vec3f operator*(const vec3f& left, float value);
-	inline vec3f operator/(const vec3f& left, float value);
+	inline vec3f operator+(const vec3f& left, float value) noexcept;
+	inline vec3f operator-(const vec3f& left, float value) noexcept;
+	inline vec3f operator*(const vec3f& left, float value) noexcept;
+	inline vec3f operator/(const vec3f& left, float value) noexcept;
 
 	std::ostream& operator<<(std::ostream& stream, const vec3f& vector);
 }

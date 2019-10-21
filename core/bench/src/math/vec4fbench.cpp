@@ -4,7 +4,7 @@
 using namespace spruce;
 
 static void vec4fConstruct(benchmark::State& state) {
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec4f v;
 		benchmark::DoNotOptimize(v);
 	}
@@ -14,7 +14,7 @@ BENCHMARK(vec4fConstruct);
 static void vec4fScale(benchmark::State& state) {
 	vec4f a(4, 4, 4, 4);
 	float scale = 2;
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec4f b = a * scale;
 		benchmark::DoNotOptimize(b);
 	}
@@ -24,7 +24,7 @@ BENCHMARK(vec4fScale);
 static void vec4fAddVec(benchmark::State& state) {
 	vec4f a(1, 0, 0, 1);
 	vec4f b(0, 1, 1, 0);
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec4f c = a + b;
 		benchmark::DoNotOptimize(c);
 	}
@@ -42,7 +42,7 @@ static void vec4fScaleMulti(benchmark::State& state) {
 		data[i].vector.set(i, i, i, i);
 		data[i].scale = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
 			vec4f vec = data[i].vector * data[i].scale;
 			benchmark::DoNotOptimize(vec);
@@ -64,7 +64,7 @@ static void vec4fAddMulti(benchmark::State& state) {
 		data[i].a.set(i, i, i, i);
 		data[i].b = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
 			vec4f vec = data[i].a + data[i].b;
 			benchmark::DoNotOptimize(vec);
@@ -86,7 +86,7 @@ static void vec4fSubMulti(benchmark::State& state) {
 		data[i].a.set(i, i, i, i);
 		data[i].b = i;
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
 			vec4f vec = data[i].a - data[i].b;
 			benchmark::DoNotOptimize(vec);
@@ -108,12 +108,13 @@ static void vec4fAddMultiMacSys(benchmark::State& state) {
 	};
 	TestData data[NUM];
 	for (uint64 i = 0; i < NUM; i++) {
-		data[i].a = {(float)i, (float)i, (float)i, (float)i};
-		data[i].b = {(float)i, (float)i, (float)i, (float)i};
+		float fi = i;
+		data[i].a = {fi, fi, fi, fi};
+		data[i].b = {fi, fi, fi, fi};
 	}
-	for (auto _ : state) {
+	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		for (uint64 i = 0; i < NUM; i++) {
-			volatile vector_float4 vec = data[i].a + data[i].b;
+			volatile vector_float4 vec = data[i].a + data[i].b; // NOLINT(clang-analyzer-deadcode.DeadStores)
 		}
 	}
 	state.SetBytesProcessed(state.iterations() * sizeof(data));

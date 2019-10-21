@@ -16,30 +16,23 @@ namespace spruce {
 				Renderer() = default;
 				Renderer(const Renderer&) = default;
 				Renderer(Renderer&&) noexcept = default;
-				virtual ~Renderer() override = default;
+				~Renderer() override = default;
 
-				std::any encodeBackend(void* encodeData) override;
-				void executeBackend(std::any executeData) override;
-
-				virtual ExecuteT encode(EncodeT& encodeData) = 0;
-				virtual void execute(ExecuteT& executeData) = 0;
-
-				virtual owner<MeshAPIData> createMeshAPIData(Mesh& mesh) override = 0;
-				virtual owner<TextureAPIData> createTextureAPIData(Texture& texture) override = 0;
-				virtual void setOrthographic(mat4f& matrix, float left, float right, float top, float bottom, float near, float far) override = 0;
-				virtual void setPerspective(mat4f& matrix, float near, float far, float fov, float aspectRatio) override = 0;
+				[[nodiscard]] std::any encodeBackend(void* encodeData) noexcept override;
+				void executeBackend(std::any executeData) noexcept override;
 
 				Renderer& operator=(const Renderer&) = default;
 				Renderer& operator=(Renderer&&) noexcept = default;
 		};
 
 		template <typename EncodeT, typename ExecuteT, enum app::API api>
-		std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) {
-			return encode(*((EncodeT*)encodeData));
+		[[nodiscard]] std::any Renderer<EncodeT, ExecuteT, api>::encodeBackend(void* encodeData) noexcept {
+			static_assert(std::is_copy_assignable_v<ExecuteT>);
+			return encode(*static_cast<EncodeT*>(encodeData));
 		}
 
 		template <typename EncodeT, typename ExecuteT, enum app::API api>
-		void Renderer<EncodeT, ExecuteT, api>::executeBackend(std::any executeData) {
+		void Renderer<EncodeT, ExecuteT, api>::executeBackend(std::any executeData) noexcept {
 			ExecuteT executeDataCasted = std::any_cast<ExecuteT>(executeData);
 			execute(executeDataCasted);
 		}

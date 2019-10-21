@@ -12,7 +12,7 @@ namespace spruce {
 		double z = 0;
 
 		private:
-		double padding = 0;
+		[[maybe_unused]] double padding = 0;
 		public:
 
 		vec3d() = default;
@@ -23,49 +23,49 @@ namespace spruce {
 		vec3d(vec3d&&) noexcept = default;
 		~vec3d() = default;
 
-		vec3d& set(const vec3d& vector);
-		vec3d& set(double x, double y, double z);
+		vec3d& set(const vec3d& vector) noexcept;
+		vec3d& set(double x, double y, double z) noexcept;
 
-		double mag2() const;
-		double mag() const;
-		vec3d& nor();
-		double dst2(const vec3d& vector) const;
-		double dst(const vec3d& vector) const;
-		double dot(const vec3d& vector) const;
-		vec3d& crs(const vec3d& vector);
+		[[nodiscard]] double mag2() const noexcept;
+		[[nodiscard]] double mag() const noexcept;
+		vec3d& nor() noexcept;
+		[[nodiscard]] double dst2(const vec3d& vector) const noexcept;
+		[[nodiscard]] double dst(const vec3d& vector) const noexcept;
+		[[nodiscard]] double dot(const vec3d& vector) const noexcept;
+		vec3d& crs(const vec3d& vector) noexcept;
 
-		vec3d& add(const vec3d& vector);
-		vec3d& sub(const vec3d& vector);
+		vec3d& add(const vec3d& vector) noexcept;
+		vec3d& sub(const vec3d& vector) noexcept;
 
-		vec3d& add(double value);
-		vec3d& sub(double value);
-		vec3d& scl(double value);
-		vec3d& div(double value);
+		vec3d& add(double value) noexcept;
+		vec3d& sub(double value) noexcept;
+		vec3d& scl(double value) noexcept;
+		vec3d& div(double value) noexcept;
 
-		bool operator==(const vec3d& vector) const;
-		bool operator!=(const vec3d& vector) const;
+		[[nodiscard]] bool operator==(const vec3d& vector) const noexcept;
+		[[nodiscard]] bool operator!=(const vec3d& vector) const noexcept;
 
-		vec3d& operator+=(const vec3d& vector);
-		vec3d& operator-=(const vec3d& vector);
+		vec3d& operator+=(const vec3d& vector) noexcept;
+		vec3d& operator-=(const vec3d& vector) noexcept;
 
-		vec3d& operator+=(double value);
-		vec3d& operator-=(double value);
-		vec3d& operator*=(double value);
-		vec3d& operator/=(double value);
+		vec3d& operator+=(double value) noexcept;
+		vec3d& operator-=(double value) noexcept;
+		vec3d& operator*=(double value) noexcept;
+		vec3d& operator/=(double value) noexcept;
 
 		vec3d& operator=(const vec3d&) = default;
 		vec3d& operator=(vec3d&&) noexcept = default;
 
-		static vec3d lerp(const vec3d& a, const vec3d& b, double alpha);
+		[[nodiscard]] static vec3d lerp(const vec3d& a, const vec3d& b, double alpha) noexcept;
 	};
 
-	inline vec3d operator+(const vec3d& left, const vec3d& right);
-	inline vec3d operator-(const vec3d& left, const vec3d& right);
+	inline vec3d operator+(const vec3d& left, const vec3d& right) noexcept;
+	inline vec3d operator-(const vec3d& left, const vec3d& right) noexcept;
 
-	inline vec3d operator+(const vec3d& left, double value);
-	inline vec3d operator-(const vec3d& left, double value);
-	inline vec3d operator*(const vec3d& left, double value);
-	inline vec3d operator/(const vec3d& left, double value);
+	inline vec3d operator+(const vec3d& left, double value) noexcept;
+	inline vec3d operator-(const vec3d& left, double value) noexcept;
+	inline vec3d operator*(const vec3d& left, double value) noexcept;
+	inline vec3d operator/(const vec3d& left, double value) noexcept;
 
 	std::ostream& operator<<(std::ostream& stream, const vec3d& vector);
 }

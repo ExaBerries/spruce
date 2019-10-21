@@ -1,7 +1,7 @@
 #pragma once
 
 namespace spruce {
-	inline vec3d operator+(const vec3d& left, const vec3d& right) {
+	inline vec3d operator+(const vec3d& left, const vec3d& right) noexcept {
 		simd::reg4d l = simd::load4d4d(left.x);
 		simd::reg4d r = simd::load4d4d(right.x);
 		vec3d out;
@@ -9,7 +9,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec3d operator-(const vec3d& left, const vec3d& right) {
+	inline vec3d operator-(const vec3d& left, const vec3d& right) noexcept {
 		simd::reg4d l = simd::load4d4d(left.x);
 		simd::reg4d r = simd::load4d4d(right.x);
 		vec3d out;
@@ -17,7 +17,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec3d operator+(const vec3d& left, double value) {
+	inline vec3d operator+(const vec3d& left, double value) noexcept {
 		simd::reg4d l = simd::load4d4d(left.x);
 		simd::reg4d v = simd::load1d4d(value);
 		vec3d out;
@@ -25,7 +25,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec3d operator-(const vec3d& left, double value) {
+	inline vec3d operator-(const vec3d& left, double value) noexcept {
 		simd::reg4d l = simd::load4d4d(left.x);
 		simd::reg4d v = simd::load1d4d(value);
 		vec3d out;
@@ -33,7 +33,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec3d operator*(const vec3d& left, double value) {
+	inline vec3d operator*(const vec3d& left, double value) noexcept {
 		simd::reg4d l = simd::load4d4d(left.x);
 		simd::reg4d v = simd::load1d4d(value);
 		vec3d out;
@@ -41,7 +41,7 @@ namespace spruce {
 		return out;
 	}
 
-	inline vec3d operator/(const vec3d& left, double value) {
+	inline vec3d operator/(const vec3d& left, double value) noexcept {
 		simd::reg4d l = simd::load4d4d(left.x);
 		simd::reg4d v = simd::load1d4d(value);
 		vec3d out;

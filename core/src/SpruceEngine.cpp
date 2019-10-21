@@ -20,17 +20,18 @@ namespace spruce {
 		if (window->open) {
 			window->close();
 		}
-		delete (Window*)window;
-		delete (FramePipeline*)framePipeline;
+		delete application;
+		delete apiContext;
+		delete window;
+		delete framePipeline;
 		task::free();
 		os::free();
-		delete (Application*)application;
 	}
 
-	void SpruceEngine::run() {
-		uint64 lastTime = sys::timeNano();
+	void SpruceEngine::run() noexcept {
+		int64 lastTime = sys::timeNano();
 		while (window->open) {
-			float delta = ((float)(sys::timeNano() - lastTime) / 1.0e9);
+			float delta = static_cast<float>(sys::timeNano() - lastTime) / 1.0e9f;
 			lastTime = sys::timeNano();
 			if (application != nullptr) {
 				framePipeline->execute(delta, *application, renderer, *appBackend);
@@ -38,33 +39,27 @@ namespace spruce {
 		}
 	}
 
-	void SpruceEngine::setRenderAPI(app::API newAPI) {
+	void SpruceEngine::setRenderAPI(app::API newAPI) noexcept {
 		this->apiType = newAPI;
-		if (apiContext != nullptr) {
-			delete apiContext;
-		}
+		delete apiContext;
 		apiContext = window->initAPI(newAPI);
 	}
 
-	void SpruceEngine::setFramePipeline(owner<FramePipeline> pipeline) {
-		if (this->framePipeline != nullptr) {
-			delete (FramePipeline*)this->framePipeline;
-		}
+	void SpruceEngine::setFramePipeline(owner<FramePipeline> pipeline) noexcept {
+		delete this->framePipeline;
 		this->framePipeline = pipeline;
 	}
 
-	void SpruceEngine::setRenderer(owner<RendererAbstractor> renderer) {
-		if (this->renderer != nullptr) {
-			delete (RendererAbstractor*)this->renderer;
-		}
+	void SpruceEngine::setRenderer(owner<RendererAbstractor> renderer) noexcept {
+		delete this->renderer;
 		this->renderer = renderer;
 	}
 
-	bool SpruceEngine::supportsAPI(app::API api) {
+	bool SpruceEngine::supportsAPI(app::API api) noexcept {
 		return appBackend->supportsAPI(api);
 	}
 
-	const buffer<app::API> SpruceEngine::getSupportedAPIs() {
+	const buffer<app::API>& SpruceEngine::getSupportedAPIs() noexcept {
 		return appBackend->supportedAPIs;
 	}
 }

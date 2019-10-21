@@ -9,7 +9,7 @@ namespace spruce {
 		extern std::mutex logMutex;
 
 		template <typename ... TYPES>
-		void log(std::string file, uint32_t line, TYPES ... args) {
+		void log(const string& file, uint32_t line, TYPES ... args) noexcept {
 			std::lock_guard<std::mutex> guard(logMutex);
 			std::cout << file << ":" << line << "\t";
 			(std::cout << ... << args);
@@ -17,7 +17,7 @@ namespace spruce {
 		}
 
 		template <typename ... TYPES>
-		void err(std::string file, uint32_t line, TYPES ... args) {
+		void err(const string& file, uint32_t line, TYPES ... args) noexcept {
 			std::lock_guard<std::mutex> guard(logMutex);
 			std::cout << file << ":" << line << "\t";
 			(std::cout << ... << args);

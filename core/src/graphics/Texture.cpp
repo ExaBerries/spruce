@@ -15,12 +15,12 @@ namespace spruce {
 			data.free();
 		}
 
-		void Texture::toVRAM(RendererAbstractor* renderer) {
+		void Texture::toVRAM(RendererAbstractor* renderer) noexcept {
 			apiData = renderer->createTextureAPIData(*this);
 		}
 
-		void Texture::freeVRAM() {
-			delete (TextureAPIData*)apiData;
+		void Texture::freeVRAM() noexcept {
+			delete apiData;
 			apiData = nullptr;
 		}
 	}

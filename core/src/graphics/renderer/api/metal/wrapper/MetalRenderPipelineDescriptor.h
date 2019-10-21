@@ -12,15 +12,15 @@ namespace spruce {
 			MetalRenderPipelineDescriptor();
 			MetalRenderPipelineDescriptor(const MetalRenderPipelineDescriptor& other) = delete;
 			MetalRenderPipelineDescriptor(MetalRenderPipelineDescriptor&& other) = delete;
-			~MetalRenderPipelineDescriptor();
+			~MetalRenderPipelineDescriptor() override;
 
-			void setVertexFunction(const MetalFunction* function);
-			void setFragmentFunction(const MetalFunction* function);
-			void setVertexDescriptor(const MetalVertexDescriptor& descriptor);
-			void setColorAttachmentPixelFormat(uint32 index, MetalPixelFormat format);
-			void setColorAttachmentBlending(uint32 index, bool blend);
-			void setDepthAttachmentPixelFormat(MetalPixelFormat format);
-			void setStencilAttachmentPixelFormat(MetalPixelFormat format);
+			void setVertexFunction(const MetalFunction* function) noexcept;
+			void setFragmentFunction(const MetalFunction* function) noexcept;
+			void setVertexDescriptor(const MetalVertexDescriptor& descriptor) noexcept;
+			void setColorAttachmentPixelFormat(uint32 index, MetalPixelFormat format) noexcept;
+			void setColorAttachmentBlending(uint32 index, bool blend) noexcept;
+			void setDepthAttachmentPixelFormat(MetalPixelFormat format) noexcept;
+			void setStencilAttachmentPixelFormat(MetalPixelFormat format) noexcept;
 
 			MetalRenderPipelineDescriptor& operator=(const MetalRenderPipelineDescriptor& other) = delete;
 			MetalRenderPipelineDescriptor& operator=(MetalRenderPipelineDescriptor&& other) noexcept = delete;

@@ -9,65 +9,69 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename ... CONSTYPES>
 	void stackown<TYPE>::cons(CONSTYPES&& ... args) {
+		static_assert(std::is_constructible_v<TYPE, CONSTYPES...>);
 		new (data) TYPE(args...);
 		null = false;
 	}
 
 	template <typename TYPE>
 	void stackown<TYPE>::desc() {
-		((TYPE*)data)->~TYPE();
+		static_assert(std::is_destructible_v<TYPE>);
+		reinterpret_cast<TYPE*>(data)->~TYPE();
 		null = true;
 	}
 
 	template <typename TYPE>
 	stackown<TYPE>::operator TYPE*() {
-		return (TYPE*) data;
+		return reinterpret_cast<TYPE*>(data);
 	}
 
 	template <typename TYPE>
 	stackown<TYPE>::operator const TYPE*() const {
-		return (const TYPE*) data;
+		return reinterpret_cast<const TYPE*>(data);
 	}
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	stackown<TYPE>::operator OTHERTYPE*() {
-		return (OTHERTYPE*) data;
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		return reinterpret_cast<OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	stackown<TYPE>::operator const OTHERTYPE*() const {
-		return (const OTHERTYPE*) data;
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		return reinterpret_cast<const OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE>
 	TYPE& stackown<TYPE>::operator*() noexcept {
-		return *((TYPE*)data);
+		return *reinterpret_cast<TYPE*>(data);
 	}
 
 	template <typename TYPE>
 	const TYPE& stackown<TYPE>::operator*() const noexcept {
-		return *((const TYPE*)data);
+		return *reinterpret_cast<const TYPE*>(data);
 	}
 
 	template <typename TYPE>
 	TYPE* stackown<TYPE>::operator->() noexcept {
-		return (TYPE*) data;
+		return reinterpret_cast<TYPE*>(data);
 	}
 
 	template <typename TYPE>
 	const TYPE* stackown<TYPE>::operator->() const noexcept {
-		return (const TYPE*) data;
+		return reinterpret_cast<const TYPE*>(data);
 	}
 
 	template <typename TYPE>
-	bool stackown<TYPE>::operator==(std::nullptr_t) {
+	bool stackown<TYPE>::operator==(std::nullptr_t) const noexcept {
 		return null;
 	}
 
 	template <typename TYPE>
-	bool stackown<TYPE>::operator!=(std::nullptr_t) {
+	bool stackown<TYPE>::operator!=(std::nullptr_t) const noexcept {
 		return !null;
 	}
 }

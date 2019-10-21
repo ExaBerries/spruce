@@ -5,12 +5,12 @@ namespace spruce {
 	}
 
 	quaternion::quaternion(float pitch, float yaw, float roll) {
-		float sy = sin(yaw / 2);
-		float sp = sin(pitch / 2);
-		float sr = sin(roll / 2);
-		float cy = cos(yaw / 2);
-		float cp = cos(pitch / 2);
-		float cr = cos(roll / 2);
+		float sy = std::sin(yaw / 2.0f);
+		float sp = std::sin(pitch / 2.0f);
+		float sr = std::sin(roll / 2.0f);
+		float cy = std::cos(yaw / 2.0f);
+		float cp = std::cos(pitch / 2.0f);
+		float cr = std::cos(roll / 2.0f);
 		x = cy * sp * cr + sy * cp * sr;
 		y = sy * cp * cr - cy * sp * sr;
 		z = cy * cp * sr - sy * sp * cr;
@@ -28,15 +28,15 @@ namespace spruce {
 	}
 
 	quaternion::quaternion(const vec3f& axis, const float& angle) {
-		float sinHalfAngle = sin(angle / 2);
+		float sinHalfAngle = sin(angle / 2.0f);
 		this->x = axis.x * sinHalfAngle;
 		this->y = axis.y * sinHalfAngle;
 		this->z = axis.z * sinHalfAngle;
-		this->w = cos(angle / 2);
+		this->w = std::cos(angle / 2.0f);
 		nor();
 	}
 
-	quaternion& quaternion::set(const quaternion& quaternion) {
+	quaternion& quaternion::set(const quaternion& quaternion) noexcept {
 		this->x = quaternion.x;
 		this->y = quaternion.y;
 		this->z = quaternion.z;
@@ -44,7 +44,7 @@ namespace spruce {
 		return *this;
 	}
 
-	quaternion& quaternion::set(float x, float y, float z, float w) {
+	quaternion& quaternion::set(float x, float y, float z, float w) noexcept {
 		this->x = x;
 		this->y = y;
 		this->z = z;
@@ -52,17 +52,17 @@ namespace spruce {
 		return *this;
 	}
 
-	quaternion& quaternion::set(const vec3f& axis, float angle) {
-		float sinHalfAngle = sin(angle / 2);
+	quaternion& quaternion::set(const vec3f& axis, float angle) noexcept {
+		float sinHalfAngle = sin(angle / 2.0f);
 		this->x = axis.x * sinHalfAngle;
 		this->y = axis.y * sinHalfAngle;
 		this->z = axis.z * sinHalfAngle;
-		this->w = cos(angle / 2);
+		this->w = std::cos(angle / 2.0f);
 		nor();
 		return *this;
 	}
 
-	quaternion& quaternion::set(const vec3f& a, const vec3f& b) {
+	quaternion& quaternion::set(const vec3f& a, const vec3f& b) noexcept {
 		vec3f crs = vec3f(a).crs(b);
 		this->x = crs.x;
 		this->y = crs.y;
@@ -72,13 +72,13 @@ namespace spruce {
 		return *this;
 	}
 
-	quaternion& quaternion::set(float yaw, float pitch, float roll) {
-		float sy = sin(yaw / 2);
-		float sp = sin(pitch / 2);
-		float sr = sin(roll / 2);
-		float cy = cos(yaw / 2);
-		float cp = cos(pitch / 2);
-		float cr = cos(roll / 2);
+	quaternion& quaternion::set(float yaw, float pitch, float roll) noexcept {
+		float sy = std::sin(yaw / 2.0f);
+		float sp = std::sin(pitch / 2.0f);
+		float sr = std::sin(roll / 2.0f);
+		float cy = std::cos(yaw / 2.0f);
+		float cp = std::cos(pitch / 2.0f);
+		float cr = std::cos(roll / 2.0f);
 		x = cy * sp * cr + sy * cp * sr;
 		y = sy * cp * cr - cy * sp * sr;
 		z = cy * cp * sr - sy * sp * cr;
@@ -87,31 +87,31 @@ namespace spruce {
 		return *this;
 	}
 
-	void quaternion::toEuler(float& yaw, float& pitch, float& roll) {
+	void quaternion::toEuler(float& yaw, float& pitch, float& roll) const noexcept  {
 		float t = y * x + z * w;
-		int8 pole = t > 0.499f ? 1 : (t < -0.499f ? -1 : 0);
+		float pole = t > 0.499f ? 1.0f : (t < -0.499f ? -1.0f : 0.0f);
 		bool locked = !(pole == 0);
-		yaw = !locked ? atan2(2.0 * (y * w + x * z), 1.0 - 2.0 * (y * y + x * x)) : 0;
-		pitch = !locked ? asin(2.0 * (w * x - z * y)) : pole * M_PI * 0.5;
-		roll = !locked ? atan2(2.0 * (w * z + y * x), 1.0 - 2.0 * (x * x + z * z)) : pole * 2.0 * atan2(y, w);
+		yaw = !locked ? std::atan2(2.0f * (y * w + x * z), 1.0f - 2.0f * (y * y + x * x)) : 0.0f;
+		pitch = !locked ? std::asin(2.0f * (w * x - z * y)) : pole * static_cast<float>(M_PI) * 0.5f;
+		roll = !locked ? std::atan2(2.0f * (w * z + y * x), 1.0f - 2.0f * (x * x + z * z)) : pole * 2.0f * atan2(y, w);
 	}
 
-	float quaternion::mag2() const {
+	float quaternion::mag2() const noexcept {
 		return x * x + y * y + z * z + w * w;
 	}
 
-	float quaternion::mag() const {
-		return sqrt(mag2());
+	float quaternion::mag() const noexcept {
+		return std::sqrt(mag2());
 	}
 
-	quaternion& quaternion::conjugate() {
+	quaternion& quaternion::conjugate() noexcept {
 		x = -x;
 		y = -y;
 		z = -z;
 		return *this;
 	}
 
-	float quaternion::dot(const quaternion& quaternion) const {
+	float quaternion::dot(const quaternion& quaternion) const noexcept {
 		return x * quaternion.x + y * quaternion.y + z * quaternion.z + w * quaternion.w;
 	}
 
@@ -120,7 +120,7 @@ namespace spruce {
 		return stream;
 	}
 
-	quaternion quaternion::lerp(const quaternion& a, const quaternion& b, float alpha) {
-		return {(1 - alpha) * a.x + alpha * b.x, (1 - alpha) * a.y + alpha * b.y, (1 - alpha) * a.z + alpha * b.z, (1 - alpha) * a.w + alpha * b.w};
+	quaternion quaternion::lerp(const quaternion& a, const quaternion& b, float alpha) noexcept {
+		return {(1.0f - alpha) * a.x + alpha * b.x, (1.0f - alpha) * a.y + alpha * b.y, (1.0f - alpha) * a.z + alpha * b.z, (1.0f - alpha) * a.w + alpha * b.w};
 	}
 }

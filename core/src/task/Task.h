@@ -48,10 +48,10 @@ namespace spruce {
 	using task::Task;
 
 	template <typename RETURN, typename ... TYPES>
-	Task<RETURN(TYPES...)> createTask(std::function<RETURN(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args);
+	[[nodiscard]] Task<RETURN(TYPES...)> createTask(std::function<RETURN(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) noexcept;
 
 	template <typename ... TYPES>
-	Task<void(TYPES...)> createTask(std::function<void(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args);
+	[[nodiscard]] Task<void(TYPES...)> createTask(std::function<void(TYPES...)> function, task::TaskPriority priority, bool concurrent, TYPES ... args) noexcept;
 }
 
 #include <task/TaskImpl.h>

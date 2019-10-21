@@ -7,12 +7,12 @@ namespace spruce {
 		}
 
 		template <typename OUTPUT, typename ... TYPES>
-		void TaskGroup<OUTPUT(TYPES...)>::addTask(TaskConfig<OUTPUT(TYPES...)> config) {
+		void TaskGroup<OUTPUT(TYPES...)>::addTask(TaskConfig<OUTPUT(TYPES...)> config) noexcept {
 			tasks.push_back(createTask(config));
 		}
 
 		template <typename OUTPUT, typename ... TYPES>
-		bool TaskGroup<OUTPUT(TYPES...)>::complete() const {
+		bool TaskGroup<OUTPUT(TYPES...)>::complete() const noexcept {
 			bool complete = true;
 			for (Task<OUTPUT(TYPES...)> task : tasks) {
 				if (!task.complete) {

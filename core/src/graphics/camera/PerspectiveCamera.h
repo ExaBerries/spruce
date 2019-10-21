@@ -18,7 +18,7 @@ namespace spruce {
 					PerspectiveCamera(PerspectiveCamera&&) noexcept = default;
 					~PerspectiveCamera() override = default;
 
-					void update(RendererAbstractor* renderer) override;
+					void update(RendererAbstractor* renderer) noexcept final;
 
 					PerspectiveCamera& operator=(const PerspectiveCamera&) = default;
 					PerspectiveCamera& operator=(PerspectiveCamera&&) noexcept = default;

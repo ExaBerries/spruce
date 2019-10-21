@@ -14,15 +14,15 @@ namespace spruce {
 		[castBuffer(ptr) release];
 	}
 
-	void* MetalBuffer::getContents() {
+	void* MetalBuffer::getContents() noexcept {
 		return castBuffer(ptr).contents;
 	}
 
-	void MetalBuffer::didModifyRange(uint32 start, uint32 length) {
+	void MetalBuffer::didModifyRange(uint32 start, uint32 length) noexcept {
 		[castBuffer(ptr) didModifyRange:NSMakeRange(start, length)];
 	}
 
-	uint32 MetalBuffer::getLength() {
+	uint64 MetalBuffer::getLength() noexcept {
 		return castBuffer(ptr).length;
 	}
 }

@@ -13,10 +13,10 @@ namespace spruce {
 			OpenGLFramebuffer(OpenGLFramebuffer&&) noexcept = default;
 			~OpenGLFramebuffer();
 
-			void bind();
-			bool complete();
-			void setDrawBuffers(buffer<GLenum> attachments);
-			void createDepthRenderBuffer(uint16 width, uint16 height);
+			void bind() noexcept;
+			[[nodiscard]] bool complete() noexcept;
+			void setDrawBuffers(buffer<GLenum> attachments) noexcept;
+			void createDepthRenderBuffer(uint16 width, uint16 height) noexcept;
 
 			OpenGLFramebuffer& operator=(const OpenGLFramebuffer) = delete;
 			OpenGLFramebuffer& operator=(OpenGLFramebuffer&&) noexcept = delete;

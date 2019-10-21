@@ -9,7 +9,7 @@ namespace spruce {
 			MetalFunction(void* ptr);
 			MetalFunction(const MetalFunction& other) = delete;
 			MetalFunction(MetalFunction&& other) = delete;
-			~MetalFunction();
+			~MetalFunction() override;
 
 			MetalFunction& operator=(const MetalFunction& other) = delete;
 			MetalFunction& operator=(MetalFunction&& other) = delete;

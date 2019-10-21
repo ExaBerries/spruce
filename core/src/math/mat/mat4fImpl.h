@@ -1,7 +1,8 @@
 #pragma once
+#include <cstring>
 
 namespace spruce {
-	inline float mat4f::determinant() {
+	inline float mat4f::determinant() noexcept {
 		float a = values[0] * (values[5] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[9] * values[15] - values[11] * values[13]) + values[7] * (values[9] * values[14] - values[10] * values[13]));
 		float b = values[1] * (values[4] * (values[10] * values[15] - values[11] * values[14]) - values[6] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[14] - values[10] * values[12]));
 		float c = values[2] * (values[4] * (values[9] * values[15] - values[11] * values[13]) - values[5] * (values[8] * values[15] - values[11] * values[12]) + values[7] * (values[8] * values[13] - values[9] * values[12]));
@@ -9,9 +10,9 @@ namespace spruce {
 		return a - b + c - d;
 	}
 
-	inline mat4f& mat4f::invert() {
+	inline mat4f& mat4f::invert() noexcept {
 		float det = determinant();
-		if (det == 0.0) {
+		if (det == 0.0f) {
 			return *this;
 		}
 		float tmpValues[16];
@@ -39,7 +40,29 @@ namespace spruce {
 		return *this;
 	}
 
-	inline mat4f operator+(const mat4f& left, const mat4f& right) {
+	inline mat4f& mat4f::transpose() noexcept {
+		float tmp[16];
+		tmp[0] = values[0];
+		tmp[1] = values[4];
+		tmp[2] = values[8];
+		tmp[3] = values[12];
+		tmp[4] = values[1];
+		tmp[5] = values[5];
+		tmp[6] = values[9];
+		tmp[7] = values[13];
+		tmp[8] = values[2];
+		tmp[9] = values[6];
+		tmp[10] = values[10];
+		tmp[11] = values[14];
+		tmp[12] = values[3];
+		tmp[13] = values[7];
+		tmp[14] = values[11];
+		tmp[15] = values[15];
+		memcpy(&values, &tmp, 16 * sizeof(float));
+		return *this;
+	}
+
+	inline mat4f operator+(const mat4f& left, const mat4f& right) noexcept {
 		float values[16];
 		simd::reg8f la = simd::load8f8f(left.values[0]);
 		simd::reg8f lb = simd::load8f8f(left.values[8]);
@@ -47,10 +70,10 @@ namespace spruce {
 		simd::reg8f rb = simd::load8f8f(right.values[8]);
 		simd::store8f(values[0], simd::add8f(la, ra));
 		simd::store8f(values[8], simd::add8f(lb, rb));
-		return *((mat4f*)&values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 
-	inline mat4f operator-(const mat4f& left, const mat4f& right) {
+	inline mat4f operator-(const mat4f& left, const mat4f& right) noexcept {
 		float values[16];
 		simd::reg8f la = simd::load8f8f(left.values[0]);
 		simd::reg8f lb = simd::load8f8f(left.values[8]);
@@ -58,10 +81,10 @@ namespace spruce {
 		simd::reg8f rb = simd::load8f8f(right.values[8]);
 		simd::store8f(values[0], simd::sub8f(la, ra));
 		simd::store8f(values[8], simd::sub8f(lb, rb));
-		return *((mat4f*)&values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 
-	inline mat4f operator*(const mat4f& left, const mat4f& right) {
+	inline mat4f operator*(const mat4f& left, const mat4f& right) noexcept {
 		float values[16];
 		{ // row 1
 			simd::reg4f a0 = simd::load1f4f(left.values[0]);
@@ -107,44 +130,136 @@ namespace spruce {
 			simd::reg4f br4 = simd::load4f4f(right.values[12]);
 			simd::store4f(values[12], simd::fmadd4f(a12, br1, simd::fmadd4f(a13, br2, simd::fmadd4f(a14, br3, simd::mul4f(a15, br4)))));
 		}
-		return *((mat4f*)values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 
-	inline vec3f operator*(const vec3f& vector, const mat4f& matrix) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
+	inline vec3f operator*(const vec3f& vector, const mat4f& matrix) noexcept {
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f c0 = simd::load4f4f(tmp[0]);
+		simd::reg4f c1 = simd::load4f4f(tmp[4]);
+		simd::reg4f c2 = simd::load4f4f(tmp[8]);
+		simd::reg4f c3 = simd::load4f4f(tmp[12]);
 		simd::reg4f x = simd::load1f4f(vector.x);
 		simd::reg4f y = simd::load1f4f(vector.y);
 		simd::reg4f z = simd::load1f4f(vector.z);
-		simd::reg4f p1 = simd::mul4f(x, r0);
-		simd::reg4f p2 = simd::fmadd4f(y, r1, p1);
-		simd::reg4f p3 = simd::mul4f(z, r2);
+		simd::reg4f w = simd::load1f4f(1);
+		simd::reg4f p1 = simd::mul4f(x, c0);
+		simd::reg4f p2 = simd::fmadd4f(y, c1, p1);
+		simd::reg4f p3 = simd::mul4f(z, c2);
+		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
-		simd::store4f(vec[0], simd::add4f(p2, p3));
-		return *((vec3f*)vec);
+		simd::store4f(vec[0], simd::add4f(p2, p4));
+		return *reinterpret_cast<vec3f*>(vec);
 	}
 
-	inline vec3f operator*(const mat4f& matrix, const vec3f& vector) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
+	inline vec3f operator*(const mat4f& matrix, const vec3f& vector) noexcept {
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f c0 = simd::load4f4f(tmp[0]);
+		simd::reg4f c1 = simd::load4f4f(tmp[4]);
+		simd::reg4f c2 = simd::load4f4f(tmp[8]);
+		simd::reg4f c3 = simd::load4f4f(tmp[12]);
 		simd::reg4f x = simd::load1f4f(vector.x);
 		simd::reg4f y = simd::load1f4f(vector.y);
 		simd::reg4f z = simd::load1f4f(vector.z);
-		simd::reg4f p1 = simd::mul4f(x, r0);
-		simd::reg4f p2 = simd::fmadd4f(y, r1, p1);
-		simd::reg4f p3 = simd::mul4f(z, r2);
+		simd::reg4f w = simd::load1f4f(1);
+		simd::reg4f p1 = simd::mul4f(x, c0);
+		simd::reg4f p2 = simd::fmadd4f(y, c1, p1);
+		simd::reg4f p3 = simd::mul4f(z, c2);
+		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
 		float vec[4];
-		simd::store4f(vec[0], simd::add4f(p2, p3));
-		return *((vec3f*)vec);
+		simd::store4f(vec[0], simd::add4f(p2, p4));
+		return *reinterpret_cast<vec3f*>(vec);
 	}
 
-	inline vec4f operator*(const vec4f& vector, const mat4f& matrix) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
-		simd::reg4f r3 = simd::load4f4f(matrix.values[12]);
+	inline vec4f operator*(const vec4f& vector, const mat4f& matrix) noexcept {
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f c0 = simd::load4f4f(tmp[0]);
+		simd::reg4f c1 = simd::load4f4f(tmp[4]);
+		simd::reg4f c2 = simd::load4f4f(tmp[8]);
+		simd::reg4f c3 = simd::load4f4f(tmp[12]);
+		simd::reg4f x = simd::load1f4f(vector.x);
+		simd::reg4f y = simd::load1f4f(vector.y);
+		simd::reg4f z = simd::load1f4f(vector.z);
+		simd::reg4f w = simd::load1f4f(vector.w);
+		simd::reg4f p1 = simd::mul4f(x, c0);
+		simd::reg4f p2 = simd::fmadd4f(y, c1, p1);
+		simd::reg4f p3 = simd::mul4f(z, c2);
+		simd::reg4f p4 = simd::fmadd4f(w, c3, p3);
+		float vec[4];
+		simd::store4f(vec[0], simd::add4f(p2, p4));
+		return *reinterpret_cast<vec4f*>(vec);
+	}
+
+	inline vec4f operator*(const mat4f& matrix, const vec4f& vector) noexcept {
+		float tmp[16];
+		tmp[0] = matrix.values[0];
+		tmp[1] = matrix.values[4];
+		tmp[2] = matrix.values[8];
+		tmp[3] = matrix.values[12];
+		tmp[4] = matrix.values[1];
+		tmp[5] = matrix.values[5];
+		tmp[6] = matrix.values[9];
+		tmp[7] = matrix.values[13];
+		tmp[8] = matrix.values[2];
+		tmp[9] = matrix.values[6];
+		tmp[10] = matrix.values[10];
+		tmp[11] = matrix.values[14];
+		tmp[12] = matrix.values[3];
+		tmp[13] = matrix.values[7];
+		tmp[14] = matrix.values[11];
+		tmp[15] = matrix.values[15];
+		simd::reg4f r0 = simd::load4f4f(tmp[0]);
+		simd::reg4f r1 = simd::load4f4f(tmp[4]);
+		simd::reg4f r2 = simd::load4f4f(tmp[8]);
+		simd::reg4f r3 = simd::load4f4f(tmp[12]);
 		simd::reg4f x = simd::load1f4f(vector.x);
 		simd::reg4f y = simd::load1f4f(vector.y);
 		simd::reg4f z = simd::load1f4f(vector.z);
@@ -155,28 +270,10 @@ namespace spruce {
 		simd::reg4f p4 = simd::fmadd4f(w, r3, p3);
 		float vec[4];
 		simd::store4f(vec[0], simd::add4f(p2, p4));
-		return *((vec4f*)vec);
+		return *reinterpret_cast<vec4f*>(vec);
 	}
 
-	inline vec4f operator*(const mat4f& matrix, const vec4f& vector) {
-		simd::reg4f r0 = simd::load4f4f(matrix.values[0]);
-		simd::reg4f r1 = simd::load4f4f(matrix.values[4]);
-		simd::reg4f r2 = simd::load4f4f(matrix.values[8]);
-		simd::reg4f r3 = simd::load4f4f(matrix.values[12]);
-		simd::reg4f x = simd::load1f4f(vector.x);
-		simd::reg4f y = simd::load1f4f(vector.y);
-		simd::reg4f z = simd::load1f4f(vector.z);
-		simd::reg4f w = simd::load1f4f(vector.w);
-		simd::reg4f p1 = simd::mul4f(x, r0);
-		simd::reg4f p2 = simd::fmadd4f(y, r1, p1);
-		simd::reg4f p3 = simd::mul4f(z, r2);
-		simd::reg4f p4 = simd::fmadd4f(w, r3, p3);
-		float vec[4];
-		simd::store4f(vec[0], simd::add4f(p2, p4));
-		return *((vec4f*)vec);
-	}
-
-	inline mat4f& mat4f::operator+=(const mat4f& matrix) {
+	inline mat4f& mat4f::operator+=(const mat4f& matrix) noexcept {
 		simd::reg8f ta = simd::load8f8f(values[0]);
 		simd::reg8f tb = simd::load8f8f(values[8]);
 		simd::reg8f ma = simd::load8f8f(matrix.values[0]);
@@ -186,7 +283,7 @@ namespace spruce {
 		return *this;
 	}
 
-	inline mat4f& mat4f::operator-=(const mat4f& matrix) {
+	inline mat4f& mat4f::operator-=(const mat4f& matrix) noexcept {
 		simd::reg8f ta = simd::load8f8f(values[0]);
 		simd::reg8f tb = simd::load8f8f(values[8]);
 		simd::reg8f ma = simd::load8f8f(matrix.values[0]);
@@ -196,7 +293,7 @@ namespace spruce {
 		return *this;
 	}
 
-	inline mat4f& mat4f::operator*=(const mat4f& matrix) {
+	inline mat4f& mat4f::operator*=(const mat4f& matrix) noexcept {
 		{ // row 1
 			simd::reg4f a0 = simd::load1f4f(values[0]);
 			simd::reg4f a1 = simd::load1f4f(values[1]);
@@ -241,7 +338,7 @@ namespace spruce {
 			simd::reg4f br4 = simd::load4f4f(matrix.values[12]);
 			simd::store4f(values[12], simd::fmadd4f(a12, br1, simd::fmadd4f(a13, br2, simd::fmadd4f(a14, br3, simd::mul4f(a15, br4)))));
 		}
-		return *((mat4f*)values);
+		return *reinterpret_cast<mat4f*>(values);
 	}
 }
 

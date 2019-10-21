@@ -14,12 +14,12 @@ namespace spruce {
 				std::tuple<ARGS...> args;
 				uint64 taskId;
 
-				FunctionDataTemplate(OUTPUT* output, std::function<OUTPUT(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId);
+				FunctionDataTemplate(OUTPUT* output, const std::function<OUTPUT(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId);
 				FunctionDataTemplate(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate(FunctionDataTemplate&&) noexcept = delete;
 				~FunctionDataTemplate() override = default;
 
-				void execute() override;
+				void execute() noexcept override;
 
 				FunctionDataTemplate& operator=(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate& operator=(FunctionDataTemplate&&) noexcept = delete;
@@ -28,17 +28,16 @@ namespace spruce {
 		template <typename ... ARGS>
 		class FunctionDataTemplate<void, ARGS...> : public FunctionData {
 			public:
-				bool* output;
 				std::function<void(ARGS...)> function;
 				std::tuple<ARGS...> args;
 				uint64 taskId;
 
-				FunctionDataTemplate(bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId);
+				FunctionDataTemplate([[maybe_unused]] bool* output, const std::function<void(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId);
 				FunctionDataTemplate(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate(FunctionDataTemplate&&) noexcept = delete;
 				~FunctionDataTemplate() override = default;
 
-				void execute() override;
+				void execute() noexcept override;
 
 				FunctionDataTemplate& operator=(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate& operator=(FunctionDataTemplate&&) noexcept = delete;

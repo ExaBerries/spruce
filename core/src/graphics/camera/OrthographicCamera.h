@@ -16,7 +16,7 @@ namespace spruce {
 					OrthographicCamera(OrthographicCamera&&) noexcept = default;
 					~OrthographicCamera() override = default;
 
-					void update(RendererAbstractor* renderer) override;
+					void update(RendererAbstractor* renderer) noexcept final;
 
 					OrthographicCamera& operator=(const OrthographicCamera&) = default;
 					OrthographicCamera& operator=(OrthographicCamera&&) noexcept = default;

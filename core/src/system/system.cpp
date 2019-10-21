@@ -4,7 +4,7 @@
 
 namespace spruce {
 	namespace sys {
-		string getSystemInfo() {
+		string getSystemInfo() noexcept {
 			string info;
 			info += "Spruce System Info:\n";
 			info += "CPU name = " + getCPUName() + "\n";
@@ -20,8 +20,8 @@ namespace spruce {
 			return info;
 		}
 
-		uint16 getCPUThreadCount() {
-			return std::thread::hardware_concurrency();
+		uint16 getCPUThreadCount() noexcept {
+			return static_cast<uint16>(std::thread::hardware_concurrency());
 		}
 	}
 }

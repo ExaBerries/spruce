@@ -3,7 +3,7 @@
 #include <graphics/renderer/api/metal/mtlplatform.h>
 
 namespace spruce {
-	constexpr id<MTLTexture> castTexture(void* ptr) {
+	constexpr id<MTLTexture> castTexture(void* ptr) noexcept {
 		return (__bridge id<MTLTexture>) ptr;
 	}
 
@@ -14,7 +14,7 @@ namespace spruce {
 		[castTexture(ptr) release];
 	}
 
-	vec2i MetalTexture::getSize() {
+	vec2i MetalTexture::getSize() noexcept {
 		return {(int32)castTexture(ptr).width, (int32)castTexture(ptr).height};
 	}
 }

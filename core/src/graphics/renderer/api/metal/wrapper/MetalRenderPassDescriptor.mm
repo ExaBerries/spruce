@@ -3,28 +3,25 @@
 #include <graphics/renderer/api/metal/mtlplatform.h>
 
 namespace spruce {
-	constexpr MTLRenderPassDescriptor* castRPDesc(void* ptr) {
+	constexpr MTLRenderPassDescriptor* castRPDesc(void* ptr) noexcept {
 		return (__bridge MTLRenderPassDescriptor*) ptr;
 	}
 
-	constexpr id<MTLTexture> castTexture(void* ptr) {
+	constexpr id<MTLTexture> castTexture(void* ptr) noexcept {
 		return (__bridge id<MTLTexture>) ptr;
 	}
 
 	MetalRenderPassDescriptor::MetalRenderPassDescriptor() : MetalObj([MTLRenderPassDescriptor renderPassDescriptor]) {
 	}
 
-	MetalRenderPassDescriptor::~MetalRenderPassDescriptor() {
-	}
-
-	void MetalRenderPassDescriptor::setColorAttachment(uint32 index, MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, color clearColor) {
+	void MetalRenderPassDescriptor::setColorAttachment(uint32 index, MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, color clearColor) noexcept {
 		castRPDesc(ptr).colorAttachments[index].texture = castTexture(texture->ptr);
 		castRPDesc(ptr).colorAttachments[index].loadAction = mapLoadAction(loadAction);
 		castRPDesc(ptr).colorAttachments[index].storeAction = mapStoreAction(storeAction);
-		castRPDesc(ptr).colorAttachments[index].clearColor = MTLClearColorMake(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+		castRPDesc(ptr).colorAttachments[index].clearColor = MTLClearColorMake(static_cast<double>(clearColor.r), static_cast<double>(clearColor.g), static_cast<double>(clearColor.b), static_cast<double>(clearColor.a));
 	}
 
-	void MetalRenderPassDescriptor::setDepthAttachment(MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, double clearDepth) {
+	void MetalRenderPassDescriptor::setDepthAttachment(MetalTexture* texture, MetalLoadAction loadAction, MetalStoreAction storeAction, double clearDepth) noexcept {
 		castRPDesc(ptr).depthAttachment.texture = castTexture(texture->ptr);
 		castRPDesc(ptr).depthAttachment.loadAction = mapLoadAction(loadAction);
 		castRPDesc(ptr).depthAttachment.storeAction = mapStoreAction(storeAction);

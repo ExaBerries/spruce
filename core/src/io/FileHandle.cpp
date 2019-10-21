@@ -12,7 +12,7 @@ namespace spruce {
 	FileHandle::FileHandle(FileHandleType type, const char* path) : FileHandle(type, string(path)) {
 	}
 
-	FileHandle::FileHandle(FileHandleType type, string path) {
+	FileHandle::FileHandle(FileHandleType type, const string& path) {
 		this->type = type;
 		if (type == INTERNAL) {
 			absolutePath = os::getBasePathInternal() + path;
@@ -61,7 +61,7 @@ namespace spruce {
 			FILE* cfile = fopen(absolutePath.c_str(), "rt");
 			if (cfile != NULL) {
 				fseek(cfile, 0, SEEK_END);
-				size = ftell(cfile);
+				size = static_cast<uint64>(ftell(cfile));
 				fclose(cfile);
 			} else {
 				size = 0;
@@ -70,10 +70,7 @@ namespace spruce {
 		}
 	}
 
-	FileHandle::~FileHandle() {
-	}
-
-	buffer<FileHandle> FileHandle::list() const {
+	buffer<FileHandle> FileHandle::list() const noexcept {
 		if (!directory) {
 			return nullptr;
 		}

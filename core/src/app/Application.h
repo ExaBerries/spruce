@@ -13,18 +13,18 @@ namespace spruce {
 			Application(SpruceEngine& engine);
 			Application(const Application&) = delete;
 			Application(Application&&) noexcept = delete;
-			virtual ~Application();
+			virtual ~Application() = default;
 
-			virtual void update(float delta) = 0;
-			virtual void* getRenderEncodeData();
+			virtual void update(float delta) noexcept = 0;
+			virtual void* getRenderEncodeData() noexcept;
 
-			void setFramePipeline(FramePipeline* pipeline);
-			void setRenderAPI(app::API api);
-			bool supportsAPI(app::API api) const;
-			const buffer<app::API> getSupportedAPIs() const;
-			void setRenderer(RendererAbstractor* renderer);
-			RendererAbstractor* getRenderer();
-			Window* getWindow();
+			void setFramePipeline(owner<FramePipeline> pipeline) noexcept;
+			void setRenderAPI(app::API api) noexcept;
+			[[nodiscard]] bool supportsAPI(app::API api) const noexcept;
+			[[nodiscard]] const buffer<app::API>& getSupportedAPIs() const noexcept;
+			void setRenderer(owner<RendererAbstractor> renderer) noexcept;
+			[[nodiscard]] RendererAbstractor* getRenderer() noexcept;
+			[[nodiscard]] Window* getWindow() noexcept;
 
 			Application& operator=(const Application&) = delete;
 			Application& operator=(Application&&) noexcept = delete;

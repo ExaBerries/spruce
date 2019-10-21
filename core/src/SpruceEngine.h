@@ -16,7 +16,7 @@ namespace spruce {
 			owner<FramePipeline> framePipeline;
 			owner<Window> window;
 			app::API apiType;
-			APIContext* apiContext;
+			owner<APIContext> apiContext;
 			owner<RendererAbstractor> renderer;
 
 			explicit SpruceEngine(owner<Application> (*createApplication)(SpruceEngine&));
@@ -24,12 +24,12 @@ namespace spruce {
 			SpruceEngine(SpruceEngine&&) noexcept = delete;
 			~SpruceEngine();
 
-			void run();
-			void setRenderAPI(app::API newAPI);
-			void setFramePipeline(owner<FramePipeline> pipeline);
-			void setRenderer(owner<RendererAbstractor> renderer);
-			bool supportsAPI(app::API api);
-			const buffer<app::API> getSupportedAPIs();
+			void run() noexcept;
+			void setRenderAPI(app::API newAPI) noexcept;
+			void setFramePipeline(owner<FramePipeline> pipeline) noexcept;
+			void setRenderer(owner<RendererAbstractor> renderer) noexcept;
+			bool supportsAPI(app::API api) noexcept;
+			const buffer<app::API>& getSupportedAPIs() noexcept;
 
 			SpruceEngine& operator=(const SpruceEngine&) = delete;
 			SpruceEngine& operator=(SpruceEngine&&) noexcept = delete;

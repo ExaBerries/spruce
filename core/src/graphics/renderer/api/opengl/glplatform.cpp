@@ -1,6 +1,6 @@
 #include <graphics/renderer/api/opengl/glplatform.h>
 
 #ifdef __APPLE__
-	void glSpecializeShader(GLuint shader, const GLchar* entryPoint, GLuint c, void* d, void* e) {
+	void glSpecializeShader([[maybe_unused]] GLuint shader, [[maybe_unused]] const GLchar* entryPoint, [[maybe_unused]] GLuint c, [[maybe_unused]] void* d, [[maybe_unused]] void* e) noexcept {
 	}
 #endif

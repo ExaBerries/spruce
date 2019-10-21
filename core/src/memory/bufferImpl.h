@@ -3,6 +3,7 @@
 namespace spruce {
 	template <typename TYPE>
 	buffer<TYPE>::buffer(uint64 size) noexcept {
+		static_assert(std::is_default_constructible_v<TYPE>);
 		#ifdef DEBUG
 		if (size == 0) {
 			serr("buffer size must be greater than 0");
@@ -10,7 +11,7 @@ namespace spruce {
 		}
 		#endif
 		this->size = size;
-		this->data = (TYPE*) std::malloc(size * sizeof(TYPE));
+		this->data = static_cast<TYPE*>(std::malloc(size * sizeof(TYPE)));
 		new (data) TYPE[size];
 	}
 
@@ -36,16 +37,17 @@ namespace spruce {
 		#endif
 		free();
 		this->size = newSize;
-		this->data = (TYPE*) std::malloc(newSize * sizeof(TYPE));
+		this->data = static_cast<TYPE*>(std::malloc(newSize * sizeof(TYPE)));
 	}
 
 	template <typename TYPE>
 	void buffer<TYPE>::free() {
+		static_assert(std::is_destructible_v<TYPE>);
 		if (data == nullptr) {
 			return;
 		}
 		for (uint64 i = 0; i < size; i++) {
-			(((TYPE*)data) + i)->~TYPE();
+			(static_cast<TYPE*>(data) + i)->~TYPE();
 		}
 		std::free(data);
 		data = nullptr;
@@ -98,15 +100,17 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	buffer<TYPE>::operator buffer<OTHERTYPE>() {
-		buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), (OTHERTYPE*) data);
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), reinterpret_cast<OTHERTYPE*>(data));
 		return buff;
 	}
 
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
-	buffer<TYPE>::operator const buffer<OTHERTYPE>() const {
-		const buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), (OTHERTYPE*) data);
+	buffer<TYPE>::operator buffer<OTHERTYPE>() const {
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		const buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), reinterpret_cast<OTHERTYPE*>(data));
 		return buff;
 	}
 
@@ -123,13 +127,15 @@ namespace spruce {
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	buffer<TYPE>::operator OTHERTYPE*() {
-		return (OTHERTYPE*) data;
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		return static_cast<OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE>
 	template <typename OTHERTYPE>
 	buffer<TYPE>::operator const OTHERTYPE*() {
-		return (const OTHERTYPE*) data;
+		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
+		return static_cast<const OTHERTYPE*>(data);
 	}
 
 	template <typename TYPE>
@@ -140,18 +146,18 @@ namespace spruce {
 	}
 
 	template <typename TYPE>
-	bool operator==(buffer<TYPE>& buffer, const void* ptr) {
+	bool operator==(buffer<TYPE>& buffer, const void* ptr) noexcept {
 		return buffer.data == ptr;
 	}
 
 	template <typename TYPE>
-	bool operator!=(buffer<TYPE>& buffer, const void* ptr) {
+	bool operator!=(buffer<TYPE>& buffer, const void* ptr) noexcept {
 		return buffer.data != ptr;
 	}
 
 	template <typename TYPE>
-	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE> buffer) {
-		stream << "buffer(" << buffer.size << ", " << (void*)buffer.data << ")";
+	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE>& buffer) {
+		stream << "buffer(" << buffer.size << ", " << reinterpret_cast<void*>(buffer.data) << ")";
 		return stream;
 	}
 }

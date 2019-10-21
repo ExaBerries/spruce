@@ -27,12 +27,12 @@ namespace spruce {
 			CocoaWindow(CocoaWindow&&) noexcept = delete;
 			~CocoaWindow() override;
 
-			APIContext* initAPI(app::API api) override;
-			void setTitle(string title) override;
-			void setVisible(bool visible) override;
-			void setFullscreen(bool fullscreen) override;
-			void close() override;
-			void setCursorMode(input::CursorMode mode) override;
+			[[nodiscard]] owner<APIContext> initAPI(app::API api) noexcept override;
+			void setTitle(string title) noexcept override;
+			void setVisible(bool visible) noexcept override;
+			void setFullscreen(bool fullscreen) noexcept override;
+			void close() noexcept override;
+			void setCursorMode(input::CursorMode mode) noexcept override;
 
 			CocoaWindow& operator=(const CocoaWindow&) = delete;
 			CocoaWindow& operator=(CocoaWindow&&) noexcept = delete;
