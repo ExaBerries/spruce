@@ -14,7 +14,7 @@ namespace spruce {
 				std::tuple<ARGS...> args;
 				uint64 taskId;
 
-				FunctionDataTemplate(OUTPUT* output, std::function<OUTPUT(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId);
+				FunctionDataTemplate(OUTPUT* output, const std::function<OUTPUT(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId);
 				FunctionDataTemplate(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate(FunctionDataTemplate&&) noexcept = delete;
 				~FunctionDataTemplate() override = default;
@@ -32,7 +32,7 @@ namespace spruce {
 				std::tuple<ARGS...> args;
 				uint64 taskId;
 
-				FunctionDataTemplate([[maybe_unused]] bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId);
+				FunctionDataTemplate([[maybe_unused]] bool* output, const std::function<void(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId);
 				FunctionDataTemplate(const FunctionDataTemplate&) = delete;
 				FunctionDataTemplate(FunctionDataTemplate&&) noexcept = delete;
 				~FunctionDataTemplate() override = default;

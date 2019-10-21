@@ -8,7 +8,7 @@
 		#include <string>
 		namespace spruce {
 			std::string convertStr(NSString* str);
-			NSString* convertStr(std::string str);
+			NSString* convertStr(const std::string& str);
 		}
 	#endif
 #endif

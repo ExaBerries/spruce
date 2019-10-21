@@ -143,7 +143,7 @@ namespace spruce {
 			return string();
 		}
 
-		bool isDir(string path) {
+		bool isDir(const string& path) {
 			struct stat s;
 			if (stat(path.c_str(), &s) == 0) {
 				return (s.st_mode & S_IFDIR);
@@ -153,7 +153,7 @@ namespace spruce {
 			}
 		}
 
-		bool exists(string path) {
+		bool exists(const string& path) {
 			struct stat s;
 			if (stat(path.c_str(), &s) == 0) {
 				return true;
@@ -162,11 +162,11 @@ namespace spruce {
 			}
 		}
 
-		void createDir(string path) {
+		void createDir(const string& path) {
 			mkdir(path.c_str(), S_IWUSR);
 		}
 
-		std::vector<string> listSubFiles(string path) {
+		std::vector<string> listSubFiles(const string& path) {
 			std::vector<string> subFiles;
 			DIR* dir;
 			struct dirent* entry;

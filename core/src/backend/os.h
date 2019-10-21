@@ -17,9 +17,9 @@ namespace spruce {
 		string getHomePath();
 		string getBasePathInternal();
 		string getBasePathExternal();
-		bool isDir(string path);
-		bool exists(string path);
-		void createDir(string path);
-		std::vector<string> listSubFiles(string path);
+		bool isDir(const string& path);
+		bool exists(const string& path);
+		void createDir(const string& path);
+		std::vector<string> listSubFiles(const string& path);
 	}
 }

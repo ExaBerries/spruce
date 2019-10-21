@@ -19,7 +19,7 @@ namespace spruce {
 				void compileSPIRV(const buffer<uint8>& vertData, const buffer<uint8>& fragData);
 				void compileSource(const string& vertStr, const string& fragStr);
 				void createProgram();
-				void bindAttribLocation(uint16 location, string name);
+				void bindAttribLocation(uint16 location, const string& name);
 				void bind();
 				void setUniform(uint16 location, int32 value);
 				void setUniform(uint16 location, float value);

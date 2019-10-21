@@ -111,7 +111,7 @@ namespace spruce {
 			glValidateProgram(program);
 		}
 
-		void OpenGLShader::bindAttribLocation(uint16 location, string name) {
+		void OpenGLShader::bindAttribLocation(uint16 location, const string& name) {
 			glBindAttribLocation(program, location, name.c_str());
 		}
 

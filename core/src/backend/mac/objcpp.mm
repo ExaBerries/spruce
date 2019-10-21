@@ -7,7 +7,7 @@ namespace spruce {
 		return std::string([str cStringUsingEncoding:NSASCIIStringEncoding]);
 	}
 
-	NSString* convertStr(std::string str) {
+	NSString* convertStr(const std::string& str) {
 		return [NSString stringWithCString:str.c_str() encoding:[NSString defaultCStringEncoding]];
 	}
 }

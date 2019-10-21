@@ -3,10 +3,8 @@
 namespace spruce {
 	namespace task {
 		template <typename OUTPUT, typename ... ARGS>
-		FunctionDataTemplate<OUTPUT, ARGS...>::FunctionDataTemplate(OUTPUT* output, std::function<OUTPUT(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId) : args(args) {
+		FunctionDataTemplate<OUTPUT, ARGS...>::FunctionDataTemplate(OUTPUT* output, const std::function<OUTPUT(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId) : function(function), args(args), taskId(taskId) {
 			this->output = output;
-			this->function = function;
-			this->taskId = taskId;
 		}
 
 		template <typename OUTPUT, typename ... ARGS>
@@ -15,9 +13,7 @@ namespace spruce {
 		}
 
 		template <typename ... ARGS>
-		FunctionDataTemplate<void, ARGS...>::FunctionDataTemplate([[maybe_unused]] bool* output, std::function<void(ARGS...)> function, std::tuple<ARGS...> args, uint64 taskId) : args(args) {
-			this->function = function;
-			this->taskId = taskId;
+		FunctionDataTemplate<void, ARGS...>::FunctionDataTemplate([[maybe_unused]] bool* output, const std::function<void(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId) : function(function), args(args), taskId(taskId) {
 		}
 
 		template <typename ... ARGS>

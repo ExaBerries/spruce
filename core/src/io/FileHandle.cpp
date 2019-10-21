@@ -12,7 +12,7 @@ namespace spruce {
 	FileHandle::FileHandle(FileHandleType type, const char* path) : FileHandle(type, string(path)) {
 	}
 
-	FileHandle::FileHandle(FileHandleType type, string path) {
+	FileHandle::FileHandle(FileHandleType type, const string& path) {
 		this->type = type;
 		if (type == INTERNAL) {
 			absolutePath = os::getBasePathInternal() + path;
