@@ -20,54 +20,54 @@ namespace spruce {
 
 	constexpr quaternion::quaternion(const vec3f& a, const vec3f& b) noexcept {
 		vec3f crs = vec3f(a).crs(b);
-		this->x = crs.x;
-		this->y = crs.y;
-		this->z = crs.z;
-		this->w = (a.mag() * b.mag()) + a.dot(b);
+		x = crs.x;
+		y = crs.y;
+		z = crs.z;
+		w = (a.mag() * b.mag()) + a.dot(b);
 		nor();
 	}
 
 	constexpr quaternion::quaternion(const vec3f& axis, const float& angle) noexcept {
 		float sinHalfAngle = sin(angle / 2.0f);
-		this->x = axis.x * sinHalfAngle;
-		this->y = axis.y * sinHalfAngle;
-		this->z = axis.z * sinHalfAngle;
-		this->w = cos(angle / 2.0f);
+		x = axis.x * sinHalfAngle;
+		y = axis.y * sinHalfAngle;
+		z = axis.z * sinHalfAngle;
+		w = cos(angle / 2.0f);
 		nor();
 	}
 
 	constexpr quaternion& quaternion::set(const quaternion& quaternion) noexcept {
-		this->x = quaternion.x;
-		this->y = quaternion.y;
-		this->z = quaternion.z;
-		this->w = quaternion.w;
+		x = quaternion.x;
+		y = quaternion.y;
+		z = quaternion.z;
+		w = quaternion.w;
 		return *this;
 	}
 
-	constexpr quaternion& quaternion::set(float x, float y, float z, float w) noexcept {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
+	constexpr quaternion& quaternion::set(float nx, float ny, float nz, float nw) noexcept {
+		x = nx;
+		y = ny;
+		z = nz;
+		w = nw;
 		return *this;
 	}
 
 	constexpr quaternion& quaternion::set(const vec3f& axis, float angle) noexcept {
 		float sinHalfAngle = sin(angle / 2.0f);
-		this->x = axis.x * sinHalfAngle;
-		this->y = axis.y * sinHalfAngle;
-		this->z = axis.z * sinHalfAngle;
-		this->w = cos(angle / 2.0f);
+		x = axis.x * sinHalfAngle;
+		y = axis.y * sinHalfAngle;
+		z = axis.z * sinHalfAngle;
+		w = cos(angle / 2.0f);
 		nor();
 		return *this;
 	}
 
 	constexpr quaternion& quaternion::set(const vec3f& a, const vec3f& b) noexcept {
 		vec3f crs = vec3f(a).crs(b);
-		this->x = crs.x;
-		this->y = crs.y;
-		this->z = crs.z;
-		this->w = (a.mag() * b.mag()) + a.dot(b);
+		x = crs.x;
+		y = crs.y;
+		z = crs.z;
+		w = (a.mag() * b.mag()) + a.dot(b);
 		nor();
 		return *this;
 	}
@@ -210,14 +210,14 @@ namespace spruce {
 	}
 
 	constexpr quaternion& quaternion::operator*=(const quaternion& quaternion) noexcept {
-		float tx = this->w * quaternion.x + this->x * quaternion.w + this->y * quaternion.z - this->z * quaternion.y;
-		float ty = this->w * quaternion.y + this->y * quaternion.w + this->z * quaternion.x - this->x * quaternion.z;
-		float tz = this->w * quaternion.z + this->z * quaternion.w + this->x * quaternion.y - this->y * quaternion.x;
-		float tw = this->w * quaternion.w - this->x * quaternion.x - this->y * quaternion.y - this->z * quaternion.z;
-		this->x = tx;
-		this->y = ty;
-		this->z = tz;
-		this->w = tw;
+		float tx = w * quaternion.x + x * quaternion.w + y * quaternion.z - z * quaternion.y;
+		float ty = w * quaternion.y + y * quaternion.w + z * quaternion.x - x * quaternion.z;
+		float tz = w * quaternion.z + z * quaternion.w + x * quaternion.y - y * quaternion.x;
+		float tw = w * quaternion.w - x * quaternion.x - y * quaternion.y - z * quaternion.z;
+		x = tx;
+		y = ty;
+		z = tz;
+		w = tw;
 		return *this;
 	}
 

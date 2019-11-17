@@ -116,44 +116,44 @@ namespace spruce {
 	}
 
 	constexpr vec2i& vec2i::operator+=(const vec2i& vector) noexcept {
-		this->x += vector.x;
-		this->y += vector.y;
+		x += vector.x;
+		y += vector.y;
 		return *this;
 	}
 
 	constexpr vec2i& vec2i::operator-=(const vec2i& vector) noexcept {
-		this->x -= vector.x;
-		this->y -= vector.y;
+		x -= vector.x;
+		y -= vector.y;
 		return *this;
 	}
 
 	constexpr vec2i& vec2i::operator+=(int32 value) noexcept {
-		this->x += value;
-		this->y += value;
+		x += value;
+		y += value;
 		return *this;
 	}
 
 	constexpr vec2i& vec2i::operator-=(int32 value) noexcept {
-		this->x -= value;
-		this->y -= value;
+		x -= value;
+		y -= value;
 		return *this;
 	}
 
 	constexpr vec2i& vec2i::operator %=(int32 value) noexcept {
-		this->x %= value;
-		this->y %= value;
+		x %= value;
+		y %= value;
 		return *this;
 	}
 
 	constexpr vec2i& vec2i::operator*=(int32 value) noexcept {
-		this->x *= value;
-		this->y *= value;
+		x *= value;
+		y *= value;
 		return *this;
 	}
 
 	constexpr vec2i& vec2i::operator/=(int32 value) noexcept {
-		this->x /= value;
-		this->y /= value;
+		x /= value;
+		y /= value;
 		return *this;
 	}
 }

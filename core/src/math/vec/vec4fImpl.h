@@ -18,19 +18,19 @@ namespace spruce {
 		return *this;
 	}
 
-	constexpr vec4f& vec4f::set(const vec3f& vector, float w) noexcept {
+	constexpr vec4f& vec4f::set(const vec3f& vector, float nw) noexcept {
 		x = vector.x;
 		y = vector.y;
 		z = vector.z;
-		this->w = w;
+		w = nw;
 		return *this;
 	}
 
-	constexpr vec4f& vec4f::set(float x, float y, float z, float w) noexcept {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
+	constexpr vec4f& vec4f::set(float nx, float ny, float nz, float nw) noexcept {
+		x = nx;
+		y = ny;
+		z = nz;
+		w = nw;
 		return *this;
 	}
 
@@ -206,9 +206,9 @@ namespace spruce {
 			w += vector.w;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load4f4f(vector.x);
-			simd::store4f(this->x, simd::add4f(t, v));
+			simd::store4f(x, simd::add4f(t, v));
 			return *this;
 		}
 	}
@@ -221,9 +221,9 @@ namespace spruce {
 			w -= vector.w;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load4f4f(vector.x);
-			simd::store4f(this->x, simd::sub4f(t, v));
+			simd::store4f(x, simd::sub4f(t, v));
 			return *this;
 		}
 	}
@@ -236,9 +236,9 @@ namespace spruce {
 			w += value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::add4f(t, v));
+			simd::store4f(x, simd::add4f(t, v));
 			return *this;
 		}
 	}
@@ -251,9 +251,9 @@ namespace spruce {
 			w -= value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::sub4f(t, v));
+			simd::store4f(x, simd::sub4f(t, v));
 			return *this;
 		}
 	}
@@ -266,9 +266,9 @@ namespace spruce {
 			w *= value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::mul4f(t, v));
+			simd::store4f(x, simd::mul4f(t, v));
 			return *this;
 		}
 	}
@@ -281,9 +281,9 @@ namespace spruce {
 			w /= value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::div4f(t, v));
+			simd::store4f(x, simd::div4f(t, v));
 			return *this;
 		}
 	}

@@ -8,10 +8,14 @@
 #include <sys/stat.h>
 #include <system/system.h>
 #include <dirent.h>
+#include <mach-o/dyld.h>
+#include <climits>
+#include <regex>
 
 namespace spruce {
 	namespace os {
 		buffer<uint16> keyCodes(nullptr);
+		std::string internalBasePath;
 
 		void init() noexcept {
 			keyCodes = buffer<uint16>(80);
@@ -95,6 +99,20 @@ namespace spruce {
 			keyCodes[input::F10] = 0x6D;
 			keyCodes[input::F11] = 0x67;
 			keyCodes[input::F12] = 0x6F;
+			#ifdef DEBUG
+				char path[PATH_MAX];
+				uint32_t size = sizeof(path);
+				if (_NSGetExecutablePath(path, &size) == 0) {
+					char* rpath = realpath(path, nullptr);
+					internalBasePath = std::regex_replace(rpath, std::regex("/[a-zA-Z-]+$"), "") + "/assets/";
+					std::free(rpath);
+				} else {
+					internalBasePath = "assets/";
+				}
+			#else
+				NSBundle* bundle = [NSBundle mainBundle];
+				internalBasePath = convertStr(bundle.resourcePath) + "/";
+			#endif
 		}
 
 		void free() noexcept {
@@ -114,12 +132,7 @@ namespace spruce {
 		}
 
 		string getBasePathInternal() noexcept {
-			#ifdef DEBUG
-				return "assets/";
-			#else
-				NSBundle* bundle = [NSBundle mainBundle];
-				return convertStr(bundle.resourcePath) + "/";
-			#endif
+			return internalBasePath;
 		}
 
 		string getBasePathExternal() noexcept {
