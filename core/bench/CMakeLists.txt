@@ -14,3 +14,7 @@ target_compile_options(bench PRIVATE
 	-Wno-attributes
 	-Wno-unknown-pragmas
 )
+
+target_include_directories(bench PRIVATE
+	${CMAKE_SOURCE_DIR}/core/src
+)

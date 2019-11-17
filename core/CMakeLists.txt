@@ -1,5 +1,3 @@
-include_directories(${PROJECT_SOURCE_DIR}/core/src)
-
 find_package(Freetype REQUIRED)
 
 file(GLOB_RECURSE SOURCE_FILES
