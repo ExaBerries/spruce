@@ -81,7 +81,7 @@ namespace spruce {
 		owner<task::TaskBackend> taskBackend = new task::TaskBackend(id, taskData->complete);
 		taskBackend->priority = priority;
 		taskBackend->concurrent = concurrent;
-		taskBackend->functionData = new task::FunctionDataTemplate<void, TYPES...>(static_cast<bool*>(taskData->data), function, std::tuple<TYPES...>(args...), id);
+		taskBackend->functionData = new task::FunctionDataTemplate<void, TYPES...>(function, std::tuple<TYPES...>(args...), id);
 		addTask(id, taskData, taskBackend);
 		return task;
 	}

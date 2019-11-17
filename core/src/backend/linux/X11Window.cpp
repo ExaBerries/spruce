@@ -28,7 +28,7 @@ namespace spruce {
 		if (height == 0) {
 			height = 720;
 		}
-		window = XCreateWindow(display, root, 0, 0, width, height, 0, depth, InputOutput, visual, CWColormap | CWEventMask, &setAttributes);
+		window = XCreateWindow(display, root, 0, 0, width, height, 0, static_cast<int>(depth), InputOutput, visual, CWColormap | CWEventMask, &setAttributes);
 		XStoreName(display, window, "spruce");
 		XMapWindow(display, window);
 		Atom wmDeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);

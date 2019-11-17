@@ -21,7 +21,7 @@ namespace spruce {
 			return "";
 		}
 
-		[[nodiscard]] buffer<uint8> readFileBin(const FileHandle& file) {
+		buffer<uint8> readFileBin(const FileHandle& file) {
 			FILE* cfile = fopen(file.absolutePath.c_str(), "rb");
 			if (cfile != NULL) {
 				fseek(cfile, 0, SEEK_END);

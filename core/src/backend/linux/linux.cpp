@@ -156,11 +156,7 @@ namespace spruce {
 
 		bool exists(const string& path) noexcept {
 			struct stat s;
-			if (stat(path.c_str(), &s) == 0) {
-				return true;
-			} else {
-				return false;
-			}
+			return (stat(path.c_str(), &s) == 0);
 		}
 
 		void createDir(const string& path) noexcept {
@@ -173,6 +169,7 @@ namespace spruce {
 			struct dirent* entry;
 			if ((dir  = opendir(path.c_str())) == NULL) {
 				serr("error calling opendir on ", path);
+				return subFiles;
 			}
 			while ((entry = readdir(dir)) != NULL) {
 				string name(entry->d_name);

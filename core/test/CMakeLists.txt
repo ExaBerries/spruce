@@ -15,4 +15,6 @@ target_link_libraries(test PRIVATE
 
 target_compile_options(test PRIVATE
 	-O3
+	-Wno-attributes
+	-Wno-unknown-pragmas
 )

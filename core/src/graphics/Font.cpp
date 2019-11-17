@@ -37,7 +37,7 @@ namespace spruce {
 					serr("character not found: ", i);
 					continue;
 				}
-				width += glyph->bitmap.width;
+				width += static_cast<uint16>(glyph->bitmap.width);
 				if (glyph->bitmap.rows >= std::numeric_limits<uint16>::max()) {
 					FT_Done_Face(face);
 					FT_Done_FreeType(ft);
@@ -61,9 +61,9 @@ namespace spruce {
 						fdata[x + xoff + y * width] = static_cast<float>(glyph->bitmap.buffer[x + y * glyph->bitmap.width]) / 256.0f;
 					}
 				}
-				chars[i].advance = vec2f(glyph->advance.x, glyph->advance.y) / 64.0f;
+				chars[i].advance = vec2f(static_cast<float>(glyph->advance.x), static_cast<float>(glyph->advance.y)) / 64.0f;
 				chars[i].size = vec2f(static_cast<float>(glyph->bitmap.width), static_cast<float>(glyph->bitmap.rows));
-				chars[i].bearing = vec2f(glyph->bitmap_left, glyph->bitmap_top);
+				chars[i].bearing = vec2f(static_cast<float>(glyph->bitmap_left), static_cast<float>(glyph->bitmap_top));
 				chars[i].texturex = static_cast<float>(xoff) / static_cast<float>(width);
 				xoff += glyph->bitmap.width;
 			}

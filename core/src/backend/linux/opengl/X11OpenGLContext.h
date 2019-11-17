@@ -7,7 +7,7 @@
 #include <graphics/renderer/api/opengl/glplatform.h>
 #include <GL/glx.h>
 
-typedef Window XWindow;
+using XWindow = Window;
 
 namespace spruce {
 	class X11OpenGLContext : public OpenGLContext {
@@ -19,15 +19,20 @@ namespace spruce {
 			XVisualInfo* visualInfo;
 
 			X11OpenGLContext(Display* display) noexcept;
-			~X11OpenGLContext() noexcept;
+			X11OpenGLContext(const X11OpenGLContext&) = delete;
+			X11OpenGLContext(X11OpenGLContext&&) noexcept = delete;
+			~X11OpenGLContext() noexcept final;
 
 			[[nodiscard]] Visual* getVisual() noexcept;
 			[[nodiscard]] uint32 getDepth() noexcept;
 			void windowCreated(XWindow window) noexcept;
 
-			void makeContextCurrent() noexcept override;
-			void swapBuffers() noexcept override;
-			void setSwapInverval(int32 interval) noexcept override;
+			void makeContextCurrent() noexcept final;
+			void swapBuffers() noexcept final;
+			void setSwapInverval(int32 interval) noexcept final;
+
+			X11OpenGLContext& operator=(const X11OpenGLContext&) = delete;
+			X11OpenGLContext& operator=(X11OpenGLContext&&) noexcept = delete;
 	};
 }
 #endif

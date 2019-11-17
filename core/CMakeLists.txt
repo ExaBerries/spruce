@@ -135,7 +135,6 @@ target_compile_options(spruce
 		-Wall
 		-Wextra
 		-Wpedantic
-		-Wno-deprecated-declarations
 		-Wnon-virtual-dtor
 		-Wold-style-cast
 		-Wcast-align
@@ -145,6 +144,9 @@ target_compile_options(spruce
 		-Wsign-conversion
 		-Wdouble-promotion
 		-Wformat=2
+		-Wno-deprecated-declarations
+		-Wno-attributes
+		-Wno-unknown-pragmas
 		$<$<CONFIG:Debug>:-Og>
 		$<$<CONFIG:Release>:-O3>
 )
