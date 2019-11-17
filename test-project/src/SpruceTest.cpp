@@ -51,7 +51,7 @@ namespace sprucetest {
 		slog("swapped scene to ", sceneType);
 	}
 
-	void SpruceTest::update(float delta) {
+	void SpruceTest::update(float delta) noexcept {
 		scene->windowSize = vec2i(getWindow()->width, getWindow()->height);
 		if (swapAPI) {
 			const buffer<app::API> supportedAPIs = getSupportedAPIs();
@@ -72,11 +72,11 @@ namespace sprucetest {
 		scene->update(delta);
 	}
 
-	void* SpruceTest::getRenderEncodeData() {
+	void* SpruceTest::getRenderEncodeData() noexcept {
 		return scene;
 	}
 
-	void SpruceTest::keyDown(uint16 code) {
+	void SpruceTest::keyDown(uint16 code) noexcept {
 		if (code == input::codeFor(input::BACKSLASH)) {
 			swapAPI = true;
 		}
@@ -88,15 +88,15 @@ namespace sprucetest {
 		}
 	}
 
-	void SpruceTest::keyUp(uint16 code) {
+	void SpruceTest::keyUp(uint16 code) noexcept {
 	}
 
-	void SpruceTest::mouseDown(input::MouseButton button) {
+	void SpruceTest::mouseDown(input::MouseButton button) noexcept {
 	}
 
-	void SpruceTest::mouseUp(input::MouseButton button) {
+	void SpruceTest::mouseUp(input::MouseButton button) noexcept {
 	}
 
-	void SpruceTest::mouseMove(vec2f newPos) {
+	void SpruceTest::mouseMove(vec2f newPos)  noexcept {
 	}
 }

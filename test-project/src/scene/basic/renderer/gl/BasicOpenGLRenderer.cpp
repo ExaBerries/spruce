@@ -27,7 +27,7 @@ namespace sprucetest {
 		delete shader;
 	}
 
-	BasicRendererData BasicOpenGLRenderer::encode(Basic& encodeData) {
+	BasicRendererData BasicOpenGLRenderer::encode(Basic& encodeData) noexcept {
 		encodeData.camera->update(this);
 		BasicRendererData data;
 		data.windowSize = encodeData.windowSize;
@@ -50,7 +50,7 @@ namespace sprucetest {
 		}
 	}
 
-	void BasicOpenGLRenderer::execute(BasicRendererData& executeData) {
+	void BasicOpenGLRenderer::execute(BasicRendererData& executeData) noexcept {
 		glViewport(0, 0, executeData.windowSize.x, executeData.windowSize.y);
 		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -69,11 +69,11 @@ namespace sprucetest {
 		context.swapBuffers();
 	}
 
-	owner<MeshAPIData> BasicOpenGLRenderer::createMeshAPIData(Mesh& mesh) {
+	owner<MeshAPIData> BasicOpenGLRenderer::createMeshAPIData(Mesh& mesh) noexcept {
 		return new BasicMeshData(mesh);
 	}
 
-	owner<TextureAPIData> BasicOpenGLRenderer::createTextureAPIData(Texture& texture) {
+	owner<TextureAPIData> BasicOpenGLRenderer::createTextureAPIData(Texture& texture) noexcept {
 		return nullptr;
 	}
 }

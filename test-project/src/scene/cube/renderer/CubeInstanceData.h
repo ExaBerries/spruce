@@ -7,7 +7,7 @@ namespace sprucetest {
 	class CubeInstanceData {
 		public:
 			mat4f worldTrans;
-			color color;
+			sp::color color;
 
 			CubeInstanceData();
 			~CubeInstanceData();

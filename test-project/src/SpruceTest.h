@@ -19,13 +19,13 @@ namespace sprucetest {
 			SpruceTest(SpruceEngine& engine);
 			~SpruceTest();
 
-			void update(float delta);
-			void* getRenderEncodeData();
+			void update(float delta) noexcept;
+			void* getRenderEncodeData() noexcept;
 
-			void keyDown(uint16 code);
-			void keyUp(uint16 code);
-			void mouseDown(input::MouseButton button);
-			void mouseUp(input::MouseButton button);
-			void mouseMove(vec2f newPos);
+			void keyDown(uint16 code) noexcept;
+			void keyUp(uint16 code) noexcept;
+			void mouseDown(input::MouseButton button) noexcept;
+			void mouseUp(input::MouseButton button) noexcept;
+			void mouseMove(vec2f newPos) noexcept;
 	};
 }

@@ -20,10 +20,10 @@ namespace sprucetest {
 			CubeOpenGLRenderer(Application& app);
 			~CubeOpenGLRenderer();
 
-			CubeRenderData encode(Cube& encodeData) override;
-			void execute(CubeRenderData& executeData) override;
+			CubeRenderData encode(Cube& encodeData) noexcept override;
+			void execute(CubeRenderData& executeData) noexcept override;
 
-			owner<MeshAPIData> createMeshAPIData(Mesh& mesh) override;
-			owner<TextureAPIData> createTextureAPIData(Texture& texture) override;
+			owner<MeshAPIData> createMeshAPIData(Mesh& mesh) noexcept override;
+			owner<TextureAPIData> createTextureAPIData(Texture& texture) noexcept override;
 	};
 }

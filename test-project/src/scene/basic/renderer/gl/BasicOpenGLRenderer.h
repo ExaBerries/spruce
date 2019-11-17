@@ -16,10 +16,10 @@ namespace sprucetest {
 			BasicOpenGLRenderer(Application& app);
 			~BasicOpenGLRenderer();
 
-			BasicRendererData encode(Basic& encodeData) override;
-			void execute(BasicRendererData& executeData) override;
+			BasicRendererData encode(Basic& encodeData) noexcept override;
+			void execute(BasicRendererData& executeData) noexcept override;
 
-			owner<MeshAPIData> createMeshAPIData(Mesh& mesh) override;
-			owner<TextureAPIData> createTextureAPIData(Texture& texture) override;
+			owner<MeshAPIData> createMeshAPIData(Mesh& mesh) noexcept override;
+			owner<TextureAPIData> createTextureAPIData(Texture& texture) noexcept override;
 	};
 }

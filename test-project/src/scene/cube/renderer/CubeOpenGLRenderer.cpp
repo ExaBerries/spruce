@@ -61,7 +61,7 @@ namespace sprucetest {
 		delete main;
 	}
 
-	CubeRenderData CubeOpenGLRenderer::encode(Cube& encodeData) {
+	CubeRenderData CubeOpenGLRenderer::encode(Cube& encodeData) noexcept {
 		encodeData.camera->update(this);
 		CubeRenderData data;
 		data.viewport = vec2i(encodeData.windowSize.x, encodeData.windowSize.y);
@@ -126,7 +126,7 @@ namespace sprucetest {
 		}
 	}
 
-	void CubeOpenGLRenderer::execute(CubeRenderData& executeData) {
+	void CubeOpenGLRenderer::execute(CubeRenderData& executeData) noexcept {
 		mainTarget->bind(GL_TEXTURE1);
 		bloomTarget->bind(GL_TEXTURE2);
 		main->bind();
@@ -199,11 +199,11 @@ namespace sprucetest {
 		context.swapBuffers();
 	}
 
-	owner<MeshAPIData> CubeOpenGLRenderer::createMeshAPIData(Mesh& mesh) {
+	owner<MeshAPIData> CubeOpenGLRenderer::createMeshAPIData(Mesh& mesh) noexcept {
 		return new CubeOpenGLMeshData(mesh);
 	}
 
-	owner<TextureAPIData> CubeOpenGLRenderer::createTextureAPIData(Texture& texture) {
+	owner<TextureAPIData> CubeOpenGLRenderer::createTextureAPIData(Texture& texture) noexcept {
 		return nullptr;
 	}
 }

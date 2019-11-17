@@ -10,7 +10,7 @@ namespace sprucetest {
 			mat4f cameraTrans;
 			Mesh* cubeMesh = nullptr;
 			mat4f worldTrans;
-			color color;
+			sp::color color;
 
 			BasicRendererData() = default;
 			~BasicRendererData() = default;
