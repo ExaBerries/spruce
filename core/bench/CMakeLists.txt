@@ -11,4 +11,6 @@ target_link_libraries(bench PRIVATE
 
 target_compile_options(bench PRIVATE
 	-O3
+	-Wno-attributes
+	-Wno-unknown-pragmas
 )

@@ -20,6 +20,9 @@ namespace spruce {
 
 				[[nodiscard]] std::any encodeBackend(void* encodeData) noexcept override;
 				void executeBackend(std::any executeData) noexcept override;
+				
+				[[nodiscard]] virtual ExecuteT encode(EncodeT&) noexcept = 0;
+				virtual void execute(ExecuteT&) noexcept = 0;
 
 				Renderer& operator=(const Renderer&) = default;
 				Renderer& operator=(Renderer&&) noexcept = default;

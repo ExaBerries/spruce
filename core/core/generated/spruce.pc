@@ -1,0 +1,12 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: spruce
+Description: spruce engine
+Version: 
+
+Libs: -L${libdir} -lspruce
+Libs.private: -lpthread
+Cflags: -I${includedir} -I${includedir}/spruce

@@ -13,7 +13,7 @@ namespace spruce {
 		}
 
 		template <typename ... ARGS>
-		FunctionDataTemplate<void, ARGS...>::FunctionDataTemplate([[maybe_unused]] bool* output, const std::function<void(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId) : function(function), args(args), taskId(taskId) {
+		FunctionDataTemplate<void, ARGS...>::FunctionDataTemplate(const std::function<void(ARGS...)>& function, const std::tuple<ARGS...>& args, uint64 taskId) : function(function), args(args), taskId(taskId) {
 		}
 
 		template <typename ... ARGS>
