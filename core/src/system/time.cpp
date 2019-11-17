@@ -6,7 +6,7 @@ namespace spruce {
 		float timeSec() noexcept {
 			auto timePoint = std::chrono::high_resolution_clock::now();
 			std::chrono::seconds time = std::chrono::duration_cast<std::chrono::seconds>(timePoint.time_since_epoch());
-			return time.count();
+			return static_cast<float>(time.count());
 		}
 
 		int64 timeNano() noexcept {

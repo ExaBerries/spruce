@@ -2,10 +2,10 @@
 #include <backend/linux/opengl/X11OpenGLContext.h>
 #define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
-typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
+using glXCreateContextAttribsARBProc = GLXContext(*)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 
 namespace spruce {
-	X11OpenGLContext::X11OpenGLContext(Display* display) {
+	X11OpenGLContext::X11OpenGLContext(Display* display) noexcept {
 		this->display = display;
 		static GLint vatt[] = {
 			GLX_X_RENDERABLE, True,
@@ -58,12 +58,12 @@ namespace spruce {
 	}
 
 	uint32 X11OpenGLContext::getDepth() noexcept {
-		return visualInfo->depth;
+		return static_cast<uint32>(visualInfo->depth);
 	}
 
 	void X11OpenGLContext::windowCreated(XWindow window) noexcept {
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
-		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc) glXGetProcAddressARB((const GLubyte*) "glXCreateContextAttribsARB");
+		glXCreateContextAttribsARB = reinterpret_cast<glXCreateContextAttribsARBProc>(glXGetProcAddressARB(reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
 		GLint catt[] {
 			GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
 			GLX_CONTEXT_MINOR_VERSION_ARB, 2,
@@ -86,8 +86,8 @@ namespace spruce {
 	}
 
 	void X11OpenGLContext::setSwapInverval(int32 interval) noexcept {
-		void (*glXSwapInterval)(uint8) = 0;
-		glXSwapInterval = (void (*)(uint8)) glXGetProcAddressARB((const GLubyte*) "glXSwapInvervalEXT");
+		void (*glXSwapInterval)(int32) = nullptr;
+		glXSwapInterval = reinterpret_cast<void (*)(int32)>(glXGetProcAddressARB(reinterpret_cast<const GLubyte*>("glXSwapInvervalEXT")));
 		glXSwapInterval(interval);
 	}
 }

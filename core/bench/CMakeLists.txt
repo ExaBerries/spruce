@@ -9,10 +9,12 @@ target_link_libraries(bench PRIVATE
 	benchmark
 )
 
-target_compile_features(bench PRIVATE
-	cxx_std_17
-)
-
 target_compile_options(bench PRIVATE
 	-O3
+	-Wno-attributes
+	-Wno-unknown-pragmas
+)
+
+target_include_directories(bench PRIVATE
+	${CMAKE_SOURCE_DIR}/core/src
 )

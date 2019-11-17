@@ -26,6 +26,7 @@ checks='*,
 -hicpp-use-nullptr,
 
 -google-readability-namespace-comments,
+-google-readability-todo,
 -google-runtime-references,
 -google-explicit-constructor,
 -google-objc-global-variable-declaration,

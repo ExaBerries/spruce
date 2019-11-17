@@ -1,6 +1,7 @@
 #pragma once
 #include <math/mat/mat4f.h>
 #include <math/random.h>
+#include <math/functions.h>
 #include <math/quaternion.h>
 #include <math/vec/vec2i.h>
 #include <math/vec/vec2f.h>
@@ -12,8 +13,5 @@
 #include <cmath>
 
 namespace spruce {
-	extern const float PI;
-
-	[[nodiscard]] float clamp(const float& value, float min, float max);
-	[[nodiscard]] float lerp(float a, float b, float alpha);
+	constexpr double PI = M_PI;
 }

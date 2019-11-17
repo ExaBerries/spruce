@@ -43,6 +43,10 @@
 *.sublime-project
 *.sublime-workspace
 
+# KDevelop
+/.kdev4
+*.kdev4
+
 # Mac
 .DS_Store
 
