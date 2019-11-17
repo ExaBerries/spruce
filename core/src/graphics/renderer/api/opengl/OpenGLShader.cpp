@@ -26,7 +26,7 @@ namespace spruce {
 				buffer<GLchar> errorLog(static_cast<uint64>(length));
 				glGetShaderInfoLog(vertShader, length, &length, &errorLog[0]);
 				serr("failed to specialize vertex shader:");
-				serr(errorLog);
+				serr(errorLog.data);
 				glDeleteShader(vertShader);
 				errorLog.free();
 				return;
@@ -43,7 +43,7 @@ namespace spruce {
 				buffer<GLchar> errorLog(static_cast<uint64>(length));
 				glGetShaderInfoLog(fragShader, length, &length, &errorLog[0]);
 				serr("failed to specialize fragment shader:");
-				serr(errorLog);
+				serr(errorLog.data);
 				glDeleteShader(fragShader);
 				errorLog.free();
 				return;
@@ -63,7 +63,7 @@ namespace spruce {
 				buffer<GLchar> errorLog(static_cast<uint64>(length));
 				glGetShaderInfoLog(vertShader, length, &length, &errorLog[0]);
 				serr("failed to compile vertex shader:");
-				slog(errorLog);
+				slog(errorLog.data);
 				glDeleteShader(vertShader);
 				errorLog.free();
 				return;
@@ -81,7 +81,7 @@ namespace spruce {
 				buffer<GLchar> errorLog(static_cast<uint64>(length));
 				glGetShaderInfoLog(fragShader, length, &length, &errorLog[0]);
 				serr("failed to compile fragment shader:");
-				serr(errorLog);
+				serr(errorLog.data);
 				glDeleteShader(fragShader);
 				errorLog.free();
 				return;
@@ -101,7 +101,7 @@ namespace spruce {
 				buffer<GLchar> errorLog(static_cast<uint64>(length));
 				glGetProgramInfoLog(program, length, &length, &errorLog[0]);
 				serr("failed to link shader:");
-				serr(errorLog);
+				serr(errorLog.data);
 				glDeleteProgram(program);
 				glDeleteShader(vertShader);
 				glDeleteShader(fragShader);
