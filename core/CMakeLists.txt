@@ -80,6 +80,12 @@ target_link_libraries(spruce PUBLIC
 )
 
 if(APPLE) # mac
+target_include_directories(spruce PUBLIC
+	/usr/local/include
+)
+target_link_directories(spruce PUBLIC
+	/usr/local/lib
+)
 target_link_options(spruce PUBLIC
 	"SHELL:-framework Metal"
 	"SHELL:-framework OpenGL"
@@ -112,7 +118,7 @@ target_include_directories(spruce
 )
 
 target_compile_features(spruce PUBLIC
-	cxx_std_17
+	cxx_std_20
 )
 
 set_source_files_properties(${OBJC_SOURCE_FILES} PROPERTIES COMPILE_FLAGS -Wno-old-style-cast)
@@ -141,8 +147,6 @@ target_compile_options(spruce
 		-Wformat=2
 		$<$<CONFIG:Debug>:-Og>
 		$<$<CONFIG:Release>:-O3>
-		$<$<CONFIG:Release>:-Werror>
-		$<$<CONFIG:Release>:-Wno-error-\#-warnings>
 )
 
 
