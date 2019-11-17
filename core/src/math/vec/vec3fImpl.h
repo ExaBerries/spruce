@@ -8,23 +8,23 @@ namespace spruce {
 	constexpr vec3f::vec3f(float x, float y, float z) noexcept : x(x), y(y), z(z) {}
 
 	constexpr vec3f& vec3f::set(const vec3f& vector) noexcept {
-		this->x = vector.x;
-		this->y = vector.y;
-		this->z = vector.z;
+		x = vector.x;
+		y = vector.y;
+		z = vector.z;
 		return *this;
 	}
 
-	constexpr vec3f& vec3f::set(const vec2f& vector, float z) noexcept {
-		this->x = vector.x;
-		this->y = vector.y;
-		this->z = z;
+	constexpr vec3f& vec3f::set(const vec2f& vector, float nz) noexcept {
+		x = vector.x;
+		y = vector.y;
+		z = nz;
 		return *this;
 	}
 
-	constexpr vec3f& vec3f::set(float x, float y, float z) noexcept {
-		this->x = x;
-		this->y = y;
-		this->z = z;
+	constexpr vec3f& vec3f::set(float nx, float ny, float nz) noexcept {
+		x = nx;
+		y = ny;
+		z = nz;
 		return *this;
 	}
 
@@ -63,12 +63,12 @@ namespace spruce {
 	}
 
 	constexpr vec3f& vec3f::crs(const vec3f& vector) noexcept {
-		float x = this->y * vector.z - this->z * vector.y;
-		float y = this->z * vector.x - this->x * vector.z;
-		float z = this->x * vector.y - this->y * vector.x;
-		this->x = x;
-		this->y = y;
-		this->z = z;
+		float cx = y * vector.z - z * vector.y;
+		float cy = z * vector.x - x * vector.z;
+		float cz = x * vector.y - y * vector.x;
+		x = cx;
+		y = cy;
+		z = cz;
 		return *this;
 	}
 
@@ -201,9 +201,9 @@ namespace spruce {
 			z += vector.z;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load4f4f(vector.x);
-			simd::store4f(this->x, simd::add4f(t, v));
+			simd::store4f(x, simd::add4f(t, v));
 			return *this;
 		}
 	}
@@ -215,9 +215,9 @@ namespace spruce {
 			z -= vector.z;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load4f4f(vector.x);
-			simd::store4f(this->x, simd::sub4f(t, v));
+			simd::store4f(x, simd::sub4f(t, v));
 			return *this;
 		}
 	}
@@ -229,9 +229,9 @@ namespace spruce {
 			z += value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::add4f(t, v));
+			simd::store4f(x, simd::add4f(t, v));
 			return *this;
 		}
 	}
@@ -243,9 +243,9 @@ namespace spruce {
 			z -= value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::sub4f(t, v));
+			simd::store4f(x, simd::sub4f(t, v));
 			return *this;
 		}
 	}
@@ -257,9 +257,9 @@ namespace spruce {
 			z *= value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::mul4f(t, v));
+			simd::store4f(x, simd::mul4f(t, v));
 			return *this;
 		}
 	}
@@ -271,9 +271,9 @@ namespace spruce {
 			z /= value;
 			return *this;
 		} else {
-			simd::reg4f t = simd::load4f4f(this->x);
+			simd::reg4f t = simd::load4f4f(x);
 			simd::reg4f v = simd::load1f4f(value);
-			simd::store4f(this->x, simd::div4f(t, v));
+			simd::store4f(x, simd::div4f(t, v));
 			return *this;
 		}
 	}

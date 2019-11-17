@@ -13,9 +13,9 @@ namespace spruce {
 		return *this;
 	}
 
-	constexpr vec2d& vec2d::set(double x, double y) noexcept {
-		this->x = x;
-		this->y = y;
+	constexpr vec2d& vec2d::set(double nx, double ny) noexcept {
+		x = nx;
+		y = ny;
 		return *this;
 	}
 
@@ -173,9 +173,9 @@ namespace spruce {
 			y += vector.y;
 			return *this;
 		} else {
-			simd::reg2d t = simd::load2d2d(this->x);
+			simd::reg2d t = simd::load2d2d(x);
 			simd::reg2d v = simd::load2d2d(vector.x);
-			simd::store2d(this->x, simd::add2d(t, v));
+			simd::store2d(x, simd::add2d(t, v));
 			return *this;
 		}
 	}
@@ -186,9 +186,9 @@ namespace spruce {
 			y -= vector.y;
 			return *this;
 		} else {
-			simd::reg2d t = simd::load2d2d(this->x);
+			simd::reg2d t = simd::load2d2d(x);
 			simd::reg2d v = simd::load2d2d(vector.x);
-			simd::store2d(this->x, simd::sub2d(t, v));
+			simd::store2d(x, simd::sub2d(t, v));
 			return *this;
 		}
 	}
@@ -199,9 +199,9 @@ namespace spruce {
 			y += value;
 			return *this;
 		} else {
-			simd::reg2d t = simd::load2d2d(this->x);
+			simd::reg2d t = simd::load2d2d(x);
 			simd::reg2d v = simd::load1d2d(value);
-			simd::store2d(this->x, simd::add2d(t, v));
+			simd::store2d(x, simd::add2d(t, v));
 			return *this;
 		}
 	}
@@ -212,9 +212,9 @@ namespace spruce {
 			y -= value;
 			return *this;
 		} else {
-			simd::reg2d t = simd::load2d2d(this->x);
+			simd::reg2d t = simd::load2d2d(x);
 			simd::reg2d v = simd::load1d2d(value);
-			simd::store2d(this->x, simd::sub2d(t, v));
+			simd::store2d(x, simd::sub2d(t, v));
 			return *this;
 		}
 	}
@@ -225,9 +225,9 @@ namespace spruce {
 			y *= value;
 			return *this;
 		} else {
-			simd::reg2d t = simd::load2d2d(this->x);
+			simd::reg2d t = simd::load2d2d(x);
 			simd::reg2d v = simd::load1d2d(value);
-			simd::store2d(this->x, simd::mul2d(t, v));
+			simd::store2d(x, simd::mul2d(t, v));
 			return *this;
 		}
 	}
@@ -238,9 +238,9 @@ namespace spruce {
 			y /= value;
 			return *this;
 		} else {
-			simd::reg2d t = simd::load2d2d(this->x);
+			simd::reg2d t = simd::load2d2d(x);
 			simd::reg2d v = simd::load1d2d(value);
-			simd::store2d(this->x, simd::div2d(t, v));
+			simd::store2d(x, simd::div2d(t, v));
 			return *this;
 		}
 	}

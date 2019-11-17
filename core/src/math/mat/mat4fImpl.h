@@ -99,12 +99,12 @@ namespace spruce {
 		return *this;
 	}
 
-	constexpr mat4f& mat4f::set(const float values[16]) noexcept {
+	constexpr mat4f& mat4f::set(const float nvalues[16]) noexcept {
 		if (std::is_constant_evaluated()) {
-			memcpy(&this->values[0], &values[0], sizeof(float) * 16);
+			memcpy(&values[0], &nvalues[0], sizeof(float) * 16);
 		} else {
-			simd::store8f(this->values[0], simd::load8f8f(values[0]));
-			simd::store8f(this->values[8], simd::load8f8f(values[8]));
+			simd::store8f(values[0], simd::load8f8f(nvalues[0]));
+			simd::store8f(values[8], simd::load8f8f(nvalues[8]));
 		}
 		return *this;
 	}
@@ -569,22 +569,22 @@ namespace spruce {
 
 	constexpr mat4f& mat4f::operator+=(const mat4f& matrix) noexcept {
 		if (std::is_constant_evaluated()) {
-			this->values[0] += matrix.values[0];
-			this->values[1] += matrix.values[1];
-			this->values[2] += matrix.values[2];
-			this->values[3] += matrix.values[3];
-			this->values[4] += matrix.values[4];
-			this->values[5] += matrix.values[5];
-			this->values[6] += matrix.values[6];
-			this->values[7] += matrix.values[7];
-			this->values[8] += matrix.values[8];
-			this->values[9] += matrix.values[9];
-			this->values[10] += matrix.values[10];
-			this->values[11] += matrix.values[11];
-			this->values[12] += matrix.values[12];
-			this->values[13] += matrix.values[13];
-			this->values[14] += matrix.values[14];
-			this->values[15] += matrix.values[15];
+			values[0] += matrix.values[0];
+			values[1] += matrix.values[1];
+			values[2] += matrix.values[2];
+			values[3] += matrix.values[3];
+			values[4] += matrix.values[4];
+			values[5] += matrix.values[5];
+			values[6] += matrix.values[6];
+			values[7] += matrix.values[7];
+			values[8] += matrix.values[8];
+			values[9] += matrix.values[9];
+			values[10] += matrix.values[10];
+			values[11] += matrix.values[11];
+			values[12] += matrix.values[12];
+			values[13] += matrix.values[13];
+			values[14] += matrix.values[14];
+			values[15] += matrix.values[15];
 			return *this;
 		} else {
 			simd::reg8f ta = simd::load8f8f(values[0]);
@@ -599,22 +599,22 @@ namespace spruce {
 
 	constexpr mat4f& mat4f::operator-=(const mat4f& matrix) noexcept {
 		if (std::is_constant_evaluated()) {
-			this->values[0] -= matrix.values[0];
-			this->values[1] -= matrix.values[1];
-			this->values[2] -= matrix.values[2];
-			this->values[3] -= matrix.values[3];
-			this->values[4] -= matrix.values[4];
-			this->values[5] -= matrix.values[5];
-			this->values[6] -= matrix.values[6];
-			this->values[7] -= matrix.values[7];
-			this->values[8] -= matrix.values[8];
-			this->values[9] -= matrix.values[9];
-			this->values[10] -= matrix.values[10];
-			this->values[11] -= matrix.values[11];
-			this->values[12] -= matrix.values[12];
-			this->values[13] -= matrix.values[13];
-			this->values[14] -= matrix.values[14];
-			this->values[15] -= matrix.values[15];
+			values[0] -= matrix.values[0];
+			values[1] -= matrix.values[1];
+			values[2] -= matrix.values[2];
+			values[3] -= matrix.values[3];
+			values[4] -= matrix.values[4];
+			values[5] -= matrix.values[5];
+			values[6] -= matrix.values[6];
+			values[7] -= matrix.values[7];
+			values[8] -= matrix.values[8];
+			values[9] -= matrix.values[9];
+			values[10] -= matrix.values[10];
+			values[11] -= matrix.values[11];
+			values[12] -= matrix.values[12];
+			values[13] -= matrix.values[13];
+			values[14] -= matrix.values[14];
+			values[15] -= matrix.values[15];
 			return *this;
 		} else {
 			simd::reg8f ta = simd::load8f8f(values[0]);
@@ -629,26 +629,26 @@ namespace spruce {
 
 	constexpr mat4f& mat4f::operator*=(const mat4f& matrix) noexcept {
 		if (std::is_constant_evaluated()) {
-			float values[16] = {
-				this->values[0] * matrix.values[0] + this->values[1] * matrix.values[4] + this->values[2] * matrix.values[8] + this->values[3] * matrix.values[12],
-				this->values[0] * matrix.values[1] + this->values[1] * matrix.values[5] + this->values[2] * matrix.values[9] + this->values[3] * matrix.values[13],
-				this->values[0] * matrix.values[2] + this->values[1] * matrix.values[6] + this->values[2] * matrix.values[10] + this->values[3] * matrix.values[14],
-				this->values[0] * matrix.values[3] + this->values[1] * matrix.values[7] + this->values[2] * matrix.values[11] + this->values[3] * matrix.values[15],
-				this->values[4] * matrix.values[0] + this->values[5] * matrix.values[4] + this->values[6] * matrix.values[8] + this->values[7] * matrix.values[12],
-				this->values[4] * matrix.values[1] + this->values[5] * matrix.values[5] + this->values[6] * matrix.values[9] + this->values[7] * matrix.values[13],
-				this->values[4] * matrix.values[2] + this->values[5] * matrix.values[6] + this->values[6] * matrix.values[10] + this->values[7] * matrix.values[14],
-				this->values[4] * matrix.values[3] + this->values[5] * matrix.values[7] + this->values[6] * matrix.values[11] + this->values[7] * matrix.values[15],
-				this->values[8] * matrix.values[0] + this->values[9] * matrix.values[4] + this->values[10] * matrix.values[8] + this->values[11] * matrix.values[12],
-				this->values[8] * matrix.values[1] + this->values[9] * matrix.values[5] + this->values[10] * matrix.values[9] + this->values[11] * matrix.values[13],
-				this->values[8] * matrix.values[2] + this->values[9] * matrix.values[6] + this->values[10] * matrix.values[10] + this->values[11] * matrix.values[14],
-				this->values[8] * matrix.values[3] + this->values[9] * matrix.values[7] + this->values[10] * matrix.values[11] + this->values[11] * matrix.values[15],
-				this->values[12] * matrix.values[0] + this->values[13] * matrix.values[4] + this->values[14] * matrix.values[8] + this->values[15] * matrix.values[12],
-				this->values[12] * matrix.values[1] + this->values[13] * matrix.values[5] + this->values[14] * matrix.values[9] + this->values[15] * matrix.values[13],
-				this->values[12] * matrix.values[2] + this->values[13] * matrix.values[6] + this->values[14] * matrix.values[10] + this->values[15] * matrix.values[14],
-				this->values[12] * matrix.values[3] + this->values[13] * matrix.values[7] + this->values[14] * matrix.values[11] + this->values[15] * matrix.values[15]
+			float tmpValues[16] = {
+				values[0] * matrix.values[0] + values[1] * matrix.values[4] + values[2] * matrix.values[8] + values[3] * matrix.values[12],
+				values[0] * matrix.values[1] + values[1] * matrix.values[5] + values[2] * matrix.values[9] + values[3] * matrix.values[13],
+				values[0] * matrix.values[2] + values[1] * matrix.values[6] + values[2] * matrix.values[10] + values[3] * matrix.values[14],
+				values[0] * matrix.values[3] + values[1] * matrix.values[7] + values[2] * matrix.values[11] + values[3] * matrix.values[15],
+				values[4] * matrix.values[0] + values[5] * matrix.values[4] + values[6] * matrix.values[8] + values[7] * matrix.values[12],
+				values[4] * matrix.values[1] + values[5] * matrix.values[5] + values[6] * matrix.values[9] + values[7] * matrix.values[13],
+				values[4] * matrix.values[2] + values[5] * matrix.values[6] + values[6] * matrix.values[10] + values[7] * matrix.values[14],
+				values[4] * matrix.values[3] + values[5] * matrix.values[7] + values[6] * matrix.values[11] + values[7] * matrix.values[15],
+				values[8] * matrix.values[0] + values[9] * matrix.values[4] + values[10] * matrix.values[8] + values[11] * matrix.values[12],
+				values[8] * matrix.values[1] + values[9] * matrix.values[5] + values[10] * matrix.values[9] + values[11] * matrix.values[13],
+				values[8] * matrix.values[2] + values[9] * matrix.values[6] + values[10] * matrix.values[10] + values[11] * matrix.values[14],
+				values[8] * matrix.values[3] + values[9] * matrix.values[7] + values[10] * matrix.values[11] + values[11] * matrix.values[15],
+				values[12] * matrix.values[0] + values[13] * matrix.values[4] + values[14] * matrix.values[8] + values[15] * matrix.values[12],
+				values[12] * matrix.values[1] + values[13] * matrix.values[5] + values[14] * matrix.values[9] + values[15] * matrix.values[13],
+				values[12] * matrix.values[2] + values[13] * matrix.values[6] + values[14] * matrix.values[10] + values[15] * matrix.values[14],
+				values[12] * matrix.values[3] + values[13] * matrix.values[7] + values[14] * matrix.values[11] + values[15] * matrix.values[15]
 			};
 			for (uint8 i = 0; i < 16; i++) {
-				this->values[i] = values[i];
+				values[i] = tmpValues[i];
 			}
 			return *this;
 		} else {

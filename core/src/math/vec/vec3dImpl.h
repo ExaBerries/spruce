@@ -11,16 +11,16 @@ namespace spruce {
 	}
 
 	constexpr vec3d& vec3d::set(const vec3d& vector) noexcept {
-		this->x = vector.x;
-		this->y = vector.y;
-		this->z = vector.z;
+		x = vector.x;
+		y = vector.y;
+		z = vector.z;
 		return *this;
 	}
 
-	constexpr vec3d& vec3d::set(double x, double y, double z) noexcept {
-		this->x = x;
-		this->y = y;
-		this->z = z;
+	constexpr vec3d& vec3d::set(double nx, double ny, double nz) noexcept {
+		x = nx;
+		y = ny;
+		z = nz;
 		return *this;
 	}
 
@@ -59,12 +59,12 @@ namespace spruce {
 	}
 
 	constexpr vec3d& vec3d::crs(const vec3d& vector) noexcept {
-		double x = this->y * vector.z - this->z * vector.y;
-		double y = this->z * vector.x - this->x * vector.z;
-		double z = this->x * vector.y - this->y * vector.x;
-		this->x = x;
-		this->y = y;
-		this->z = z;
+		double cx = y * vector.z - z * vector.y;
+		double cy = z * vector.x - x * vector.z;
+		double cz = x * vector.y - y * vector.x;
+		x = cx;
+		y = cy;
+		z = cz;
 		return *this;
 	}
 
@@ -191,44 +191,44 @@ namespace spruce {
 	}
 
 	constexpr vec3d& vec3d::operator+=(const vec3d& vector) noexcept {
-		this->x += vector.x;
-		this->y += vector.y;
-		this->z += vector.z;
+		x += vector.x;
+		y += vector.y;
+		z += vector.z;
 		return *this;
 	}
 
 	constexpr vec3d& vec3d::operator-=(const vec3d& vector) noexcept {
-		this->x -= vector.x;
-		this->y -= vector.y;
-		this->z -= vector.z;
+		x -= vector.x;
+		y -= vector.y;
+		z -= vector.z;
 		return *this;
 	}
 
 	constexpr vec3d& vec3d::operator+=(double value) noexcept {
-		this->x += value;
-		this->y += value;
-		this->z += value;
+		x += value;
+		y += value;
+		z += value;
 		return *this;
 	}
 
 	constexpr vec3d& vec3d::operator-=(double value) noexcept {
-		this->x -= value;
-		this->y -= value;
-		this->z -= value;
+		x -= value;
+		y -= value;
+		z -= value;
 		return *this;
 	}
 
 	constexpr vec3d& vec3d::operator*=(double value) noexcept {
-		this->x *= value;
-		this->y *= value;
-		this->z *= value;
+		x *= value;
+		y *= value;
+		z *= value;
 		return *this;
 	}
 
 	constexpr vec3d& vec3d::operator/=(double value) noexcept {
-		this->x /= value;
-		this->y /= value;
-		this->z /= value;
+		x /= value;
+		y /= value;
+		z /= value;
 		return *this;
 	}
 

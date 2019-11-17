@@ -13,9 +13,9 @@ namespace spruce {
 		return *this;
 	}
 
-	constexpr vec2f& vec2f::set(float x, float y) noexcept {
-		this->x = x;
-		this->y = y;
+	constexpr vec2f& vec2f::set(float nx, float ny) noexcept {
+		x = nx;
+		y = ny;
 		return *this;
 	}
 
@@ -132,38 +132,38 @@ namespace spruce {
 	}
 
 	constexpr vec2f& vec2f::operator+=(const vec2f& vector) noexcept {
-		this->x += vector.x;
-		this->y += vector.y;
+		x += vector.x;
+		y += vector.y;
 		return *this;
 	}
 
 	constexpr vec2f& vec2f::operator-=(const vec2f& vector) noexcept {
-		this->x -= vector.x;
-		this->y -= vector.y;
+		x -= vector.x;
+		y -= vector.y;
 		return *this;
 	}
 
 	constexpr vec2f& vec2f::operator+=(float value) noexcept {
-		this->x += value;
-		this->y += value;
+		x += value;
+		y += value;
 		return *this;
 	}
 
 	constexpr vec2f& vec2f::operator-=(float value) noexcept {
-		this->x -= value;
-		this->y -= value;
+		x -= value;
+		y -= value;
 		return *this;
 	}
 
 	constexpr vec2f& vec2f::operator*=(float value) noexcept {
-		this->x *= value;
-		this->y *= value;
+		x *= value;
+		y *= value;
 		return *this;
 	}
 
 	constexpr vec2f& vec2f::operator/=(float value) noexcept {
-		this->x /= value;
-		this->y /= value;
+		x /= value;
+		y /= value;
 		return *this;
 	}
 
