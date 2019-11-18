@@ -9,10 +9,14 @@
 #include <X11/Xlib.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <climits>
+#include <unistd.h>
+#include <regex>
 
 namespace spruce {
 	namespace os {
 		buffer<uint16> keyCodes(nullptr);
+		string internalBasePath;
 
 		void init() noexcept {
 			keyCodes = buffer<uint16>(80);
@@ -96,6 +100,10 @@ namespace spruce {
 			keyCodes[input::F10] = 76;
 			keyCodes[input::F11] = 95;
 			keyCodes[input::F12] = 96;
+			char path[PATH_MAX] = {0};
+			int nchar = readlink("/proc/self/exe", path, sizeof(path));
+			internalBasePath = std::regex_replace(path, std::regex("/[a-zA-Z-_]+$"), "");
+			internalBasePath += "/assets/";
 		}
 
 		void free() noexcept {
@@ -133,11 +141,7 @@ namespace spruce {
 		}
 
 		string getBasePathInternal() noexcept {
-			#ifdef DEBUG
-				return "assets/";
-			#else
-				return "";
-			#endif
+			return internalBasePath;
 		}
 
 		string getBasePathExternal() noexcept {

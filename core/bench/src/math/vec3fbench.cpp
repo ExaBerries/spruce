@@ -101,6 +101,7 @@ static void vec3fCrs(benchmark::State& state) {
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		vec3f vec(1, 0, 0);
 		vec3f crs = vec.crs(vec3f(0, 1, 0));
+		benchmark::DoNotOptimize(crs);
 	}
 }
 BENCHMARK(vec3fCrs);
