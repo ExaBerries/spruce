@@ -15,7 +15,7 @@
 namespace spruce {
 	namespace os {
 		buffer<uint16> keyCodes(nullptr);
-		std::string internalBasePath;
+		string internalBasePath;
 
 		void init() noexcept {
 			keyCodes = buffer<uint16>(80);
@@ -104,14 +104,15 @@ namespace spruce {
 				uint32_t size = sizeof(path);
 				if (_NSGetExecutablePath(path, &size) == 0) {
 					char* rpath = realpath(path, nullptr);
-					internalBasePath = std::regex_replace(rpath, std::regex("/[a-zA-Z-]+$"), "") + "/assets/";
+					internalBasePath = std::regex_replace(rpath, std::regex("/[a-zA-Z-_]+$"), "");
+					internalBasePath += "/assets/";
 					std::free(rpath);
 				} else {
 					internalBasePath = "assets/";
 				}
 			#else
 				NSBundle* bundle = [NSBundle mainBundle];
-				internalBasePath = convertStr(bundle.resourcePath) + "/";
+				internalBasePath = convertStr(bundle.resourcePath) + "/assets/";
 			#endif
 		}
 
