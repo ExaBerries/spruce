@@ -6,12 +6,13 @@ using namespace spruce;
 static void mat4fConstruct(benchmark::State& state) {
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		mat4f m;
+		benchmark::DoNotOptimize(m);
 	}
 }
 BENCHMARK(mat4fConstruct);
 
 static void mat4fConstructArr(benchmark::State& state) {
-	const float values[16] = { // NOLINT(clang-analyzer-deadcode.DeadStores)
+	alignas(32) const float values[16] = { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
@@ -19,25 +20,24 @@ static void mat4fConstructArr(benchmark::State& state) {
 	};
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		mat4f m(values);
+		benchmark::DoNotOptimize(m);
 	}
 }
 BENCHMARK(mat4fConstructArr);
 
 static void mat4fAdd(benchmark::State& state) {
-	const float valuesa[16] = {
+	mat4f ma = {
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
 		1, 1, 1, 0
 	};
-	mat4f ma(valuesa);
-	const float valuesb[16] = {
+	mat4f mb = {
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
 		1, 1, 1, 0
 	};
-	mat4f mb(valuesb);
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		volatile mat4f matr = ma + mb;
 		benchmark::DoNotOptimize(matr);
@@ -46,20 +46,18 @@ static void mat4fAdd(benchmark::State& state) {
 BENCHMARK(mat4fAdd);
 
 static void mat4fMul(benchmark::State& state) {
-	const float valuesa[16] = {
+	mat4f ma = {
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
 		1, 1, 1, 0
 	};
-	mat4f ma(valuesa);
-	const float valuesb[16] = {
+	mat4f mb = {
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
 		1, 1, 1, 0
 	};
-	mat4f mb(valuesb);
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		volatile mat4f matr = ma * mb;
 		benchmark::DoNotOptimize(matr);
@@ -88,12 +86,13 @@ static void mat4fTranspose(benchmark::State& state) {
 	mat4f m;
 	for (auto _ : state) { // NOLINT(clang-analyzer-deadcode.DeadStores)
 		mat4f det = m.transpose();
+		benchmark::DoNotOptimize(det);
 	}
 }
 BENCHMARK(mat4fTranspose);
 
 static void mat4fAddMulti(benchmark::State& state) {
-	const float values[16] = {
+	alignas(32) const float values[16] = {
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
@@ -121,7 +120,7 @@ static void mat4fAddMulti(benchmark::State& state) {
 BENCHMARK(mat4fAddMulti);
 
 static void mat4fMulMulti(benchmark::State& state) {
-	const float values[16] = {
+	alignas(32) const float values[16] = {
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
@@ -149,7 +148,7 @@ static void mat4fMulMulti(benchmark::State& state) {
 BENCHMARK(mat4fMulMulti);
 
 static void mat4fMulVec3fMulti(benchmark::State& state) {
-	const float values[16] = {
+	alignas(32) const float values[16] = {
 		0, 1, 1, 1,
 		1, 0, 1, 1,
 		1, 1, 0, 1,
