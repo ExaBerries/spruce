@@ -10,6 +10,8 @@ namespace sprucetest {
 		input::addProcessor(this);
 		swapAPI = false;
 		swapScene = false;
+		fullscreen = false;
+		isFullscreen = false;
 		font = nullptr;
 		scene = new Basic();
 		setRenderer(scene->getRenderer(*this, engine.apiType));
@@ -69,6 +71,11 @@ namespace sprucetest {
 			Task<void(SpruceTest&, SpruceTest::SCENE&, owner<Scene>&)> task = createTask<SpruceTest&, SpruceTest::SCENE&, owner<Scene>&>(std::function<void(SpruceTest&, SpruceTest::SCENE&, owner<Scene>&)>(swapToScene), task::FRAME, false, *this, sceneType, scene);
 			swapScene = false;
 		}
+		if (fullscreen) {
+			isFullscreen = !isFullscreen;
+			getWindow()->setFullscreen(isFullscreen);
+			fullscreen = false;
+		}
 		scene->update(delta);
 	}
 
@@ -84,7 +91,7 @@ namespace sprucetest {
 			swapScene = true;
 		}
 		if (code == input::codeFor(input::MINUS)) {
-			//graphics::vsync = !graphics::vsync;
+			fullscreen = true;	
 		}
 	}
 
