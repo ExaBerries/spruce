@@ -40,8 +40,10 @@ namespace sprucetest {
 		slog(api);
 		if (api == app::OPENGL) {
 			return new BasicOpenGLRenderer(app);
+		#ifdef __APPLE__
 		} else if (api == app::METAL) {
 			return new BasicMetalRenderer(app);
+		#endif
 		} else {
 			serr("no renderer for api ", api);
 			return nullptr;

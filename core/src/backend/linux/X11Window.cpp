@@ -74,6 +74,33 @@ namespace spruce {
 	}
 
 	void X11Window::setFullscreen(bool fullscreen) noexcept {
+		struct {
+			unsigned long flags;
+			unsigned long functions;
+			unsigned long decorations;
+			long inputMode;
+			unsigned long status;
+		} hints;
+		Atom property;
+		hints.flags = 2;
+		if (fullscreen) {
+			hints.decorations = 0;
+		} else {
+			hints.decorations = 1;
+		}
+		property = XInternAtom(display,"_MOTIF_WM_HINTS",True);
+		XChangeProperty(display, window, property, property, 32, PropModeReplace, reinterpret_cast<unsigned char *>(&hints),5);
+		if (fullscreen) {
+			Screen* screen = XDefaultScreenOfDisplay(display);
+			XMoveResizeWindow(display, window, 0, 0, XWidthOfScreen(screen), XHeightOfScreen(screen));
+			XMapRaised(display, window);
+			XGrabPointer(display, window, True, 0, GrabModeAsync, GrabModeAsync, window, 0L, CurrentTime);
+			XGrabKeyboard(display, window, False, GrabModeAsync, GrabModeAsync, CurrentTime);
+		} else {
+			XMoveResizeWindow(display, window, 0, 0, this->width, this->height);
+			XUngrabPointer(display, CurrentTime);
+			XUngrabKeyboard(display, CurrentTime);
+		}
 	}
 
 	void X11Window::close() noexcept {

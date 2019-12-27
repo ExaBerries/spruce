@@ -14,6 +14,8 @@ namespace sprucetest {
 			owner<Scene> scene;
 			bool swapAPI;
 			bool swapScene;
+			bool fullscreen;
+			bool isFullscreen;
 			owner<Font> font;
 
 			SpruceTest(SpruceEngine& engine);

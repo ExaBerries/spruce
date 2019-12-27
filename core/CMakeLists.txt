@@ -1,3 +1,26 @@
+configure_file(cmake/CMakeLists.txt.in gcem-download/CMakeLists.txt)
+
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+	RESULT_VARIABLE result
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gcem-download
+)
+if(result)
+	message(FATAL_ERROR "CMake step for gcem failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+	RESULT_VARIABLE result
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gcem-download
+)
+if(result)
+	message(FATAL_ERROR "Build step for gcem failed: ${result}")
+endif()
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/gcem-src
+	${CMAKE_CURRENT_BINARY_DIR}/gcem-build
+	EXCLUDE_FROM_ALL
+)
+
+find_package(gcem REQUIRED)
 find_package(Freetype REQUIRED)
 
 file(GLOB_RECURSE SOURCE_FILES
@@ -5,9 +28,9 @@ file(GLOB_RECURSE SOURCE_FILES
 )
 
 if(APPLE) # mac
-file(GLOB_RECURSE OBJC_SOURCE_FILES
-	${CMAKE_CURRENT_SOURCE_DIR}/src/*.mm
-)
+	file(GLOB_RECURSE OBJC_SOURCE_FILES
+		${CMAKE_CURRENT_SOURCE_DIR}/src/*.mm
+	)
 else()
 	set(OBJCPP_SOURCE_FILES "")
 endif()
@@ -75,34 +98,35 @@ install(
 target_link_libraries(spruce PUBLIC
 	freetype
 	freeimage
+	gcem
 )
 
 if(APPLE) # mac
-target_include_directories(spruce PUBLIC
-	/usr/local/include
-)
-target_link_directories(spruce PUBLIC
-	/usr/local/lib
-)
-target_link_options(spruce PUBLIC
-	"SHELL:-framework Metal"
-	"SHELL:-framework OpenGL"
-	"SHELL:-framework Cocoa"
-	"SHELL:-framework Quartz"
-)
-SET(CMAKE_AR llvm-ar)
-SET(CMAKE_RANLIB llvm-ranlib)
+	target_include_directories(spruce PUBLIC
+		/usr/local/include
+	)
+	target_link_directories(spruce PUBLIC
+		/usr/local/lib
+	)
+	target_link_options(spruce PUBLIC
+		"SHELL:-framework Metal"
+		"SHELL:-framework OpenGL"
+		"SHELL:-framework Cocoa"
+		"SHELL:-framework Quartz"
+	)
+	SET(CMAKE_AR llvm-ar)
+	SET(CMAKE_RANLIB llvm-ranlib)
 endif()
 
 if(UNIX AND NOT APPLE) # linux
-target_link_libraries(spruce PUBLIC
-	X11
-	vulkan
-	GL
-	GLEW
-	GLX
-	pthread
-)
+	target_link_libraries(spruce PUBLIC
+		X11
+		vulkan
+		GL
+		GLEW
+		GLX
+		pthread
+	)
 endif()
 
 target_include_directories(spruce
