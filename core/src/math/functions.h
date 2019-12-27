@@ -1,10 +1,12 @@
 #pragma once
-#include <cmath>
+#include <types.h>
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdouble-promotion"
 #pragma clang diagnostic ignored "-Wimplicit-float-conversion"
 #include <gcem.hpp>
 #pragma clang diagnostic pop
+#include <type_traits>
+#include <cmath>
 
 namespace spruce {
 	template <typename T>
