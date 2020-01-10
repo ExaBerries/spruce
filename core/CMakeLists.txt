@@ -20,7 +20,6 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/gcem-src
 	EXCLUDE_FROM_ALL
 )
 
-find_package(gcem REQUIRED)
 find_package(Freetype REQUIRED)
 
 file(GLOB_RECURSE SOURCE_FILES

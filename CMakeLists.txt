@@ -11,7 +11,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-include_directories(${PROJECT_SOURCE_DIR}/core/include)
-
 add_subdirectory(core)
 add_subdirectory(test-project)

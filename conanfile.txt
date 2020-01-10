@@ -1,6 +1,8 @@
 [requires]
 Catch2/[>=2.11.0]@catchorg/stable
 freetype/[>=2.10.0]@bincrafters/stable
+benchmark/[>=1.5.0]@_/_
 
 [generators]
+pkg_config
 cmake
