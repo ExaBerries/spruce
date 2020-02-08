@@ -9,7 +9,7 @@ namespace spruce {
 
 		template <typename OUTPUT, typename ... ARGS>
 		void FunctionDataTemplate<OUTPUT, ARGS...>::execute() noexcept {
-			(*output) = util::execute(function, args);
+			(*output) = std::apply(function, args);
 		}
 
 		template <typename ... ARGS>
@@ -18,7 +18,7 @@ namespace spruce {
 
 		template <typename ... ARGS>
 		void FunctionDataTemplate<void, ARGS...>::execute() noexcept {
-			util::execute(function, args);
+			std::apply(function, args);
 		}
 	}
 }

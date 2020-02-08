@@ -1,7 +1,6 @@
 #pragma once
 #include <backend/task/FunctionData.h>
 #include <common.h>
-#include <util/function.h>
 #include <tuple>
 
 namespace spruce {
