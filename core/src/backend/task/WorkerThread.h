@@ -7,7 +7,7 @@ namespace spruce {
 		class WorkerThread {
 			public:
 				std::thread thread;
-				TaskBackend* taskBackend;
+				owner<TaskBackend> taskBackend;
 				bool running;
 
 				WorkerThread();

@@ -30,7 +30,7 @@ namespace spruce {
 					if (thread->taskBackend->functionData != nullptr) {
 						thread->taskBackend->functionData->execute();
 						thread->taskBackend->complete = true;
-						delete thread->taskBackend;
+						thread->taskBackend.free();
 						thread->taskBackend = nullptr;
 					} else {
 						serr("invalid task, functionData == nullptr");

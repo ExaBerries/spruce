@@ -14,7 +14,7 @@ namespace spruce {
 		}
 
 		TaskBackend::~TaskBackend() {
-			delete functionData;
+			functionData.free();
 			deincrementRef(id);
 		}
 	}

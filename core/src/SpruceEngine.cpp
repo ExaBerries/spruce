@@ -20,10 +20,10 @@ namespace spruce {
 		if (window->open) {
 			window->close();
 		}
-		delete application;
-		delete apiContext;
-		delete window;
-		delete framePipeline;
+		application.free();
+		apiContext.free();
+		window.free();
+		framePipeline.free();
 		task::free();
 		os::free();
 	}
@@ -41,17 +41,17 @@ namespace spruce {
 
 	void SpruceEngine::setRenderAPI(app::API newAPI) noexcept {
 		this->apiType = newAPI;
-		delete apiContext;
+		apiContext.free();
 		apiContext = window->initAPI(newAPI);
 	}
 
 	void SpruceEngine::setFramePipeline(owner<FramePipeline> pipeline) noexcept {
-		delete this->framePipeline;
+		this->framePipeline.free();
 		this->framePipeline = pipeline;
 	}
 
 	void SpruceEngine::setRenderer(owner<RendererAbstractor> renderer) noexcept {
-		delete this->renderer;
+		this->renderer.free();
 		this->renderer = renderer;
 	}
 
