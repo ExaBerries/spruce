@@ -5,24 +5,25 @@
 namespace spruce {
 	template <typename TYPE>
 	struct alignas(alignof(TYPE)) stackown {
+		using Type = TYPE;
 		uint8 data[sizeof(TYPE)];
 		bool null = true;
 
-		stackown() = default;
-		stackown(const stackown&) = default;
+		stackown() noexcept = default;
+		stackown(const stackown&) noexcept = default;
 		stackown(stackown&&) noexcept = default;
-		~stackown();
+		~stackown() noexcept;
 
 		template <typename ... CONSTYPES>
-		void cons(CONSTYPES&& ... args);
-		void desc();
+		void cons(CONSTYPES&& ... args) noexcept;
+		void desc() noexcept;
 
-		[[nodiscard]] operator TYPE*();
-		[[nodiscard]] operator const TYPE*() const;
+		[[nodiscard]] operator TYPE*() noexcept;
+		[[nodiscard]] operator const TYPE*() const noexcept;
 		template <typename OTHERTYPE>
-		[[nodiscard]] explicit operator OTHERTYPE*();
+		[[nodiscard]] explicit operator OTHERTYPE*() noexcept;
 		template <typename OTHERTYPE>
-		[[nodiscard]] explicit operator const OTHERTYPE*() const;
+		[[nodiscard]] explicit operator const OTHERTYPE*() const noexcept;
 
 		TYPE& operator*() noexcept;
 		const TYPE& operator*() const noexcept;
@@ -32,7 +33,7 @@ namespace spruce {
 		[[nodiscard]] bool operator==(std::nullptr_t) const noexcept;
 		[[nodiscard]] bool operator!=(std::nullptr_t) const noexcept;
 
-		stackown& operator=(const stackown&) = default;
+		stackown& operator=(const stackown&) noexcept = default;
 		stackown& operator=(stackown&&) noexcept = default;
 	};
 }

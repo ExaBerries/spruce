@@ -132,5 +132,5 @@ aowner<Mesh> createScreenQuad() {
 	indices[3] = 2;
 	indices[4] = 3;
 	indices[5] = 1;
-	return new Mesh(vertices, indices);
+	return newaown<Mesh>(vertices, indices);
 }

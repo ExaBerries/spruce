@@ -1,8 +1,8 @@
 #pragma once
 
 namespace spruce {
-	template <typename TYPE>
-	buffer<TYPE>::buffer(uint64 size) noexcept {
+	template <typename TYPE, typename ALLOCATOR>
+	buffer<TYPE, ALLOCATOR>::buffer(uint64 size) noexcept {
 		static_assert(std::is_default_constructible_v<TYPE>);
 		#ifdef DEBUG
 		if (size == 0) {
@@ -11,24 +11,24 @@ namespace spruce {
 		}
 		#endif
 		this->size = size;
-		this->data = static_cast<TYPE*>(std::malloc(size * sizeof(TYPE)));
-		new (data) TYPE[size];
+		this->data = ALLOCATOR().allocate(size);
+		std::uninitialized_default_construct_n(this->data, size);
 	}
 
-	template <typename TYPE>
-	buffer<TYPE>::buffer(std::nullptr_t) noexcept {
+	template <typename TYPE, typename ALLOCATOR>
+	buffer<TYPE, ALLOCATOR>::buffer(std::nullptr_t) noexcept {
 		size = 0;
 		data = nullptr;
 	}
 
-	template <typename TYPE>
-	buffer<TYPE>::buffer(uint64 size, TYPE* data) noexcept {
+	template <typename TYPE, typename ALLOCATOR>
+	buffer<TYPE, ALLOCATOR>::buffer(uint64 size, TYPE* data) noexcept {
 		this->size = size;
 		this->data = data;
 	}
 
-	template <typename TYPE>
-	void buffer<TYPE>::realloc(uint64 newSize) {
+	template <typename TYPE, typename ALLOCATOR>
+	void buffer<TYPE, ALLOCATOR>::realloc(uint64 newSize) noexcept {
 		#ifdef DEBUG
 		if (size == 0) {
 			serr("buffer size must be greater than 0");
@@ -37,11 +37,12 @@ namespace spruce {
 		#endif
 		free();
 		this->size = newSize;
-		this->data = static_cast<TYPE*>(std::malloc(newSize * sizeof(TYPE)));
+		this->data = ALLOCATOR().allocate(size);
+		std::uninitialized_default_construct_n(this->data, size);
 	}
 
-	template <typename TYPE>
-	void buffer<TYPE>::free() {
+	template <typename TYPE, typename ALLOCATOR>
+	void buffer<TYPE, ALLOCATOR>::free() noexcept {
 		static_assert(std::is_destructible_v<TYPE>);
 		if (data == nullptr) {
 			return;
@@ -49,32 +50,32 @@ namespace spruce {
 		for (uint64 i = 0; i < size; i++) {
 			(static_cast<TYPE*>(data) + i)->~TYPE();
 		}
-		std::free(data);
+		ALLOCATOR().deallocate(data, size);
 		data = nullptr;
 	}
 
-	template <typename TYPE>
-	TYPE* buffer<TYPE>::begin() {
+	template <typename TYPE, typename ALLOCATOR>
+	constexpr TYPE* buffer<TYPE, ALLOCATOR>::begin() noexcept {
 		return data;
 	}
 
-	template <typename TYPE>
-	const TYPE* buffer<TYPE>::begin() const {
+	template <typename TYPE, typename ALLOCATOR>
+	constexpr const TYPE* buffer<TYPE, ALLOCATOR>::begin() const noexcept {
 		return data;
 	}
 
-	template <typename TYPE>
-	TYPE* buffer<TYPE>::end() {
+	template <typename TYPE, typename ALLOCATOR>
+	constexpr TYPE* buffer<TYPE, ALLOCATOR>::end() noexcept {
 		return data + size;
 	}
 
-	template <typename TYPE>
-	const TYPE* buffer<TYPE>::end() const {
+	template <typename TYPE, typename ALLOCATOR>
+	constexpr const TYPE* buffer<TYPE, ALLOCATOR>::end() const noexcept {
 		return data + size;
 	}
 
-	template <typename TYPE>
-	TYPE& buffer<TYPE>::operator[](std::size_t idx) {
+	template <typename TYPE, typename ALLOCATOR>
+	TYPE& buffer<TYPE, ALLOCATOR>::operator[](std::size_t idx) noexcept {
 		#ifdef DEBUG
 		#ifdef BUFFER_BOUNDS_CHECK
 		if (idx >= size) {
@@ -85,8 +86,8 @@ namespace spruce {
 		return data[idx];
 	}
 
-	template <typename TYPE>
-	const TYPE& buffer<TYPE>::operator[](std::size_t idx) const {
+	template <typename TYPE, typename ALLOCATOR>
+	const TYPE& buffer<TYPE, ALLOCATOR>::operator[](std::size_t idx) const noexcept {
 		#ifdef DEBUG
 		#ifdef BUFFER_BOUNDS_CHECK
 		if (idx >= size) {
@@ -97,66 +98,66 @@ namespace spruce {
 		return data[idx];
 	}
 
-	template <typename TYPE>
-	template <typename OTHERTYPE>
-	buffer<TYPE>::operator buffer<OTHERTYPE>() {
+	template <typename TYPE, typename ALLOCATOR>
+	template <typename OTHERTYPE, typename OTHERALLOCATOR>
+	buffer<TYPE, ALLOCATOR>::operator buffer<OTHERTYPE, OTHERALLOCATOR>() noexcept {
 		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), reinterpret_cast<OTHERTYPE*>(data));
 		return buff;
 	}
 
 
-	template <typename TYPE>
-	template <typename OTHERTYPE>
-	buffer<TYPE>::operator buffer<OTHERTYPE>() const {
+	template <typename TYPE, typename ALLOCATOR>
+	template <typename OTHERTYPE, typename OTHERALLOCATOR>
+	buffer<TYPE, ALLOCATOR>::operator buffer<OTHERTYPE, OTHERALLOCATOR>() const noexcept {
 		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		const buffer<OTHERTYPE> buff(size * sizeof(TYPE) / sizeof(OTHERTYPE), reinterpret_cast<OTHERTYPE*>(data));
 		return buff;
 	}
 
-	template <typename TYPE>
-	buffer<TYPE>::operator TYPE*() {
+	template <typename TYPE, typename ALLOCATOR>
+	buffer<TYPE, ALLOCATOR>::operator TYPE*() noexcept {
 		return data;
 	}
 
-	template <typename TYPE>
-	buffer<TYPE>::operator const TYPE*() const {
+	template <typename TYPE, typename ALLOCATOR>
+	buffer<TYPE, ALLOCATOR>::operator const TYPE*() const noexcept {
 		return data;
 	}
 
-	template <typename TYPE>
+	template <typename TYPE, typename ALLOCATOR>
 	template <typename OTHERTYPE>
-	buffer<TYPE>::operator OTHERTYPE*() {
+	buffer<TYPE, ALLOCATOR>::operator OTHERTYPE*() noexcept {
 		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return static_cast<OTHERTYPE*>(data);
 	}
 
-	template <typename TYPE>
+	template <typename TYPE, typename ALLOCATOR>
 	template <typename OTHERTYPE>
-	buffer<TYPE>::operator const OTHERTYPE*() {
+	buffer<TYPE, ALLOCATOR>::operator const OTHERTYPE*() noexcept {
 		static_assert(sizeof(OTHERTYPE) % sizeof(TYPE) == 0);
 		return static_cast<const OTHERTYPE*>(data);
 	}
 
-	template <typename TYPE>
-	buffer<TYPE>& buffer<TYPE>::operator=(std::nullptr_t) {
+	template <typename TYPE, typename ALLOCATOR>
+	buffer<TYPE, ALLOCATOR>& buffer<TYPE, ALLOCATOR>::operator=(std::nullptr_t) noexcept {
 		size = 0;
 		data = nullptr;
 		return *this;
 	}
 
-	template <typename TYPE>
-	bool operator==(buffer<TYPE>& buffer, const void* ptr) noexcept {
+	template <typename TYPE, typename ALLOCATOR>
+	bool operator==(buffer<TYPE, ALLOCATOR>& buffer, const void* ptr) noexcept {
 		return buffer.data == ptr;
 	}
 
-	template <typename TYPE>
-	bool operator!=(buffer<TYPE>& buffer, const void* ptr) noexcept {
+	template <typename TYPE, typename ALLOCATOR>
+	bool operator!=(buffer<TYPE, ALLOCATOR>& buffer, const void* ptr) noexcept {
 		return buffer.data != ptr;
 	}
 
-	template <typename TYPE>
-	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE>& buffer) {
+	template <typename TYPE, typename ALLOCATOR>
+	std::ostream& operator<<(std::ostream& stream, const buffer<TYPE, ALLOCATOR>& buffer) noexcept {
 		stream << "buffer(" << buffer.size << ", " << reinterpret_cast<void*>(buffer.data) << ")";
 		return stream;
 	}
