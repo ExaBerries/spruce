@@ -15,8 +15,8 @@ namespace spruce {
 		buffer(uint64 size) noexcept;
 		buffer(uint64 size, TYPE* data) noexcept;
 		buffer(std::nullptr_t) noexcept;
-		buffer(const buffer<TYPE>&) noexcept = default;
-		buffer(buffer<TYPE>&&) noexcept = default;
+		buffer(const buffer&) noexcept = default;
+		buffer(buffer&&) noexcept = default;
 		~buffer() = default;
 
 		void realloc(uint64 newSize) noexcept;

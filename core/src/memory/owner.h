@@ -1,5 +1,6 @@
 #pragma once
 #include <types.h>
+#include <memory>
 
 namespace spruce {
 	template <typename TYPE, typename DELETER = std::default_delete<TYPE>>

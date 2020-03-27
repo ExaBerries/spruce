@@ -82,7 +82,12 @@ namespace spruce {
 	constexpr T atan(T value) noexcept {
 		static_assert(std::is_arithmetic_v<T>);
 		if (std::is_constant_evaluated()) {
+			#pragma gcc diagnostic push
+			#pragma gcc diagnostic ignored "-Wdouble-promotion"
+			#pragma gcc diagnostic ignored "-Wfloat-conversion"
+			#pragma gcc diagnostic ignored "-Wconversion"
 			return gcem::atan(value);
+			#pragma gcc diagnostic pop
 		} else {
 			return std::atan(value);
 		}
@@ -92,7 +97,12 @@ namespace spruce {
 	constexpr T atan2(T a, T b) noexcept {
 		static_assert(std::is_arithmetic_v<T>);
 		if (std::is_constant_evaluated()) {
+			#pragma gcc diagnostic push
+			#pragma gcc diagnostic ignored "-Wdouble-promotion"
+			#pragma gcc diagnostic ignored "-Wfloat-conversion"
+			#pragma gcc diagnostic ignored "-Wconversion"
 			return gcem::atan2(a, b);
+			#pragma gcc diagnostic pop
 		} else {
 			return std::atan2(a, b);
 		}
