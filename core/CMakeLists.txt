@@ -1,33 +1,12 @@
-configure_file(cmake/CMakeLists.txt.in gcem-download/CMakeLists.txt)
-
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-	RESULT_VARIABLE result
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gcem-download
-)
-if(result)
-	message(FATAL_ERROR "CMake step for gcem failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-	RESULT_VARIABLE result
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gcem-download
-)
-if(result)
-	message(FATAL_ERROR "Build step for gcem failed: ${result}")
-endif()
-
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/gcem-src
-	${CMAKE_CURRENT_BINARY_DIR}/gcem-build
-	EXCLUDE_FROM_ALL
-)
-
-find_package(Freetype REQUIRED)
-
-file(GLOB_RECURSE SOURCE_FILES
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
 if(APPLE) # mac
-	file(GLOB_RECURSE OBJC_SOURCE_FILES
+	enable_language(OBJC)
+	enable_langauge(OBJCXX)
+
+	file(GLOB_RECURSE OBJC_SOURCE_FILES CONFIGURE_DEPENDS
 		${CMAKE_CURRENT_SOURCE_DIR}/src/*.mm
 	)
 else()
@@ -97,7 +76,7 @@ install(
 target_link_libraries(spruce PUBLIC
 	freetype
 	freeimage
-	gcem
+	freeimageplus
 )
 
 if(APPLE) # mac
@@ -107,14 +86,16 @@ if(APPLE) # mac
 	target_link_directories(spruce PUBLIC
 		/usr/local/lib
 	)
+	find_library(OPENGL_LIB OpenGL REQUIRED)
+	find_library(METAL_LIB Metal REQUIRED)
+	find_library(COCOA_LIB Cocoa REQUIRED)
+	find_library(QUARTZ_LIB Quartz REQUIRED)
 	target_link_options(spruce PUBLIC
-		"SHELL:-framework Metal"
-		"SHELL:-framework OpenGL"
-		"SHELL:-framework Cocoa"
-		"SHELL:-framework Quartz"
+		${OPENGL_LIB}
+		${METAL_LIB}
+		${COCOA_LIB}
+		${QUARTZ_LIB}
 	)
-	SET(CMAKE_AR llvm-ar)
-	SET(CMAKE_RANLIB llvm-ranlib)
 endif()
 
 if(UNIX AND NOT APPLE) # linux
@@ -133,7 +114,6 @@ target_include_directories(spruce
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 		$<INSTALL_INTERFACE:include>
 		$<INSTALL_INTERFACE:include/spruce>
-		${FREETYPE_INCLUDE_DIRS}
 	PRIVATE
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -152,6 +132,7 @@ target_compile_options(spruce
 		-fno-strict-aliasing
 		-fno-exceptions
 		-fno-rtti
+		-mtune=znver2
 	PRIVATE
 		-Wall
 		-Wextra

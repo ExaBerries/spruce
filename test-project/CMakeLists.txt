@@ -18,6 +18,7 @@ target_compile_options(spruce-test PRIVATE
 	-Wshadow
 	-Wpedantic
 	-Wno-unused-parameter
+	-Wno-unknown-pragmas
 )
 
 target_include_directories(spruce-test PRIVATE
