@@ -38,7 +38,15 @@ namespace sprucetest {
 		camera->position.set(4 * cos(angle), 0, 4 * sin(angle));
 		vec3f x(1, 0, 0);
 		vec3f dir = vec3f(0, 0, 0) - camera->position;
-		camera->rotation.set(x, dir);
+		if (dir.x != 4 && dir.x != -4) {
+			camera->rotation.set(x, dir);
+		} else {
+			if (dir.x > 0) {
+				camera->rotation.set(0, 0, 0, 1);
+			} else {
+				camera->rotation.set({0, 1, 0}, M_PI);
+			}
+		}
 		camera->viewportWidth = windowSize.x;
 		camera->viewportHeight = windowSize.y;
 	}
