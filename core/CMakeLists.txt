@@ -99,12 +99,17 @@ if(APPLE) # mac
 endif()
 
 if(UNIX AND NOT APPLE) # linux
+	find_package(X11 REQUIRED)
+	find_package(OpenGL REQUIRED)
+	find_package(GLEW REQUIRED)
+	find_package(Vulkan REQUIRED)
+
 	target_link_libraries(spruce PUBLIC
-		X11
-		vulkan
-		GL
-		GLEW
-		GLX
+		X11::X11
+		Vulkan::Vulkan
+		OpenGL::GL
+		OpenGL::GLX
+		GLEW::GLEW
 		pthread
 	)
 endif()
