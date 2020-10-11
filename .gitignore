@@ -1,3 +1,34 @@
+# Mac
+.DS_Store
+
+# Eclipse
+.project
+.cproject
+.classpath
+/.settings
+/build
+.checkstyle
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# KDevelop
+/.kdev4
+*.kdev4
+
+#CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
 # Prerequisites
 *.d
 
@@ -30,34 +61,3 @@
 *.exe
 *.out
 *.app
-
-# Eclipse
-.project
-.cproject
-.classpath
-/.settings
-/build
-.checkstyle
-
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
-
-# KDevelop
-/.kdev4
-*.kdev4
-
-# Mac
-.DS_Store
-
-#CMake
-CMakeLists.txt.user
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
