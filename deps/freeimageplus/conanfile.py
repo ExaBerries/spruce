@@ -24,7 +24,10 @@ class FreeImagePlusConan(ConanFile):
         env_build_vars = autotools.vars
         env_build_vars['DESTDIR'] = self.package_folder
         with tools.environment_append(env_build_vars):
-            self.run("cd FreeImage && make -f Makefile.gnu -j {}".format(tools.cpu_count()))
+            if tools.detected_os() == "Macos":
+                self.run("cd FreeImage && make -f Makefile.gnu -j {}".format(tools.cpu_count()))
+            else:
+                self.run("cd FreeImage && make -f Makefile.osx -j {}".format(tools.cpu_count()))
             self.run("cd FreeImage && make -f Makefile.fip -j {}".format(tools.cpu_count()))
 
     def package(self):
